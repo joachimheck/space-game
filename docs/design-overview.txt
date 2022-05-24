@@ -1,0 +1,59 @@
+  The overall design is basically MVC.  The model is a GameState object
+that records all the information required to describe a game at any time.
+It will will sit in a loop, moving from one user to the next in turn.
+The view will be developed as a group of AWT components (panels), but will
+operate through a set of interfaces so that it can easily be replaced by a
+different kind of UI.  The controller will also be composed of AWT
+components, and it will direct the operations of the model and view as
+ordered by the user.
+
+  The roles of the three components are defined (for this application) as
+follows.  The controller interprets user actions and translates them into
+game concepts.  For example, the controller might determine that a menu
+item has been selected, or that a mouse click happened at a particular
+location, and translate these inputs into commands for the model.
+The model contains the game state and all the logic required to
+manipulate that state.  Its interface operates on abstract game-level
+types such as Units, HexMaps and Players.  When the model changes, it
+calls methods in the view to present the changes to the user.  A view
+presents the information in the model to the user in some way.  A view
+exports an interface that also operates on game types.  The view also
+handles windowing operations such as scrolling and resizing.  These
+operations are reported to the controller via the controller's API.
+
+  All communications between the three components are synchronous.  This
+is to maintain a consistent user interface state in the face of possible
+asynchronous user behavior.  Whenever the model changes, it notifies the
+view - and waits until the view has changed state before moving on.
+
+  Model Methods:
+  move(unit, direction) - moves a single unit one hex
+  attack(unit, direction)
+  skipUnit(unit)
+  endTurn()
+  selectHex(Point)
+  selectUnit(unit)
+  toggleHexHiding()
+  addPiece(piece, location)
+  setStatus(unit, UnitStatus status)
+  setView(View)
+  createMap()
+  
+  View Methods:
+  addGamePiece(piece, location) - makes the unit available for use in the UI.
+  move(unit, direction)
+  attack(unit, hex)
+  setStatus(unit UnitStatus status) - staus is damaged, destroyed, hidden, selected, etc
+  setMap(HexMap)
+  setShadowMap(ShadowMap)
+  setCurrentPlayer(Player)
+  setController(GameController)
+  
+  Controller Methods:
+  start() - runs the thread, which visits one user after another and
+            processes their actions.
+  setViewport()
+  setModel(Model)
+  loadGame()?
+  saveGame()?
+  exit()?

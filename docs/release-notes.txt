@@ -1,0 +1,189 @@
+  This is the second released version of Domination.  Unfortunately, packaging
+errors prevented version 0.1 from working, but this version will be tested in
+jar form to guarantee full functionality in that package.  Since the previous
+version was never really seen by users, and since this version is a nearly
+complete rewrite of the system, it's difficult to discuss changes since the
+last version.  Nevertheless here is a summary.
+
+  Version 0.2 restructures the architecture into a MVC like alignment.  This is
+a PARC-style MVC, where the controller only relays commands to the model, with
+the addition of a separate thread to process turns and move from one player to
+another, or from one unit to another.
+
+  The AI system has been redesigned to work with the new turn system, and
+rewritten in the process.  Computer players no longer have access to information
+unavailble to human players.  They are now limited by a shadow map in exactly
+the same way as a human.
+
+  Numerous graphics glitches and bugs have been resolved.
+
+New bugs for 0.2
+ X Release notes, including bug list, should be visible.
+ X Logging should run off a config file.
+ X Viewport doesn't always scroll to show movement.
+ X No message while computer player is moving.
+ X Units get extra moves at end of turn
+ X Viewport doesn't always scroll to show area around selected unit.
+ X Units lose paths at end of turn.
+ X Clicking early moves the next unit?
+ X Minimap has no viewport rectangle
+ X Units keep attacking cities?
+ X Skipped units get selected at end of turn.
+ X Move directly into empty cities.
+ X Player with no units gets no turn!
+ X No message telling player to end turn.
+ X No wait command, to move unit later.
+ X City images should be larger than unit images.
+ X Game winner panel is not displayed.
+ X Enemy units appear in HDP when not visible
+ X Selection Rectangle appears over nonvisible hexes.
+ X Player can click on computer's turn?
+ X My unit attacked twice!
+ X Computer unit attacked and died, then hex was left selected and game stopped.
+ X City production can't be changed
+ X Hex selection doesn't work.
+ X City production change doesn't update HexDescriptionPanel.
+ X Human player can control neutral units! Or empty cities generate neutrals?
+ X When unit is selected, hex should be selected.
+ X HDP should draw units damaged.
+ X If unit ends in city, city should be selected.
+ X Minimap doesn't work.
+ X Units don't get built with extra production points.
+ X Map doesn't scroll to see enemy attacks.
+ X Dead bomber ghosts sometimes stay, invisibly, in a hex.
+    
+Todo for 0.3
+  Use rules engine for unit movement (see JSR 94).
+  Show selected unit path.
+  Computer planes move three hexes
+  Can't click on minimap.
+  Dragging X scrollbar draws glitch - but not Y?
+  Update SwingView as computer player moves.
+  Add current player label to Swing View.
+  Fix ugly cities (make city hex image and highlighter).
+  Add help.
+  Add command-line parsing (jakarta CLI?)
+
+From 0.1:
+Bugs/Cleanup/Incidental
+  After reload, mini-map doesn't show units.
+  Successful attack with no units left doesn't show damage.
+20060917 / 0.2
+ X Defending unit must move to the top.
+ X Scroll to battle site (and wait) before showing any combat.
+ X Deselect unit when hex is selected.
+ X Units that start movement offscreen don't appear?
+ X Slow down combat and make sure every phase is always shown.
+ X Explosions sometimes happen after unit movement.
+ X Path should be cancelled when an enemy is sighted.
+ X Prevent UI interaction outside player's turn!
+ X Don't ever scroll to a non-visible hex (on computer's turn)!
+ X What's this graphics glitch with no redrawing and a lot of rectangles?
+ X Tell player when turn is over ("enter for next turn").
+ X Map moves too fast - pause to let user see what's happening.
+ X Scroll map to show moving unit's visible area.
+20060826
+  X Enemy units don't move into visible area, they just appear
+  X Exit with M-F, x - not e!
+  X Text area is editable
+  X Minimap doesn't show difference between visible/explored.
+  X Best unit must defend.
+  X Minimap shows units in explored but not visible areas.
+  X Attacker must always be visible before attack begins.
+20060825
+  X Selected unit's hex info is not being displayed
+  X HexDescriptionPanel shouldn't describe unseen hexes.
+  X Selection rectangle draws outside map view boundary.
+  X When map scrolls, erase units, move map, then draw units again.
+  X HexDescriptionPanel is empty after second click on city hex.
+  X HexDescriptionPanel shows production in non-city hex.
+  X Minimap should be bigger
+Before
+  X Loading is broken.
+  X Scroll bars don't cover the whole map!  Minimap too.
+  X Convert TERRAIN constants into an enum
+  X Game begins with selected unit centered
+  X Cities disappear when their hex becomes invisible
+  X Map doesn't scroll with scroll bars.
+  X Destroyed planes don't vanish when movement is complete
+  X Units don't move correctly on a large map.
+  X Fix clicked hex detection bug.
+  X Remove Sprite classes
+  X Show abandoned plane explosions (planes end in cities)
+  X Separate attack and movement stats (planes)
+  X Merge unit stats with unit type stats
+Software Structure
+  X Pass moving unit into setCounterVisibility, to only check near it.
+  X Pass future list into UI methods, which add their tasks to it.
+  X Create game thread to perform turn operations sequentially! Use invokeAndWait()
+  X Clearly define the interface between game manager and UI.
+  X Auto-save every turn
+  X Make Wargame a singleton
+  X Remove UIState
+  X Remove GT Sprite library
+  X MVC architecture
+Combat system
+  Hard/soft attack or defense values
+  Ranged attack for artillery
+  X Hit points so units can survive combat but be damaged
+Movement
+  X Multi-hex movement within a turn
+  X Multi-turn movement
+  X Pathfinding
+  X Multi-hex movement
+AI
+  City defense
+  X Seeker computer units
+  X Attacking computer units
+  X Computer player framework
+Game
+  Simultaneous turn execution (makes multiplayer simpler)?
+  Ships
+  Transports
+  Unit definition files
+  Define allowed terrains for each unit type
+  More varied terrains
+  Start units close together
+  Multiple cities
+  Improved map generation
+  X Map generation
+  X Unit production
+  X Planes must end in cities
+  X Cities
+  X Planes
+  X Load/Save
+  X Teams
+  X End of game
+  X Turns
+  X Tanks
+Look and feel
+  Use JTable for MapPane?
+  Add multiple zoom levels
+  Add sound effects
+  Improve sprite graphics
+  X Improve minimap
+  X Show attack arrow before attack proceeds.
+  X Show city production
+  X Use message window
+  X Add mini map
+  X Work with large maps (200x200)
+  X Reduce memory requirements of MapPane
+  X Sentry mode
+  X Center selected unit
+  X Spacebar skips selected unit
+  X Auto-select next available unit
+  X Add movement info to hex description panel
+  X UIManager handles hex selection
+  X UIManager takes hexes, translates to screen coordinates
+  X Fog of war
+  X Different mouse buttons for move and attack
+  X Hex description panel
+  X Map larger than viewport
+  X Menu
+  X Damaged unit sprites
+  X Highlight selected unit
+Performance
+  X Improve unit movement speed/smoothness
+  X Redraw only visibility-modified map hexes
+  
+  

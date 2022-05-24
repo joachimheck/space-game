@@ -1,0 +1,46 @@
+Basic Instructions
+
+Welcome to Domination!  Thank you for trying this prerelease version.
+This file contains a quick overview of how to play the game.
+
+There are three kinds of units: Soldiers, Tanks and Bombers.  Soldiers
+have a strong attack and defense, and can move one hex in a turn.
+Tanks have a stronger attack than soldiers, but a weaker defense.  They
+can move two hexes in a turn.  Bombers have a good attack but a very
+weak defense.  They can move eight hexes in a turn but must end the
+turn in a city.  If a bomber ends its turn outside a city, it runs out
+of fuel and crashes.
+
+Select units by clicking with the left mouse button.  The selected
+unit has a turning border instead of a solid border.
+
+Move units by clicking with the left mouse button.  If a unit is
+ordered to move further than it can in one turn, it will continue
+moving toward its destination on subsequent turns.  A unit that
+encounters an enemy unit will stop moving.
+
+Attack a unit adjacent to your selected unit by clicking on the target
+with the right mouse button.  Soldiers and bombers can only attack once
+per turn, but tanks can attack twice.
+
+When a unit is selected, it can be skipped by pressing the space bar or
+selecting "Skip" from the Unit menu.  The unit will not move this turn.
+A unit can be put to sleep by pressing "S" or selecting "Sleep" from the
+Unit menu.  The unit will not move again until you select it, which wakes
+it up.  Pressing "W" or selecting "Wait" from the Unit menu tells a unit
+to wait until later to move.  Another unit will be selected and the waiting
+unit will get selected later in the turn.
+
+Cities produce new units.  To see what a city is producing, click on the
+city hex with the left mouse button.  The unit the city is producing will
+appear at the top of the hex information panel at the right side of the
+window.  The progress is also shown as two numbers separated by a slash.
+The first number is the number of turns that have been spent building the
+unit.  The second number is the number of turns remaining.  When a city
+is selected, the unit being produced can be changed by selecting the
+desired unit type from the Game/City Production menu.
+
+When all units have been given orders, the game will ask you to press the
+enter key (you can also select "End Turn" from the Game menu).  Before
+doing so, you may select units and give new orders, or select cities and
+change unit production.
