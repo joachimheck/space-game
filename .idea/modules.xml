@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/domination.iml" filepath="$PROJECT_DIR$/domination.iml" />
+      <module fileurl="file://$PROJECT_DIR$/space-game.iml" filepath="$PROJECT_DIR$/space-game.iml" />
     </modules>
   </component>
 </project>
