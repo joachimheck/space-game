@@ -84,7 +84,9 @@ public class SwingView extends JPanel implements GameView
                 hidden = piece.isHidden(displayManager.getShadowMap());
             }
             
-            Counter counter = new Counter(piece, position);
+            Counter counter =
+                    new Counter(UIResources.getInstance().getPictures(piece),
+                            piece.getOwner().getColor(), position, piece.getPosition());
             counter.setHidden(hidden);
 
             return counter;
@@ -337,20 +339,19 @@ public class SwingView extends JPanel implements GameView
         }
 
         /**
-         * Sets the visibility status flags on all counters to insure that all
+         * Sets the visibility status flags on all counters to ensure that all
          * counters in visible portions of the map are visible and all others
          * are hidden.
          * 
          * @param shadowMap
-         * @return
-         * 
+         *
          * @pre shadowMap != null
          */
         public void setCounterVisibility(final ShadowMap shadowMap) {
             invokeAndWait(new Runnable() {
                 public void run() {
                     for (Counter counter : viewDataManager.getCounters()) {
-                        counter.setHidden(counter.isHidden(shadowMap));
+                        GamePiece gamePiece = viewDataManager.getGamePiece(counter);
                     }
                     
                     miniMap.invalidate();

@@ -1,29 +1,16 @@
 package org.heckcorp.domination.desktop.view;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Point;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.util.Observer;
 
-import javax.swing.JLabel;
-import javax.swing.Timer;
-
-import org.heckcorp.domination.City;
-import org.heckcorp.domination.GamePiece;
-import org.heckcorp.domination.ShadowMap;
-import org.heckcorp.domination.ShadowStatus;
-import org.heckcorp.domination.Unit;
-
 
 @SuppressWarnings("serial")
 public class Counter extends JLabel {
-    private enum Type {
-        UNIT, CITY, NONE;
-    }
 
     private static final int ANIMATION_TIME = 100;
 
@@ -114,23 +101,10 @@ public class Counter extends JLabel {
     private boolean hidden = false;
 
     private Point mapPosition = null;
-    private final Type type;
-    
-    public Counter(BufferedImage[] unitPix, Color borderColor, Point hexCenter,
-        GamePiece piece)
-    {
-        if (piece == null) {
-            type = Type.NONE;
-        } else {
-            this.mapPosition = piece.getPosition();
-            if (piece instanceof City) {
-                type = Type.CITY;
-            } else if (piece instanceof Unit) {
-                type = Type.UNIT;
-            } else {
-                type = null;
-                assert false;
-            }
+
+    public Counter(BufferedImage[] unitPix, Color borderColor, Point hexCenter, Point mapPosition) {
+        if (mapPosition != null) {
+            this.mapPosition = mapPosition;
         }
         
         state = new ObservableState();
@@ -161,12 +135,6 @@ public class Counter extends JLabel {
                         updateCounterLocation();
                     }
                 });
-    }
-
-    public Counter(GamePiece piece, Point position) {
-        this(UIResources.getInstance().getPictures(piece),
-             piece.getOwner().getColor(),
-             position, piece);
     }
 
     public void deleteObserver(Observer o) {
@@ -394,7 +362,6 @@ public class Counter extends JLabel {
 
     /**
      * Returns the map position of this Counter.
-     * @return
      * @post result != null
      */
     public Point getMapPosition() {
@@ -405,23 +372,4 @@ public class Counter extends JLabel {
         this.mapPosition = mapPosition;
     }
 
-    public boolean isHidden(ShadowMap shadowMap) {
-        boolean result = false;
-        
-        if (shadowMap.isActive()) {
-            ShadowStatus status = shadowMap.getStatus(getMapPosition());
-
-            if (type == Type.CITY) {
-                result = !status.isExplored();
-            } else if (type == Type.UNIT) {
-                result = !status.isVisible();
-            } else if (type == Type.NONE) {
-                assert false;
-            } else {
-                assert false;
-            }
-        }
-        
-        return result;
-    }
 }

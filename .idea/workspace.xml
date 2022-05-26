@@ -4,9 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3bc8c235-c2bd-4343-a6d7-4a6d6d4b49b0" name="Changes" comment="Committing Domination to Git. It was in SVN before, so who knows if the history will come over.">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+    <list default="true" id="3bc8c235-c2bd-4343-a6d7-4a6d6d4b49b0" name="Changes" comment="Remove hidden counters. This change removes from Counter all references to classes outside the view sub-package.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/domination/DefaultModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/domination/DefaultModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/domination/desktop/view/Counter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/domination/desktop/view/Counter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/domination/desktop/view/SwingView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/domination/desktop/view/SwingView.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -15,6 +17,14 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
   </component>
   <component name="ProjectId" id="29cTpdzHcZVWnuzcKzLHz6InJf2" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -29,7 +39,7 @@
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
-    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
+    <property name="settings.editor.selected.configurable" value="preferences.customizations" />
   </component>
   <component name="RunManager">
     <configuration name="Unnamed" type="Application" factoryName="Application" nameIsGenerated="true">
@@ -53,6 +63,21 @@
       <option name="presentableId" value="Default" />
       <updated>1653411560064</updated>
     </task>
+    <task id="LOCAL-00001" summary="Change name of project to space-game.">
+      <created>1653415072244</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1653415072244</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Change name of project to space-game.">
+      <created>1653415115675</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1653415115675</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -71,5 +96,8 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
+    <MESSAGE value="Change name of project to space-game." />
+    <MESSAGE value="Remove hidden counters. This change removes from Counter all references to classes outside the view sub-package." />
+    <option name="LAST_COMMIT_MESSAGE" value="Remove hidden counters. This change removes from Counter all references to classes outside the view sub-package." />
   </component>
 </project>

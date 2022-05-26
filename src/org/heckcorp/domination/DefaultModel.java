@@ -134,7 +134,7 @@ public class DefaultModel implements GameModel, Serializable {
         public void move(Unit unit, Direction direction) {
             for (GameView view : gameViews) {
                 log.finer(view + ".move(" + unit + "," + direction + ")");
-                view.move(unit, direction);    
+                view.move(unit, direction);
             }
         }
 
@@ -287,7 +287,7 @@ public class DefaultModel implements GameModel, Serializable {
     /**
      * Returns a list of all the units in the hex at the
      * specified point.
-     * @param point
+     * @param position
      * @return
      * @pre point != null
      * @pre getMap().contains(point)
@@ -508,9 +508,8 @@ public class DefaultModel implements GameModel, Serializable {
          views.setWinningPlayer(player);
      }
     /**
-      * Skips the unit for a turn.  The unit will not move or require
+      * Skips the selected unit for a turn.  The unit will not move or require
       * orders this turn.
-      * @param unit
       * @pre unit != null
       * @pre unit.getOwner() == the current player
       */
