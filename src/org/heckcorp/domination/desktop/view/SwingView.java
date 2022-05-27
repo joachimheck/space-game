@@ -1,49 +1,15 @@
 package org.heckcorp.domination.desktop.view;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Point;
-import java.awt.Rectangle;
+import org.heckcorp.domination.*;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Observable;
-import java.util.Observer;
-import java.util.Set;
+import java.util.*;
 import java.util.logging.Logger;
 
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollBar;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.Spring;
-import javax.swing.SpringLayout;
-import javax.swing.SwingUtilities;
-
-import org.heckcorp.domination.City;
-import org.heckcorp.domination.Constants;
-import org.heckcorp.domination.Direction;
-import org.heckcorp.domination.GamePiece;
-import org.heckcorp.domination.GameView;
-import org.heckcorp.domination.Hex;
-import org.heckcorp.domination.HexMap;
-import org.heckcorp.domination.Player;
-import org.heckcorp.domination.Positionable;
-import org.heckcorp.domination.ShadowMap;
-import org.heckcorp.domination.ShadowStatus;
-import org.heckcorp.domination.Status;
-import org.heckcorp.domination.Unit;
-import org.heckcorp.domination.ViewMonitor;
-
-@SuppressWarnings("serial")
 public class SwingView extends JPanel implements GameView
 {
     /**
@@ -162,15 +128,15 @@ public class SwingView extends JPanel implements GameView
                                           Spring.constant(5)));
         }
 
-        private HexDescriptionPanel hexDescriptionPanel;
+        private final HexDescriptionPanel hexDescriptionPanel;
 
-        private MapView mapView;
+        private final MapView mapView;
 
-        private MiniMap miniMap;
+        private final MiniMap miniMap;
 
-        private JTextArea textArea;
+        private final JTextArea textArea;
 
-        private JScrollPane textScrollPane;
+        private final JScrollPane textScrollPane;
 
         public MiniMap getMiniMap() {
             return miniMap;
@@ -220,8 +186,6 @@ public class SwingView extends JPanel implements GameView
 
         /**
          * Moves the counter to the specified hex.
-         * @param counter
-         * @param destHex
          */
         public void moveCounter(final Counter counter, final Hex destHex) {
             MapPane mapPane = mapView.getMapPane();
@@ -257,8 +221,6 @@ public class SwingView extends JPanel implements GameView
         private Counter selectedCounter;
 
         /**
-         * @param counter
-         * @param status
          * @pre counter != null
          * @pre status != null
          */
@@ -343,8 +305,6 @@ public class SwingView extends JPanel implements GameView
          * counters in visible portions of the map are visible and all others
          * are hidden.
          * 
-         * @param shadowMap
-         *
          * @pre shadowMap != null
          */
         public void setCounterVisibility(final ShadowMap shadowMap) {
@@ -416,8 +376,6 @@ public class SwingView extends JPanel implements GameView
         /**
          * Invokes the run() method of runnable on the AWT event dispatching thread,
          * and swallows any runtime exceptions that are generated.
-         * 
-         * @param runnable
          */
         private void invokeAndWait(Runnable runnable) {
             try {
@@ -487,8 +445,6 @@ public class SwingView extends JPanel implements GameView
 
         /**
          * @pre first and second are adjacent
-         * @param first
-         * @param second
          */
         public void displayPositions(Positionable first, Positionable second) {
             if (shadowMap.isVisible(first.getPosition()) ||
@@ -569,8 +525,6 @@ public class SwingView extends JPanel implements GameView
     /**
      * Initiates an attack.
      * 
-     * @param attacker
-     * @param target
      * @pre unit != null
      * @pre hex != null
      * @pre unit has been added to this view, and not destroyed
@@ -598,9 +552,6 @@ public class SwingView extends JPanel implements GameView
      * Moves the unit one hex. This method assumes the unit's position has been
      * updated already, so it uses the unit's last hex as the starting point for
      * the move.
-     * 
-     * @param unit
-     * @param direction
      * 
      * @pre unit != null
      * @pre direction != null
@@ -640,22 +591,16 @@ public class SwingView extends JPanel implements GameView
      * Selects the specified hex. If a unit or another hex is currently
      * selected, it is first unselected.
      * 
-     * @param hex
      * @pre hex != null
      */
     public void selectHex(Hex hex) {
-        if (currentPlayer == mainPlayer) {
-            ShadowStatus status =
-                displayManager.getShadowMap().getStatus(hex.getPosition());
-
-            uiManager.hexDescriptionPanel.setHex(hex, status);
-        }
+        ShadowStatus status = displayManager.getShadowMap().getStatus(hex.getPosition());
+        uiManager.hexDescriptionPanel.setHex(hex, status);
     }
 
     /**
      * Sets this view's monitor.  The view will update the
      * controller whenever the viewport size or position changes.
-     * @param monitor
      * @pre monitor != null
      */
     public void setMonitor(ViewMonitor monitor) {
@@ -664,21 +609,15 @@ public class SwingView extends JPanel implements GameView
 
     /**
      * Sets this view's current player to the specified player.
-     * 
-     * @param player
-     * @pre player != null
      */
-    public void setCurrentPlayer(Player player) {
-        this.currentPlayer = player;
-        monitor.setViewingPlayerActive(player == mainPlayer);
+    public void setCurrentPlayer(String playerName) {
         uiManager.clearTextArea();
-        message("Now moving: " + player.getName());
+        message("Now moving: " + playerName);
         // TODO: redraw current player label.
     }
 
     /**
      * Sets the shadow map to be displayed in this view.
-     * @param shadowMap
      * @pre shadowMap != null
      * @pre setMap() must have already been called.
      * @pre shadowMap().getSize() == size of this view's current map.
@@ -696,7 +635,6 @@ public class SwingView extends JPanel implements GameView
     /**
      * Sets the map to be displayed in this view.
      * 
-     * @param map
      * @pre map != null
      * @pre this view's map is null.
      */
@@ -706,27 +644,8 @@ public class SwingView extends JPanel implements GameView
     }
 
     /**
-     * Sets the shadow map to be displayed in this view.
-     * 
-     * @param shadowMap
-     * @pre shadowMap != null
-     * @pre setMap() must have already been called.
-     * @pre shadowMap().getSize() == size of this view's map.
-     */
-//    public void setShadowMap(ShadowMap shadowMap) {
-//        assert map != null;
-//        assert shadowMap != null;
-//        assert shadowMap.getSize().equals(map.getSize());
-//
-//        this.shadowMap = shadowMap;
-//        displayManager.drawAll();
-//    }
-
-    /**
      * Sets a status attribute of the unit.
      * 
-     * @param unit
-     * @param status
      * @pre unit != null
      * @pre unit has been added to this view, and not destroyed.
      */
@@ -738,22 +657,16 @@ public class SwingView extends JPanel implements GameView
         if (status == Status.DESTROYED) {
             uiManager.getMapView().removeCounter(counter);
         }
-        
-        if (currentPlayer != mainPlayer) {
-            // TODO: advance some kind of clock icon.
-        }
     }
 
-    public void setWinningPlayer(Player winner) {
-        assert winner != null;
-
+    public void setWinningPlayer(String playerName, Color playerColor) {
         BufferedImage tempImage = new BufferedImage(500, 50,
                                                     BufferedImage.TRANSLUCENT);
         Graphics2D g = (Graphics2D) tempImage.getGraphics();
 
-        String winnerString = winner.getName() + " wins!";
+        String winnerString = playerName + " wins!";
         g.setFont(g.getFont().deriveFont(36.0f));
-        g.setColor(winner.getColor());
+        g.setColor(playerColor);
         Rectangle2D bounds = g.getFont().getStringBounds(winnerString,
                                                          g.getFontRenderContext());
         g.drawString(winnerString, (int) -bounds.getX(), (int) -bounds.getY());
@@ -798,36 +711,16 @@ public class SwingView extends JPanel implements GameView
         log = Logger.getLogger(getClass().getName());
     }
 
-    private Logger log;
+    private final Logger log;
     private ViewMonitor monitor;
 
-    private Player currentPlayer;
+    private final ViewDataManager dataManager;
 
-    private ViewDataManager dataManager;
-
-    private DisplayManager displayManager;
+    private final DisplayManager displayManager;
 
     private HexMap map;
 
-    private UIResources resources = UIResources.getInstance();
+    private final UIResources resources = UIResources.getInstance();
 
-    private UIManager uiManager;
-    
-    private Player mainPlayer = null;
-
-    public static SwingView getInstance() {
-        if (instance == null) {
-            instance = new SwingView();
-        }
-
-        return instance;
-    }
-
-    private static SwingView instance = null;
-
-    public void setMainPlayer(Player mainPlayer) {
-        assert mainPlayer != null;
-        assert this.mainPlayer == null;
-        this.mainPlayer = mainPlayer;
-    }
+    private final UIManager uiManager;
 }

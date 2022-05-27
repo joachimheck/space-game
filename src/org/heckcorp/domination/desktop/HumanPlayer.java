@@ -21,7 +21,6 @@ public class HumanPlayer extends Player {
                        ShadowMap shadowMap, GameView view)
     {
         super(name, color, shadowMap, view);
-        view.setMainPlayer(this);
     }
 
     private static final long serialVersionUID = 1L;

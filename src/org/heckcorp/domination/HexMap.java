@@ -168,7 +168,7 @@ public class HexMap implements Serializable {
         }
 
         /**
-         * Identifies seperate land masses in the elevation map.
+         * Identifies separate land masses in the elevation map.
          * TODO: we don't do anything with this continent information!
          */
         private void findContinents(int width, int height) {

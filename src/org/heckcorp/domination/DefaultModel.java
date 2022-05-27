@@ -1,7 +1,10 @@
 package org.heckcorp.domination;
 
-import java.awt.Color;
-import java.awt.Point;
+import org.heckcorp.domination.Player.PlayerType;
+import org.heckcorp.domination.Unit.Type;
+import org.heckcorp.domination.desktop.*;
+
+import java.awt.*;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -11,14 +14,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
-
-import org.heckcorp.domination.Player.PlayerType;
-import org.heckcorp.domination.Unit.Type;
-import org.heckcorp.domination.desktop.ComputerPlayer;
-import org.heckcorp.domination.desktop.HumanPlayer;
-import org.heckcorp.domination.desktop.NeutralPlayer;
-import org.heckcorp.domination.desktop.Pathfinder;
-import org.heckcorp.domination.desktop.TurnManager;
 
 /**
  * An implementation of a GameModel.
@@ -144,14 +139,10 @@ public class DefaultModel implements GameModel, Serializable {
             }
         }
 
-        public void setCurrentPlayer(Player player) {
+        public void setCurrentPlayer(String playerName) {
             for (GameView view : gameViews) {
-                view.setCurrentPlayer(player);
+                view.setCurrentPlayer(playerName);
             }
-        }
-
-        public void setMainPlayer(Player mainPlayer) {
-            // Ignore.
         }
 
         public void setMap(HexMap map) {
@@ -180,9 +171,9 @@ public class DefaultModel implements GameModel, Serializable {
         }
 
         // TODO: remove?
-        public void setWinningPlayer(Player player) {
+        public void setWinningPlayer(String playerName, Color playerColor) {
             for (GameView view : gameViews) {
-                view.setWinningPlayer(player);
+                view.setWinningPlayer(playerName, playerColor);
             }
         }
 
@@ -446,8 +437,9 @@ public class DefaultModel implements GameModel, Serializable {
 
     public void setCurrentPlayer(Player player) {
         currentPlayer = player;
-        views.setCurrentPlayer(player);
+        views.setCurrentPlayer(player.getName());
     }
+
     /**
      * Sets this model's map to the specified hex map.
      * @param map
@@ -505,7 +497,7 @@ public class DefaultModel implements GameModel, Serializable {
     }
 
     public void setWinningPlayer(Player player) {
-         views.setWinningPlayer(player);
+         views.setWinningPlayer(player.getName(), player.getColor());
      }
     /**
       * Skips the selected unit for a turn.  The unit will not move or require

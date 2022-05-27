@@ -1,8 +1,8 @@
 package org.heckcorp.domination;
 
+import java.awt.*;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.heckcorp.domination.desktop.ComputerPlayer;
@@ -59,7 +59,7 @@ public class ComputerPlayerView implements GameView {
         // TODO: implement?
     }
 
-    public void setCurrentPlayer(Player player) {
+    public void setCurrentPlayer(String playerName) {
         // TODO: implement?
     }
 
@@ -85,7 +85,7 @@ public class ComputerPlayerView implements GameView {
         log.exiting("ComputerPlayerView", "setStatus");
     }
 
-    public void setWinningPlayer(Player winner) {
+    public void setWinningPlayer(String playerName, Color playerColor) {
     }
 
     public HexMap getMap() {
@@ -120,10 +120,6 @@ public class ComputerPlayerView implements GameView {
 
     public Set<Unit> getKnownEnemies() {
         return knownEnemies;
-    }
-
-    public void setMainPlayer(Player mainPlayer) {
-        // Ignore.
     }
 
     public void message(String message) {

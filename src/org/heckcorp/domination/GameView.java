@@ -1,6 +1,7 @@
 package org.heckcorp.domination;
 
 
+import java.awt.*;
 
 public interface GameView {
     /**
@@ -8,14 +9,7 @@ public interface GameView {
      * @pre message != null
      */
     public void message(String message);
-    
-    /**
-     * Sets this player as the one watching this view.
-     * @pre mainPlayer != null
-     * @pre this method must not have been called already.
-     */
-    public void setMainPlayer(Player mainPlayer);
-    
+
     /**
      * Makes the unit available for use in the UI.
      * @pre piece != null
@@ -64,10 +58,10 @@ public interface GameView {
     
     /**
      * Sets this view's current player to the specified player.
-     * @param player
+     * @param playerName
      * @pre player != null
      */
-    public void setCurrentPlayer(Player player);
+    public void setCurrentPlayer(String playerName);
     
     /**
      * Sets the map to be displayed in this view.
@@ -96,8 +90,9 @@ public interface GameView {
 
     /**
      * Announces that the specified player is the winner.
-     * @param player
+     * @param playerName
+     * @param playerColor
      * @pre player != null
      */
-    public void setWinningPlayer(Player player);
+    public void setWinningPlayer(String playerName, Color playerColor);
 }
