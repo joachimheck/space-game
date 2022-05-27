@@ -387,10 +387,8 @@ title __SPACE-GAME's Class Diagram__\n
   org.heckcorp.domination.desktop.view.SequentialExecutor .up.|> java.util.concurrent.Executor
   org.heckcorp.domination.desktop.view.SwingView .up.|> org.heckcorp.domination.GameView
   org.heckcorp.domination.desktop.view.SwingView -up-|> javax.swing.JPanel
-  org.heckcorp.domination.desktop.view.SwingView o-- org.heckcorp.domination.Player : currentPlayer
   org.heckcorp.domination.desktop.view.SwingView o-- org.heckcorp.domination.desktop.view.SwingView.ViewDataManager : dataManager
   org.heckcorp.domination.desktop.view.SwingView o-- org.heckcorp.domination.desktop.view.SwingView.DisplayManager : displayManager
-  org.heckcorp.domination.desktop.view.SwingView o-- org.heckcorp.domination.Player : mainPlayer
   org.heckcorp.domination.desktop.view.SwingView o-- org.heckcorp.domination.HexMap : map
   org.heckcorp.domination.desktop.view.SwingView o-- org.heckcorp.domination.ViewMonitor : monitor
   org.heckcorp.domination.desktop.view.SwingView o-- org.heckcorp.domination.desktop.view.UIResources : resources

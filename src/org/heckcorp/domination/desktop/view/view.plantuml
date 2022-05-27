@@ -259,17 +259,14 @@ title __VIEW's Class Diagram__\n
     namespace desktop {
       namespace view {
         class org.heckcorp.domination.desktop.view.SwingView {
-            {static} - instance : SwingView
             - log : Logger
             + SwingView()
             + addGamePiece()
             + attack()
-            {static} + getInstance()
             + message()
             + move()
             + selectHex()
             + setCurrentPlayer()
-            + setMainPlayer()
             + setMap()
             + setMonitor()
             + setShadowMap()
@@ -288,7 +285,6 @@ title __VIEW's Class Diagram__\n
         class org.heckcorp.domination.desktop.view.SwingView.DisplayManager {
             + DisplayManager()
             + displayPositions()
-            + drawAll()
             + getShadowMap()
             + hideAttackArrow()
             + hideSelection()
@@ -340,7 +336,6 @@ title __VIEW's Class Diagram__\n
             + getCounter()
             + getCounters()
             + getGamePiece()
-            + getGamePieces()
         }
       }
     }
@@ -412,10 +407,8 @@ title __VIEW's Class Diagram__\n
   org.heckcorp.domination.desktop.view.SequentialExecutor .up.|> java.util.concurrent.Executor
   org.heckcorp.domination.desktop.view.SwingView .up.|> org.heckcorp.domination.GameView
   org.heckcorp.domination.desktop.view.SwingView -up-|> javax.swing.JPanel
-  org.heckcorp.domination.desktop.view.SwingView o-- org.heckcorp.domination.Player : currentPlayer
   org.heckcorp.domination.desktop.view.SwingView o-- org.heckcorp.domination.desktop.view.SwingView.ViewDataManager : dataManager
   org.heckcorp.domination.desktop.view.SwingView o-- org.heckcorp.domination.desktop.view.SwingView.DisplayManager : displayManager
-  org.heckcorp.domination.desktop.view.SwingView o-- org.heckcorp.domination.Player : mainPlayer
   org.heckcorp.domination.desktop.view.SwingView o-- org.heckcorp.domination.HexMap : map
   org.heckcorp.domination.desktop.view.SwingView o-- org.heckcorp.domination.ViewMonitor : monitor
   org.heckcorp.domination.desktop.view.SwingView o-- org.heckcorp.domination.desktop.view.UIResources : resources
@@ -428,7 +421,6 @@ title __VIEW's Class Diagram__\n
   org.heckcorp.domination.desktop.view.SwingView.DisplayManager o-- org.heckcorp.domination.desktop.view.MiniMap : miniMap
   org.heckcorp.domination.desktop.view.SwingView.DisplayManager o-- org.heckcorp.domination.desktop.view.Counter : selectedCounter
   org.heckcorp.domination.desktop.view.SwingView.DisplayManager o-- org.heckcorp.domination.ShadowMap : shadowMap
-  org.heckcorp.domination.desktop.view.SwingView.DisplayManager o-- org.heckcorp.domination.desktop.view.SwingView.ViewDataManager : viewDataManager
   org.heckcorp.domination.desktop.view.SwingView.UIManager -up-|> javax.swing.JPanel
   org.heckcorp.domination.desktop.view.SwingView.UIManager o-- org.heckcorp.domination.desktop.view.HexDescriptionPanel : hexDescriptionPanel
   org.heckcorp.domination.desktop.view.SwingView.UIManager o-- org.heckcorp.domination.desktop.view.MapView : mapView

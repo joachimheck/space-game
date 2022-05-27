@@ -1,13 +1,29 @@
 package org.heckcorp.domination.desktop.view;
 
-import org.heckcorp.domination.*;
+import org.heckcorp.domination.City;
+import org.heckcorp.domination.Constants;
+import org.heckcorp.domination.Direction;
+import org.heckcorp.domination.GamePiece;
+import org.heckcorp.domination.GameView;
+import org.heckcorp.domination.Hex;
+import org.heckcorp.domination.HexMap;
+import org.heckcorp.domination.Positionable;
+import org.heckcorp.domination.ShadowMap;
+import org.heckcorp.domination.ShadowStatus;
+import org.heckcorp.domination.Status;
+import org.heckcorp.domination.Unit;
+import org.heckcorp.domination.ViewMonitor;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.lang.reflect.InvocationTargetException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Observable;
+import java.util.Observer;
+import java.util.Set;
 import java.util.logging.Logger;
 
 public class SwingView extends JPanel implements GameView
