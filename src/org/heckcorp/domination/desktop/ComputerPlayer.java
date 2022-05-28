@@ -134,7 +134,7 @@ public class ComputerPlayer extends Player {
         Hex cityHex = null;
         
         for (Hex hex : hexes) {
-            if (hex.getCity() != null && hex.getOwner() != this) {
+            if (hex.getOwner() != this) {
                 if (cityHex == null || hex.isEmpty()) {
                     cityHex = hex;
                 }

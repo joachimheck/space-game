@@ -1,17 +1,16 @@
 package org.heckcorp.domination.desktop;
 
-import java.awt.Point;
+import org.heckcorp.domination.Calculator;
+import org.heckcorp.domination.Hex;
+import org.heckcorp.domination.HexMap;
+import org.heckcorp.domination.Unit;
+
+import java.awt.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import org.heckcorp.domination.Calculator;
-import org.heckcorp.domination.Hex;
-import org.heckcorp.domination.HexFilter;
-import org.heckcorp.domination.HexMap;
-import org.heckcorp.domination.Unit;
 
 /**
  * 
@@ -118,7 +117,7 @@ public final class Pathfinder implements Serializable {
                 break;
             } else {
                 // Generate all the successors.
-                Set<Node> successors = generateSuccessors(current, unit);
+                Set<Node> successors = generateSuccessors(current);
                 
                 for (Node successor : successors) {
                     // TODO: fix cost computation.
@@ -164,11 +163,9 @@ public final class Pathfinder implements Serializable {
         return path;
     }
 
-    private Set<Node> generateSuccessors(Node node, Unit unit) {
+    private Set<Node> generateSuccessors(Node node) {
         Hex startHex = map.getHex(node.point);
-        List<Hex> adjacent = map.getHexesInRange(startHex, 1);
-        HexFilter filter = Unit.getHexFilter(unit.getType());
-        List<Hex> hexes = unit.getAccessibleHexes(adjacent, filter);
+        List<Hex> hexes = map.getHexesInRange(startHex, 1);
         
         assert !hexes.contains(startHex);
         

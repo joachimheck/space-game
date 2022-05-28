@@ -4,9 +4,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Logger;
 
 /**
@@ -29,55 +27,24 @@ public class Unit extends GamePiece implements Serializable {
     /**
      * @author    Joachim Heck
      */
-    public static class MovementHexFilter extends TerrainHexFilter {
+    public static class MovementHexFilter implements HexFilter {
         @Override
         public boolean accept(Hex hex) {
-            return super.accept(hex) &&
-                (hex.isEmpty() || hex.getOwner() == unit.getOwner());
+            return (hex.isEmpty() || hex.getOwner() == unit.getOwner());
         }
         
         public MovementHexFilter(Unit unit) {
-            super(unit.type);
             this.unit = unit;
         }
         
         private final Unit unit;
     }
 
-    /**
-     * A HexFilter that includes any hex through whose terrain the specified unit type can move.
-     * @author    Joachim Heck
-     */
-    public static class TerrainHexFilter implements HexFilter {
-        @Override
-        public boolean accept(Hex hex) {
-            return type == Type.BOMBER ||
-            hex.terrain != Hex.Terrain.WATER;
-        }
-        
-        public TerrainHexFilter(Type type) {
-            this.type = type;
-        }
-        
-        private final Type type;
-    }
-
-    /**
-     * @author    Joachim Heck
-     */
     public enum Type {
         // TODO: load this from a file.
         BOMBER(3, "BOMBER", 5, 1, 1, 8, 6),
         SOLDIER(1, "SOLDIER", 5, 5, 1, 1, 3),
         TANK(2, "TANK", 7, 3, 2, 2, 6);
-        
-        /**
-         * @return  the cost
-         * @uml.property  name="cost"
-         */
-        public int getCost() {
-            return cost;
-        }
 
         public String toString() {
             return name;
@@ -149,24 +116,17 @@ public class Unit extends GamePiece implements Serializable {
      * can attack this turn.
      */
     public boolean canAttack(Hex hex) {
-        return getHex().isAdjacentTo(hex) && canEnterTerrain(hex) &&
+        return getHex().isAdjacentTo(hex) &&
             hex.getOwner() != null && hex.getOwner() != getOwner() &&
             !hex.getUnits().isEmpty() && getMovesLeft() > 0 && getAttacksLeft() > 0;
     }
 
     public boolean canEnterHex(Hex hex) {
-        return canEnterTerrain(hex) &&
-            (hex.getOwner() == null || hex.getUnits().isEmpty() ||
-                hex.getOwner() == getOwner());
-    }
-
-    public boolean canEnterTerrain(Hex hex) {
-        return Unit.getHexFilter(type).accept(hex);
+        return hex.getUnits().isEmpty();
     }
 
     /**
-     * @return true if this unit is capable of moving into the specified
-     *   hex's terrain and the hex is empty.
+     * @return true if the hex is empty.
      */
     public boolean canMoveAlongPath() {
         boolean result = false;
@@ -329,14 +289,12 @@ public class Unit extends GamePiece implements Serializable {
      */
     public int getRange() {
         int range = movesLeft;
-        
+
         if (getType() == Type.BOMBER) {
-            if (getHex().getCity() == null) {
-                // This plane has moved away from a city and will have to move the
-                // same distance from here to get back.
-                range -= getMovement() - getMovesLeft();
-            }
-            
+            // This plane has moved away from a city and will have to move the
+            // same distance from here to get back.
+            range -= getMovement() - getMovesLeft();
+
             range = range / 2;
         }
         
@@ -373,36 +331,13 @@ public class Unit extends GamePiece implements Serializable {
         return inRange;
     }
 
-    /**
-     * Returns true if the unit has enough fuel to travel
-     * the specified number of hexes.
-     *
-     */
-    public boolean isInRange(int distance) {
-        boolean isInRange = true;
-        
-        if (type == Type.BOMBER) {
-            isInRange = distance < getFuelLeft();
-        }
-        
-        return isInRange;
-    }
-
     public boolean isOutOfFuel() {
-        return getFuelLeft() == 0 && getHex().getCity() == null;
+        return getFuelLeft() == 0;
     }
 
     public boolean isReadyForAction() {
         return getHealth() != Health.DESTROYED &&
             getMovesLeft() > 0 && !isSkipped() && !isAsleep();
-    }
-
-    /**
-     * Returns true if the unit can remain in its current hex
-     * until next turn.
-     */
-    public boolean isSafe() {
-        return type != Type.BOMBER || hex.getCity() != null;
     }
 
     public boolean isSkipped() {
@@ -417,9 +352,7 @@ public class Unit extends GamePiece implements Serializable {
         Hex destHex = getPath().get(0);
         assert destHex.isAdjacentTo(getHex());
         
-        if (getMovesLeft() > 0 && canEnterTerrain(destHex) &&
-            (destHex.getOwner() == getOwner() || destHex.isEmpty()))
-        {
+        if (getMovesLeft() > 0 && (destHex.getOwner() == getOwner() || destHex.isEmpty())) {
             lastHex = getHex();
             getHex().removeUnit(this);
             destHex.addUnit(this);
@@ -429,7 +362,6 @@ public class Unit extends GamePiece implements Serializable {
         } else {
             log.finer("Unit couldn't move along path: movesLeft=" +
                       getMovesLeft() + " can enter? " +
-                      canEnterTerrain(destHex) + " enemy hex? " +
                       (destHex.getOwner() != getOwner()) + " empty hex? " +
                       destHex.isEmpty());
         }
@@ -537,27 +469,8 @@ public class Unit extends GamePiece implements Serializable {
 
     private final Type type;
 
-    /**
-     * @return a HexFilter that only accepts hexes
-     *   in which a unit can be placed.
-     */
-    public static HexFilter getHexFilter(Type type) {
-        synchronized(terrainHexFilters) {
-            if (terrainHexFilters.get(type) == null) {
-                terrainHexFilters.put(type, new TerrainHexFilter(type));
-            }
-        }
-        
-        return terrainHexFilters.get(type);
-    }
-
     private static final Logger log = Logger.getLogger(Unit.class.getName());
 
     private static final long serialVersionUID = 1L;
 
-    /**
-     * @uml.property   name="terrainHexFilters"
-     * @uml.associationEnd   qualifier="key:java.lang.Object org.heckcorp.domination.HexFilter"
-     */
-    private static final Map<Type, HexFilter> terrainHexFilters = new HashMap<>();
 }

@@ -222,7 +222,7 @@ public class MapPane extends JPanel {
     private void drawHex(Hex hex, Point position, Graphics2D g) {
         Point pixelPos = getHexCorner(position);
 
-        g.drawImage(resources.tilePix[hex.terrain.value], pixelPos.x, pixelPos.y, null);
+        g.drawImage(resources.spaceHex, pixelPos.x, pixelPos.y, null);
         g.drawImage(resources.lightFog, pixelPos.x, pixelPos.y, null);
         g.setColor(Color.black);
 

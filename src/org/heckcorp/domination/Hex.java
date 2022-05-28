@@ -13,21 +13,6 @@ import java.util.List;
  * 
  */
 public class Hex implements Serializable, Positionable {
-    /**
-     * @author    Joachim Heck
-     */
-    public enum Terrain {
-        LAND(1, "Land"),
-        WATER(0, "Water");
-        
-        Terrain(int value, String name) {
-            this.value = value;
-            this.name = name;
-        }
-        
-        public final String name;
-        public final int value;
-    }
 
     public void addUnit(Unit unit) {
         assert isEmpty() || owner == unit.getOwner() :
@@ -98,17 +83,15 @@ public class Hex implements Serializable, Positionable {
         return "Hex (" + getPosition().x + "," + getPosition().y + ")";
     }
     
-    public Hex(int x, int y, Terrain terrain, int elevation) {
+    public Hex(int x, int y, int elevation) {
         this.x = x;
         this.y = y;
-        this.terrain = terrain;
         this.elevation = elevation;
         
         units = new ArrayList<>(0);
     }
 
     public final int elevation;
-    public final Terrain terrain;
     public final int x;
     public final int y;
     private transient Player owner = null;

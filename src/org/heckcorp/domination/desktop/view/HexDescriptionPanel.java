@@ -110,12 +110,6 @@ public class HexDescriptionPanel extends JPanel
         unitsBox.removeAll();
 
         String hexType = "Hex";
-
-        if (hex.terrain == Hex.Terrain.LAND || hex.terrain == Hex.Terrain.WATER) {
-            hexType = hex.terrain.name;
-        } else {
-            assert false : "Unknown terrain type: " + hex.terrain;
-        }
         Player owner = hex.getOwner();
 
         if (owner != null) {

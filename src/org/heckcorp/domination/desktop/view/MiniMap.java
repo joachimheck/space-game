@@ -90,12 +90,6 @@ public final class MiniMap extends JPanel implements MapViewListener {
                         }
                     }
 
-                    if (hex.terrain == Hex.Terrain.LAND) {
-                        hexColor = Color.yellow;
-                    } else if (hex.terrain == Hex.Terrain.WATER) {
-                        hexColor = Color.blue;
-                    }
-
                     hexColor = hexColor.darker();
 
                     g.setColor(hexColor);

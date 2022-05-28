@@ -27,6 +27,7 @@ public class UIResources {
         cityPic = Util.getImage("resource/city.png");
         lightFog = Util.getImage("resource/hex-fog-light.png");
         darkFog = Util.getImage("resource/hex-fog-dark.png");
+        spaceHex = Util.getImage("resource/space-hex.png");
 
         // Unit images.
         unitPixByType = new HashMap<>();
@@ -79,6 +80,7 @@ public class UIResources {
      * @uml.property  name="darkFog"
      */
     public final BufferedImage darkFog;
+    public final BufferedImage spaceHex;
     /**
      * @uml.property  name="tilePix" multiplicity="(0 -1)" dimension="1"
      */

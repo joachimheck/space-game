@@ -1,6 +1,5 @@
 package org.heckcorp.domination;
 
-import org.heckcorp.domination.Hex.Terrain;
 import org.heckcorp.domination.desktop.Pathfinder;
 
 import java.awt.*;
@@ -25,229 +24,6 @@ public class HexMap implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * @author    Joachim Heck
-     */
-    private static final class MapInfoGenerator {
-        private final HexMap map;
-        private int[][] elevations;
-        private int maxElevation;
-        private int minElevation;
-
-        public MapInfoGenerator(HexMap map) {
-            this.map = map;
-        }
-
-        /**
-         * @post elevations != null
-         */
-        private void generateElevations(int width, int height) {
-            Random random = new Random();
-            double[][] preciseElevations = new double[width][height];
-            Set<Point> raisedPoints = new HashSet<>();
-            Set<Point> recentlyRaisedPoints = new HashSet<>();
-            
-            int initialPointCount = 2 + random.nextInt(3);
-            int initialRaise = 5;
-            double adjacentHeightFactor = .5;
-            
-            System.out.println("Map has " + initialPointCount + " initial points.");
-            
-            // Choose several evenly distributed hexes as continental centers.
-            for (int i=0; i<initialPointCount; i++) {
-                Point initialPoint = new Point(random.nextInt(width),
-                                               random.nextInt(height));
-
-                // Raise the center hexes by an initial amount, then mark them raised.
-                preciseElevations[initialPoint.x][initialPoint.y] = initialRaise;
-                recentlyRaisedPoints.add(initialPoint);
-                raisedPoints.add(initialPoint);
-            }
-
-            while (isAnyPointElevated(recentlyRaisedPoints, preciseElevations)) {
-                // Raise all unmarked hexes adjacent to marked hexes by a semi-random amount,
-                //   based on the average height of the adjacent raised hexes, but always less.
-                Set<Point> toRaisePoints = new HashSet<>();
-                for (Point raised : recentlyRaisedPoints) {
-                    for (Direction direction : Direction.values()) {
-                        Point adjacent = getAdjacent(raised, direction);
-        
-                        if (!raisedPoints.contains(adjacent) && map.isInMap(adjacent)) {
-                            toRaisePoints.add(adjacent);
-                        }
-                    }
-                }
-        
-                for (Point toRaise: toRaisePoints) {
-                    double totalAdjacentRaisedHeight = 0.0;
-                    double adjacentRaisedCount = 0.0;
-                    double maxHeight = 0.0;
-                    for (Direction direction : Direction.values()) {
-                        Point adjacent = getAdjacent(toRaise, direction);
-        
-                        if (raisedPoints.contains(adjacent)) {
-                            double adjacentHeight = preciseElevations[adjacent.x][adjacent.y];
-                            adjacentRaisedCount++;
-                            totalAdjacentRaisedHeight += adjacentHeight;
-                            maxHeight = Math.max(maxHeight, adjacentHeight);
-                        }
-                    }
-        
-                    double averageAdjacentRaisedHeight =
-                        totalAdjacentRaisedHeight / adjacentRaisedCount;
-                    double elevation = averageAdjacentRaisedHeight - (Math.random() * (1.0 - adjacentHeightFactor));
-                    
-                    preciseElevations[toRaise.x][toRaise.y] = elevation;
-                }
-        
-                // Mark the newly raised hexes.
-                raisedPoints.addAll(toRaisePoints);
-                recentlyRaisedPoints.clear();
-                recentlyRaisedPoints.addAll(toRaisePoints);
-            }
-            
-            minElevation = 0;
-            maxElevation = initialRaise;
-            elevations = new int[width][height];
-            for (int i=0; i<width; i++) {
-                for (int j=0; j<height; j++) {
-                    elevations[i][j] = (int) Math.round(preciseElevations[i][j]);
-                }
-            }
-        }
-
-        public MapInfo generateMapInfo(int width, int height) {
-            generateElevations(width, height);
-            findContinents(width, height);
-            int waterline = 0;
-            
-            System.out.println("Elevation min/max = " + minElevation +
-                               "/" + maxElevation + " waterline = " +
-                               waterline);
-            
-            int[] terrainCounts = new int[Hex.Terrain.values().length];
-            Hex.Terrain[][] terrains = new Hex.Terrain[width][height];
-            for (int i=0; i<width; i++) {
-                for (int j=0; j<height; j++) {
-                    Hex.Terrain terrain = Hex.Terrain.LAND;
-        
-                    if (elevations[i][j] <= waterline) {
-                        terrain = Hex.Terrain.WATER;
-                    }
-        
-                    terrains[i][j] = terrain;
-                    terrainCounts[terrain.value]++;
-                }
-            }
-            
-            int total = 0;
-            for (int count : terrainCounts) {
-                total += count;
-            }
-
-            for (Hex.Terrain terrain : Hex.Terrain.values()) {
-                System.out.print(terrain.name + "(" + terrain.value + "): " +
-                                   terrainCounts[terrain.value] +
-                                   " (" + (int) (100.0 * (double)terrainCounts[terrain.value] / (double)total) +
-                                   "%) ");
-            }
-            System.out.println();
-            
-            return new MapInfo(width, height, terrains,
-                               elevations, minElevation, maxElevation);
-        }
-
-        /**
-         * Identifies separate land masses in the elevation map.
-         * TODO: we don't do anything with this continent information!
-         */
-        private void findContinents(int width, int height) {
-            int[][] continents = new int[width][height];
-            int continentId = 0;
-            
-            for (int i=0; i<width; i++) {
-                for (int j=0; j<height; j++) {
-                    if (elevations[i][j] > 0 && continents[i][j] == 0) {
-                        // Reserve a new number for the next continent.
-                        continentId++;
-                        
-                        // TODO: discover the whole continent.
-                        Set<Point> continent = new HashSet<>();
-                        Set<Point> recentPoints = new HashSet<>();
-                        Set<Point> newPoints = new HashSet<>();
-                        
-                        // Prime the system with the point we just discovered.
-                        recentPoints.add(new Point(i, j));
-                        
-                        // Find all land points connected to the one we just found.
-                        while (!recentPoints.isEmpty()) {
-                            for (Point recent : recentPoints) {
-                                for (Direction direction : Direction.values()) {
-                                    Point adjacent = getAdjacent(recent, direction);
-
-                                    if (map.isInMap(adjacent) &&
-                                        elevations[adjacent.x][adjacent.y] > 0 &&
-                                        !recentPoints.contains(adjacent) &&
-                                        !continent.contains(adjacent))
-                                    {
-                                        newPoints.add(adjacent);
-                                        continents[adjacent.x][adjacent.y] = continentId;
-                                    }
-                                }
-                            }
-
-                            continent.addAll(recentPoints);
-                            recentPoints.clear();
-                            recentPoints.addAll(newPoints);
-                            newPoints.clear();
-                        }
-                        
-                        System.out.println("Continent " + continentId + " has " +
-                                           continent.size() + " hexes.");
-                    }
-                }
-            }
-        }
-
-        private static boolean isAnyPointElevated(Set<Point> points, double[][] preciseElevations) {
-            for (Point p : points) {
-                if (preciseElevations[p.x][p.y] > 0.0) {
-                    return true;
-                }
-            }
-        
-            return false;
-        }
-
-    }
-
-    /**
-     * @author  Joachim Heck
-     */
-    public static final class MapInfo {
-        public MapInfo(int width, int height, Hex.Terrain[][] terrains,
-                       int[][] elevations, int minElevation, int maxElevation)
-        {
-            this.width = width;
-            this.height = height;
-            this.terrains = terrains;
-            this.elevations = elevations;
-            this.minElevation = minElevation;
-            this.maxElevation = maxElevation;
-        }
-
-        public final int width;
-        public final int height;
-        /**
-         * @uml.property  name="terrains"
-         * @uml.associationEnd  multiplicity="(0 -1)"
-         */
-        public final Hex.Terrain[][] terrains;
-        public final int[][] elevations;
-        public final int minElevation;
-        public final int maxElevation;
-    }
-
-    /**
      * @return  the hexes
      * @uml.property  name="hexes"
      */
@@ -256,25 +32,9 @@ public class HexMap implements Serializable {
     }
 
     public HexMap(int width, int height) {
-        this(new MapInfo(width, height, null, null, 0, 0));
-    }
-
-    public HexMap(MapInfo mapInfo) {
-        this.width = mapInfo.width;
-        this.height = mapInfo.height;
+        this.width = width;
+        this.height = height;
         this.hexes = new Hex[width][height];
-        
-        if (mapInfo.terrains == null) {
-            mapInfo = new MapInfoGenerator(this).generateMapInfo(width, height);
-        }
-        
-        for (int i=0; i<width; i++) {
-            for (int j=0; j<height; j++) {
-                hexes[i][j] = new Hex(i, j, mapInfo.terrains[i][j],
-                                      mapInfo.elevations[i][j]);
-            }
-        }
-        
         pathfinder = new Pathfinder(this);
     }
     
@@ -287,28 +47,12 @@ public class HexMap implements Serializable {
         log.fine("Map dimensions: " + width + "x" + height);
 
         hexes = new Hex[width][height];
-        
-        for (int i=0; i<width; i++) {
-            for (int j=0; j<height; j++) {
-                hexes[i][j] = new Hex(i, j, Terrain.values()[in.readInt()], in.readInt());
-                log.finer("Map loaded hex at " + i + ", " + j);
-            }
-        }
-        
         pathfinder = new Pathfinder(this);
     }
     
     public void write(ObjectOutputStream out) throws IOException {
         out.writeInt(width);
         out.writeInt(height);
-        
-        for (int i=0; i<width; i++) {
-            for (int j=0; j<height; j++) {
-                log.info("Writing hex at " + i + ", " + j);
-                out.writeInt(hexes[i][j].terrain.ordinal());
-                out.writeInt(hexes[i][j].elevation);
-            }
-        }
     }
 
     /**
