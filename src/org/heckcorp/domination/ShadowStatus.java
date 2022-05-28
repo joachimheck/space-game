@@ -9,8 +9,9 @@ public class ShadowStatus {
     // TODO: use generics to make this equals(ShadowStatus)?
     @Override
     public boolean equals(Object obj) {
-        ShadowStatus other = (ShadowStatus) obj;
-        return explored == other.explored && visible == other.visible;
+        return obj instanceof ShadowStatus
+                && explored == ((ShadowStatus) obj).explored
+                && visible == ((ShadowStatus) obj).visible;
     }
     
     /**

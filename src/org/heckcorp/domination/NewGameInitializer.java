@@ -1,21 +1,20 @@
 package org.heckcorp.domination;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.heckcorp.domination.Player.PlayerType;
 import org.heckcorp.domination.desktop.ComputerPlayer;
 import org.heckcorp.domination.desktop.HumanPlayer;
 import org.heckcorp.domination.desktop.NeutralPlayer;
 
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class NewGameInitializer implements ModelInitializer {
     
-    private int width;
-    private int height;
+    private final int width;
+    private final int height;
 
     public NewGameInitializer(int width, int height) {
         this.width = width;
@@ -23,7 +22,7 @@ public class NewGameInitializer implements ModelInitializer {
     }
     
     private List<Player> createPlayers(GameModel model, GameView mainPlayerView) {
-        List<Player> players = new ArrayList<Player>();
+        List<Player> players = new ArrayList<>();
         Dimension mapSize = new Dimension(width, height);
         String[] playerNames = { "Human Player", "Computer Player", "Neutral Player" };
         PlayerType[] playerTypes =
@@ -45,7 +44,7 @@ public class NewGameInitializer implements ModelInitializer {
     /**
      * @param name the name of the player to create.
      * @param type the type of player to create.
-     * @param mapsize the size of the map the player will play in.
+     * @param mapSize the size of the map the player will play in.
      */
     public static Player createPlayer(String name, Player.PlayerType type,
                                       Color color, Dimension mapSize,
@@ -70,7 +69,7 @@ public class NewGameInitializer implements ModelInitializer {
     }
 
     public List<City> createCities(Player player) {
-        List<City> cities = new ArrayList<City>();
+        List<City> cities = new ArrayList<>();
         
         int cityCount = Constants.PLAYER_CITIES;
         if (player instanceof NeutralPlayer) {
@@ -87,12 +86,12 @@ public class NewGameInitializer implements ModelInitializer {
     }
     
     private List<Unit> createUnits(Player player) {
-        Map<Unit.Type, Integer> unitCounts = new HashMap<Unit.Type, Integer>();
+        Map<Unit.Type, Integer> unitCounts = new HashMap<>();
         unitCounts.put(Unit.Type.SOLDIER, 2);
         unitCounts.put(Unit.Type.TANK, 1);
         unitCounts.put(Unit.Type.BOMBER, 1);
         
-        List<Unit> units = new ArrayList<Unit>();
+        List<Unit> units = new ArrayList<>();
         
         if (!(player instanceof NeutralPlayer)) {
             for (Unit.Type type : Unit.Type.values()) {

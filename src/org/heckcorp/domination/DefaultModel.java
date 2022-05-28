@@ -2,7 +2,11 @@ package org.heckcorp.domination;
 
 import org.heckcorp.domination.Player.PlayerType;
 import org.heckcorp.domination.Unit.Type;
-import org.heckcorp.domination.desktop.*;
+import org.heckcorp.domination.desktop.ComputerPlayer;
+import org.heckcorp.domination.desktop.HumanPlayer;
+import org.heckcorp.domination.desktop.NeutralPlayer;
+import org.heckcorp.domination.desktop.Pathfinder;
+import org.heckcorp.domination.desktop.TurnManager;
 
 import java.awt.*;
 import java.io.IOException;
@@ -100,7 +104,6 @@ public class DefaultModel implements GameModel, Serializable {
 
     /**
      * Adds the piece to the model at the specified position.
-     * @param piece
      * @pre piece != null
      * @pre position != null
      * @pre getMap().contains(position)
@@ -110,7 +113,7 @@ public class DefaultModel implements GameModel, Serializable {
         map.addGamePiece(piece, piece.getPosition());
 
         // Update the exploration map.
-        List<Point> visible = new ArrayList<Point>();
+        List<Point> visible = new ArrayList<>();
         List<Hex> adjacent = map.getHexesInRange(piece.getHex(), 1);
         adjacent.add(piece.getHex());
 
@@ -127,7 +130,6 @@ public class DefaultModel implements GameModel, Serializable {
 
     /**
      * Adds the specified player to the model.
-     * @param player
      * @pre player must not have been added already.
      * @pre cannot be called after the turn manager begins running.
      */
@@ -162,7 +164,6 @@ public class DefaultModel implements GameModel, Serializable {
     /**
      * Returns the hex at the specified map coordinates.
      * @param position the map coordinates of the hex to get.
-     * @return
      * @pre position != null
      * @pre position is within the map boundary
      * @pre the map has been set.
@@ -174,8 +175,7 @@ public class DefaultModel implements GameModel, Serializable {
 
     /**
       * Returns the currently selected city.
-      * @return
-      */
+     */
      public City getSelectedCity() {
          return selectedCity;
      }
@@ -193,19 +193,6 @@ public class DefaultModel implements GameModel, Serializable {
 
         return turnManager;
      }
-
-    /**
-     * Returns a list of all the units in the hex at the
-     * specified point.
-     * @param position
-     * @return
-     * @pre point != null
-     * @pre getMap().contains(point)
-     * @post result != null
-     */
-    public List<Unit> getUnits(Point position) {
-        return map.getHex(position).getUnits();
-    }
 
     /**
      * Attempts to move the unit along its path.
@@ -287,7 +274,6 @@ public class DefaultModel implements GameModel, Serializable {
      * is selected.  Additionally, if the hex contains a city,
      * and that city belongs to the current player, the city is selected.
      * 
-     * @param position
      * @pre position != null
      */
     public void selectHex(Point position) {
@@ -361,7 +347,6 @@ public class DefaultModel implements GameModel, Serializable {
 
     /**
      * Sets this model's map to the specified hex map.
-     * @param map
      * @pre  map != null
      * @pre this model's map is null
      * @uml.property  name="map"
@@ -387,14 +372,11 @@ public class DefaultModel implements GameModel, Serializable {
 
     /**
      * Sets the destination of the selected unit to the specified point.
-     * @param destination
      * @pre destination != null
      * @pre destination is in the map
      * @post result == false || the selected unit has a path
      */
-    public boolean setSelectedUnitDestination(Point destination) {
-        boolean result = false;
-        
+    public void setSelectedUnitDestination(Point destination) {
         if (selectedUnit != null) {
             assert destination != null;
             assert map.isInMap(destination);
@@ -406,13 +388,8 @@ public class DefaultModel implements GameModel, Serializable {
             if (!path.isEmpty()) {
                 selectedUnit.setPath(path);
             }
-
             // TODO: we could notify the view that the path has been set.
-
-            result = !path.isEmpty();
         }
-        
-        return result;
     }
 
     public void setWinningPlayer(Player player) {
@@ -466,8 +443,6 @@ public class DefaultModel implements GameModel, Serializable {
     }
     /**
      * Initiates an attack by the selected unit on the specified hex.
-     * @param hex
-     * @return
      * @pre unit != null
      * @pre hex != null
      * @pre unit.getOwner() == the current player
@@ -489,7 +464,7 @@ public class DefaultModel implements GameModel, Serializable {
     /**
      * @pre !selectedUnit.getPath().isEmpty()
      */
-    private boolean moveSelectedUnitOneHex() {
+    private void moveSelectedUnitOneHex() {
         Direction direction = selectedUnit.getNextDirection();
         log.finer("Model moving " + selectedUnit + " one hex.");
         
@@ -513,14 +488,11 @@ public class DefaultModel implements GameModel, Serializable {
         }
 
         log.finer("Model finished moving unit one hex.");
-        return moved;
     }
 
     /**
      * Sets the status of the specified unit.  Possible statuses include
      * damaged, destroyed, hidden and selected.
-     * @param unit
-     * @param status
      * @pre unit != null
      * @pre status != null
      */
@@ -569,7 +541,7 @@ public class DefaultModel implements GameModel, Serializable {
 
     private HexMap map;
 
-    private List<Player> players = new ArrayList<Player>();
+    private final List<Player> players = new ArrayList<>();
 
     private City selectedCity;
 
@@ -577,7 +549,7 @@ public class DefaultModel implements GameModel, Serializable {
 
     private transient TurnManager turnManager;
 
-    private transient ViewMultiplexer views = new ViewMultiplexer();
+    private final transient ViewMultiplexer views = new ViewMultiplexer();
 
     private final transient GameStateManager gameStateManager = new GameStateManager();
 

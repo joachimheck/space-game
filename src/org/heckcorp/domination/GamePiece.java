@@ -1,6 +1,6 @@
 package org.heckcorp.domination;
 
-import java.awt.Point;
+import java.awt.*;
 import java.io.Serializable;
 
 /**
@@ -9,14 +9,6 @@ import java.io.Serializable;
  *
  */
 public abstract class GamePiece implements Positionable, Serializable {
-
-    /**
-     * If the specified criterion is satisfied, a unit will enter a hex.
-     * @author    Joachim Heck
-     */
-    public enum HexOwnership {
-        ANY, EMPTY, ENEMY, PLAYER;
-    }
 
     /**
      * @return  the hex

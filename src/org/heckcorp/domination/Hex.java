@@ -1,6 +1,6 @@
 package org.heckcorp.domination;
 
-import java.awt.Point;
+import java.awt.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,11 +16,11 @@ public class Hex implements Serializable, Positionable {
     /**
      * @author    Joachim Heck
      */
-    public static enum Terrain {
+    public enum Terrain {
         LAND(1, "Land"),
         WATER(0, "Water");
         
-        private Terrain(int value, String name) {
+        Terrain(int value, String name) {
             this.value = value;
             this.name = name;
         }
@@ -30,7 +30,6 @@ public class Hex implements Serializable, Positionable {
     }
 
     /**
-     * @param city
      * @pre getCity() == null
      * @pre isEmpty()
      * @post getOwner() == city.getOwner()
@@ -63,8 +62,6 @@ public class Hex implements Serializable, Positionable {
 
     /**
      * Returns the unit with the highest defense.
-     * @param hex
-     * @return
      * @pre getUnits().isEmpty()
      */
     public Unit getBestDefender() {
@@ -136,7 +133,7 @@ public class Hex implements Serializable, Positionable {
         this.terrain = terrain;
         this.elevation = elevation;
         
-        units = new ArrayList<Unit>(0);
+        units = new ArrayList<>(0);
     }
 
     public final int elevation;

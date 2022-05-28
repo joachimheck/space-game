@@ -1,7 +1,9 @@
 package org.heckcorp.domination;
 
-import java.awt.Dimension;
-import java.awt.Point;
+import org.heckcorp.domination.Hex.Terrain;
+import org.heckcorp.domination.desktop.Pathfinder;
+
+import java.awt.*;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -12,9 +14,6 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 import java.util.logging.Logger;
-
-import org.heckcorp.domination.Hex.Terrain;
-import org.heckcorp.domination.desktop.Pathfinder;
 
 /**
  * This object holds all the hexes from which the playing area is composed.
@@ -39,16 +38,13 @@ public class HexMap implements Serializable {
         }
 
         /**
-         * 
-         * @param width
-         * @param height
          * @post elevations != null
          */
         private void generateElevations(int width, int height) {
             Random random = new Random();
             double[][] preciseElevations = new double[width][height];
-            Set<Point> raisedPoints = new HashSet<Point>();
-            Set<Point> recentlyRaisedPoints = new HashSet<Point>();
+            Set<Point> raisedPoints = new HashSet<>();
+            Set<Point> recentlyRaisedPoints = new HashSet<>();
             
             int initialPointCount = 2 + random.nextInt(3);
             int initialRaise = 5;
@@ -70,7 +66,7 @@ public class HexMap implements Serializable {
             while (isAnyPointElevated(recentlyRaisedPoints, preciseElevations)) {
                 // Raise all unmarked hexes adjacent to marked hexes by a semi-random amount,
                 //   based on the average height of the adjacent raised hexes, but always less.
-                Set<Point> toRaisePoints = new HashSet<Point>();
+                Set<Point> toRaisePoints = new HashSet<>();
                 for (Point raised : recentlyRaisedPoints) {
                     for (Direction direction : Direction.values()) {
                         Point adjacent = getAdjacent(raised, direction);
@@ -98,9 +94,7 @@ public class HexMap implements Serializable {
         
                     double averageAdjacentRaisedHeight =
                         totalAdjacentRaisedHeight / adjacentRaisedCount;
-                    double elevation = 0.0;
-                    elevation = averageAdjacentRaisedHeight -
-                        (Math.random() * (1.0 - adjacentHeightFactor));
+                    double elevation = averageAdjacentRaisedHeight - (Math.random() * (1.0 - adjacentHeightFactor));
                     
                     preciseElevations[toRaise.x][toRaise.y] = elevation;
                 }
@@ -124,18 +118,13 @@ public class HexMap implements Serializable {
         public MapInfo generateMapInfo(int width, int height) {
             generateElevations(width, height);
             findContinents(width, height);
-        
-//            Random random = new Random();
-//            int elevationDiff = maxElevation - minElevation;
-//            int waterline = minElevation +
-//                random.nextInt(2 * elevationDiff / 5);
             int waterline = 0;
             
             System.out.println("Elevation min/max = " + minElevation +
                                "/" + maxElevation + " waterline = " +
                                waterline);
             
-            int terrainCounts[] = new int[Hex.Terrain.values().length];
+            int[] terrainCounts = new int[Hex.Terrain.values().length];
             Hex.Terrain[][] terrains = new Hex.Terrain[width][height];
             for (int i=0; i<width; i++) {
                 for (int j=0; j<height; j++) {
@@ -161,7 +150,7 @@ public class HexMap implements Serializable {
                                    " (" + (int) (100.0 * (double)terrainCounts[terrain.value] / (double)total) +
                                    "%) ");
             }
-            System.out.println("");
+            System.out.println();
             
             return new MapInfo(width, height, terrains,
                                elevations, minElevation, maxElevation);
@@ -182,9 +171,9 @@ public class HexMap implements Serializable {
                         continentId++;
                         
                         // TODO: discover the whole continent.
-                        Set<Point> continent = new HashSet<Point>();
-                        Set<Point> recentPoints = new HashSet<Point>();
-                        Set<Point> newPoints = new HashSet<Point>();
+                        Set<Point> continent = new HashSet<>();
+                        Set<Point> recentPoints = new HashSet<>();
+                        Set<Point> newPoints = new HashSet<>();
                         
                         // Prime the system with the point we just discovered.
                         recentPoints.add(new Point(i, j));
@@ -245,28 +234,6 @@ public class HexMap implements Serializable {
             this.minElevation = minElevation;
             this.maxElevation = maxElevation;
         }
-        
-        public MapInfo(int width, int height,
-                       Terrain[][] terrains, int[][] elevations)
-        {
-            this.width = width;
-            this.height = height;
-            this.terrains = terrains;
-            this.elevations = elevations;
-            
-            int minElevation = Integer.MAX_VALUE;
-            int maxElevation = Integer.MIN_VALUE;
-            
-            for (int i=0; i<elevations.length; i++) {
-                for (int j=0; j<elevations[0].length; j++) {
-                    minElevation = Math.min(elevations[i][j], minElevation);
-                    maxElevation = Math.max(elevations[i][j], maxElevation);
-                }
-            }
-            
-            this.minElevation = minElevation;
-            this.maxElevation = maxElevation;
-        }
 
         public final int width;
         public final int height;
@@ -311,7 +278,7 @@ public class HexMap implements Serializable {
         pathfinder = new Pathfinder(this);
     }
     
-    private Logger log = Logger.getLogger(getClass().getName());
+    private final Logger log = Logger.getLogger(getClass().getName());
     
     public HexMap(ObjectInputStream in) throws IOException {
         width = in.readInt();
@@ -385,16 +352,9 @@ public class HexMap implements Serializable {
 
     /**
      * Finds all of the hexes within the given range, excluding the specified hex.
-     * 
-     * @param hex
-     * @param searchRadius
-     * 
-     * @return
-     * 
-     * @!result.isEmpty()
      */
     public List<Hex> getHexesInRange(Hex hex, int searchRadius) {
-        List<Hex> inRange = new ArrayList<Hex>();
+        List<Hex> inRange = new ArrayList<>();
         
         for (int range=1; range<=searchRadius; range++) {
             inRange.addAll(getHexesAtRange(hex, range));
@@ -406,12 +366,9 @@ public class HexMap implements Serializable {
     /**
      * Returns a set of all the hexes on the map at exactly the
      * specified distance from the specified hex.
-     * @param hex
-     * @param radius
-     * @return
      */
     public Set<Hex> getHexesAtRange(Hex hex, int radius) {
-        Set<Hex> atRange = new HashSet<Hex>();
+        Set<Hex> atRange = new HashSet<>();
         Point current = new Point(hex.getPosition().x,
                                   hex.getPosition().y - radius);
         
@@ -434,8 +391,6 @@ public class HexMap implements Serializable {
     
     /**
      * Determins whether the point is within the map.
-     * @param p
-     * @return
      */
     public boolean isInMap(Point p) {
         return p.x >= 0 && p.x < width && p.y >= 0 && p.y < height;
@@ -445,9 +400,6 @@ public class HexMap implements Serializable {
      * Returns the coordinates adjacent to the specified coordinates,
      * in the specified direction.
      * 
-     * @param current
-     * @param direction
-     * @return
      * @pre direction != null
      */
     public static Point getAdjacent(Point current, Direction direction) {
@@ -487,23 +439,9 @@ public class HexMap implements Serializable {
         return adjacent;
     }
 
-    public Hex.Terrain[][] getTerrains() {
-        Hex.Terrain[][] terrains = new Hex.Terrain[width][height];
-        
-        for (int i=0; i<width; i++) {
-            for (int j=0; j<height; j++) {
-                terrains[i][j] = hexes[i][j].terrain;
-            }
-        }
-        
-        return terrains;
-    }
-
     /**
      * Returns the Hex at the specified coordinates.
      * 
-     * @param x
-     * @param y
      * @return the Hex at the specified coordinates.
      * 
      * @pre x >= 0 && x < getWidth()
@@ -518,11 +456,8 @@ public class HexMap implements Serializable {
     }
 
     /**
-     * @param hex
-     * @param hex2
      * @pre hex != null
      * @pre hex2 != null
-     * @return
      */
     public static boolean isAdjacent(Hex hex, Hex hex2) {
         return Calculator.distance(hex.getPosition(), hex2.getPosition()) == 1;
@@ -530,19 +465,13 @@ public class HexMap implements Serializable {
     
     /**
      * 
-     * @param p1
-     * @param p2
      * @return true if the two hex coordinates are adjacent (or the same).
      */
     public static boolean adjacent(Point p1, Point p2) {
-        if ((p1.x == p2.x && Math.abs(p1.y - p2.y) <= 1.0) ||
-            (Math.abs(p1.x - p2.x) == 1.0 &&
-                (p1.x % 2 == 0 && p2.y - p1.y >= 0 && p2.y - p1.y <= 1) ||
-                (p1.x % 2 != 0 && p1.y - p2.y >= 0 && p1.y - p2.y <= 1))) {
-            return true;
-        }
-        
-        return false;
+        return (p1.x == p2.x && Math.abs(p1.y - p2.y) <= 1.0) ||
+                (Math.abs(p1.x - p2.x) == 1.0 &&
+                        (p1.x % 2 == 0 && p2.y - p1.y >= 0 && p2.y - p1.y <= 1) ||
+                        (p1.x % 2 != 0 && p1.y - p2.y >= 0 && p1.y - p2.y <= 1));
     }
 
     /**
@@ -559,8 +488,6 @@ public class HexMap implements Serializable {
     }
     
     /**
-     * @param piece
-     * @param position
      * @pre piece != null
      * @pre position != null
      * @pre isInMap(position)
@@ -587,12 +514,6 @@ public class HexMap implements Serializable {
     /**
      * Returns a random hex of the type specified by the filter.
      * @param filter a HexFilter used to choose an acceptable hex.
-     * @param minx
-     * @param miny
-     * @param maxx
-     * @param maxy
-     * @return
-     * 
      * @pre minx > 0 && minx <= 1.0
      * @pre miny > 0 && miny <= 1.0
      * @pre maxx > 0 && maxx <= 1.0
@@ -620,7 +541,7 @@ public class HexMap implements Serializable {
         int startY = (int) (height * miny);
         int endX = (int) (width * maxx);
         int endY = (int) (height * maxy);
-        List<Hex> hexes = new ArrayList<Hex>();
+        List<Hex> hexes = new ArrayList<>();
     
         for (int i=startX; i<endX; i++) {
             for (int j=startY; j<endY; j++) {
@@ -644,7 +565,7 @@ public class HexMap implements Serializable {
     }
     
     public static Set<Point> getAllAdjacent(Point point) {
-        Set<Point> allAdjacent = new HashSet<Point>();
+        Set<Point> allAdjacent = new HashSet<>();
         
         for (Direction direction : Direction.values()) {
             allAdjacent.add(getAdjacent(point, direction));
@@ -653,30 +574,8 @@ public class HexMap implements Serializable {
         return allAdjacent;
     }
 
-    /**
-     * Returns the point from the given set that is closest to the
-     * given position.
-     * @param position
-     * @param points
-     * @return
-     */
-    public static Point getClosest(Point position, Set<Point> points) {
-        int minDistance = Integer.MAX_VALUE;
-        Point closest = null;
-        
-        for (Point point : points) {
-            int distance = Math.min(minDistance, Calculator.distance(position, point));
-            if (distance < minDistance) {
-                minDistance = distance;
-                closest = point;
-            }
-        }
-        
-        return closest;
-    }
-
     public Set<Hex> getHexes(Set<Point> borderPoints) {
-        Set<Hex> result = new HashSet<Hex>();
+        Set<Hex> result = new HashSet<>();
         
         for (Point point : borderPoints) {
             result.add(hexes[point.x][point.y]);
@@ -686,12 +585,10 @@ public class HexMap implements Serializable {
     }
 
     /**
-     * @param pos
-     * @return
      * @pre hex != null
      */
     public Set<Hex> getAdjacentHexes(Positionable pos) {
-        Set<Hex> adjacent = new HashSet<Hex>();
+        Set<Hex> adjacent = new HashSet<>();
         
         for (Direction direction : Direction.values()) {
             Point p = getAdjacent(pos.getPosition(), direction);

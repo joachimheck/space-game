@@ -1,12 +1,5 @@
 package org.heckcorp.domination.desktop;
 
-import java.awt.Color;
-import java.awt.Point;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import org.heckcorp.domination.Calculator;
 import org.heckcorp.domination.City;
 import org.heckcorp.domination.ComputerPlayerView;
@@ -18,6 +11,12 @@ import org.heckcorp.domination.Player;
 import org.heckcorp.domination.Positionable;
 import org.heckcorp.domination.ShadowMap;
 import org.heckcorp.domination.Unit;
+
+import java.awt.*;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class ComputerPlayer extends Player {
     private void moveUnit(Unit unit) {
@@ -35,6 +34,7 @@ public class ComputerPlayer extends Player {
             List<Hex> enterable = unit.getAccessibleHexes(adjacent, moveFilter);
             boolean canAttack = unit.getAttacksLeft() > 0;
             City home = getClosest(unit, getCities());
+            assert home != null;
             
             Hex destination = null;
 
@@ -43,7 +43,7 @@ public class ComputerPlayer extends Player {
             // explore, sit.
 
             // Return home if fuel is low.
-            if (home != null && unit.getFuelLeft() == Calculator.distance(unit, home)) {
+            if (unit.getFuelLeft() == Calculator.distance(unit, home)) {
                 if (home.getHex() != unit.getHex()) {
                     destination = home.getHex();
                     getLog().finer("Fuel low (" + unit.getFuelLeft() +
@@ -179,7 +179,7 @@ public class ComputerPlayer extends Player {
     }
 
     private Set<Unit> getEnemiesInRange(Unit unit) {
-        Set<Unit> inRange = new HashSet<Unit>();
+        Set<Unit> inRange = new HashSet<>();
         Set<Unit> allEnemies = myView.getKnownEnemies();
         
         int range = unit.getRange();
@@ -194,23 +194,10 @@ public class ComputerPlayer extends Player {
     }
 
     /**
-     * 
-     * @param hexes
-     * @return a random selection from the provided list of hexes.
-     */
-// TODO: use?
-    //    private Hex chooseRandomHex(List<Hex> hexes) {
-//        int choice = (int) Math.floor(hexes.size() * Math.random());
-//        return hexes.get(choice);
-//    }
-
-    /**
      * Returns a Hex containing an enemy city if there is one in the
      * specified collection of hexes.  An empty city is returned if
      * one is present.
      * 
-     * @param hexes
-     * @return
      * @pre hexes != null
      */
     private Hex getEnemyCityHex(Collection<Hex> hexes) {
@@ -218,7 +205,7 @@ public class ComputerPlayer extends Player {
         
         for (Hex hex : hexes) {
             if (hex.getCity() != null && hex.getOwner() != this) {
-                if (cityHex == null || (cityHex != null && hex.isEmpty())) {
+                if (cityHex == null || hex.isEmpty()) {
                     cityHex = hex;
                 }
             }
@@ -262,7 +249,6 @@ public class ComputerPlayer extends Player {
     /**
      * @pre model != null
      * @pre this player's model has not yet been set.
-     * @param model
      */
     public void setModel(GameModel model) {
         assert model != null;

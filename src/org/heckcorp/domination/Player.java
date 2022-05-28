@@ -1,7 +1,10 @@
 package org.heckcorp.domination;
 
-import java.awt.Color;
-import java.awt.Point;
+import org.heckcorp.domination.desktop.ComputerPlayer;
+import org.heckcorp.domination.desktop.HumanPlayer;
+import org.heckcorp.domination.desktop.NeutralPlayer;
+
+import java.awt.*;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
@@ -11,10 +14,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.logging.Logger;
-
-import org.heckcorp.domination.desktop.ComputerPlayer;
-import org.heckcorp.domination.desktop.HumanPlayer;
-import org.heckcorp.domination.desktop.NeutralPlayer;
 
 public abstract class Player implements Serializable {
     
@@ -40,8 +39,8 @@ public abstract class Player implements Serializable {
         // The turn manager steps over a player's units to move them,
         // but a unit can be destroyed, and removed from the set, while
         // moving.  Using this set prevents a ConcurrentModificationException.
-        units = new CopyOnWriteArraySet<Unit>();
-        cities = new HashSet<City>();
+        units = new CopyOnWriteArraySet<>();
+        cities = new HashSet<>();
     }
     
     private final String name;
@@ -58,7 +57,7 @@ public abstract class Player implements Serializable {
      * @author    Joachim Heck
      */
     public enum PlayerType {
-        HUMAN, COMPUTER, NEUTRAL;
+        HUMAN, COMPUTER, NEUTRAL
     }
 
     /**
@@ -75,7 +74,6 @@ public abstract class Player implements Serializable {
 
     /**
      * Removes the specified unit from this Player's list.
-     * @param unit
      * @pre unit != null
      * @pre getUnits().contains(unit)
      */
@@ -86,11 +84,6 @@ public abstract class Player implements Serializable {
         units.remove(unit);
     }
 
-    public void removeCity(City city) {
-        assert cities.contains(city);
-        cities.remove(city);
-    }
-    
     public Set<City> getCities() {
         return cities;
     }
@@ -116,7 +109,7 @@ public abstract class Player implements Serializable {
     }
     
     public List<GamePiece> getGamePieces() {
-        List<GamePiece> result = new ArrayList<GamePiece>();
+        List<GamePiece> result = new ArrayList<>();
         result.addAll(cities);
         result.addAll(units);
         return result;
@@ -126,7 +119,7 @@ public abstract class Player implements Serializable {
      * Updates the shadow map for this player.
      */
     public void updateShadowMap(HexMap map) {
-        List<Point> visible = new ArrayList<Point>();
+        List<Point> visible = new ArrayList<>();
         for (GamePiece entity : getGamePieces()) {
             List<Hex> adjacent = map.getHexesInRange(entity.getHex(), 1);
             adjacent.add(entity.getHex());
@@ -160,7 +153,6 @@ public abstract class Player implements Serializable {
     private Unit readyUnit = null;
     /**
      * @pre getReadyUnit() == null
-     * @param readyUnit
      */
     public void setReadyUnit(Unit readyUnit) {
         getLog().fine("Ready unit is " + readyUnit);
@@ -213,7 +205,6 @@ public abstract class Player implements Serializable {
     /**
      * @pre view != null
      * @pre getView() == null
-     * @param view
      */
     public void setView(GameView view) {
         assert this.view == null;

@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2005, 2006 IBM Corporation and others.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *     IBM Corporation - initial API and implementation
- *******************************************************************************/
 package org.heckcorp.domination.desktop;
 
 import java.awt.Point;
@@ -104,9 +94,6 @@ public final class Pathfinder implements Serializable {
     
     /**
      * 
-     * @param unit
-     * @param goalHex
-     * @return
      * @pre unit != null
      * @pre goalHex != null
      */
@@ -117,8 +104,8 @@ public final class Pathfinder implements Serializable {
         start.setCost(0);
         start.computeDistance(goal);
         
-        Set<Node> openNodes = new HashSet<Node>();
-        Set<Node> closedNodes = new HashSet<Node>();
+        Set<Node> openNodes = new HashSet<>();
+        Set<Node> closedNodes = new HashSet<>();
         
         // Put the start state (hex) on the open list.
         openNodes.add(start);
@@ -166,7 +153,7 @@ public final class Pathfinder implements Serializable {
     }
     
     private List<Hex> createPath(Node start, Node end) {
-        List<Hex> path = new ArrayList<Hex>();
+        List<Hex> path = new ArrayList<>();
 
         Node current = end;
         while (current != null && current != start) {
@@ -185,7 +172,7 @@ public final class Pathfinder implements Serializable {
         
         assert !hexes.contains(startHex);
         
-        Set<Node> successors = new HashSet<Node>();
+        Set<Node> successors = new HashSet<>();
         for (Hex hex : hexes) {
             successors.add(new Node(hex.getPosition(), node));
         }
@@ -196,9 +183,6 @@ public final class Pathfinder implements Serializable {
     /**
      * Finds a node with the same state as the specified node
      * in the set of nodes and returns it if it is present.
-     * @param nodes
-     * @param node
-     * @return
      */
     private Node findNode(Set<Node> nodes, Node target) {
         Node found = null;
@@ -214,8 +198,6 @@ public final class Pathfinder implements Serializable {
     }
 
     /**
-     * @param nodes
-     * @return
      * @pre openNodes != null
      */
     private Node getLowestScoreNode(Set<Node> nodes) {

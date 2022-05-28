@@ -30,11 +30,7 @@ public class City extends GamePiece implements Serializable {
     public boolean isHidden(ShadowMap shadowMap) {
         return shadowMap.isActive() && !shadowMap.isExplored(getPosition());
     }
-    
-    public boolean isOccupied() {
-        return !getHex().isEmpty();
-    }
-    
+
     /**
      * @param productionPoints  the productionPoints to set
      * @uml.property  name="productionPoints"
@@ -44,7 +40,7 @@ public class City extends GamePiece implements Serializable {
     }
 
     /**
-     * @param productionType  the productionType to set
+     * @param type the productionType to set
      * @uml.property  name="productionType"
      */
     public void setProductionType(Unit.Type type) {

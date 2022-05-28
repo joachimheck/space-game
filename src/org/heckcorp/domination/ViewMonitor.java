@@ -11,5 +11,5 @@ public interface ViewMonitor {
      *      button == MouseEvent.BUTTON3
      * @pre viewCoordinates is contained within the map.
      */
-    public void hexClicked(Point viewCoordinates, int button);
+    void hexClicked(Point viewCoordinates, int button);
 }

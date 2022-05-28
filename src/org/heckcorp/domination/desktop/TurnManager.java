@@ -126,7 +126,7 @@ public class TurnManager implements Runnable, Serializable {
         
         player.finishTurn();
 
-        Set<Unit> toDestroy = new HashSet<Unit>();
+        Set<Unit> toDestroy = new HashSet<>();
         for (Unit unit : player.getUnits()) {
             // Reset each unit.
             unit.reset();
@@ -147,9 +147,6 @@ public class TurnManager implements Runnable, Serializable {
     /**
      * Return a unit that is ready for action and has no movement
      * orders.  If another unit is available, avoidUnit is not returned.
-     * @param player
-     * @param avoidUnit
-     * @return
      */
     private Unit getReadyUnit(Player player, Unit avoidUnit) {
         Unit readyUnit = avoidUnit;
@@ -162,14 +159,9 @@ public class TurnManager implements Runnable, Serializable {
 
         for (Unit unit : player.getUnits()) {
             if (unit.isReadyForAction() && unit.getPath().size() == 0 &&
-                unit != avoidUnit && !unit.isSkipped())
-            {
+                unit != avoidUnit && !unit.isSkipped()) {
                 readyUnit = unit;
                 break;
-            } else {
-//                log.finest("Unready: " + unit + " ready? " +
-//                           unit.isReadyForAction() + " path size = " +
-//                           unit.getPath().size());
             }
         }
         log.fine("Ready unit is: " + readyUnit);

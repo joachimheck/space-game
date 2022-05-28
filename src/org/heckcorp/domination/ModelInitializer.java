@@ -11,12 +11,8 @@ import java.io.IOException;
 public interface ModelInitializer {
     /**
      * Initializes the specified model.
-     * @param model
-     * @param mainPlayerView
-     * @throws IOException 
-     * @throws ClassNotFoundException 
      * @pre model != null
      * @pre mainPlayerView != null
      */
-    public void initializeModel(GameModel model, GameView mainPlayerView) throws IOException, ClassNotFoundException;
+    void initializeModel(GameModel model, GameView mainPlayerView) throws IOException, ClassNotFoundException;
 }

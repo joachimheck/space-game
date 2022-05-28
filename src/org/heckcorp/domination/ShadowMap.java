@@ -1,7 +1,6 @@
 package org.heckcorp.domination;
 
-import java.awt.Dimension;
-import java.awt.Point;
+import java.awt.*;
 import java.io.Serializable;
 import java.util.BitSet;
 import java.util.Collection;
@@ -39,7 +38,7 @@ public class ShadowMap extends Observable implements Serializable {
         this.height = height;
         explored = new BitSet(width * height);
         visible = new BitSet(width * height);
-        borderPoints = new HashSet<Point>();
+        borderPoints = new HashSet<>();
     }
     
     public ShadowMap(ShadowMap shadowMap) {
@@ -49,11 +48,11 @@ public class ShadowMap extends Observable implements Serializable {
             shadowMap.explored.get(0, shadowMap.explored.length());
         this.visible =
             shadowMap.visible.get(0, shadowMap.visible.length());
+        this.active = shadowMap.active;
         borderPoints = shadowMap.getBorderPoints();
     }
 
     /**
-     * @param positions
      * @pre for each p in positions, 0 <= p.x < width && 0 <= p.y < height
      */
     public void setExplored(Collection<Point> positions) {
@@ -91,7 +90,6 @@ public class ShadowMap extends Observable implements Serializable {
     }
 
     /**
-     * @param positions
      * @pre for each p in positions, 0 <= p.x < width && 0 <= p.y < height
      */
     public void setVisible(Collection<Point> positions) {
@@ -107,24 +105,6 @@ public class ShadowMap extends Observable implements Serializable {
     }
 
     /**
-     * @param positions
-     * @pre for each p in positions, 0 <= p.x < width && 0 <= p.y < height
-     */
-    public void clearVisible(Collection<Point> positions) {
-        for (Point point : positions) {
-            assert 0 <= point.x && point.x < width;
-            assert 0 <= point.y && point.y < height;
-            
-            int index = point.x * width + point.y;
-            visible.clear(index);
-        }
-
-        change();
-    }
-    
-    /**
-     * @param point
-     * @return
      * @pre point != null
      * @pre 0 <= point.x < width && 0 <= point.y < height
      */
@@ -133,9 +113,6 @@ public class ShadowMap extends Observable implements Serializable {
     }
     
     /**
-     * @param x
-     * @param y
-     * @return
      * @pre 0 <= x < width && 0 <= y < height
      */
     public ShadowStatus getStatus(int x, int y) {
@@ -163,47 +140,6 @@ public class ShadowMap extends Observable implements Serializable {
         notifyObservers();
     }
 
-    /**
-     * Returns a collection containing every point for which the status
-     * in this map differs from the status in the specified map.
-     * 
-     * @param shadowMap
-     * @return
-     * 
-     * @pre map != null
-     * @pre map.width == this.width && map.height == this.height
-     * @post result != null
-     */
-    public Collection<Point> diff(ShadowMap shadowMap) {
-        assert shadowMap.width == this.width &&
-            shadowMap.height == this.height;
-        
-        long startTime = System.currentTimeMillis();
-        
-        Collection<Point> points = new HashSet<Point>();
-        
-        if (!this.equals(shadowMap)) {
-            for (int i=0; i<width; i++) {
-                for (int j=0; j<height; j++) {
-                    int index = i*width + j;
-                    
-                    if (explored.get(index) != shadowMap.explored.get(index) ||
-                        visible.get(index) != shadowMap.visible.get(index))
-                    {
-                        points.add(new Point(i, j));
-                    }
-                }
-            }
-        }
-        
-        long endTime = System.currentTimeMillis();
-        System.out.println("ExplorationMap.diff found " + points.size() +
-                           " diffs in " + (endTime - startTime) + " milliseconds.");
-
-        
-        return points;
-    }
-    
     public boolean isExplored(Point p) {
         return getStatus(p.x, p.y).isExplored();
     }
@@ -227,7 +163,6 @@ public class ShadowMap extends Observable implements Serializable {
     /**
      * Returns all hexes that are unexplored but adjacent to an
      * explored hex.
-     * @return
      */
     public Set<Point> getBorderPoints() {
         return borderPoints;

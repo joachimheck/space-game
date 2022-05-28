@@ -11,7 +11,7 @@ public class LogFormatter extends Formatter {
     @Override
     public String format(LogRecord record)
     {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
 
         sb.append(record.getLevel()).append(" ");
         sb.append(record.getMessage());

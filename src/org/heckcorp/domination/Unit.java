@@ -1,5 +1,7 @@
 package org.heckcorp.domination;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,29 +18,12 @@ import java.util.logging.Logger;
  *
  */
 public class Unit extends GamePiece implements Serializable {
-    /**
-     * @author    Joachim Heck
-     */
-    public static class AttackHexFilter extends TerrainHexFilter {
-        @Override
-        public boolean accept(Hex hex) {
-            return super.accept(hex) &&
-                !hex.isEmpty() && hex.getOwner() != unit.getOwner();
-        }
-        
-        public AttackHexFilter(Unit unit) {
-            super(unit.type);
-            this.unit = unit;
-        }
-        
-        private final Unit unit;
-    }
 
     /**
      * @author    Joachim Heck
      */
     public enum Health {
-        DAMAGED, DESTROYED, HEALTHY;
+        DAMAGED, DESTROYED, HEALTHY
     }
 
     /**
@@ -80,7 +65,7 @@ public class Unit extends GamePiece implements Serializable {
     /**
      * @author    Joachim Heck
      */
-    public static enum Type {
+    public enum Type {
         // TODO: load this from a file.
         BOMBER(3, "BOMBER", 5, 1, 1, 8, 6),
         SOLDIER(1, "SOLDIER", 5, 5, 1, 1, 3),
@@ -125,21 +110,6 @@ public class Unit extends GamePiece implements Serializable {
         public final int movement;
 
         public final String name;
-
-        public static Type getType(int id) {
-            Type match = null;
-
-            for (Type type : Type.values()) {
-                if (type.id == id) {
-                    match = type;
-                    break;
-                }
-            }
-
-            assert match != null;
-
-            return match;
-        }
     }
 
     public Unit attack(Hex hex) {
@@ -149,14 +119,13 @@ public class Unit extends GamePiece implements Serializable {
         log.fine("Combat with " + target);
 
         double modifiedAttack =
-            2 * getAttack()/3 +
-            Math.random() * 2 * getAttack()/3;
+            2.0 * getAttack()/3 +
+            Math.random() * 2.0 * getAttack()/3;
         double modifiedDefense =
-            2 * target.getDefense()/3 +
-            Math.random() * 2 * target.getDefense()/3;
+            2.0 * target.getDefense()/3 +
+            Math.random() * 2.0 * target.getDefense()/3;
 
-        log.fine("Attack: " + modifiedAttack +
-                           " -> " + modifiedDefense);
+        log.fine("Attack: " + modifiedAttack + " -> " + modifiedDefense);
 
         Unit loser = target;
 
@@ -178,8 +147,6 @@ public class Unit extends GamePiece implements Serializable {
     /**
      * True if the specified hex is occupied by the enemy and this unit
      * can attack this turn.
-     * @param hex
-     * @return
      */
     public boolean canAttack(Hex hex) {
         return getHex().isAdjacentTo(hex) && canEnterTerrain(hex) &&
@@ -217,7 +184,6 @@ public class Unit extends GamePiece implements Serializable {
     }
 
     /**
-     * @param amount
      * @pre getAttacksLeft() >= amount
      */
     public void decreaseAttacksLeft(int amount) {
@@ -227,7 +193,6 @@ public class Unit extends GamePiece implements Serializable {
     }
 
     /**
-     * @param amount
      * @pre getMovesLeft() >= amount
      */
     public void decreaseMovesLeft(int amount) {
@@ -240,15 +205,13 @@ public class Unit extends GamePiece implements Serializable {
      * This filter returns only those of the specified hexes that contain
      * terrains that this unit can enter.
      * 
-     * @param adjacentHexes
      * @param filter a HexFilter that chooses the acceptable hexes.
-     * 
-     * @return
+     *
      */
     public List<Hex> getAccessibleHexes(List<Hex> adjacentHexes,
                                         HexFilter filter)
     {
-        List<Hex> accessible = new ArrayList<Hex>();
+        List<Hex> accessible = new ArrayList<>();
 
         for (Hex hex : adjacentHexes) {
             if (filter.accept(hex)) {
@@ -268,10 +231,6 @@ public class Unit extends GamePiece implements Serializable {
         }
 
         return type.attack;
-    }
-
-    public AttackHexFilter getAttackHexFilter() {
-        return new AttackHexFilter(this);
     }
 
     /**
@@ -303,7 +262,6 @@ public class Unit extends GamePiece implements Serializable {
      * Returns the amount of fuel this unit has remaining.  Each unit of
      *   fuel allows one attack or one hex of movement.  Only aircraft
      *   have fuel limitations.
-     * @return
      * @post result > 0 || (type == Unit.Type.BOMBER && result == 0)
      */
     public int getFuelLeft() {
@@ -347,10 +305,6 @@ public class Unit extends GamePiece implements Serializable {
         return movesLeft;
     }
 
-    public int getMovesMade() {
-        return getMovement() - getMovesLeft();
-    }
-
     /**
      * Returns the direction in which this unit will attempt to move
      * on its next movement.
@@ -363,9 +317,8 @@ public class Unit extends GamePiece implements Serializable {
 
     /**
      * Returns the list of hexes this unit plans to visit.
-     * @return
-     * @result never null
      */
+    @NotNull
     public List<Hex> getPath() {
         return path;
     }
@@ -373,7 +326,6 @@ public class Unit extends GamePiece implements Serializable {
     /**
      * Returns the furthest distance this unit can move and return
      * from this turn.
-     * @return
      */
     public int getRange() {
         int range = movesLeft;
@@ -410,7 +362,6 @@ public class Unit extends GamePiece implements Serializable {
     /**
      * True if this unit can make it to the specified hex
      * and back without running out of fuel.
-     * @return
      */
     public boolean isHexInRange(Hex hex) {
         boolean inRange = true;
@@ -430,9 +381,7 @@ public class Unit extends GamePiece implements Serializable {
     /**
      * Returns true if the unit has enough fuel to travel
      * the specified number of hexes.
-     * 
-     * @param distance
-     * @return
+     *
      */
     public boolean isInRange(int distance) {
         boolean isInRange = true;
@@ -442,16 +391,6 @@ public class Unit extends GamePiece implements Serializable {
         }
         
         return isInRange;
-    }
-
-    public boolean isLowOnFuel() {
-        boolean lowFuel = false;
-        
-        if (type == Type.BOMBER) {
-            return getFuelLeft() <= getMovesMade();
-        }
-        
-        return lowFuel;
     }
 
     public boolean isOutOfFuel() {
@@ -466,7 +405,6 @@ public class Unit extends GamePiece implements Serializable {
     /**
      * Returns true if the unit can remain in its current hex
      * until next turn.
-     * @return
      */
     public boolean isSafe() {
         return type != Type.BOMBER || hex.getCity() != null;
@@ -548,7 +486,7 @@ public class Unit extends GamePiece implements Serializable {
         lastHex = hex;
     }
     /**
-     * @param movesLeft  the movesLeft to set
+     * @param movementLeft the movesLeft to set
      * @uml.property  name="movesLeft"
      */
     public void setMovesLeft(int movementLeft) {
@@ -580,7 +518,7 @@ public class Unit extends GamePiece implements Serializable {
         setOwner(player);
         this.type = type;
 
-        this.path = new ArrayList<Hex>();
+        this.path = new ArrayList<>();
 
         movesLeft = type.movement;
         attacksLeft = type.attacks;
@@ -618,7 +556,7 @@ public class Unit extends GamePiece implements Serializable {
         return terrainHexFilters.get(type);
     }
 
-    private static Logger log = Logger.getLogger(Unit.class.getName());
+    private static final Logger log = Logger.getLogger(Unit.class.getName());
 
     private static final long serialVersionUID = 1L;
 
@@ -626,6 +564,5 @@ public class Unit extends GamePiece implements Serializable {
      * @uml.property   name="terrainHexFilters"
      * @uml.associationEnd   qualifier="key:java.lang.Object org.heckcorp.domination.HexFilter"
      */
-    private static Map<Type, HexFilter> terrainHexFilters =
-        new HashMap<Type, HexFilter>();
+    private static final Map<Type, HexFilter> terrainHexFilters = new HashMap<>();
 }

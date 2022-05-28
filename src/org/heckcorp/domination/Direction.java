@@ -11,7 +11,7 @@ public enum Direction {
     SOUTHWEST(4, "Southwest"),
     NORTHWEST(5, "Northwest");
     
-    private Direction(int value, String name) {
+    Direction(int value, String name) {
         this.value = value;
         this.name = name;
     }

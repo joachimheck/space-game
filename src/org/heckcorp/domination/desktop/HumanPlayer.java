@@ -1,21 +1,17 @@
 package org.heckcorp.domination.desktop;
 
-import java.awt.Color;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
-
 import org.heckcorp.domination.GameView;
 import org.heckcorp.domination.Player;
 import org.heckcorp.domination.ShadowMap;
 import org.heckcorp.domination.Unit;
 
+import java.awt.*;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
 public class HumanPlayer extends Player {
     /**
-     * @param name
-     * @param color
-     * @param shadowMap
-     * @param view
      */
     public HumanPlayer(String name, Color color,
                        ShadowMap shadowMap, GameView view)
@@ -36,7 +32,7 @@ public class HumanPlayer extends Player {
         
         while (getReadyUnit() == null && !turnOver) {
             try {
-                assert moving == false;
+                assert !moving;
                 lock.lock();
                 unitReady.await();
             } finally {
@@ -52,7 +48,7 @@ public class HumanPlayer extends Player {
                 lock.lock();
                 // The user moves units here while we wait.
                 notMoving.await();
-                assert moving == false;
+                assert !moving;
             } finally {
                 lock.unlock();
             }
@@ -113,8 +109,6 @@ public class HumanPlayer extends Player {
                 lock.unlock();
             }
         }
-
-        assert !finishingTurn || turnOver;
     }
 
     public void turnFinished() {
@@ -127,23 +121,4 @@ public class HumanPlayer extends Player {
             lock.unlock();
         }
     }
-    
-    /**
-     * Stops a thread waiting for the player to move, if there is
-     * one, and ends the turn.
-     *
-     */
-    public void interrupt() {
-        log.fine("Interrupting human player.");
-        
-        try {
-            lock.lock();
-            turnOver = true;
-            unitReady.signal();
-            notMoving.signal();
-        } finally {
-            lock.unlock();
-        }
-    }
-    
 }

@@ -1,11 +1,10 @@
 package org.heckcorp.domination;
 
-import java.awt.Point;
+import java.awt.*;
 
 public interface Positionable {
     /**
      * Returns this Positionable's position.
-     * @return
      */
-    public Point getPosition();
+    Point getPosition();
 }

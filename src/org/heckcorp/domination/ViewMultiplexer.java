@@ -65,9 +65,6 @@ public class ViewMultiplexer implements GameView {
     }
 
     public void setShadowMap(ShadowMap shadowMap) {
-//            for (GameView view : gameViews) {
-//                view.setShadowMap(shadowMap);
-//            }
     }
 
     public void setStatus(Unit unit, Status status) {
