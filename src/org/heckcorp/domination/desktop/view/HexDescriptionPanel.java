@@ -1,24 +1,15 @@
 package org.heckcorp.domination.desktop.view;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.util.Comparator;
-import java.util.TreeSet;
-
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
-
 import org.heckcorp.domination.City;
 import org.heckcorp.domination.Hex;
 import org.heckcorp.domination.Player;
 import org.heckcorp.domination.ShadowStatus;
 import org.heckcorp.domination.Unit;
 
-@SuppressWarnings("serial")
+import javax.swing.*;
+import java.awt.*;
+import java.util.TreeSet;
+
 public class HexDescriptionPanel extends JPanel
 {
 
@@ -72,19 +63,19 @@ public class HexDescriptionPanel extends JPanel
      * @uml.property name="locationLabel"
      * @uml.associationEnd multiplicity="(1 1)"
      */
-    private JLabel locationLabel = new JLabel();
+    private final JLabel locationLabel = new JLabel();
 
     /**
      * @uml.property name="ownerLabel"
      * @uml.associationEnd multiplicity="(1 1)"
      */
-    private JLabel ownerLabel = new JLabel();
+    private final JLabel ownerLabel = new JLabel();
 
     /**
      * @uml.property name="productionLabel"
      * @uml.associationEnd multiplicity="(1 1)"
      */
-    private JLabel productionLabel = new JLabel();
+    private final JLabel productionLabel = new JLabel();
 
     /**
      * @uml.property name="uiManager"
@@ -151,19 +142,11 @@ public class HexDescriptionPanel extends JPanel
                                             + city.getProductionType().cost);
                 }
 
-                TreeSet<Unit> sortedUnits = new TreeSet<Unit>(
-                                                              new Comparator<Unit>() {
-                                                                  public int compare(
-                                                                                     Unit o1,
-                                                                                     Unit o2)
-                                                                  {
-                                                                      int idDiff = o2.getType().ordinal()
-                                                                                   - o1.getType().ordinal();
-                                                                      return idDiff == 0 ? o2.hashCode()
-                                                                                           - o1.hashCode()
-                                                                                        : idDiff;
-                                                                  }
-                                                              });
+                TreeSet<Unit> sortedUnits = new TreeSet<>(
+                        (o1, o2) -> {
+                            int idDiff = o2.getType().ordinal() - o1.getType().ordinal();
+                            return idDiff == 0 ? o2.hashCode() - o1.hashCode() : idDiff;
+                        });
 
                 sortedUnits.addAll(hex.getUnits());
 
@@ -180,10 +163,7 @@ public class HexDescriptionPanel extends JPanel
             unitsBox.removeAll();
         }
 
-        StringBuffer locationText = new StringBuffer(hexType);
-        locationText.append(" ").append(hex.getPosition().x);
-        locationText.append(",").append(hex.getPosition().y);
-        locationLabel.setText(locationText.toString());
+        locationLabel.setText(hexType + " " + hex.getPosition().x + "," + hex.getPosition().y);
 
         // Make sure Swing knows about the new components, and draws them.
         revalidate();

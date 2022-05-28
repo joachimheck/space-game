@@ -1,26 +1,10 @@
-/*******************************************************************************
- * Copyright (c) 2005, 2006 IBM Corporation and others.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *     IBM Corporation - initial API and implementation
- *******************************************************************************/
 package org.heckcorp.domination.desktop.view;
-
-
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.util.Observer;
-import javax.swing.ImageIcon;
-import javax.swing.Timer;
 
 import org.heckcorp.domination.desktop.view.ObservableState.State;
 
-@SuppressWarnings("serial")
+import javax.swing.*;
+import java.awt.image.BufferedImage;
+
 public class AnimatedImageIcon extends ImageIcon {
     /**
      * @uml.property  name="images" multiplicity="(0 -1)" dimension="1"
@@ -45,11 +29,7 @@ public class AnimatedImageIcon extends ImageIcon {
 
         this.images = images;
         this.state = state;
-        timer = new Timer(1000, new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                step();
-            }
-        });
+        timer = new Timer(1000, e -> step());
         timer.setInitialDelay(0);
     }
     
@@ -97,20 +77,12 @@ public class AnimatedImageIcon extends ImageIcon {
         state.notifyObservers(State.ANIMATING);
     }
 
-    /**
-     * @return  the currentFrame
-     * @uml.property  name="currentFrame"
-     */
-    public int getCurrentFrame() {
-        return currentFrame;
-    }
-    
     public int getFrameCount() {
         return images.length;
     }
 
     /**
-     * @param currentFrame  the currentFrame to set
+     * @param frame  the currentFrame to set
      * @uml.property  name="currentFrame"
      */
     public void setCurrentFrame(int frame) {
@@ -123,8 +95,4 @@ public class AnimatedImageIcon extends ImageIcon {
      * @uml.associationEnd  multiplicity="(1 1)"
      */
     private final ObservableState state;
-
-    public void addObserver(Observer observer) {
-        state.addObserver(observer);
-    }
 }

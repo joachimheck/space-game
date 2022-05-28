@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executor;
 
+// TODO: simplify this - I don't think it needs to keep running when there are no tasks.
 public final class SequentialExecutor implements Executor, Runnable {
     public synchronized void execute(Runnable task) {
         tasks.add(tasks.size(), task);
@@ -34,7 +35,7 @@ public final class SequentialExecutor implements Executor, Runnable {
             
         } while (run);
     }
-    
+
     /**
      * Instructs the executor to terminate after its current task completes.
      *
@@ -43,7 +44,7 @@ public final class SequentialExecutor implements Executor, Runnable {
         run = false;
         notify();
     }
-    
+
     private SequentialExecutor() {
     }
     
@@ -55,7 +56,7 @@ public final class SequentialExecutor implements Executor, Runnable {
         
         return executor;
     }
-    
+
     /**
      * @uml.property  name="run"
      */

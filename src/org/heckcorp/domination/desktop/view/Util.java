@@ -1,16 +1,7 @@
-/*******************************************************************************
- * Copyright (c) 2005, 2006 IBM Corporation and others.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *     IBM Corporation - initial API and implementation
- *******************************************************************************/
 package org.heckcorp.domination.desktop.view;
 
-import java.awt.Graphics;
+import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
@@ -18,15 +9,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
-import javax.imageio.ImageIO;
-
 public class Util {
     
     /**
-     * @param filename
-     * @return
-     * @throws IOException 
-     * 
      * @pre filename != null
      */
     public static BufferedImage getImage(String filename) throws IOException
@@ -36,11 +21,6 @@ public class Util {
 
     /**
      * @param filename the relative path to the image file.
-     * @param cols
-     * @param rows
-     * @return
-     * @throws IOException 
-     * 
      * @pre filename != null
      * @pre cols > 0 && rows > 0
      * @pre the width of the image referenced by filename must be a
@@ -80,7 +60,7 @@ public class Util {
         throws FileNotFoundException
     {
         File resource = new File(filename);
-        InputStream result = null;
+        InputStream result;
         
         if (resource.exists()) {
             System.out.println("Loading resource: " + filename);

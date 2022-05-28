@@ -1,17 +1,5 @@
 package org.heckcorp.domination.desktop.view;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.swing.JPanel;
-
 import org.heckcorp.domination.City;
 import org.heckcorp.domination.Hex;
 import org.heckcorp.domination.HexMap;
@@ -19,7 +7,11 @@ import org.heckcorp.domination.ShadowMap;
 import org.heckcorp.domination.ShadowStatus;
 import org.heckcorp.domination.Unit;
 
-@SuppressWarnings("serial")
+import javax.swing.*;
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
+
 public final class MiniMap extends JPanel implements MapViewListener {
     private final Rectangle viewport = new Rectangle(0, 0);
     private HexMap map;
@@ -47,31 +39,9 @@ public final class MiniMap extends JPanel implements MapViewListener {
         super();
         this.map = map;
     }
-    
-    /**
-     * Sets the viewport's upper left corner to the specified
-     * map coordinates.  If the given coordinates would make
-     * the viewport extend beyond the map, the viewport will be
-     * located at the nearest position inside the map.
-     * 
-     * @param position
-     * @pre position.x >= 0
-     * @pre position.y >= 0
-     * @post getViewportBounds().x + getViewportBounds().width <= map.width
-     * @post getViewportBounds().y + getViewportBounds().height <= map.height
-     */
-    public void setViewportPosition(Point position) {
-        assert position.x >= 0;
-        assert position.y >= 0;
-        assert position.x + viewport.width <= map.width;
-        assert position.y + viewport.height <= map.height;
-        
-        viewport.setLocation(position);
-    }
-    
+
     /**
      * Sets the viewport to the specified rectangle.
-     * @param bounds
      * @pre bounds.x >= 0
      * @pre bounds.y >= 0
      * @pre bounds.width > 0
@@ -89,23 +59,7 @@ public final class MiniMap extends JPanel implements MapViewListener {
         
         viewport.setBounds(bounds);
     }
-    
-    /**
-     * Returns the viewport rectangle.
-     * 
-     * @return the viewport rectangle.
-     * 
-     * @post result.x >= 0
-     * @post result.y >= 0
-     * @post result.width > 0
-     * @post reault.height > 0
-     * @post result.x + result.width <= map.width
-     * @post result.y + result.height <= map.height
-     */
-    public Rectangle getViewportBounds() {
-        return viewport;
-    }
-    
+
     /**
      * Updates the display to reflect the current state of the
      * HexMap and ShadowMap. 
@@ -124,13 +78,11 @@ public final class MiniMap extends JPanel implements MapViewListener {
 
             // The number of pixels across a hex.  Must be divisible by 4!
             int hexSize = 4;
-//          double scaleFactor = (double) (getWidth() / (hexSize * map.width));
-//          g.scale(scaleFactor, scaleFactor);
             g.scale(((double)getWidth())/((double)(hexSize * map.width)),
                     ((double)getHeight())/((double)(hexSize * map.height)));
 
-            List<Unit> units = new ArrayList<Unit>();
-            List<City> cities = new ArrayList<City>();
+            List<Unit> units = new ArrayList<>();
+            List<City> cities = new ArrayList<>();
             for (int x=0; x<map.width; x++) {
                 for (int y=0; y<map.height; y++) {
                     Color hexColor = Color.black;
@@ -193,9 +145,6 @@ public final class MiniMap extends JPanel implements MapViewListener {
             int evenRow = (viewport.x % 2 == 0) ? hexSize/2 : 0;
             g.drawRect(hexSize*viewport.x, hexSize*viewport.y + evenRow,
                        hexSize*viewport.width, hexSize*viewport.height);
-
-            // TODO: necessary?
-//            repaint();
         }
 
         long time = System.currentTimeMillis() - start;

@@ -1,25 +1,14 @@
 package org.heckcorp.domination.desktop.view;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Point;
-import java.awt.Rectangle;
-
-import javax.swing.BorderFactory;
-import javax.swing.JPanel;
-
-import org.heckcorp.domination.Direction;
 import org.heckcorp.domination.Hex;
 import org.heckcorp.domination.HexMap;
 import org.heckcorp.domination.ShadowMap;
 import org.heckcorp.domination.ShadowStatus;
 
-@SuppressWarnings("serial")
-public class MapPane extends JPanel {
-    private ShadowMap shadowMap;
+import javax.swing.*;
+import java.awt.*;
 
+public class MapPane extends JPanel {
     public MapPane() {
         this.resources = UIResources.getInstance();
         this.viewport = new Rectangle(0, 0, 0, 0);
@@ -32,8 +21,6 @@ public class MapPane extends JPanel {
     }
 
     /**
-     * @param map
-     * @param shadowMap
      * @pre map != null
      * @pre shadowMap != null
      */
@@ -47,10 +34,8 @@ public class MapPane extends JPanel {
         setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, Color.darkGray));
     }
 
-    /**
-     * @uml.property  name="oldBounds"
-     */
-    private Rectangle oldBounds = new Rectangle();
+    private final Rectangle oldBounds = new Rectangle();
+
     @Override
     public void setBounds(int x, int y, int width, int height) {
         Dimension viewportSize = getViewportSize(map, new Dimension(width, height));
@@ -94,9 +79,6 @@ public class MapPane extends JPanel {
             if (isInViewport(guess)) {
                 Point guessCenter = getViewportHexCenter(guess);
                 double distance = screenPoint.distance(guessCenter);
-//              SwingView.getInstance().message("Guess = " + guess +
-//              " center = " + guessCenter +
-//              " dist = " + distance);
                 if (distance < minDistance) {
                     minDistance = distance;
                     closest = guess;
@@ -116,8 +98,6 @@ public class MapPane extends JPanel {
     /**
      * Returns the pixel coordinates of the center of the hex
      * with the specified map coordinates.
-     * @param mapPos
-     * @return
      */
     public Point getHexCenter(Point pos) {
         Point viewPos = toViewportCoordinates(pos);
@@ -150,9 +130,7 @@ public class MapPane extends JPanel {
 
     /**
      * Returns the viewport size, in hexes.
-     * @param map
      * @param size the size of the viewport component, in pixels.
-     * @return
      * @pre map != null
      * @pre size != null
      */
@@ -167,18 +145,15 @@ public class MapPane extends JPanel {
     /**
      * Returns three sets of viewport coordinates, one of which
      * corresponds to the clicked-on hex.
-     * @param screenPoint
-     * @param viewport
-     * @return
      */
     public Point[] guessHex(Point screenPoint, Rectangle viewport) {
-        int columnGuess = (int) (screenPoint.x - getInsets().left) / tileWidth;
+        int columnGuess = (screenPoint.x - getInsets().left) / tileWidth;
         int rowShift = 0;
         if ((columnGuess + viewport.x) % 2 == 0) {
             rowShift = 1;
         }
         int rowGuess =
-            (int) ((screenPoint.y - getInsets().top) - (rowShift * tileHeight / 2)) /
+            ((screenPoint.y - getInsets().top) - (rowShift * tileHeight / 2)) /
             tileHeight;
 
         Point[] guesses = new Point[3];
@@ -205,9 +180,7 @@ public class MapPane extends JPanel {
 
     private final Rectangle viewport;
 
-    /**
-     * @Override
-     */
+    @Override
     public void paintComponent(Graphics gIn) {
         if (map != null) {
             Point hexPosition = new Point(-1, -1);
@@ -226,18 +199,12 @@ public class MapPane extends JPanel {
                     drawHex(map.getHex(hexPosition), screenPosition, g);
                 }
             }
-
-
-//          long endTime = System.currentTimeMillis();
-//          System.out.println("Painted " + width*height + " hexes in " +
-//          (endTime - startTime) + " milliseconds.");
         } else {
             super.paintComponent(gIn);
         }
     }
 
     /**
-     * @param position
      * @pre position != null
      * @pre the viewport fits entirely inside the map.
      */
@@ -282,14 +249,10 @@ public class MapPane extends JPanel {
 
         g.drawString(hex.getPosition().x + "," + hex.getPosition().y,
                      pixelPos.x + 16, pixelPos.y + 16);
-
-        // TODO: remove!
-        g.drawString("E" + hex.elevation, pixelPos.x + 16, pixelPos.y + 32);
     }
 
     /**
      * 
-     * @param mapPos
      * @return true if the hex with the specified coordinates is visible
      *   in this viewport.
      */
@@ -312,7 +275,6 @@ public class MapPane extends JPanel {
      * of the center of the hex at the specified viewport coordinates.
      * 
      * @param viewPos the viewport coordinates of the hex.
-     * @return
      * @pre isInViewport(pos)
      */
     public Point getViewportHexCenter(Point viewPos) {
@@ -322,7 +284,6 @@ public class MapPane extends JPanel {
     }
 
     /**
-     * @param screenPoint
      */
     public void drawHexCenters(Point screenPoint) {
         Graphics g = getGraphics();
@@ -340,17 +301,12 @@ public class MapPane extends JPanel {
                 closest = guess;
             }
 
-//            SwingView.getInstance().message("Guess = " + guess +
-//                                            " center = " + guessCenter +
-//                                            " dist = " + distance);
-
             g.setColor(Color.red);
             g.fillArc(guessCenter.x-radius, guessCenter.y-radius,
                       2*radius, 2*radius, 0, 360);
             g.drawLine(guessCenter.x, guessCenter.y, screenPoint.x, screenPoint.y);
         }
 
-//        SwingView.getInstance().message("Closest = " + closest);
         g.setColor(Color.green);
         g.fillArc(getViewportHexCenter(closest).x-radius, getViewportHexCenter(closest).y-radius,
                   2*radius, 2*radius, 0, 360);
@@ -360,8 +316,6 @@ public class MapPane extends JPanel {
     /**
      * Converts map coordinates to viewport coordinates.  This method
      * may return values that are outside the viewport bounds.
-     * @param pos
-     * @return
      * @pre pos != null
      */
     private Point toViewportCoordinates(Point pos) {
@@ -370,8 +324,6 @@ public class MapPane extends JPanel {
 
     /**
      * Converts viewport coordinates to map coordinates.
-     * @param pos
-     * @return
      * @pre pos != null
      * @post isInViewport(result)
      */
@@ -383,35 +335,5 @@ public class MapPane extends JPanel {
         return viewport;
     }
 
-    /**
-     * Returns the pixel coordinates of the point one hex removed from the
-     * specified location, in the specified direction.
-     * 
-     * @param location
-     * @param direction
-     * @return
-     */
-    public Point getAdjacentHexPosition(Point location, Direction direction) {
-        Point result = new Point(location);
-        
-        if (direction == Direction.NORTH) {
-            result.translate(0, -tileHeight);
-        } else if (direction == Direction.NORTHEAST) {
-            result.translate(tileWidth, -tileHeight/2);
-        } else if (direction == Direction.SOUTHEAST) {
-            result.translate(tileWidth, tileHeight/2);
-        } else if (direction == Direction.SOUTH) {
-            result.translate(0, tileHeight);
-        } else if (direction == Direction.SOUTHWEST) {
-            result.translate(-tileWidth, tileHeight/2);
-        } else if (direction == Direction.NORTHWEST) {
-            result.translate(-tileWidth, -tileHeight/2);
-        } else {
-            assert false;
-        }
-            
-        return result;
-    }
-
-
+    private ShadowMap shadowMap;
 }

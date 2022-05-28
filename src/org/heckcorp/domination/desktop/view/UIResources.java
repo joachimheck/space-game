@@ -1,21 +1,18 @@
 package org.heckcorp.domination.desktop.view;
 
 
-import java.awt.Point;
+import org.heckcorp.domination.City;
+import org.heckcorp.domination.GamePiece;
+import org.heckcorp.domination.Unit;
+
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.heckcorp.domination.City;
-import org.heckcorp.domination.GamePiece;
-import org.heckcorp.domination.Unit;
-
 public class UIResources {
     /**
-     * 
-     * @throws IOException
-     * 
      * @post tilePix != null && tilePix.length > 0
      * @post unitPixByType != null && unitPixByType.size() > 0
      * @post unitBorderPix != null && unitBorderPix.length > 0
@@ -33,7 +30,7 @@ public class UIResources {
         darkFog = Util.getImage("resource/hex-fog-dark.png");
 
         // Unit images.
-        unitPixByType = new HashMap<Unit.Type, BufferedImage[]>();
+        unitPixByType = new HashMap<>();
         unitPixByType.put(Unit.Type.SOLDIER,
                           Util.getImages("resource/soldier.png", 4, 1));
         unitPixByType.put(Unit.Type.TANK,
@@ -101,7 +98,6 @@ public class UIResources {
     }
 
     /**
-     * @return
      * @pre initializeResources() must be called first.
      * @post result != null
      */
@@ -114,8 +110,6 @@ public class UIResources {
     /**
      * Returns an array of images representing the specified
      * game piece.
-     * @param piece
-     * @return
      * @pre piece != null
      * @post result != null
      */
