@@ -5,7 +5,6 @@ import org.heckcorp.domination.Player;
 import org.heckcorp.domination.Unit;
 
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
@@ -118,21 +117,9 @@ public class TurnManager implements Runnable, Serializable {
 
         player.finishTurn();
 
-        Set<Unit> toDestroy = new HashSet<>();
         for (Unit unit : player.getUnits()) {
             // Reset each unit.
             unit.reset();
-
-            // Make sure planes are in cities.
-            if (unit.getType() == Unit.Type.BOMBER &&
-                    unit.getHex().getCity() == null)
-            {
-                toDestroy.add(unit);
-            }
-        }
-
-        for (Unit unit : toDestroy) {
-            model.destroyUnit(unit);
         }
     }
 

@@ -4,8 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3bc8c235-c2bd-4343-a6d7-4a6d6d4b49b0" name="Changes" comment="Removed Terrain.">
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/domination/desktop/ComputerPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/domination/desktop/ComputerPlayer.java" afterDir="false" />
+    <list default="true" id="3bc8c235-c2bd-4343-a6d7-4a6d6d4b49b0" name="Changes" comment="Removed Some unused junk from ComputerPlayer.">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/domination/desktop/TurnManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/domination/desktop/TurnManager.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -192,7 +193,14 @@
       <option name="project" value="LOCAL" />
       <updated>1653747451925</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="Removed Some unused junk from ComputerPlayer.">
+      <created>1653747603101</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1653747603101</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -226,7 +234,8 @@
     <MESSAGE value="Removed ShadowMap and ShadowStatus. They won't be neede in a space game, at least not at first." />
     <MESSAGE value="Removed City." />
     <MESSAGE value="Removed Terrain." />
-    <option name="LAST_COMMIT_MESSAGE" value="Removed Terrain." />
+    <MESSAGE value="Removed Some unused junk from ComputerPlayer." />
+    <option name="LAST_COMMIT_MESSAGE" value="Removed Some unused junk from ComputerPlayer." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
