@@ -1,35 +1,17 @@
 package org.heckcorp.domination.desktop.view;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Graphics;
-import java.awt.Point;
-import java.awt.Polygon;
-import java.awt.Rectangle;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import org.heckcorp.domination.HexMap;
+import org.heckcorp.domination.ShadowMap;
+import org.heckcorp.domination.ViewMonitor;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
-
-import javax.swing.JLayeredPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollBar;
-import javax.swing.SwingUtilities;
-import javax.swing.Timer;
-
-import org.heckcorp.domination.Hex;
-import org.heckcorp.domination.HexMap;
-import org.heckcorp.domination.ShadowMap;
-import org.heckcorp.domination.ViewMonitor;
 
 /**
  * A MapView wraps around a MapPane and adds scrolling and
@@ -37,7 +19,6 @@ import org.heckcorp.domination.ViewMonitor;
  * 
  * @author Joachim Heck
  */
-@SuppressWarnings("serial")
 public class MapView extends JPanel implements AdjustmentListener
 {
     public void adjustmentValueChanged(AdjustmentEvent e) {
@@ -67,7 +48,6 @@ public class MapView extends JPanel implements AdjustmentListener
      * Displays the hexes whose map coordinates are inside the specified
      * rectangle on the screen, if possible, and attempts to center the
      * rectangle.
-     * @param rect
      */
     public void centerRectangle(Rectangle rect) {
         Rectangle newRect = new Rectangle(rect);
@@ -91,112 +71,6 @@ public class MapView extends JPanel implements AdjustmentListener
     public MapPane getMapPane() {
         return mapPane;
     }
-    
-    /**
-     * @param position
-     * @return
-     * 
-     * @pre position != null
-     * @pre position is a point in this pane's map.
-     */
-    public Counter activateHexSelector(Point position) {
-        assert map.isInMap(position);
-    
-        if (hexSelectorPool.isEmpty()) {
-            UIResources resources = UIResources.getInstance();
-            Counter counter = new Counter(resources.selectedHexPix, null,
-                                          new Point(0, 0), null);
-            counter.setVisible(false);
-            counter.setAnimated(true);
-            counter.setLoop(true);
-            counter.setAnimationTime(300);
-            hexSelectorPool.add(counter);
-            layeredPane.add(counter, TOP_SPRITE_LAYER);
-        }
-    
-        Counter counter = hexSelectorPool.get(0);
-        counter.setCenterLocation(position);
-        counter.setVisible(true);
-    
-        hexSelectorsInUse.put(position, counter);
-        return hexSelectorPool.remove(0);
-    }
-
-    /**
-     * This debugging method displays which pixels are considered
-     * to be inside a hex and which are outside.
-     * @param clickedHex
-     * @param gameManager
-     */
-    public void drawClickPoints(final Hex clickedHex) {
-    //        final int extraY = mapView.getLocationOnScreen().y;
-            new Runnable() {
-                UIResources resources = UIResources.getInstance();
-                Point hexPos = clickedHex.getPosition();
-                final Point hexCenter = mapPane.getHexCenter(hexPos);
-                final Point startPoint =
-                    new Point(hexCenter.x - resources.tilePix[0].getWidth()/2,
-                              hexCenter.y - resources.tilePix[0].getHeight()/2);
-                final Point endPoint =
-                    new Point(hexCenter.x + resources.tilePix[0].getWidth()/2,
-                              hexCenter.y + resources.tilePix[0].getHeight()/2);
-                int hexCornerX = startPoint.x;
-                int hexCornerY = startPoint.y;
-                int tileWidth = resources.tilePix[0].getWidth();
-                int tileHeight = resources.tilePix[0].getHeight();
-                int[] polygonX = { hexCornerX + tileWidth/4,
-                    hexCornerX + 3*tileWidth/4, hexCornerX + tileWidth,
-                    hexCornerX + 3*tileWidth/4, hexCornerX + tileWidth/4,
-                    hexCornerX
-                };
-                int[] polygonY = { hexCornerY, hexCornerY,
-                    hexCornerY + tileHeight/2, hexCornerY + tileHeight, 
-                    hexCornerY + tileHeight, hexCornerY + tileHeight/2
-                };
-                
-                Polygon hex = new Polygon(polygonX, polygonY, 6);
-    
-                Timer t;
-                final Graphics g = getGraphics();
-                public void run() {
-    //                System.out.println("EXTRA Y = " + extraY);
-    //                final Graphics g = getRootPane().getGlassPane().getGraphics();
-                    g.setColor(Color.black);
-                    g.drawRect(startPoint.x, startPoint.y,
-                               endPoint.x-startPoint.x, endPoint.y-startPoint.y);
-                    g.drawPolygon(hex);
-                    System.out.println("Hex clicked: " + hexPos); 
-                    
-                    ActionListener l = new ActionListener() {
-                        private Point point = new Point(startPoint);
-                        
-                        public void actionPerformed(ActionEvent e) {
-                            point.move(point.x + 2, point.y);
-    
-                            Hex pointHex = map.getHex(mapPane.getHexCoordinates(point));
-                            Point phCenter = mapPane.getHexCenter(pointHex.getPosition());
-                            if (phCenter.equals(hexCenter)) {
-                                g.setColor(Color.blue);
-                            } else {
-                                g.setColor(Color.red);
-                            }
-                            g.drawLine(point.x, point.y, phCenter.x, phCenter.y);
-    //                        System.out.println("(" + point + ") -> (" + phCenter + ")");
-    
-                            if (point.y >= endPoint.y) {
-                                t.stop();
-                            } else if (point.x >= endPoint.x-1) {
-                                point.x = startPoint.x;
-                                point.y += 2;
-                            }
-                        }
-                    };
-    
-                    t = new Timer(10, l);
-                    t.start();
-                }
-            }.run();
-        }
 
     public void add(Component component, Integer layer) {
         layeredPane.add(component, layer);
@@ -210,27 +84,6 @@ public class MapView extends JPanel implements AdjustmentListener
         layeredPane.remove(counter);
     }
 
-
-    /**
-     * Shows or removes the hex selection indicator at the specified position.
-     * 
-     * @param hexCenter the coordinates of the center of the hex.
-     * @param show if true, show the selector; otherwise hide it.
-     */
-    public void showHexSelector(Point hexCenter, boolean show) {
-        if (show) {
-            activateHexSelector(hexCenter);
-        } else {
-            returnHexSelector(hexCenter);
-        }
-    }
-
-    public void unselectAllHexes() {
-        Set<Point> hexPositions = new HashSet<Point>(hexSelectorsInUse.keySet());
-        for (Point position : hexPositions) {
-            returnHexSelector(position);
-        }
-    }
 
     /**
      * Adjusts the positions of the map and the game pieces to correspond
@@ -268,13 +121,6 @@ public class MapView extends JPanel implements AdjustmentListener
 
     private final Set<MapViewListener> listeners;
 
-    private void notifyViewportPosition() {
-        Point position = mapPane.getViewport().getLocation();
-        for (MapViewListener listener : listeners) {
-            listener.setViewportPosition(position);
-        }
-    }
-    
     private void notifyViewportBounds() {
         Rectangle bounds = mapPane.getViewport().getBounds();
         for (MapViewListener listener : listeners) {
@@ -282,14 +128,8 @@ public class MapView extends JPanel implements AdjustmentListener
         }
     }
 
-    private void returnHexSelector(Point position) {
-        Counter counter = hexSelectorsInUse.remove(position);
-        counter.setVisible(false);
-        hexSelectorPool.add(counter);
-    }
-
     public MapView() {
-        listeners = new HashSet<MapViewListener>();
+        listeners = new HashSet<>();
         hScrollBar = new JScrollBar(JScrollBar.HORIZONTAL);
         vScrollBar = new JScrollBar(JScrollBar.VERTICAL);
         hScrollBar.addAdjustmentListener(this);
@@ -300,12 +140,12 @@ public class MapView extends JPanel implements AdjustmentListener
 
         // Use a layered pane to display units and special effects over the map.
         layeredPane = new JLayeredPane() {
-            @Override
             /**
              * JLayeredPanes don't use layout managers, so to make the image
              * fill the background, we have to set its bounds when the
              * layered pane's bounds are set.
              */
+            @Override
             public void setBounds(int x, int y, int width, int height) {
                 super.setBounds(x, y, width, height);
 
@@ -367,9 +207,6 @@ public class MapView extends JPanel implements AdjustmentListener
     }
     
     /**
-     * @param map
-     * @param shadowMap
-     * @param viewMonitor
      * @pre map != null
      * @pre shadowMap != null
      * @pre viewMonitor != null
@@ -422,7 +259,7 @@ public class MapView extends JPanel implements AdjustmentListener
      * @uml.property  name="layeredPane"
      * @uml.associationEnd  multiplicity="(1 1)"
      */
-    private JLayeredPane layeredPane;
+    private final JLayeredPane layeredPane;
 
     /**
      * @uml.property  name="map"
@@ -436,21 +273,11 @@ public class MapView extends JPanel implements AdjustmentListener
      */
     private MapPane mapPane = null;
 
-    private List<Counter> hexSelectorPool = new ArrayList<Counter>();
-
-    /**
-     * @uml.property     name="hexSelectorsInUse"
-     * @uml.associationEnd     qualifier="position:java.awt.Point org.heckcorp.domination.desktop.view.Counter"
-     */
-    private Map<Point, Counter> hexSelectorsInUse = new HashMap<Point, Counter>();
-
     public static final Integer MAP_LAYER = JLayeredPane.DEFAULT_LAYER;
 
-    public static final Integer SPRITE_LAYER =
-        new Integer(JLayeredPane.DEFAULT_LAYER + 1);
+    public static final Integer SPRITE_LAYER = JLayeredPane.DEFAULT_LAYER + 1;
 
-    public static final Integer TOP_SPRITE_LAYER =
-        new Integer(JLayeredPane.DEFAULT_LAYER + 2);
+    public static final Integer TOP_SPRITE_LAYER = JLayeredPane.DEFAULT_LAYER + 2;
 
     public boolean isInitialized() {
         return mapPane != null;
