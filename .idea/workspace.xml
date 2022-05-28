@@ -4,17 +4,22 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3bc8c235-c2bd-4343-a6d7-4a6d6d4b49b0" name="Changes" comment="Fixed warnings in SwingView.">
+    <list default="true" id="3bc8c235-c2bd-4343-a6d7-4a6d6d4b49b0" name="Changes" comment="Cleaned up the imports in SwingView and updated the UML diagrams.">
+      <change afterPath="$PROJECT_DIR$/src/org/heckcorp/domination/ViewMultiplexer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/space-game.plantuml" beforeDir="false" afterPath="$PROJECT_DIR$/space-game.plantuml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/domination/desktop/view/SwingView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/domination/desktop/view/SwingView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/domination/desktop/view/view.plantuml" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/domination/desktop/view/view.plantuml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/domination/domination.plantuml" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/domination/domination.plantuml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/domination/DefaultModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/domination/DefaultModel.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -41,6 +46,11 @@
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
     <property name="settings.editor.selected.configurable" value="preferences.sourceCode.Java" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveInnerDialog.RECENTS_KEY">
+      <recent name="org.heckcorp.domination" />
+    </key>
   </component>
   <component name="RunManager">
     <configuration name="Unnamed" type="Application" factoryName="Application" nameIsGenerated="true">
@@ -99,7 +109,14 @@
       <option name="project" value="LOCAL" />
       <updated>1653658986788</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Cleaned up the imports in SwingView and updated the UML diagrams.">
+      <created>1653659702113</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1653659702113</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -122,7 +139,8 @@
     <MESSAGE value="Remove hidden counters. This change removes from Counter all references to classes outside the view sub-package." />
     <MESSAGE value="Remove references to Player from SwingView. Also clean up some warnings and typos." />
     <MESSAGE value="Fixed warnings in SwingView." />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed warnings in SwingView." />
+    <MESSAGE value="Cleaned up the imports in SwingView and updated the UML diagrams." />
+    <option name="LAST_COMMIT_MESSAGE" value="Cleaned up the imports in SwingView and updated the UML diagrams." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
