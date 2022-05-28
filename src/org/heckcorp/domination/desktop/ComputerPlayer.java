@@ -5,15 +5,12 @@ import org.heckcorp.domination.ComputerPlayerView;
 import org.heckcorp.domination.GameModel;
 import org.heckcorp.domination.GameView;
 import org.heckcorp.domination.Hex;
-import org.heckcorp.domination.HexFilter;
 import org.heckcorp.domination.Player;
 import org.heckcorp.domination.Positionable;
 import org.heckcorp.domination.Unit;
 
 import java.awt.*;
-import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class ComputerPlayer extends Player {
@@ -25,30 +22,12 @@ public class ComputerPlayer extends Player {
             getLog().fine("Computer moving unit " + unit +
                      " with " + movesLeft + " moves left.");
 
-            Hex hex = unit.getHex();
-            List<Hex> adjacent = myView.getMap().getHexesInRange(hex, 1);
-            HexFilter moveFilter = unit.getMovementHexFilter();
-            // These hexes can be entered without combat.
-            List<Hex> enterable = unit.getAccessibleHexes(adjacent, moveFilter);
-            boolean canAttack = unit.getAttacksLeft() > 0;
-
+            // Order of precedence:
+            // Attack units, move toward units, sit.
             Hex destination = null;
 
-            // Order of precedence:
-            // Attack cities, attack units, move toward cities, move toward units,
-            // explore, sit.
-
-            // Attack adjacent enemy cities.
-            Hex enemyCityHex = getEnemyCityHex(enterable);
-            if (enemyCityHex != null &&
-                (enemyCityHex.isEmpty() || canAttack))
-            {
-                getLog().finer("Attacking city " + enemyCityHex);
-                destination = enemyCityHex;
-            }
-
             // Attack enemy units.
-            if (destination == null && unit.getAttacksLeft() > 0) {
+            if (unit.getAttacksLeft() > 0) {
                 Unit closestEnemy = getClosest(unit, getEnemiesInRange(unit));
                 
                 if (closestEnemy != null) {
@@ -121,27 +100,6 @@ public class ComputerPlayer extends Player {
         }
         
         return inRange;
-    }
-
-    /**
-     * Returns a Hex containing an enemy city if there is one in the
-     * specified collection of hexes.  An empty city is returned if
-     * one is present.
-     * 
-     * @pre hexes != null
-     */
-    private Hex getEnemyCityHex(Collection<Hex> hexes) {
-        Hex cityHex = null;
-        
-        for (Hex hex : hexes) {
-            if (hex.getOwner() != this) {
-                if (cityHex == null || hex.isEmpty()) {
-                    cityHex = hex;
-                }
-            }
-        }
-        
-        return cityHex;
     }
 
     public ComputerPlayer(String name, Color color, GameModel model, GameView view) {
