@@ -8,8 +8,6 @@ import org.heckcorp.domination.GameView;
 import org.heckcorp.domination.Hex;
 import org.heckcorp.domination.HexMap;
 import org.heckcorp.domination.Positionable;
-import org.heckcorp.domination.ShadowMap;
-import org.heckcorp.domination.ShadowStatus;
 import org.heckcorp.domination.Status;
 import org.heckcorp.domination.Unit;
 import org.heckcorp.domination.ViewMonitor;
@@ -59,19 +57,12 @@ public class SwingView extends JPanel implements GameView
         private Counter createCounter(GamePiece piece) {
             Point position = new Point(0, 0);
 
-            boolean hidden = true;
-
             if (mapView.isInitialized()) {
                 position = mapView.getMapPane().getHexCenter(piece.getPosition());
-                hidden = piece.isHidden(displayManager.getShadowMap());
             }
 
-            Counter counter =
-                    new Counter(UIResources.getInstance().getPictures(piece),
-                            piece.getOwner().getColor(), position, piece.getPosition());
-            counter.setHidden(hidden);
-
-            return counter;
+            return new Counter(UIResources.getInstance().getPictures(piece),
+                    piece.getOwner().getColor(), position, piece.getPosition());
         }
 
         public UIManager() {
@@ -158,9 +149,9 @@ public class SwingView extends JPanel implements GameView
             return miniMap;
         }
 
-        public void initialize(HexMap map, ShadowMap shadowMap, ViewMonitor monitor) {
-            mapView.initialize(map, shadowMap, monitor);
-            miniMap.initialize(map, shadowMap);
+        public void initialize(HexMap map, ViewMonitor monitor) {
+            mapView.initialize(map, monitor);
+            miniMap.initialize(map);
         }
 
         public void clearTextArea() {
@@ -367,7 +358,6 @@ public class SwingView extends JPanel implements GameView
                 Point hexCenter = uiManager.getMapView().getMapPane().
                         getHexCenter(piece.getPosition());
                 counter.setCenterLocation(hexCenter);
-                counter.setHidden(!piece.isHidden(getShadowMap()));
             }
 
             if (selectedCounter != null) {
@@ -390,15 +380,6 @@ public class SwingView extends JPanel implements GameView
 
         private final MapView mapView;
         private final MiniMap miniMap;
-        private ShadowMap shadowMap = null;
-
-        public void setShadowMap(ShadowMap shadowMap) {
-            this.shadowMap = shadowMap;
-        }
-
-        public ShadowMap getShadowMap() {
-            return shadowMap;
-        }
 
         public void pause(final int millis) {
             invokeAndWait(() -> {
@@ -414,36 +395,32 @@ public class SwingView extends JPanel implements GameView
          * @pre first and second are adjacent
          */
         public void displayPositions(Positionable first, Positionable second) {
-            if (shadowMap.isVisible(first.getPosition()) ||
-                    shadowMap.isVisible(second.getPosition()))
-            {
-                // Make sure all the hexes surrounding the start point and all
-                // those surrounding the end point are visible.
-                Set<Hex> adjacent = map.getAdjacentHexes(first);
-                adjacent.addAll(map.getAdjacentHexes(second));
+            // Make sure all the hexes surrounding the start point and all
+            // those surrounding the end point are visible.
+            Set<Hex> adjacent = map.getAdjacentHexes(first);
+            adjacent.addAll(map.getAdjacentHexes(second));
 
-                Point min = new Point(Integer.MAX_VALUE, Integer.MAX_VALUE);
-                Point max = new Point(Integer.MIN_VALUE, Integer.MIN_VALUE);
+            Point min = new Point(Integer.MAX_VALUE, Integer.MAX_VALUE);
+            Point max = new Point(Integer.MIN_VALUE, Integer.MIN_VALUE);
 
-                for (Hex hex : adjacent) {
-                    if (hex.getPosition().x < min.x) {
-                        min.x = hex.getPosition().x;
-                    }
-                    if (hex.getPosition().y < min.y) {
-                        min.y = hex.getPosition().y;
-                    }
-                    if (hex.getPosition().x > max.x) {
-                        max.x = hex.getPosition().x;
-                    }
-                    if (hex.getPosition().y > max.y) {
-                        max.y = hex.getPosition().y;
-                    }
+            for (Hex hex : adjacent) {
+                if (hex.getPosition().x < min.x) {
+                    min.x = hex.getPosition().x;
                 }
-
-                Dimension size = new Dimension(max.x - min.x, max.y - min.y);
-
-                mapView.centerRectangle(new Rectangle(min, size));
+                if (hex.getPosition().y < min.y) {
+                    min.y = hex.getPosition().y;
+                }
+                if (hex.getPosition().x > max.x) {
+                    max.x = hex.getPosition().x;
+                }
+                if (hex.getPosition().y > max.y) {
+                    max.y = hex.getPosition().y;
+                }
             }
+
+            Dimension size = new Dimension(max.x - min.x, max.y - min.y);
+
+            mapView.centerRectangle(new Rectangle(min, size));
 
         }
     }
@@ -525,13 +502,8 @@ public class SwingView extends JPanel implements GameView
         Hex destHex = map.getAdjacentHex(unit.getLastHex(), direction);
         displayManager.hideSelection();
 
-        ShadowMap shadowMap = displayManager.getShadowMap();
-
         Counter counter = dataManager.getCounter(unit);
-        if (shadowMap.isVisible(unit.getLastHex().getPosition())) {
-            displayManager.showCounter(counter);
-            // displayManager.pause();
-        }
+        displayManager.showCounter(counter);
 
         displayManager.displayPositions(unit.getLastHex(), unit.getHex());
         displayManager.moveCounter(counter, unit.getHex());
@@ -545,10 +517,7 @@ public class SwingView extends JPanel implements GameView
             cityCounter.setBorderColor(unit.getOwner().getColor());
         }
 
-        counter.setHidden(unit.isHidden(shadowMap));
-        if (!counter.isHidden()) {
-            uiManager.hexDescriptionPanel.setHex(destHex);
-        }
+        uiManager.hexDescriptionPanel.setHex(destHex);
     }
 
     /**
@@ -558,8 +527,7 @@ public class SwingView extends JPanel implements GameView
      * @pre hex != null
      */
     public void selectHex(Hex hex) {
-        ShadowStatus status = displayManager.getShadowMap().getStatus(hex.getPosition());
-        uiManager.hexDescriptionPanel.setHex(hex, status);
+        uiManager.hexDescriptionPanel.setHex(hex);
     }
 
     /**
@@ -578,22 +546,6 @@ public class SwingView extends JPanel implements GameView
         uiManager.clearTextArea();
         message("Now moving: " + playerName);
         // TODO: redraw current player label.
-    }
-
-    /**
-     * Sets the shadow map to be displayed in this view.
-     * @pre shadowMap != null
-     * @pre setMap() must have already been called.
-     * @pre shadowMap().getSize() == size of this view's current map.
-     * @pre this view's shadow map must not have already been set.
-     */
-    public void setShadowMap(ShadowMap shadowMap) {
-        log.finer("Setting shadow map: " + shadowMap);
-        assert displayManager.getShadowMap() == null;
-
-        uiManager.initialize(map, shadowMap, monitor);
-        displayManager.setShadowMap(shadowMap);
-        displayManager.relocateCounters();
     }
 
     /**

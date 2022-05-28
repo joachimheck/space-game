@@ -2,7 +2,6 @@ package org.heckcorp.domination.desktop;
 
 import org.heckcorp.domination.GameView;
 import org.heckcorp.domination.Player;
-import org.heckcorp.domination.ShadowMap;
 import org.heckcorp.domination.Unit;
 
 import java.awt.*;
@@ -13,10 +12,8 @@ import java.util.concurrent.locks.ReentrantLock;
 public class HumanPlayer extends Player {
     /**
      */
-    public HumanPlayer(String name, Color color,
-                       ShadowMap shadowMap, GameView view)
-    {
-        super(name, color, shadowMap, view);
+    public HumanPlayer(String name, Color color, GameView view) {
+        super(name, color, view);
     }
 
     private static final long serialVersionUID = 1L;

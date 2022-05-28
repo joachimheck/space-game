@@ -9,7 +9,6 @@ import org.heckcorp.domination.Hex;
 import org.heckcorp.domination.HexFilter;
 import org.heckcorp.domination.Player;
 import org.heckcorp.domination.Positionable;
-import org.heckcorp.domination.ShadowMap;
 import org.heckcorp.domination.Unit;
 
 import java.awt.*;
@@ -97,42 +96,6 @@ public class ComputerPlayer extends Player {
                 }
             }
                 
-            // Explore.
-            if (destination == null) {
-                Set<Point> borderPoints = getShadowMap().getBorderPoints();
-                Set<Hex> border = myView.getMap().getHexes(borderPoints);
-                Hex toExplore = getClosest(unit, border);
-                if (toExplore != null) {
-                    Set<Hex> surrounding =
-                        myView.getMap().getAdjacentHexes(toExplore);
-                    Hex closest = getClosest(unit, surrounding);
-
-                    if (closest != null) {
-                        int toHex = Calculator.distance(unit, closest);
-                        int toHome = Calculator.distance(closest, home);
-                        int totalDistance = toHex + toHome;
-                        
-                        if (unit.isInRange(totalDistance)) {
-                            if (closest.isEmpty() ||
-                                closest.getOwner() == unit.getOwner())
-                            {
-                                getLog().finer("Exploring: " + closest);
-                                destination = closest;
-                            } else {
-                                getLog().finer("Can't explore occupied hex " +
-                                          closest);
-                            }
-                        } else if (unit.getHex() != home.getHex()) {
-                            destination = home.getHex();
-                            getLog().finer("Not enough fuel to explore: " +
-                                      "heading home to " + home.getHex());
-                        }
-                    }
-                } else {
-                    getLog().finer("No border hexes to explore!");
-                }
-            }
-
             if (destination == null && !unit.isSafe()) {
                 getLog().finer("Unit can't stay at " + unit.getPosition() +
                           ": trying to make it home to " + home);
@@ -214,10 +177,8 @@ public class ComputerPlayer extends Player {
         return cityHex;
     }
 
-    public ComputerPlayer(String name, Color color,
-                          ShadowMap shadowMap, GameModel model, GameView view)
-    {
-        super(name, color, shadowMap, view);
+    public ComputerPlayer(String name, Color color, GameModel model, GameView view) {
+        super(name, color, view);
         
         assert view instanceof ComputerPlayerView;
         myView = (ComputerPlayerView)view;

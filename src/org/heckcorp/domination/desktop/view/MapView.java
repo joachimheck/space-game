@@ -1,8 +1,8 @@
 package org.heckcorp.domination.desktop.view;
 
 import org.heckcorp.domination.HexMap;
-import org.heckcorp.domination.ShadowMap;
 import org.heckcorp.domination.ViewMonitor;
+import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import java.awt.*;
@@ -208,21 +208,16 @@ public class MapView extends JPanel implements AdjustmentListener
     
     /**
      * @pre map != null
-     * @pre shadowMap != null
      * @pre viewMonitor != null
      */
-    public void initialize(final HexMap map, ShadowMap shadowMap,
-                           final ViewMonitor viewMonitor)
+    public void initialize(@NotNull final HexMap map,
+                           @NotNull final ViewMonitor viewMonitor)
     {
-        assert map != null;
-        assert shadowMap != null;
-        assert viewMonitor != null;
-        
         this.map = map;
 
         // Set up the map view area.
         mapPane = new MapPane();
-        mapPane.initialize(map, shadowMap);
+        mapPane.initialize(map);
         add(mapPane, MAP_LAYER);
 
         mapPane.addMouseListener(new MouseAdapter() {

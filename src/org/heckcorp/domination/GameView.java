@@ -61,14 +61,6 @@ public interface GameView {
     void setMap(HexMap map);
 
     /**
-     * Sets the shadow map to be displayed in this view.
-     * @pre shadowMap != null
-     * @pre setMap() must have already been called.
-     * @pre shadowMap().getSize() == size of this view's current map.
-     */
-    void setShadowMap(ShadowMap shadowMap);
-
-    /**
      * Sets a status attribute of the unit.
      * @pre unit != null
      * @pre unit has been added to this view, and not destroyed.

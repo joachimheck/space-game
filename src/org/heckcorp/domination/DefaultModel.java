@@ -61,17 +61,16 @@ public class DefaultModel implements GameModel, Serializable {
                 
                 String name = (String) in.readObject();
                 Color color = (Color) in.readObject();
-                ShadowMap shadowMap = (ShadowMap) in.readObject();
-                
+
                 Player player = null;
                 
                 if (type == PlayerType.HUMAN) {
-                    player = new HumanPlayer(name, color, shadowMap, mainPlayerView);
+                    player = new HumanPlayer(name, color, mainPlayerView);
                 } else if (type == PlayerType.COMPUTER) {
-                    player = new ComputerPlayer(name, color, shadowMap, model,
+                    player = new ComputerPlayer(name, color, model,
                                                 new ComputerPlayerView());
                 } else if (type == PlayerType.NEUTRAL) {
-                    player = new NeutralPlayer(name, color, shadowMap);
+                    player = new NeutralPlayer(name, color);
                 } else {
                     assert false;
                 }
@@ -122,8 +121,6 @@ public class DefaultModel implements GameModel, Serializable {
         }
 
         Player owner = piece.getOwner();
-        owner.getShadowMap().setExplored(visible);
-        owner.getShadowMap().setVisible(visible);
 
         views.addGamePiece(piece);
     }
@@ -140,7 +137,6 @@ public class DefaultModel implements GameModel, Serializable {
             // We don't get the views until we get the players,
             // so we haven't set the map yet.
             player.getView().setMap(map);
-            player.getView().setShadowMap(player.getShadowMap());
         }
     }
 
@@ -426,12 +422,8 @@ public class DefaultModel implements GameModel, Serializable {
      * Hex hiding is toggled to the state opposite its current state.
      */
     public void toggleHexHiding() {
-        Player player = currentPlayer;
-//        for (Player player : players) {
-            ShadowMap shadowMap = player.getShadowMap();
-            shadowMap.setActive(!shadowMap.isActive());
-//        }
     }
+
     /**
      * Moves on to the next unit.  The selected unit will be selected
      * again after all other units have moved.

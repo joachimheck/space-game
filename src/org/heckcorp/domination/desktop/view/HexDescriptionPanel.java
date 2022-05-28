@@ -3,7 +3,6 @@ package org.heckcorp.domination.desktop.view;
 import org.heckcorp.domination.City;
 import org.heckcorp.domination.Hex;
 import org.heckcorp.domination.Player;
-import org.heckcorp.domination.ShadowStatus;
 import org.heckcorp.domination.Unit;
 
 import javax.swing.*;
@@ -45,11 +44,11 @@ public class HexDescriptionPanel extends JPanel
             JPanel dataPanel = new JPanel();
             dataPanel.setLayout(new BoxLayout(dataPanel, BoxLayout.Y_AXIS));
             dataPanel.add(new JLabel("A: " + unit.getAttack() + "/"
-                                     + unit.getType().attack));
+                    + unit.getType().attack));
             dataPanel.add(new JLabel("D: " + unit.getDefense() + "/"
-                                     + unit.getType().defense));
+                    + unit.getType().defense));
             dataPanel.add(new JLabel("M: " + unit.getMovesLeft() + "/"
-                                     + unit.getMovement()));
+                    + unit.getMovement()));
 
             add(dataPanel);
 
@@ -100,7 +99,7 @@ public class HexDescriptionPanel extends JPanel
         labelBox.add(Box.createHorizontalGlue());
 
         unitsBox = new Box(SwingConstants.VERTICAL);
-        
+
         add(labelBox);
         add(unitsBox);
 
@@ -109,58 +108,48 @@ public class HexDescriptionPanel extends JPanel
     }
 
     public void setHex(Hex hex) {
-        setHex(hex, new ShadowStatus(true, true));
-    }
-
-    public void setHex(Hex hex, ShadowStatus status) {
         unitsBox.removeAll();
 
         City city = hex.getCity();
         String hexType = "Hex";
 
-        if (status.isExplored()) {
-            if (city != null) {
-                hexType = "City";
-            } else if (hex.terrain == Hex.Terrain.LAND
-                       || hex.terrain == Hex.Terrain.WATER) {
-                hexType = hex.terrain.name;
-            } else {
-                assert false : "Unknown terrain type: " + hex.terrain;
-            }
-            Player owner = hex.getOwner();
+        if (city != null) {
+            hexType = "City";
+        } else if (hex.terrain == Hex.Terrain.LAND
+                || hex.terrain == Hex.Terrain.WATER) {
+            hexType = hex.terrain.name;
+        } else {
+            assert false : "Unknown terrain type: " + hex.terrain;
+        }
+        Player owner = hex.getOwner();
 
-            if (owner != null) {
-                ownerLabel.setText(owner.getName());
+        if (owner != null) {
+            ownerLabel.setText(owner.getName());
 
-                if (city == null) {
-                    productionLabel.setVisible(false);
-                } else {
-                    productionLabel.setVisible(true);
-                    productionLabel.setText(city.getProductionType().name
-                                            + ": " + city.getProductionPoints()
-                                            + "/"
-                                            + city.getProductionType().cost);
-                }
-
-                TreeSet<Unit> sortedUnits = new TreeSet<>(
-                        (o1, o2) -> {
-                            int idDiff = o2.getType().ordinal() - o1.getType().ordinal();
-                            return idDiff == 0 ? o2.hashCode() - o1.hashCode() : idDiff;
-                        });
-
-                sortedUnits.addAll(hex.getUnits());
-
-                for (Unit unit : sortedUnits) {
-                    unitsBox.add(new UnitDescriptionPanel(unit));
-                }
-            } else {
-                ownerLabel.setText("unoccupied");
+            if (city == null) {
                 productionLabel.setVisible(false);
+            } else {
+                productionLabel.setVisible(true);
+                productionLabel.setText(city.getProductionType().name
+                        + ": " + city.getProductionPoints()
+                        + "/"
+                        + city.getProductionType().cost);
+            }
+
+            TreeSet<Unit> sortedUnits = new TreeSet<>(
+                    (o1, o2) -> {
+                        int idDiff = o2.getType().ordinal() - o1.getType().ordinal();
+                        return idDiff == 0 ? o2.hashCode() - o1.hashCode() : idDiff;
+                    });
+
+            sortedUnits.addAll(hex.getUnits());
+
+            for (Unit unit : sortedUnits) {
+                unitsBox.add(new UnitDescriptionPanel(unit));
             }
         } else {
-            ownerLabel.setVisible(false);
+            ownerLabel.setText("unoccupied");
             productionLabel.setVisible(false);
-            unitsBox.removeAll();
         }
 
         locationLabel.setText(hexType + " " + hex.getPosition().x + "," + hex.getPosition().y);

@@ -26,11 +26,6 @@ public class City extends GamePiece implements Serializable {
         this.productionPoints += 1;
     }
 
-    @Override
-    public boolean isHidden(ShadowMap shadowMap) {
-        return shadowMap.isActive() && !shadowMap.isExplored(getPosition());
-    }
-
     /**
      * @param productionPoints  the productionPoints to set
      * @uml.property  name="productionPoints"

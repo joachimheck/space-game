@@ -23,8 +23,7 @@ public class NewGameInitializer implements ModelInitializer {
     
     private List<Player> createPlayers(GameModel model, GameView mainPlayerView) {
         List<Player> players = new ArrayList<>();
-        Dimension mapSize = new Dimension(width, height);
-        String[] playerNames = { "Human Player", "Computer Player", "Neutral Player" };
+       String[] playerNames = { "Human Player", "Computer Player", "Neutral Player" };
         PlayerType[] playerTypes =
             { PlayerType.HUMAN, PlayerType.COMPUTER, PlayerType.NEUTRAL };
         Color[] playerColors = { Constants.HUMAN_PLAYER_COLOR,
@@ -34,7 +33,7 @@ public class NewGameInitializer implements ModelInitializer {
         // Create the three players.
         for (int i=0; i<3; i++) {
             players.add(createPlayer(playerNames[i], playerTypes[i],
-                                     playerColors[i], mapSize, model,
+                                     playerColors[i], model,
                                      mainPlayerView));
         }
         
@@ -44,23 +43,19 @@ public class NewGameInitializer implements ModelInitializer {
     /**
      * @param name the name of the player to create.
      * @param type the type of player to create.
-     * @param mapSize the size of the map the player will play in.
      */
     public static Player createPlayer(String name, Player.PlayerType type,
-                                      Color color, Dimension mapSize,
-                                      GameModel model, GameView view)
+                                      Color color, GameModel model, GameView view)
     {
         Player player = null;
-        
-        ShadowMap shadowMap = new ShadowMap(mapSize.width, mapSize.height);
-    
+
         if (type == Player.PlayerType.HUMAN) {
-            player = new HumanPlayer(name, color, shadowMap, view);
+            player = new HumanPlayer(name, color, view);
         } else if (type == Player.PlayerType.COMPUTER) {
-            player = new ComputerPlayer(name, color, shadowMap, model,
+            player = new ComputerPlayer(name, color, model,
                                         new ComputerPlayerView());
         } else if (type == Player.PlayerType.NEUTRAL) {
-            player = new NeutralPlayer(name, color, shadowMap);
+            player = new NeutralPlayer(name, color);
         } else {
             assert false;
         }

@@ -34,8 +34,6 @@ public abstract class GamePiece implements Positionable, Serializable {
         }
     }
 
-    public abstract boolean isHidden(ShadowMap shadowMap);
-    
     /**
      * @param hex  the hex to set
      * @uml.property  name="hex"

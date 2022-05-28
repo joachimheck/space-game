@@ -29,12 +29,10 @@ public abstract class Player implements Serializable {
         return log;
     }
 
-    public Player(String name, Color color,
-                  ShadowMap shadowMap, GameView view)
+    public Player(String name, Color color, GameView view)
     {
         this.name = name;
         this.color = color;
-        this.shadowMap = shadowMap;
         this.view = view;
         // The turn manager steps over a player's units to move them,
         // but a unit can be destroyed, and removed from the set, while
@@ -45,7 +43,7 @@ public abstract class Player implements Serializable {
     
     private final String name;
     private final Color color;
-    private final ShadowMap shadowMap;
+
     /**
      * This should be final, but that breaks serialization.
      */
@@ -58,14 +56,6 @@ public abstract class Player implements Serializable {
      */
     public enum PlayerType {
         HUMAN, COMPUTER, NEUTRAL
-    }
-
-    /**
-     * @return  the shadowMap
-     * @uml.property  name="shadowMap"
-     */
-    public ShadowMap getShadowMap() {
-        return shadowMap;
     }
 
     public Set<Unit> getUnits() {
@@ -128,11 +118,6 @@ public abstract class Player implements Serializable {
                 visible.add(hex.getPosition());
             }
         }
-
-        shadowMap.clearVisible();
-        shadowMap.setExplored(visible);
-        shadowMap.setVisible(visible);
-
     }
 
     public GameView getView() {
@@ -233,8 +218,6 @@ public abstract class Player implements Serializable {
         out.writeInt(getType().ordinal());
         out.writeObject(name);
         out.writeObject(color);
-        out.writeObject(shadowMap);
-
         out.writeObject(cities);
         out.writeObject(units);
     }

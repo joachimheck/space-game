@@ -2,8 +2,7 @@ package org.heckcorp.domination.desktop.view;
 
 import org.heckcorp.domination.Hex;
 import org.heckcorp.domination.HexMap;
-import org.heckcorp.domination.ShadowMap;
-import org.heckcorp.domination.ShadowStatus;
+import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,16 +19,8 @@ public class MapPane extends JPanel {
 
     }
 
-    /**
-     * @pre map != null
-     * @pre shadowMap != null
-     */
-    public void initialize(HexMap map, ShadowMap shadowMap) {
-        assert map != null;
-        assert shadowMap != null;
-
+    public void initialize(@NotNull HexMap map) {
         this.map = map;
-        this.shadowMap = shadowMap;
 
         setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, Color.darkGray));
     }
@@ -229,23 +220,11 @@ public class MapPane extends JPanel {
      * @pre shadow map has been set.
      */
     private void drawHex(Hex hex, Point position, Graphics2D g) {
-        ShadowStatus status = shadowMap.getStatus(hex.getPosition());
-
         Point pixelPos = getHexCorner(position);
 
-        if (status.isVisible()) {
-            // Draw the map tile.
-            g.drawImage(resources.tilePix[hex.terrain.value],
-                        pixelPos.x, pixelPos.y, null);
-            g.setColor(Color.black);
-        } else if (status.isExplored()) {
-            g.drawImage(resources.tilePix[hex.terrain.value], pixelPos.x, pixelPos.y, null);
-            g.drawImage(resources.lightFog, pixelPos.x, pixelPos.y, null);
-            g.setColor(Color.black);
-        } else {
-            g.drawImage(resources.darkFog, pixelPos.x, pixelPos.y, null);
-            g.setColor(Color.white);
-        }
+        g.drawImage(resources.tilePix[hex.terrain.value], pixelPos.x, pixelPos.y, null);
+        g.drawImage(resources.lightFog, pixelPos.x, pixelPos.y, null);
+        g.setColor(Color.black);
 
         g.drawString(hex.getPosition().x + "," + hex.getPosition().y,
                      pixelPos.x + 16, pixelPos.y + 16);
@@ -334,6 +313,4 @@ public class MapPane extends JPanel {
     public Rectangle getViewport() {
         return viewport;
     }
-
-    private ShadowMap shadowMap;
 }

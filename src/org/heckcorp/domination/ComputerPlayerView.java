@@ -20,14 +20,12 @@ public class ComputerPlayerView implements GameView {
     }
     
     public void addGamePiece(GamePiece piece) {
-        if (!piece.isHidden(player.getShadowMap())) {
-            if (piece instanceof City) {
-                knownCities.add((City) piece);
-            }
-            
-            if (piece instanceof Unit && piece.getOwner() != player) {
-                knownEnemies.add((Unit) piece);
-            }
+        if (piece instanceof City) {
+            knownCities.add((City) piece);
+        }
+
+        if (piece instanceof Unit && piece.getOwner() != player) {
+            knownEnemies.add((Unit) piece);
         }
     }
 
@@ -48,9 +46,7 @@ public class ComputerPlayerView implements GameView {
                     }
                 }
             }
-        } else if (unit.isHidden(player.getShadowMap())) {
-            knownEnemies.remove(unit);
-        } else if (!unit.isHidden(player.getShadowMap())) {
+        } else {
             knownEnemies.add(unit);
         }
     }
@@ -69,10 +65,6 @@ public class ComputerPlayerView implements GameView {
 
     public void setMonitor(ViewMonitor monitor) {
         // TODO: implement? Use this to communicate with the player?
-    }
-
-    public void setShadowMap(ShadowMap shadowMap) {
-        // TODO: implement?
     }
 
     public void setStatus(Unit unit, Status status) {

@@ -373,11 +373,6 @@ public class Unit extends GamePiece implements Serializable {
         return inRange;
     }
 
-    @Override
-    public boolean isHidden(ShadowMap shadowMap) {
-        return shadowMap.isActive() && !shadowMap.isVisible(getPosition());
-    }
-    
     /**
      * Returns true if the unit has enough fuel to travel
      * the specified number of hexes.
