@@ -397,10 +397,7 @@ public class MapView extends JPanel implements AdjustmentListener
                 }
 
                 if (e.getButton() == MouseEvent.BUTTON2) {
-                    Point viewPoint =
-                        SwingUtilities.convertPoint(MapView.this, e.getPoint(),
-                                                    mapPane);
-
+                    Point viewPoint = SwingUtilities.convertPoint(MapView.this, e.getPoint(), mapPane);
                     mapPane.drawHexCenters(viewPoint);
                 }
             }

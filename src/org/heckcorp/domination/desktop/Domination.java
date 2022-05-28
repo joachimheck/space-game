@@ -534,10 +534,6 @@ public class Domination extends JPanel implements ViewMonitor {
         }
     }
 
-    public void setViewingPlayerActive(boolean active) {
-        enabled = active;
-    }
-    
     private boolean enabled = false;
     private static Logger log = Logger.getLogger(Domination.class.getName());
 }
