@@ -1,6 +1,5 @@
 package org.heckcorp.domination.desktop.view;
 
-import org.heckcorp.domination.City;
 import org.heckcorp.domination.Constants;
 import org.heckcorp.domination.Direction;
 import org.heckcorp.domination.GamePiece;
@@ -509,14 +508,6 @@ public class SwingView extends JPanel implements GameView
         displayManager.moveCounter(counter, unit.getHex());
         displayManager.updateShadowMap();
         displayManager.setCounterVisibility();
-
-        City city = destHex.getCity();
-        if (city != null) {
-            // Make sure the city has the right player's color.
-            Counter cityCounter = dataManager.getCounter(city);
-            cityCounter.setBorderColor(unit.getOwner().getColor());
-        }
-
         uiManager.hexDescriptionPanel.setHex(destHex);
     }
 

@@ -1,6 +1,5 @@
 package org.heckcorp.domination.desktop.view;
 
-import org.heckcorp.domination.City;
 import org.heckcorp.domination.Hex;
 import org.heckcorp.domination.HexMap;
 import org.heckcorp.domination.Unit;
@@ -79,7 +78,6 @@ public final class MiniMap extends JPanel implements MapViewListener {
                     ((double)getHeight())/((double)(hexSize * map.height)));
 
             List<Unit> units = new ArrayList<>();
-            List<City> cities = new ArrayList<>();
             for (int x=0; x<map.width; x++) {
                 for (int y=0; y<map.height; y++) {
                     Color hexColor = Color.black;
@@ -87,12 +85,6 @@ public final class MiniMap extends JPanel implements MapViewListener {
                     Hex hex = map.getHex(x, y);
 
                     if (hex.getOwner() != null) {
-                        City city = hex.getCity();
-
-                        if (city != null) {
-                            cities.add(city);
-                        }
-
                         if (!hex.getUnits().isEmpty()) {
                             units.add(hex.getUnits().get(0));
                         }
@@ -112,15 +104,7 @@ public final class MiniMap extends JPanel implements MapViewListener {
                 }
             }
 
-            // Now draw the cities and units.
-            for (City city : cities) {
-                g.setColor(city.getOwner().getColor());
-                Point position = city.getHex().getPosition();
-                int evenRow = (position.x % 2 == 0) ? hexSize/2 : 0;
-                g.drawRect(hexSize*position.x, hexSize*position.y + evenRow,
-                        hexSize-1, hexSize-1);
-            }
-
+            // Now draw the units.
             for (Unit unit : units) {
                 g.setColor(unit.getOwner().getColor());
                 Point position = unit.getHex().getPosition();

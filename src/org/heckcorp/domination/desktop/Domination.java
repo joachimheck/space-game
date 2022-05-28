@@ -202,16 +202,6 @@ public class Domination extends JPanel implements ViewMonitor {
         item.addActionListener(getActionMap().get(Constants.ACTION_END_TURN));
         gameMenu.add(item);
 
-        cityMenu = new JMenu("City Production");
-        gameMenu.add(cityMenu);
-
-        // Add an item for each type of unit to the production menu.
-        for (final Unit.Type type : Unit.Type.values()) {
-            item = new JMenuItem(type.name);
-            item.addActionListener(e -> model.setSelectedCityProductionType(type));
-            cityMenu.add(item);
-        }
-
         item = new JMenuItem("Toggle Hex Hiding");
         item.setMnemonic(KeyEvent.VK_H);
         item.addActionListener(getActionMap().get(Constants.ACTION_TOGGLE_HEX_HIDING));
@@ -423,10 +413,6 @@ public class Domination extends JPanel implements ViewMonitor {
             // Button 1 selects.
             executor.execute(() -> {
                 model.selectHex(hexPos);
-
-                // Disable unit production menu
-                // Enable it.
-                cityMenu.setEnabled(model.getSelectedCity() != null);
             });
         } else if (button == MouseEvent.BUTTON2) {
             // Button 2 does nothing.

@@ -1,7 +1,6 @@
 package org.heckcorp.domination.desktop;
 
 import org.heckcorp.domination.Calculator;
-import org.heckcorp.domination.City;
 import org.heckcorp.domination.ComputerPlayerView;
 import org.heckcorp.domination.GameModel;
 import org.heckcorp.domination.GameView;
@@ -32,36 +31,22 @@ public class ComputerPlayer extends Player {
             // These hexes can be entered without combat.
             List<Hex> enterable = unit.getAccessibleHexes(adjacent, moveFilter);
             boolean canAttack = unit.getAttacksLeft() > 0;
-            City home = getClosest(unit, getCities());
-            assert home != null;
-            
+
             Hex destination = null;
 
             // Order of precedence:
             // Attack cities, attack units, move toward cities, move toward units,
             // explore, sit.
 
-            // Return home if fuel is low.
-            if (unit.getFuelLeft() == Calculator.distance(unit, home)) {
-                if (home.getHex() != unit.getHex()) {
-                    destination = home.getHex();
-                    getLog().finer("Fuel low (" + unit.getFuelLeft() +
-                              "/" + unit.getMovement() + "): heading home to " +
-                              home.getHex());
-                }
+            // Attack adjacent enemy cities.
+            Hex enemyCityHex = getEnemyCityHex(enterable);
+            if (enemyCityHex != null &&
+                (enemyCityHex.isEmpty() || canAttack))
+            {
+                getLog().finer("Attacking city " + enemyCityHex);
+                destination = enemyCityHex;
             }
 
-            // Attack adjacent enemy cities.
-            if (destination == null) {
-                Hex enemyCityHex = getEnemyCityHex(enterable);
-                if (enemyCityHex != null &&
-                    (enemyCityHex.isEmpty() || canAttack))
-                {
-                    getLog().finer("Attacking city " + enemyCityHex);
-                    destination = enemyCityHex;
-                }
-            }
-            
             // Attack enemy units.
             if (destination == null && unit.getAttacksLeft() > 0) {
                 Unit closestEnemy = getClosest(unit, getEnemiesInRange(unit));
@@ -72,18 +57,6 @@ public class ComputerPlayer extends Player {
                 }
             }
             
-            // Move toward non-adjacent enemy cities.
-            if (destination == null) {
-                City city = getClosest(unit, myView.getKnownEnemyCities());
-                
-                if (city != null && unit.isHexInRange(city.getHex()) &&
-                    Calculator.distance(unit, city) > 1)
-                {
-                    getLog().finer("Moving toward city: " + city);
-                    destination = city.getHex();
-                }
-            }
-                
             // Move toward non-adjacent enemy units.
             if (destination == null) {
                 Unit target = getClosest(unit, myView.getKnownEnemies());
@@ -95,13 +68,7 @@ public class ComputerPlayer extends Player {
                     destination = target.getHex();
                 }
             }
-                
-            if (destination == null && !unit.isSafe()) {
-                getLog().finer("Unit can't stay at " + unit.getPosition() +
-                          ": trying to make it home to " + home);
-                destination = home.getHex();
-            }
-            
+
             if (destination == null) {
                 getLog().fine("CP skipping unit " + unit);
                 model.skipSelectedUnit();

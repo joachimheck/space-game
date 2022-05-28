@@ -1,7 +1,6 @@
 package org.heckcorp.domination;
 
 import org.heckcorp.domination.Player.PlayerType;
-import org.heckcorp.domination.Unit.Type;
 import org.heckcorp.domination.desktop.ComputerPlayer;
 import org.heckcorp.domination.desktop.HumanPlayer;
 import org.heckcorp.domination.desktop.NeutralPlayer;
@@ -79,14 +78,7 @@ public class DefaultModel implements GameModel, Serializable {
                 if (i == currentPlayerIndex) {
                     currentPlayer = player;
                 }
-                
-                Set<City> cities = (Set<City>) in.readObject();
-                for (City city : cities) {
-                    city.setOwner(player);
-                    player.addGamePiece(city);
-                    model.addGamePiece(city, city.getPosition());
-                }
-                
+
                 Set<Unit> units = (Set<Unit>) in.readObject();
                 for (Unit unit : units) {
                     unit.setOwner(player);
@@ -110,18 +102,6 @@ public class DefaultModel implements GameModel, Serializable {
     public void addGamePiece(GamePiece piece, Point position) {
         piece.setHex(map.getHex(position));
         map.addGamePiece(piece, piece.getPosition());
-
-        // Update the exploration map.
-        List<Point> visible = new ArrayList<>();
-        List<Hex> adjacent = map.getHexesInRange(piece.getHex(), 1);
-        adjacent.add(piece.getHex());
-
-        for (Hex hex : adjacent) {
-            visible.add(hex.getPosition());
-        }
-
-        Player owner = piece.getOwner();
-
         views.addGamePiece(piece);
     }
 
@@ -168,13 +148,6 @@ public class DefaultModel implements GameModel, Serializable {
     public Hex getHex(Point position) {
         return map.getHex(position);
     }
-
-    /**
-      * Returns the currently selected city.
-     */
-     public City getSelectedCity() {
-         return selectedCity;
-     }
 
     /**
      * @pre all players have been added.
@@ -280,8 +253,6 @@ public class DefaultModel implements GameModel, Serializable {
         Hex hex = map.getHex(position);
 
         if (hex.getOwner() == currentPlayer) {
-            selectedCity = hex.getCity();
-
             if (!hex.getUnits().isEmpty()) {
                 // The user clicked on a hex with a unit in it.
                 List<Unit> units = hex.getUnits();
@@ -301,8 +272,6 @@ public class DefaultModel implements GameModel, Serializable {
                 units.add(topUnit);
                 setStatus(topUnit, Status.SELECTED);
             }
-        } else {
-            selectedCity = null;
         }
         
         views.selectHex(hex);
@@ -330,7 +299,6 @@ public class DefaultModel implements GameModel, Serializable {
         
         log.finer("Selected unit - now selecting hex.");
         
-        selectedCity = unit.getHex().getCity();
         views.selectHex(unit.getHex());
 
         log.exiting("DefaultModel", "selectUnit");
@@ -355,15 +323,6 @@ public class DefaultModel implements GameModel, Serializable {
         // Because we don't get the views until we get the players,
         // there's no point trying to set their maps here.
 //        views.setMap(map);
-    }
-
-    /**
-      * @pre selectedCity != null
-      * @pre type != null
-      */
-    public void setSelectedCityProductionType(Type type) {
-        selectedCity.setProductionType(type);
-        views.selectHex(selectedCity.getHex());
     }
 
     /**
@@ -471,7 +430,6 @@ public class DefaultModel implements GameModel, Serializable {
             if (selectedUnit.isOutOfFuel()) {
                 destroyUnit(selectedUnit);
             } else  {
-                selectedCity = selectedUnit.getHex().getCity();
                 views.selectHex(selectedUnit.getHex());
             }
         } else {
@@ -534,8 +492,6 @@ public class DefaultModel implements GameModel, Serializable {
     private HexMap map;
 
     private final List<Player> players = new ArrayList<>();
-
-    private City selectedCity;
 
     private Unit selectedUnit;
 

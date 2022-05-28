@@ -20,10 +20,6 @@ public class ComputerPlayerView implements GameView {
     }
     
     public void addGamePiece(GamePiece piece) {
-        if (piece instanceof City) {
-            knownCities.add((City) piece);
-        }
-
         if (piece instanceof Unit && piece.getOwner() != player) {
             knownEnemies.add((Unit) piece);
         }
@@ -36,10 +32,6 @@ public class ComputerPlayerView implements GameView {
     public void move(Unit unit, Direction direction) {
         if (unit.getOwner() == player) {
             for (Hex hex : map.getHexesInRange(unit.getHex(), 1)) {
-                if (hex.getCity() != null) {
-                    knownCities.add(hex.getCity());
-                }
-
                 for (Unit hexUnit : hex.getUnits()) {
                     if (hexUnit.getOwner() != player) {
                         knownEnemies.add(hexUnit);
@@ -77,8 +69,7 @@ public class ComputerPlayerView implements GameView {
         log.exiting("ComputerPlayerView", "setStatus");
     }
 
-    public void setWinningPlayer(String playerName, Color playerColor) {
-    }
+    public void setWinningPlayer(String playerName, Color playerColor) { }
 
     public HexMap getMap() {
         return map;
@@ -87,20 +78,6 @@ public class ComputerPlayerView implements GameView {
     public void setPlayer(ComputerPlayer player) {
         this.player = player;
     }
-
-    public Set<City> getKnownEnemyCities() {
-        // TODO: this would probably be more efficient with an iterator,
-        // or if we just kept a set of enemy cities all the time.
-        Set<City> enemyCities = new HashSet<>();
-        for (City city : knownCities) {
-            if (city.getOwner() != player) {
-                enemyCities.add(city);
-            }
-        }
-        return enemyCities;
-    }
-    
-    final Set<City> knownCities = new HashSet<>();
 
     public Set<Unit> getKnownEnemies() {
         return knownEnemies;

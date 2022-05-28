@@ -29,19 +29,6 @@ public class Hex implements Serializable, Positionable {
         public final int value;
     }
 
-    /**
-     * @pre getCity() == null
-     * @pre isEmpty()
-     * @post getOwner() == city.getOwner()
-     */
-    public void addCity(City city) {
-        assert isEmpty();
-        assert this.city == null;
-        
-        this.city = city;
-        owner = city.getOwner();
-    }
-    
     public void addUnit(Unit unit) {
         assert isEmpty() || owner == unit.getOwner() :
             "Can't add " + unit + "! hex empty? " + isEmpty() +
@@ -50,14 +37,6 @@ public class Hex implements Serializable, Positionable {
         units.add(0, unit);
         
         owner = unit.getOwner();
-        
-        if (city != null) {
-            if (city.getOwner() != unit.getOwner()) {
-                city.getOwner().removeGamePiece(city);
-                unit.getOwner().addGamePiece(city);
-                city.setOwner(unit.getOwner());
-            }
-        }
     }
 
     /**
@@ -74,14 +53,6 @@ public class Hex implements Serializable, Positionable {
         }
 
         return bestDefender;
-    }
-
-    /**
-     * @return  the city
-     * @uml.property  name="city"
-     */
-    public City getCity() {
-        return city;
     }
 
     /**
@@ -118,7 +89,7 @@ public class Hex implements Serializable, Positionable {
     public void removeUnit(Unit unit) {
         units.remove(unit);
         
-        if (units.isEmpty() && city == null) {
+        if (units.isEmpty()) {
             owner = null;
         }
     }
@@ -140,7 +111,6 @@ public class Hex implements Serializable, Positionable {
     public final Terrain terrain;
     public final int x;
     public final int y;
-    private transient City city;
     private transient Player owner = null;
     private final transient List<Unit> units;
     private static final long serialVersionUID = 1L;

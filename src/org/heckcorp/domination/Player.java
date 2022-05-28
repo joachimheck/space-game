@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
@@ -38,7 +37,6 @@ public abstract class Player implements Serializable {
         // but a unit can be destroyed, and removed from the set, while
         // moving.  Using this set prevents a ConcurrentModificationException.
         units = new CopyOnWriteArraySet<>();
-        cities = new HashSet<>();
     }
     
     private final String name;
@@ -49,8 +47,7 @@ public abstract class Player implements Serializable {
      */
     protected transient GameView view;
     private final Set<Unit> units;
-    private final Set<City> cities;
-    
+
     /**
      * @author    Joachim Heck
      */
@@ -74,21 +71,12 @@ public abstract class Player implements Serializable {
         units.remove(unit);
     }
 
-    public Set<City> getCities() {
-        return cities;
-    }
-
     public void addGamePiece(GamePiece piece) {
         piece.setOwner(this);
         
         if (piece instanceof Unit) {
             assert !units.contains(piece);
             units.add((Unit) piece);
-        } else if (piece instanceof City) {
-            City city = (City) piece;
-            assert !cities.contains(city);
-            cities.add(city);
-            city.setProductionPoints(0);
         } else {
             assert false;
         }
@@ -99,9 +87,7 @@ public abstract class Player implements Serializable {
     }
     
     public List<GamePiece> getGamePieces() {
-        List<GamePiece> result = new ArrayList<>();
-        result.addAll(cities);
-        result.addAll(units);
+        List<GamePiece> result = new ArrayList<>(units);
         return result;
     }
 
@@ -109,14 +95,9 @@ public abstract class Player implements Serializable {
      * Updates the shadow map for this player.
      */
     public void updateShadowMap(HexMap map) {
-        List<Point> visible = new ArrayList<>();
         for (GamePiece entity : getGamePieces()) {
             List<Hex> adjacent = map.getHexesInRange(entity.getHex(), 1);
             adjacent.add(entity.getHex());
-
-            for (Hex hex : adjacent) {
-                visible.add(hex.getPosition());
-            }
         }
     }
 
@@ -128,9 +109,6 @@ public abstract class Player implements Serializable {
         if (piece instanceof Unit) {
             assert units.contains(piece);
             units.remove(piece);
-        } else if (piece instanceof City) {
-            assert cities.contains(piece);
-            cities.remove(piece);
         } else {
             assert false;
         }
@@ -218,7 +196,6 @@ public abstract class Player implements Serializable {
         out.writeInt(getType().ordinal());
         out.writeObject(name);
         out.writeObject(color);
-        out.writeObject(cities);
         out.writeObject(units);
     }
 }

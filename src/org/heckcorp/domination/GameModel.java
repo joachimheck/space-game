@@ -1,6 +1,5 @@
 package org.heckcorp.domination;
 
-import org.heckcorp.domination.Unit.Type;
 import org.heckcorp.domination.desktop.TurnManager;
 
 import java.awt.*;
@@ -97,21 +96,9 @@ public interface GameModel {
     void toggleHexHiding();
 
     /**
-     * Returns the currently selected city.
-     */
-    City getSelectedCity();
-
-    /**
      * Returns the turn manager for this model.
      */
     TurnManager getTurnManager();
-
-    /**
-     * Sets the production type of the currently selected city to the
-     * specified type.
-     * @param type the type of unit to produce.
-     */
-    void setSelectedCityProductionType(Type type);
 
     /**
      * Moves on to the next unit.  The selected unit will be selected

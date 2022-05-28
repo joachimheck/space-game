@@ -1,6 +1,5 @@
 package org.heckcorp.domination.desktop.view;
 
-import org.heckcorp.domination.City;
 import org.heckcorp.domination.Hex;
 import org.heckcorp.domination.Player;
 import org.heckcorp.domination.Unit;
@@ -110,13 +109,9 @@ public class HexDescriptionPanel extends JPanel
     public void setHex(Hex hex) {
         unitsBox.removeAll();
 
-        City city = hex.getCity();
         String hexType = "Hex";
 
-        if (city != null) {
-            hexType = "City";
-        } else if (hex.terrain == Hex.Terrain.LAND
-                || hex.terrain == Hex.Terrain.WATER) {
+        if (hex.terrain == Hex.Terrain.LAND || hex.terrain == Hex.Terrain.WATER) {
             hexType = hex.terrain.name;
         } else {
             assert false : "Unknown terrain type: " + hex.terrain;
@@ -125,16 +120,7 @@ public class HexDescriptionPanel extends JPanel
 
         if (owner != null) {
             ownerLabel.setText(owner.getName());
-
-            if (city == null) {
-                productionLabel.setVisible(false);
-            } else {
-                productionLabel.setVisible(true);
-                productionLabel.setText(city.getProductionType().name
-                        + ": " + city.getProductionPoints()
-                        + "/"
-                        + city.getProductionType().cost);
-            }
+            productionLabel.setVisible(false);
 
             TreeSet<Unit> sortedUnits = new TreeSet<>(
                     (o1, o2) -> {

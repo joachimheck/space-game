@@ -1,25 +1,25 @@
 package org.heckcorp.domination.desktop;
 
+import org.heckcorp.domination.DefaultModel;
+import org.heckcorp.domination.Player;
+import org.heckcorp.domination.Unit;
+
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
-
-import org.heckcorp.domination.City;
-import org.heckcorp.domination.DefaultModel;
-import org.heckcorp.domination.Player;
-import org.heckcorp.domination.Unit;
+import java.util.stream.Collectors;
 
 /**
  * The TurnManager runs through the turn, selecting units
  * and players after the previous ones finish.
- * 
+ *
  * @author Joachim Heck
  */
 public class TurnManager implements Runnable, Serializable {
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 1L;
     /**
@@ -28,19 +28,11 @@ public class TurnManager implements Runnable, Serializable {
     public Player getWinningPlayer() {
         Player onlyPlayer = null;
 
-        // The game is over when all non-neutral cities belong to one player.
-        for (Player player : players) {
-            for (City city : player.getCities()) {
-                if (!(city.getOwner() instanceof NeutralPlayer)) {
-                    if (onlyPlayer == null) {
-                        onlyPlayer = city.getOwner();
-                    }
-
-                    if (city.getOwner() != onlyPlayer) {
-                        return null;
-                    }
-                }
-            }
+        // The game is over when all units belong to one player.
+        Set<Player> remainingPlayers =
+                players.stream().filter(player -> !player.getGamePieces().isEmpty()).collect(Collectors.toSet());
+        if (remainingPlayers.size() == 1) {
+            onlyPlayer = remainingPlayers.iterator().next();
         }
 
         return onlyPlayer;
@@ -69,7 +61,7 @@ public class TurnManager implements Runnable, Serializable {
             log.fine("TurnManager interrupted!");
         }
     }
-    
+
     private void runPlayerTurn(Player player) throws InterruptedException {
         // The first time through we may want to start
         // with a player other than the first one in the list.
@@ -109,9 +101,9 @@ public class TurnManager implements Runnable, Serializable {
         thread = new Thread(this);
         thread.start();
     }
-    
+
     private transient Thread thread = null;
-    
+
     public void interrupt() {
         log.fine("Interrupting turn manager.");
         thread.interrupt();
@@ -120,10 +112,10 @@ public class TurnManager implements Runnable, Serializable {
     public void turnFinished() {
         turnOver = true;
     }
-    
+
     private void finishTurn(Player player) {
         log.fine("Finishing turn for " + player);
-        
+
         player.finishTurn();
 
         Set<Unit> toDestroy = new HashSet<>();
@@ -133,7 +125,7 @@ public class TurnManager implements Runnable, Serializable {
 
             // Make sure planes are in cities.
             if (unit.getType() == Unit.Type.BOMBER &&
-                unit.getHex().getCity() == null)
+                    unit.getHex().getCity() == null)
             {
                 toDestroy.add(unit);
             }
@@ -150,16 +142,16 @@ public class TurnManager implements Runnable, Serializable {
      */
     private Unit getReadyUnit(Player player, Unit avoidUnit) {
         Unit readyUnit = avoidUnit;
-        
+
         if (avoidUnit == null || !avoidUnit.isReadyForAction() ||
-            avoidUnit.getPath().size() > 0 || avoidUnit.isSkipped())
+                avoidUnit.getPath().size() > 0 || avoidUnit.isSkipped())
         {
             readyUnit = null;
         }
 
         for (Unit unit : player.getUnits()) {
             if (unit.isReadyForAction() && unit.getPath().size() == 0 &&
-                unit != avoidUnit && !unit.isSkipped()) {
+                    unit != avoidUnit && !unit.isSkipped()) {
                 readyUnit = unit;
                 break;
             }
@@ -174,13 +166,13 @@ public class TurnManager implements Runnable, Serializable {
         for (Unit unit : player.getUnits()) {
             while (unit.isReadyForAction() && !unit.getPath().isEmpty()) {
                 log.finer("Moving unit with orders: " + unit);
-                
+
                 model.selectUnit(unit);
                 model.moveSelectedUnit();
             }
         }
     }
-    
+
     private void selectUnits(Player player) throws InterruptedException {
         log.fine("Selecting units for " + player);
         Unit unit = getReadyUnit(player, null);
@@ -200,26 +192,14 @@ public class TurnManager implements Runnable, Serializable {
         model.setCurrentPlayer(player);
         player.startTurn();
         turnOver = false;
-
-        // Run production for cities.
-        for (City city : player.getCities()) {
-            city.incrementProductionPoints();
-            Unit.Type type = city.getProductionType();
-
-            if (city.getProductionPoints() >= type.getCost()) {
-                Unit unit = new Unit(type, player);
-                model.addGamePiece(unit, city.getPosition());
-                city.setProductionPoints(0);
-            }
-        }
     }
-    
+
     /**
      * @param players the players to iterate over.
      */
     public TurnManager(List<Player> players) {
         this.players = players;
-        
+
         // The ready unit may still be set from before the game was saved.
         for (Player player : players) {
             player.clearReadyUnit();
@@ -229,7 +209,7 @@ public class TurnManager implements Runnable, Serializable {
     private final static Logger log = Logger.getLogger(TurnManager.class.getName());
 
     private DefaultModel model;
-    
+
     private Player startPlayer;
 
     /**

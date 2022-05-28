@@ -48,7 +48,7 @@ public class Unit extends GamePiece implements Serializable {
      * A HexFilter that includes any hex through whose terrain the specified unit type can move.
      * @author    Joachim Heck
      */
-    public static class TerrainHexFilter extends HexFilter {
+    public static class TerrainHexFilter implements HexFilter {
         @Override
         public boolean accept(Hex hex) {
             return type == Type.BOMBER ||

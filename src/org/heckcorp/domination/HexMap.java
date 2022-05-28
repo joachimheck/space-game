@@ -498,9 +498,7 @@ public class HexMap implements Serializable {
         
         Hex hex = hexes[position.x][position.y];
         
-        if (piece instanceof City) {
-            hex.addCity((City)piece);
-        } else if (piece instanceof Unit) {
+        if (piece instanceof Unit) {
             hex.addUnit((Unit)piece);
         } else {
             assert false;
@@ -574,13 +572,13 @@ public class HexMap implements Serializable {
         return allAdjacent;
     }
 
-    public Set<Hex> getHexes(Set<Point> borderPoints) {
+    public Set<Hex> getHexes(Set<Point> points) {
         Set<Hex> result = new HashSet<>();
-        
-        for (Point point : borderPoints) {
+
+        for (Point point : points) {
             result.add(hexes[point.x][point.y]);
         }
-        
+
         return result;
     }
 

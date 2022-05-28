@@ -4,26 +4,24 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3bc8c235-c2bd-4343-a6d7-4a6d6d4b49b0" name="Changes" comment="Cleaned up warnings in most of the remaining classes.">
+    <list default="true" id="3bc8c235-c2bd-4343-a6d7-4a6d6d4b49b0" name="Changes" comment="Removed ShadowMap and ShadowStatus. They won't be neede in a space game, at least not at first.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/domination/City.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/domination/City.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/org/heckcorp/domination/ComputerPlayerView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/domination/ComputerPlayerView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/org/heckcorp/domination/DefaultModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/domination/DefaultModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/domination/GamePiece.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/domination/GamePiece.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/domination/GameView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/domination/GameView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/domination/GameModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/domination/GameModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/domination/Hex.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/domination/Hex.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/domination/HexFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/domination/HexFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/domination/HexMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/domination/HexMap.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/org/heckcorp/domination/NewGameInitializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/domination/NewGameInitializer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/org/heckcorp/domination/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/domination/Player.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/domination/ShadowMap.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/org/heckcorp/domination/Unit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/domination/Unit.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/domination/ViewMultiplexer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/domination/ViewMultiplexer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/org/heckcorp/domination/desktop/ComputerPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/domination/desktop/ComputerPlayer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/domination/desktop/HumanPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/domination/desktop/HumanPlayer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/domination/desktop/NeutralPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/domination/desktop/NeutralPlayer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/domination/desktop/Domination.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/domination/desktop/Domination.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/domination/desktop/TurnManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/domination/desktop/TurnManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/org/heckcorp/domination/desktop/view/HexDescriptionPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/domination/desktop/view/HexDescriptionPanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/domination/desktop/view/MapPane.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/domination/desktop/view/MapPane.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/domination/desktop/view/MapView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/domination/desktop/view/MapView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/org/heckcorp/domination/desktop/view/MiniMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/domination/desktop/view/MiniMap.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/org/heckcorp/domination/desktop/view/SwingView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/domination/desktop/view/SwingView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/domination/desktop/view/UIResources.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/domination/desktop/view/UIResources.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -69,6 +67,9 @@
     <property name="settings.editor.selected.configurable" value="preferences.sourceCode.Java" />
   </component>
   <component name="RecentsManager">
+    <key name="ExtractSuperBase.RECENT_KEYS">
+      <recent name="org.heckcorp.domination" />
+    </key>
     <key name="MoveInnerDialog.RECENTS_KEY">
       <recent name="org.heckcorp.domination" />
     </key>
@@ -186,7 +187,14 @@
       <option name="project" value="LOCAL" />
       <updated>1653743073190</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Removed ShadowMap and ShadowStatus. They won't be neede in a space game, at least not at first.">
+      <created>1653744254635</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1653744254635</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -217,7 +225,8 @@
     <MESSAGE value="Cleaned up MapView." />
     <MESSAGE value="Cleaned up warnings in most of the view classes." />
     <MESSAGE value="Cleaned up warnings in most of the remaining classes." />
-    <option name="LAST_COMMIT_MESSAGE" value="Cleaned up warnings in most of the remaining classes." />
+    <MESSAGE value="Removed ShadowMap and ShadowStatus. They won't be neede in a space game, at least not at first." />
+    <option name="LAST_COMMIT_MESSAGE" value="Removed ShadowMap and ShadowStatus. They won't be neede in a space game, at least not at first." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

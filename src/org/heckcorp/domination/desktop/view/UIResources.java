@@ -1,7 +1,6 @@
 package org.heckcorp.domination.desktop.view;
 
 
-import org.heckcorp.domination.City;
 import org.heckcorp.domination.GamePiece;
 import org.heckcorp.domination.Unit;
 
@@ -118,8 +117,6 @@ public class UIResources {
         
         if (piece instanceof Unit) {
             result = unitPixByType.get(((Unit)piece).getType());
-        } else if (piece instanceof City) {
-            result = new BufferedImage[] { cityPic };
         } else {
             assert false;
         }

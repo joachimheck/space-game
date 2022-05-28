@@ -63,23 +63,6 @@ public class NewGameInitializer implements ModelInitializer {
         return player;
     }
 
-    public List<City> createCities(Player player) {
-        List<City> cities = new ArrayList<>();
-        
-        int cityCount = Constants.PLAYER_CITIES;
-        if (player instanceof NeutralPlayer) {
-            cityCount = Constants.NEUTRAL_CITIES;
-        }
-
-        for (int c=0; c<cityCount; c++) {
-            City city = new City(player);
-//            player.addGamePiece(city);
-            cities.add(city);
-        }
-        
-        return cities;
-    }
-    
     private List<Unit> createUnits(Player player) {
         Map<Unit.Type, Integer> unitCounts = new HashMap<>();
         unitCounts.put(Unit.Type.SOLDIER, 2);
@@ -108,15 +91,10 @@ public class NewGameInitializer implements ModelInitializer {
             for (Player player : players) {
                 model.addPlayer(player);
 
-                List<City> cities = createCities(player);
-                for (City city : cities) {
-                    Hex hex = map.getRandomHex(City.getHexFilter());
-                    model.addGamePiece(city, hex.getPosition());
-
-                    List<Unit> units = createUnits(player);
-                    for (Unit unit : units) {
-                        model.addGamePiece(unit, hex.getPosition());
-                    }
+                List<Unit> units = createUnits(player);
+                Hex hex = map.getRandomHex(u -> true);
+                for (Unit unit : units) {
+                    model.addGamePiece(unit, hex.getPosition());
                 }
             }
             
