@@ -1,17 +1,17 @@
 package org.heckcorp.domination;
 
+import org.heckcorp.domination.desktop.ComputerPlayer;
+
 import java.awt.*;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Logger;
 
-import org.heckcorp.domination.desktop.ComputerPlayer;
-
 // TODO: merge this into ComputerPlayer itself.
 public class ComputerPlayerView implements GameView {
     private ComputerPlayer player;
     private HexMap map;
-    private final Set<Unit> knownEnemies = new HashSet<Unit>();
+    private final Set<Unit> knownEnemies = new HashSet<>();
     private final Logger log;
     
     public ComputerPlayerView() {
@@ -96,18 +96,10 @@ public class ComputerPlayerView implements GameView {
         this.player = player;
     }
 
-    /**
-     * Returns the Set of all the cities that have been discovered.
-     * @return
-     */
-    public Set<City> getKnownCities() {
-        return knownCities;
-    }
-    
     public Set<City> getKnownEnemyCities() {
         // TODO: this would probably be more efficient with an iterator,
         // or if we just kept a set of enemy cities all the time.
-        Set<City> enemyCities = new HashSet<City>();
+        Set<City> enemyCities = new HashSet<>();
         for (City city : knownCities) {
             if (city.getOwner() != player) {
                 enemyCities.add(city);
@@ -116,7 +108,7 @@ public class ComputerPlayerView implements GameView {
         return enemyCities;
     }
     
-    final Set<City> knownCities = new HashSet<City>();
+    final Set<City> knownCities = new HashSet<>();
 
     public Set<Unit> getKnownEnemies() {
         return knownEnemies;
@@ -124,7 +116,6 @@ public class ComputerPlayerView implements GameView {
 
     public void message(String message) {
         // Ignore.
-        
     }
 
 }

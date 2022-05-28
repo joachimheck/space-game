@@ -4,10 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3bc8c235-c2bd-4343-a6d7-4a6d6d4b49b0" name="Changes" comment="Cleaned up the imports in SwingView and updated the UML diagrams.">
-      <change afterPath="$PROJECT_DIR$/src/org/heckcorp/domination/ViewMultiplexer.java" afterDir="false" />
+    <list default="true" id="3bc8c235-c2bd-4343-a6d7-4a6d6d4b49b0" name="Changes" comment="Added project files and a new .gitignore.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/domination/DefaultModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/domination/DefaultModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/domination/ComputerPlayerView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/domination/ComputerPlayerView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/domination/GameView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/domination/GameView.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,8 +39,10 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.0" />
@@ -116,7 +118,21 @@
       <option name="project" value="LOCAL" />
       <updated>1653659702113</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Pulled ViewMultiplexer out into a top-level class.">
+      <created>1653738725803</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1653738725803</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Added project files and a new .gitignore.">
+      <created>1653738794777</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1653738794777</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -140,7 +156,9 @@
     <MESSAGE value="Remove references to Player from SwingView. Also clean up some warnings and typos." />
     <MESSAGE value="Fixed warnings in SwingView." />
     <MESSAGE value="Cleaned up the imports in SwingView and updated the UML diagrams." />
-    <option name="LAST_COMMIT_MESSAGE" value="Cleaned up the imports in SwingView and updated the UML diagrams." />
+    <MESSAGE value="Pulled ViewMultiplexer out into a top-level class." />
+    <MESSAGE value="Added project files and a new .gitignore." />
+    <option name="LAST_COMMIT_MESSAGE" value="Added project files and a new .gitignore." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
