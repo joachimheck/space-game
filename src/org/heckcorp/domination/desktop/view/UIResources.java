@@ -16,7 +16,7 @@ public class UIResources {
      */
     private UIResources() throws IOException {
         // Map images.
-        tilePic = Util.getImages("resource/hex-large.png", 1, 1);
+        tilePic = Util.getImages("resource/hex-large-light.png", 1, 1);
         selectedHexPix = Util.getImages("resource/selection-hex.png", 4, 1);
         spaceshipPic = Util.getImages("resource/spaceship.png", 1, 1);
 
