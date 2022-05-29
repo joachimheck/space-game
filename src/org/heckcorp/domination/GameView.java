@@ -60,6 +60,8 @@ public interface GameView {
      */
     void setMap(HexMap map);
 
+    void initialize();
+
     /**
      * Sets a status attribute of the unit.
      * @pre unit != null

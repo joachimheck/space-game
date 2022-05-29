@@ -55,6 +55,10 @@ public class ComputerPlayerView implements GameView {
         this.map = map;
     }
 
+    @Override
+    public void initialize() {
+    }
+
     public void setMonitor(ViewMonitor monitor) {
         // TODO: implement? Use this to communicate with the player?
     }

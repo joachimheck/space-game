@@ -12,7 +12,6 @@ title __DESKTOP's Class Diagram__\n
           + setView()
           - getClosest()
           - getEnemiesInRange()
-          - getEnemyCityHex()
           - moveUnit()
       }
     }
@@ -23,13 +22,11 @@ title __DESKTOP's Class Diagram__\n
     namespace desktop {
       class org.heckcorp.domination.desktop.Domination {
           - cityMenu : JMenu
-          - enabled : boolean
           {static} - instance : Domination
           {static} - log : Logger
           {static} + getInstance()
           + hexClicked()
           {static} + main()
-          + setViewingPlayerActive()
           # displayAboutPopup()
           # displayTextPopup()
           # loadGame()
@@ -71,7 +68,6 @@ title __DESKTOP's Class Diagram__\n
           - turnOver : boolean
           + HumanPlayer()
           + finishTurn()
-          + interrupt()
           + move()
           + setReadyUnit()
           + startTurn()

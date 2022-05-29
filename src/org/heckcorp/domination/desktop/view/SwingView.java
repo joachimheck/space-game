@@ -60,7 +60,7 @@ public class SwingView extends JPanel implements GameView
                 position = mapView.getMapPane().getHexCenter(piece.getPosition());
             }
 
-            return new Counter(UIResources.getInstance().getPictures(piece),
+            return new Counter(UIResources.getInstance().getSpaceshipImages(),
                     piece.getOwner().getColor(), position, piece.getPosition());
         }
 
@@ -548,6 +548,11 @@ public class SwingView extends JPanel implements GameView
     public void setMap(HexMap map) {
         log.finer("Setting map: " + map);
         this.map = map;
+    }
+
+    @Override
+    public void initialize() {
+        uiManager.initialize(map, monitor);
     }
 
     /**

@@ -12,8 +12,8 @@ public class MapPane extends JPanel {
         this.resources = UIResources.getInstance();
         this.viewport = new Rectangle(0, 0, 0, 0);
 
-        tileWidth = (int) Math.floor(3.0 * resources.tilePix[0].getWidth() / 4.0);
-        tileHeight = resources.tilePix[0].getHeight();
+        tileWidth = (int) Math.floor(3.0 * resources.tilePic[0].getWidth() / 4.0);
+        tileHeight = resources.tilePic[0].getHeight();
         assert tileWidth % 4 == 0;
         assert tileHeight % 2 == 0;
 
@@ -222,8 +222,7 @@ public class MapPane extends JPanel {
     private void drawHex(Hex hex, Point position, Graphics2D g) {
         Point pixelPos = getHexCorner(position);
 
-        g.drawImage(resources.spaceHex, pixelPos.x, pixelPos.y, null);
-        g.drawImage(resources.lightFog, pixelPos.x, pixelPos.y, null);
+        g.drawImage(resources.tilePic[0], pixelPos.x, pixelPos.y, null);
         g.setColor(Color.black);
 
         g.drawString(hex.getPosition().x + "," + hex.getPosition().y,

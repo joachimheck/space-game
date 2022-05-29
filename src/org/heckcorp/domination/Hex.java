@@ -83,15 +83,13 @@ public class Hex implements Serializable, Positionable {
         return "Hex (" + getPosition().x + "," + getPosition().y + ")";
     }
     
-    public Hex(int x, int y, int elevation) {
+    public Hex(int x, int y) {
         this.x = x;
         this.y = y;
-        this.elevation = elevation;
-        
+
         units = new ArrayList<>(0);
     }
 
-    public final int elevation;
     public final int x;
     public final int y;
     private transient Player owner = null;

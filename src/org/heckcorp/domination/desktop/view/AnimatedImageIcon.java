@@ -23,7 +23,7 @@ public class AnimatedImageIcon extends ImageIcon {
      * @uml.associationEnd  multiplicity="(1 1)"
      */
     private final Timer timer;
-    
+
     public AnimatedImageIcon(BufferedImage[] images, ObservableState state) {
         super(images[0]);
 

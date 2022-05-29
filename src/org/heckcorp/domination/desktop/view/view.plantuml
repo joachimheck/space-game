@@ -11,8 +11,6 @@ title __VIEW's Class Diagram__\n
             - images : BufferedImage[]
             - timer : Timer
             + AnimatedImageIcon()
-            + addObserver()
-            + getCurrentFrame()
             + getFrameCount()
             + setAnimated()
             + setAnimationTime()
@@ -36,7 +34,6 @@ title __VIEW's Class Diagram__\n
             - borderColor : Color
             - damaged : boolean
             - destination : Point
-            - frameRate : int
             - hidden : boolean
             - mapLocation : Point
             - mapPosition : Point
@@ -51,12 +48,9 @@ title __VIEW's Class Diagram__\n
             + addObserver()
             + deleteObserver()
             + getCenterLocation()
-            + getDestination()
             + getIcon()
             + getMapPosition()
-            + getSpeed()
             + isHidden()
-            + isOnScreen()
             + moveCenterTo()
             + moveTo()
             + paintComponent()
@@ -66,12 +60,10 @@ title __VIEW's Class Diagram__\n
             + setCenterLocation()
             + setCurrentFrame()
             + setDamaged()
-            + setDestination()
             + setHidden()
             + setLoop()
             + setMapLocation()
             + setMapPosition()
-            + setOffset()
             + setOnScreen()
             + setSpeed()
             - updateCounterLocation()
@@ -90,7 +82,6 @@ title __VIEW's Class Diagram__\n
             - productionLabel : JLabel
             - unitsBox : Box
             + HexDescriptionPanel()
-            + setHex()
             + setHex()
         }
       }
@@ -119,7 +110,6 @@ title __VIEW's Class Diagram__\n
             - viewport : Rectangle
             + MapPane()
             + drawHexCenters()
-            + getAdjacentHexPosition()
             + getHexCenter()
             + getHexCoordinates()
             + getHexCorner()
@@ -152,30 +142,22 @@ title __VIEW's Class Diagram__\n
             {static} + SPRITE_LAYER : Integer
             {static} + TOP_SPRITE_LAYER : Integer
             - hScrollBar : JScrollBar
-            - hexSelectorPool : List<Counter>
-            - hexSelectorsInUse : Map<Point, Counter>
             - layeredPane : JLayeredPane
             - listeners : Set<MapViewListener>
             - vScrollBar : JScrollBar
             + MapView()
-            + activateHexSelector()
             + add()
             + addMapViewListener()
             + adjustmentValueChanged()
             + centerHex()
             + centerRectangle()
-            + drawClickPoints()
             + getMapPane()
             + initialize()
             + isInitialized()
             + moveToFront()
             + removeCounter()
-            + showHexSelector()
-            + unselectAllHexes()
             - adjustPositions()
             - notifyViewportBounds()
-            - notifyViewportPosition()
-            - returnHexSelector()
         }
       }
     }
@@ -187,7 +169,6 @@ title __VIEW's Class Diagram__\n
       namespace view {
         interface org.heckcorp.domination.desktop.view.MapViewListener {
             {abstract} + setViewportBounds()
-            {abstract} + setViewportPosition()
         }
       }
     }
@@ -201,11 +182,9 @@ title __VIEW's Class Diagram__\n
             - viewport : Rectangle
             + MiniMap()
             + getPreferredSize()
-            + getViewportBounds()
             + initialize()
             + paintComponent()
             + setViewportBounds()
-            + setViewportPosition()
         }
       }
     }
@@ -269,7 +248,6 @@ title __VIEW's Class Diagram__\n
             + setCurrentPlayer()
             + setMap()
             + setMonitor()
-            + setShadowMap()
             + setStatus()
             + setWinningPlayer()
             - getMap()
@@ -285,7 +263,6 @@ title __VIEW's Class Diagram__\n
         class org.heckcorp.domination.desktop.view.SwingView.DisplayManager {
             + DisplayManager()
             + displayPositions()
-            + getShadowMap()
             + hideAttackArrow()
             + hideSelection()
             + moveCounter()
@@ -294,7 +271,6 @@ title __VIEW's Class Diagram__\n
             + relocateCounters()
             + setCounterStatus()
             + setCounterVisibility()
-            + setShadowMap()
             + showAttackArrow()
             + showCounter()
             + update()
@@ -350,6 +326,7 @@ title __VIEW's Class Diagram__\n
             + darkFog : BufferedImage
             + lightFog : BufferedImage
             + selectedHexPix : BufferedImage[]
+            + spaceHex : BufferedImage
             + tilePix : BufferedImage[]
             + unitPixByType : Map<Type, BufferedImage[]>
             {static} - instance : UIResources
@@ -392,7 +369,6 @@ title __VIEW's Class Diagram__\n
   org.heckcorp.domination.desktop.view.MapPane -up-|> javax.swing.JPanel
   org.heckcorp.domination.desktop.view.MapPane o-- org.heckcorp.domination.HexMap : map
   org.heckcorp.domination.desktop.view.MapPane o-- org.heckcorp.domination.desktop.view.UIResources : resources
-  org.heckcorp.domination.desktop.view.MapPane o-- org.heckcorp.domination.ShadowMap : shadowMap
   org.heckcorp.domination.desktop.view.MapView .up.|> java.awt.event.AdjustmentListener
   org.heckcorp.domination.desktop.view.MapView -up-|> javax.swing.JPanel
   org.heckcorp.domination.desktop.view.MapView o-- org.heckcorp.domination.HexMap : map
@@ -400,7 +376,6 @@ title __VIEW's Class Diagram__\n
   org.heckcorp.domination.desktop.view.MiniMap .up.|> org.heckcorp.domination.desktop.view.MapViewListener
   org.heckcorp.domination.desktop.view.MiniMap -up-|> javax.swing.JPanel
   org.heckcorp.domination.desktop.view.MiniMap o-- org.heckcorp.domination.HexMap : map
-  org.heckcorp.domination.desktop.view.MiniMap o-- org.heckcorp.domination.ShadowMap : shadowMap
   org.heckcorp.domination.desktop.view.ObservableState -up-|> java.util.Observable
   org.heckcorp.domination.desktop.view.ObservableState +-down- org.heckcorp.domination.desktop.view.ObservableState.State
   org.heckcorp.domination.desktop.view.SequentialExecutor .up.|> java.lang.Runnable
@@ -420,7 +395,6 @@ title __VIEW's Class Diagram__\n
   org.heckcorp.domination.desktop.view.SwingView.DisplayManager o-- org.heckcorp.domination.desktop.view.MapView : mapView
   org.heckcorp.domination.desktop.view.SwingView.DisplayManager o-- org.heckcorp.domination.desktop.view.MiniMap : miniMap
   org.heckcorp.domination.desktop.view.SwingView.DisplayManager o-- org.heckcorp.domination.desktop.view.Counter : selectedCounter
-  org.heckcorp.domination.desktop.view.SwingView.DisplayManager o-- org.heckcorp.domination.ShadowMap : shadowMap
   org.heckcorp.domination.desktop.view.SwingView.UIManager -up-|> javax.swing.JPanel
   org.heckcorp.domination.desktop.view.SwingView.UIManager o-- org.heckcorp.domination.desktop.view.HexDescriptionPanel : hexDescriptionPanel
   org.heckcorp.domination.desktop.view.SwingView.UIManager o-- org.heckcorp.domination.desktop.view.MapView : mapView

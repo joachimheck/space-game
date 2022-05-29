@@ -9,12 +9,6 @@ title __SPACE-GAME's Class Diagram__\n
   
 
   namespace org.heckcorp.domination {
-    class org.heckcorp.domination.City {
-    }
-  }
-  
-
-  namespace org.heckcorp.domination {
     class org.heckcorp.domination.ComputerPlayerView {
     }
   }
@@ -34,12 +28,6 @@ title __SPACE-GAME's Class Diagram__\n
 
   namespace org.heckcorp.domination {
     enum Direction {
-    }
-  }
-  
-
-  namespace org.heckcorp.domination {
-    interface org.heckcorp.domination.GameController {
     }
   }
   
@@ -69,7 +57,7 @@ title __SPACE-GAME's Class Diagram__\n
   
 
   namespace org.heckcorp.domination {
-    abstract class org.heckcorp.domination.HexFilter {
+    interface org.heckcorp.domination.HexFilter {
     }
   }
   
@@ -111,18 +99,6 @@ title __SPACE-GAME's Class Diagram__\n
   
 
   namespace org.heckcorp.domination {
-    class org.heckcorp.domination.ShadowMap {
-    }
-  }
-  
-
-  namespace org.heckcorp.domination {
-    class org.heckcorp.domination.ShadowStatus {
-    }
-  }
-  
-
-  namespace org.heckcorp.domination {
     enum Status {
     }
   }
@@ -136,6 +112,12 @@ title __SPACE-GAME's Class Diagram__\n
 
   namespace org.heckcorp.domination {
     interface org.heckcorp.domination.ViewMonitor {
+    }
+  }
+  
+
+  namespace org.heckcorp.domination {
+    class org.heckcorp.domination.ViewMultiplexer {
     }
   }
   
@@ -308,9 +290,6 @@ title __SPACE-GAME's Class Diagram__\n
   }
   
 
-  org.heckcorp.domination.City .up.|> java.io.Serializable
-  org.heckcorp.domination.City -up-|> org.heckcorp.domination.GamePiece
-  org.heckcorp.domination.City o-- org.heckcorp.domination.Unit.Type : productionType
   org.heckcorp.domination.ComputerPlayerView .up.|> org.heckcorp.domination.GameView
   org.heckcorp.domination.ComputerPlayerView o-- org.heckcorp.domination.HexMap : map
   org.heckcorp.domination.ComputerPlayerView o-- org.heckcorp.domination.desktop.ComputerPlayer : player
@@ -319,18 +298,15 @@ title __SPACE-GAME's Class Diagram__\n
   org.heckcorp.domination.DefaultModel o-- org.heckcorp.domination.Player : currentPlayer
   org.heckcorp.domination.DefaultModel o-- org.heckcorp.domination.DefaultModel.GameStateManager : gameStateManager
   org.heckcorp.domination.DefaultModel o-- org.heckcorp.domination.HexMap : map
-  org.heckcorp.domination.DefaultModel o-- org.heckcorp.domination.City : selectedCity
   org.heckcorp.domination.DefaultModel o-- org.heckcorp.domination.Unit : selectedUnit
   org.heckcorp.domination.DefaultModel o-- org.heckcorp.domination.desktop.TurnManager : turnManager
-  org.heckcorp.domination.DefaultModel o-- org.heckcorp.domination.DefaultModel.ViewMultiplexer : views
+  org.heckcorp.domination.DefaultModel o-- org.heckcorp.domination.ViewMultiplexer : views
   org.heckcorp.domination.GamePiece .up.|> java.io.Serializable
   org.heckcorp.domination.GamePiece .up.|> org.heckcorp.domination.Positionable
   org.heckcorp.domination.GamePiece o-- org.heckcorp.domination.Hex : hex
   org.heckcorp.domination.GamePiece o-- org.heckcorp.domination.Player : owner
   org.heckcorp.domination.Hex .up.|> java.io.Serializable
   org.heckcorp.domination.Hex .up.|> org.heckcorp.domination.Positionable
-  org.heckcorp.domination.Hex o-- org.heckcorp.domination.Hex.Terrain : terrain
-  org.heckcorp.domination.Hex o-- org.heckcorp.domination.City : city
   org.heckcorp.domination.Hex o-- org.heckcorp.domination.Player : owner
   org.heckcorp.domination.HexMap .up.|> java.io.Serializable
   org.heckcorp.domination.HexMap o-- org.heckcorp.domination.desktop.Pathfinder : pathfinder
@@ -339,14 +315,12 @@ title __SPACE-GAME's Class Diagram__\n
   org.heckcorp.domination.Player .up.|> java.io.Serializable
   org.heckcorp.domination.Player o-- org.heckcorp.domination.GameView : view
   org.heckcorp.domination.Player o-- org.heckcorp.domination.Unit : readyUnit
-  org.heckcorp.domination.Player o-- org.heckcorp.domination.ShadowMap : shadowMap
-  org.heckcorp.domination.ShadowMap .up.|> java.io.Serializable
-  org.heckcorp.domination.ShadowMap -up-|> java.util.Observable
   org.heckcorp.domination.Unit .up.|> java.io.Serializable
   org.heckcorp.domination.Unit -up-|> org.heckcorp.domination.GamePiece
   org.heckcorp.domination.Unit o-- org.heckcorp.domination.Unit.Health : health
   org.heckcorp.domination.Unit o-- org.heckcorp.domination.Hex : lastHex
   org.heckcorp.domination.Unit o-- org.heckcorp.domination.Unit.Type : type
+  org.heckcorp.domination.ViewMultiplexer .up.|> org.heckcorp.domination.GameView
   org.heckcorp.domination.desktop.ComputerPlayer -up-|> org.heckcorp.domination.Player
   org.heckcorp.domination.desktop.ComputerPlayer o-- org.heckcorp.domination.GameModel : model
   org.heckcorp.domination.desktop.ComputerPlayer o-- org.heckcorp.domination.ComputerPlayerView : myView
@@ -373,7 +347,6 @@ title __SPACE-GAME's Class Diagram__\n
   org.heckcorp.domination.desktop.view.MapPane -up-|> javax.swing.JPanel
   org.heckcorp.domination.desktop.view.MapPane o-- org.heckcorp.domination.HexMap : map
   org.heckcorp.domination.desktop.view.MapPane o-- org.heckcorp.domination.desktop.view.UIResources : resources
-  org.heckcorp.domination.desktop.view.MapPane o-- org.heckcorp.domination.ShadowMap : shadowMap
   org.heckcorp.domination.desktop.view.MapView .up.|> java.awt.event.AdjustmentListener
   org.heckcorp.domination.desktop.view.MapView -up-|> javax.swing.JPanel
   org.heckcorp.domination.desktop.view.MapView o-- org.heckcorp.domination.HexMap : map
@@ -381,7 +354,6 @@ title __SPACE-GAME's Class Diagram__\n
   org.heckcorp.domination.desktop.view.MiniMap .up.|> org.heckcorp.domination.desktop.view.MapViewListener
   org.heckcorp.domination.desktop.view.MiniMap -up-|> javax.swing.JPanel
   org.heckcorp.domination.desktop.view.MiniMap o-- org.heckcorp.domination.HexMap : map
-  org.heckcorp.domination.desktop.view.MiniMap o-- org.heckcorp.domination.ShadowMap : shadowMap
   org.heckcorp.domination.desktop.view.ObservableState -up-|> java.util.Observable
   org.heckcorp.domination.desktop.view.SequentialExecutor .up.|> java.lang.Runnable
   org.heckcorp.domination.desktop.view.SequentialExecutor .up.|> java.util.concurrent.Executor

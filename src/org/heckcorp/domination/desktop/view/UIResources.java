@@ -2,41 +2,23 @@ package org.heckcorp.domination.desktop.view;
 
 
 import org.heckcorp.domination.GamePiece;
-import org.heckcorp.domination.Unit;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 public class UIResources {
     /**
-     * @post tilePix != null && tilePix.length > 0
-     * @post unitPixByType != null && unitPixByType.size() > 0
-     * @post unitBorderPix != null && unitBorderPix.length > 0
+     * @post tilePic != null
      * @post selectionPix != null && selectionPix.length > 0
      * @post explosionSprite != null
      * @post selectionSprite != null
-     * @post damagedPic != null
      */
     private UIResources() throws IOException {
         // Map images.
-        tilePix = Util.getImages("resource/hexes.png", 2, 1);
+        tilePic = Util.getImages("resource/hex-large.png", 1, 1);
         selectedHexPix = Util.getImages("resource/selection-hex.png", 4, 1);
-        cityPic = Util.getImage("resource/city.png");
-        lightFog = Util.getImage("resource/hex-fog-light.png");
-        darkFog = Util.getImage("resource/hex-fog-dark.png");
-        spaceHex = Util.getImage("resource/space-hex.png");
-
-        // Unit images.
-        unitPixByType = new HashMap<>();
-        unitPixByType.put(Unit.Type.SOLDIER,
-                          Util.getImages("resource/soldier.png", 4, 1));
-        unitPixByType.put(Unit.Type.TANK,
-                          Util.getImages("resource/tank.png", 4, 1));
-        unitPixByType.put(Unit.Type.BOMBER,
-                          Util.getImages("resource/bomber.png", 1, 1));
+        spaceshipPic = Util.getImages("resource/spaceship.png", 1, 1);
 
         // Effects.
         explosion = new Counter(Util.getImages("resource/explosion.png", 3, 1),
@@ -63,48 +45,12 @@ public class UIResources {
     }
 
     /**
-     * @uml.property  name="cityPic"
-     */
-    public final BufferedImage cityPic;
-
-    /**
-     * @uml.property  name="unitPixByType"
-     * @uml.associationEnd  qualifier="BOMBER:org.heckcorp.domination.game.Unit$Type [Ljava.awt.image.BufferedImage;"
-     */
-    public final Map<Unit.Type, BufferedImage[]> unitPixByType;
-    /**
-     * @uml.property  name="lightFog"
-     */
-    public final BufferedImage lightFog;
-    /**
-     * @uml.property  name="darkFog"
-     */
-    public final BufferedImage darkFog;
-    public final BufferedImage spaceHex;
-    /**
-     * @uml.property  name="tilePix" multiplicity="(0 -1)" dimension="1"
-     */
-    public final BufferedImage[] tilePix;
-    /**
-     * @uml.property  name="selectedHexPix" multiplicity="(0 -1)" dimension="1"
-     */
-    public final BufferedImage[] selectedHexPix;
-
-    private static UIResources instance = null;
-
-    public static void initializeResources() throws IOException {
-        if (instance == null) {
-            instance = new UIResources();
-        }
-    }
-
-    /**
      * @pre initializeResources() must be called first.
      * @post result != null
      */
     public static UIResources getInstance() {
         assert instance != null : "UIResources.initializeResources " +
-            "must be called before getInstance()!";
+                "must be called before getInstance()!";
         return instance;
     }
 
@@ -114,32 +60,31 @@ public class UIResources {
      * @pre piece != null
      * @post result != null
      */
-    public BufferedImage[] getPictures(GamePiece piece) {
-        BufferedImage[] result = null;
-        
-        if (piece instanceof Unit) {
-            result = unitPixByType.get(((Unit)piece).getType());
-        } else {
-            assert false;
+    public BufferedImage[] getSpaceshipImages() {
+        return spaceshipPic;
+    }
+
+    public static void initializeResources() throws IOException {
+        if (instance == null) {
+            instance = new UIResources();
         }
-        
-        return result;
     }
 
     public Counter getSelection() {
         return selection;
     }
-    
-    private final Counter selection;
-    private final Counter explosion;
-    private final Counter attackArrow;
-
     public Counter getAttackArrow() {
         return attackArrow;
     }
-
     public Counter getExplosion() {
         return explosion;
     }
-    
+
+    public final BufferedImage[] tilePic;
+    public final BufferedImage[] spaceshipPic;
+    public final BufferedImage[] selectedHexPix;
+    private static UIResources instance = null;
+    private final Counter selection;
+    private final Counter explosion;
+    private final Counter attackArrow;
 }

@@ -58,6 +58,10 @@ public class ViewMultiplexer implements GameView {
         }
     }
 
+    @Override
+    public void initialize() {
+    }
+
     public void setMonitor(ViewMonitor monitor) {
         for (GameView view : gameViews) {
             view.setMonitor(monitor);

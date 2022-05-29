@@ -11,34 +11,13 @@ title __DOMINATION's Class Diagram__\n
   
 
   namespace org.heckcorp.domination {
-    class org.heckcorp.domination.City {
-        - productionPoints : int
-        {static} - serialVersionUID : long
-        + City()
-        {static} + getHexFilter()
-        + getProductionPoints()
-        + getProductionType()
-        + incrementProductionPoints()
-        + isHidden()
-        + isOccupied()
-        + setProductionPoints()
-        + setProductionType()
-        + toString()
-    }
-  }
-  
-
-  namespace org.heckcorp.domination {
     class org.heckcorp.domination.ComputerPlayerView {
-        ~ knownCities : Set<City>
         - knownEnemies : Set<Unit>
         - log : Logger
         + ComputerPlayerView()
         + addGamePiece()
         + attack()
-        + getKnownCities()
         + getKnownEnemies()
-        + getKnownEnemyCities()
         + getMap()
         + message()
         + move()
@@ -47,7 +26,6 @@ title __DOMINATION's Class Diagram__\n
         + setMap()
         + setMonitor()
         + setPlayer()
-        + setShadowMap()
         + setStatus()
         + setWinningPlayer()
     }
@@ -96,15 +74,12 @@ title __DOMINATION's Class Diagram__\n
         + endTurn()
         + getGameStateManager()
         + getHex()
-        + getSelectedCity()
         + getTurnManager()
-        + getUnits()
         + moveSelectedUnit()
         + selectHex()
         + selectUnit()
         + setCurrentPlayer()
         + setMap()
-        + setSelectedCityProductionType()
         + setSelectedUnitDestination()
         + setWinningPlayer()
         + skipSelectedUnit()
@@ -130,25 +105,6 @@ title __DOMINATION's Class Diagram__\n
   
 
   namespace org.heckcorp.domination {
-    class org.heckcorp.domination.DefaultModel.ViewMultiplexer {
-        - gameViews : Set<GameView>
-        + addGamePiece()
-        + addGameView()
-        + attack()
-        + message()
-        + move()
-        + selectHex()
-        + setCurrentPlayer()
-        + setMap()
-        + setMonitor()
-        + setShadowMap()
-        + setStatus()
-        + setWinningPlayer()
-    }
-  }
-  
-
-  namespace org.heckcorp.domination {
     enum Direction {
       NORTH
       NORTHEAST
@@ -163,28 +119,16 @@ title __DOMINATION's Class Diagram__\n
   
 
   namespace org.heckcorp.domination {
-    interface org.heckcorp.domination.GameController {
-        {abstract} + setCurrentPlayer()
-        {abstract} + setModel()
-        {abstract} + startGame()
-    }
-  }
-  
-
-  namespace org.heckcorp.domination {
     interface org.heckcorp.domination.GameModel {
         {abstract} + addGamePiece()
         {abstract} + addPlayer()
         {abstract} + endTurn()
         {abstract} + getHex()
-        {abstract} + getSelectedCity()
         {abstract} + getTurnManager()
-        {abstract} + getUnits()
         {abstract} + moveSelectedUnit()
         {abstract} + selectHex()
         {abstract} + selectUnit()
         {abstract} + setMap()
-        {abstract} + setSelectedCityProductionType()
         {abstract} + setSelectedUnitDestination()
         {abstract} + skipSelectedUnit()
         {abstract} + sleepSelectedUnit()
@@ -200,19 +144,8 @@ title __DOMINATION's Class Diagram__\n
         + getHex()
         + getOwner()
         + getPosition()
-        {abstract} + isHidden()
         + setHex()
         + setOwner()
-    }
-  }
-  
-
-  namespace org.heckcorp.domination {
-    enum HexOwnership {
-      ANY
-      EMPTY
-      ENEMY
-      PLAYER
     }
   }
   
@@ -227,7 +160,6 @@ title __DOMINATION's Class Diagram__\n
         {abstract} + setCurrentPlayer()
         {abstract} + setMap()
         {abstract} + setMonitor()
-        {abstract} + setShadowMap()
         {abstract} + setStatus()
         {abstract} + setWinningPlayer()
     }
@@ -242,10 +174,8 @@ title __DOMINATION's Class Diagram__\n
         {static} - serialVersionUID : long
         - units : List<Unit>
         + Hex()
-        + addCity()
         + addUnit()
         + getBestDefender()
-        + getCity()
         + getOwner()
         + getPosition()
         + getUnits()
@@ -258,17 +188,7 @@ title __DOMINATION's Class Diagram__\n
   
 
   namespace org.heckcorp.domination {
-    enum Terrain {
-      LAND
-      WATER
-      name
-      value
-    }
-  }
-  
-
-  namespace org.heckcorp.domination {
-    abstract class org.heckcorp.domination.HexFilter {
+    interface org.heckcorp.domination.HexFilter {
         {abstract} + accept()
     }
   }
@@ -283,14 +203,12 @@ title __DOMINATION's Class Diagram__\n
         {static} - serialVersionUID : long
         + HexMap()
         + HexMap()
-        + HexMap()
         + addGamePiece()
         {static} + adjacent()
         {static} + getAdjacent()
         + getAdjacentHex()
         + getAdjacentHexes()
         {static} + getAllAdjacent()
-        {static} + getClosest()
         {static} + getDirection()
         {static} + getDirection()
         + getHex()
@@ -303,38 +221,9 @@ title __DOMINATION's Class Diagram__\n
         + getRandomHex()
         + getRandomHex()
         + getSize()
-        + getTerrains()
         {static} + isAdjacent()
         + isInMap()
         + write()
-    }
-  }
-  
-
-  namespace org.heckcorp.domination {
-    class org.heckcorp.domination.HexMap.MapInfo {
-        + elevations : int[][]
-        + height : int
-        + maxElevation : int
-        + minElevation : int
-        + terrains : Terrain[][]
-        + width : int
-        + MapInfo()
-        + MapInfo()
-    }
-  }
-  
-
-  namespace org.heckcorp.domination {
-    class org.heckcorp.domination.HexMap.MapInfoGenerator {
-        - elevations : int[][]
-        - maxElevation : int
-        - minElevation : int
-        + MapInfoGenerator()
-        + generateMapInfo()
-        - findContinents()
-        - generateElevations()
-        {static} - isAnyPointElevated()
     }
   }
   
@@ -358,7 +247,6 @@ title __DOMINATION's Class Diagram__\n
         - height : int
         - width : int
         + NewGameInitializer()
-        + createCities()
         {static} + createPlayer()
         + initializeModel()
         - createPlayers()
@@ -370,7 +258,6 @@ title __DOMINATION's Class Diagram__\n
   namespace org.heckcorp.domination {
     abstract class org.heckcorp.domination.Player {
         {static} # log : Logger
-        - cities : Set<City>
         - color : Color
         - name : String
         - units : Set<Unit>
@@ -378,18 +265,15 @@ title __DOMINATION's Class Diagram__\n
         + addGamePiece()
         + clearReadyUnit()
         + finishTurn()
-        + getCities()
         + getColor()
         + getGamePieces()
         + getLog()
         + getName()
         + getReadyUnit()
-        + getShadowMap()
         + getType()
         + getUnits()
         + getView()
         {abstract} + move()
-        + removeCity()
         + removeGamePiece()
         + removeUnit()
         + setReadyUnit()
@@ -420,49 +304,6 @@ title __DOMINATION's Class Diagram__\n
   
 
   namespace org.heckcorp.domination {
-    class org.heckcorp.domination.ShadowMap {
-        + height : int
-        + width : int
-        - active : boolean
-        - borderPoints : Set<Point>
-        - explored : BitSet
-        {static} - inactiveStatus : ShadowStatus
-        {static} - serialVersionUID : long
-        - visible : BitSet
-        + ShadowMap()
-        + ShadowMap()
-        + clearVisible()
-        + clearVisible()
-        + diff()
-        + getBorderPoints()
-        + getSize()
-        + getStatus()
-        + getStatus()
-        + isActive()
-        + isExplored()
-        + isVisible()
-        + setActive()
-        + setExplored()
-        + setVisible()
-        - change()
-        - isInMap()
-    }
-  }
-  
-
-  namespace org.heckcorp.domination {
-    class org.heckcorp.domination.ShadowStatus {
-        - explored : boolean
-        - visible : boolean
-        + ShadowStatus()
-        + equals()
-        + isExplored()
-        + isVisible()
-    }
-  }
-  
-
-  namespace org.heckcorp.domination {
     enum Status {
       DAMAGED
       DESTROYED
@@ -485,30 +326,25 @@ title __DOMINATION's Class Diagram__\n
         - path : List<Hex>
         {static} - serialVersionUID : long
         - skipped : boolean
-        {static} - terrainHexFilters : Map<Type, HexFilter>
         + Unit()
         + attack()
         + canAttack()
         + canEnterHex()
-        + canEnterTerrain()
         + canMoveAlongPath()
         + clearPath()
         + decreaseAttacksLeft()
         + decreaseMovesLeft()
         + getAccessibleHexes()
         + getAttack()
-        + getAttackHexFilter()
         + getAttacks()
         + getAttacksLeft()
         + getDefense()
         + getFuelLeft()
         + getHealth()
-        {static} + getHexFilter()
         + getLastHex()
         + getMovement()
         + getMovementHexFilter()
         + getMovesLeft()
-        + getMovesMade()
         + getNextDirection()
         + getPath()
         + getRange()
@@ -517,12 +353,8 @@ title __DOMINATION's Class Diagram__\n
         + isDamaged()
         + isDestroyed()
         + isHexInRange()
-        + isHidden()
-        + isInRange()
-        + isLowOnFuel()
         + isOutOfFuel()
         + isReadyForAction()
-        + isSafe()
         + isSkipped()
         + move()
         + reset()
@@ -540,14 +372,6 @@ title __DOMINATION's Class Diagram__\n
   
 
   namespace org.heckcorp.domination {
-    class org.heckcorp.domination.Unit.AttackHexFilter {
-        + AttackHexFilter()
-        + accept()
-    }
-  }
-  
-
-  namespace org.heckcorp.domination {
     enum Health {
       DAMAGED
       DESTROYED
@@ -559,14 +383,6 @@ title __DOMINATION's Class Diagram__\n
   namespace org.heckcorp.domination {
     class org.heckcorp.domination.Unit.MovementHexFilter {
         + MovementHexFilter()
-        + accept()
-    }
-  }
-  
-
-  namespace org.heckcorp.domination {
-    class org.heckcorp.domination.Unit.TerrainHexFilter {
-        + TerrainHexFilter()
         + accept()
     }
   }
@@ -591,14 +407,29 @@ title __DOMINATION's Class Diagram__\n
   namespace org.heckcorp.domination {
     interface org.heckcorp.domination.ViewMonitor {
         {abstract} + hexClicked()
-        {abstract} + setViewingPlayerActive()
     }
   }
   
 
-  org.heckcorp.domination.City .up.|> java.io.Serializable
-  org.heckcorp.domination.City -up-|> org.heckcorp.domination.GamePiece
-  org.heckcorp.domination.City o-- org.heckcorp.domination.Unit.Type : productionType
+  namespace org.heckcorp.domination {
+    class org.heckcorp.domination.ViewMultiplexer {
+        - gameViews : Set<GameView>
+        - log : Logger
+        + addGamePiece()
+        + addGameView()
+        + attack()
+        + message()
+        + move()
+        + selectHex()
+        + setCurrentPlayer()
+        + setMap()
+        + setMonitor()
+        + setStatus()
+        + setWinningPlayer()
+    }
+  }
+  
+
   org.heckcorp.domination.ComputerPlayerView .up.|> org.heckcorp.domination.GameView
   org.heckcorp.domination.ComputerPlayerView o-- org.heckcorp.domination.HexMap : map
   org.heckcorp.domination.ComputerPlayerView o-- org.heckcorp.domination.desktop.ComputerPlayer : player
@@ -607,55 +438,37 @@ title __DOMINATION's Class Diagram__\n
   org.heckcorp.domination.DefaultModel o-- org.heckcorp.domination.Player : currentPlayer
   org.heckcorp.domination.DefaultModel o-- org.heckcorp.domination.DefaultModel.GameStateManager : gameStateManager
   org.heckcorp.domination.DefaultModel o-- org.heckcorp.domination.HexMap : map
-  org.heckcorp.domination.DefaultModel o-- org.heckcorp.domination.City : selectedCity
   org.heckcorp.domination.DefaultModel o-- org.heckcorp.domination.Unit : selectedUnit
   org.heckcorp.domination.DefaultModel o-- org.heckcorp.domination.desktop.TurnManager : turnManager
-  org.heckcorp.domination.DefaultModel o-- org.heckcorp.domination.DefaultModel.ViewMultiplexer : views
+  org.heckcorp.domination.DefaultModel o-- org.heckcorp.domination.ViewMultiplexer : views
   org.heckcorp.domination.DefaultModel +-down- org.heckcorp.domination.DefaultModel.GameStateManager
-  org.heckcorp.domination.DefaultModel +-down- org.heckcorp.domination.DefaultModel.ViewMultiplexer
   org.heckcorp.domination.DefaultModel.GameStateManager .up.|> org.heckcorp.domination.ModelInitializer
-  org.heckcorp.domination.DefaultModel.ViewMultiplexer .up.|> org.heckcorp.domination.GameView
   org.heckcorp.domination.GamePiece .up.|> java.io.Serializable
   org.heckcorp.domination.GamePiece .up.|> org.heckcorp.domination.Positionable
   org.heckcorp.domination.GamePiece o-- org.heckcorp.domination.Hex : hex
   org.heckcorp.domination.GamePiece o-- org.heckcorp.domination.Player : owner
-  org.heckcorp.domination.GamePiece +-down- org.heckcorp.domination.GamePiece.HexOwnership
   org.heckcorp.domination.Hex .up.|> java.io.Serializable
   org.heckcorp.domination.Hex .up.|> org.heckcorp.domination.Positionable
-  org.heckcorp.domination.Hex o-- org.heckcorp.domination.Hex.Terrain : terrain
-  org.heckcorp.domination.Hex o-- org.heckcorp.domination.City : city
   org.heckcorp.domination.Hex o-- org.heckcorp.domination.Player : owner
-  org.heckcorp.domination.Hex +-down- org.heckcorp.domination.Hex.Terrain
   org.heckcorp.domination.HexMap .up.|> java.io.Serializable
   org.heckcorp.domination.HexMap o-- org.heckcorp.domination.desktop.Pathfinder : pathfinder
-  org.heckcorp.domination.HexMap +-down- org.heckcorp.domination.HexMap.MapInfo
-  org.heckcorp.domination.HexMap +-down- org.heckcorp.domination.HexMap.MapInfoGenerator
-  org.heckcorp.domination.HexMap.MapInfoGenerator o-- org.heckcorp.domination.HexMap : map
   org.heckcorp.domination.LogFormatter -up-|> java.util.logging.Formatter
   org.heckcorp.domination.NewGameInitializer .up.|> org.heckcorp.domination.ModelInitializer
   org.heckcorp.domination.Player .up.|> java.io.Serializable
   org.heckcorp.domination.Player o-- org.heckcorp.domination.GameView : view
   org.heckcorp.domination.Player o-- org.heckcorp.domination.Unit : readyUnit
-  org.heckcorp.domination.Player o-- org.heckcorp.domination.ShadowMap : shadowMap
   org.heckcorp.domination.Player +-down- org.heckcorp.domination.Player.PlayerType
-  org.heckcorp.domination.ShadowMap .up.|> java.io.Serializable
-  org.heckcorp.domination.ShadowMap -up-|> java.util.Observable
   org.heckcorp.domination.Unit .up.|> java.io.Serializable
   org.heckcorp.domination.Unit -up-|> org.heckcorp.domination.GamePiece
   org.heckcorp.domination.Unit o-- org.heckcorp.domination.Unit.Health : health
   org.heckcorp.domination.Unit o-- org.heckcorp.domination.Hex : lastHex
   org.heckcorp.domination.Unit o-- org.heckcorp.domination.Unit.Type : type
-  org.heckcorp.domination.Unit +-down- org.heckcorp.domination.Unit.AttackHexFilter
   org.heckcorp.domination.Unit +-down- org.heckcorp.domination.Unit.Health
   org.heckcorp.domination.Unit +-down- org.heckcorp.domination.Unit.MovementHexFilter
-  org.heckcorp.domination.Unit +-down- org.heckcorp.domination.Unit.TerrainHexFilter
   org.heckcorp.domination.Unit +-down- org.heckcorp.domination.Unit.Type
-  org.heckcorp.domination.Unit.AttackHexFilter -up-|> org.heckcorp.domination.Unit.TerrainHexFilter
-  org.heckcorp.domination.Unit.AttackHexFilter o-- org.heckcorp.domination.Unit : unit
-  org.heckcorp.domination.Unit.MovementHexFilter -up-|> org.heckcorp.domination.Unit.TerrainHexFilter
+  org.heckcorp.domination.Unit.MovementHexFilter .up.|> org.heckcorp.domination.HexFilter
   org.heckcorp.domination.Unit.MovementHexFilter o-- org.heckcorp.domination.Unit : unit
-  org.heckcorp.domination.Unit.TerrainHexFilter -up-|> org.heckcorp.domination.HexFilter
-  org.heckcorp.domination.Unit.TerrainHexFilter o-- org.heckcorp.domination.Unit.Type : type
+  org.heckcorp.domination.ViewMultiplexer .up.|> org.heckcorp.domination.GameView
 
 
 right footer

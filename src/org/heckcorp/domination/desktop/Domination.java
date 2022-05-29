@@ -299,6 +299,7 @@ public class Domination extends JPanel implements ViewMonitor {
                                        Constants.MAP_HEIGHT);
             try {
                 initializer.initializeModel(model, view);
+                view.initialize();
             } catch (Exception e) {
                 // This initializer doesn't actually throw the exceptions it claims.
                 assert false;
@@ -322,8 +323,7 @@ public class Domination extends JPanel implements ViewMonitor {
 
     public static void main(String[] args) {
         // Initialize logging.
-        String filename = args.length > 0 ? args[0] :
-            Constants.LOGGING_CONFIG_FILE;
+        String filename = args.length > 0 ? args[0] : Constants.LOGGING_CONFIG_FILE;
 
         try {
             InputStream logConfigIn = Util.getResource(filename);
@@ -411,9 +411,7 @@ public class Domination extends JPanel implements ViewMonitor {
     public void hexClicked(final Point hexPos, int button) {
         if (button == MouseEvent.BUTTON1) {
             // Button 1 selects.
-            executor.execute(() -> {
-                model.selectHex(hexPos);
-            });
+            executor.execute(() -> model.selectHex(hexPos));
         } else if (button == MouseEvent.BUTTON2) {
             // Button 2 does nothing.
         } else if (button == MouseEvent.BUTTON3) {
