@@ -44,7 +44,8 @@ public class Unit extends GamePiece implements Serializable {
         // TODO: load this from a file.
         BOMBER(3, "BOMBER", 5, 1, 1, 8, 6),
         SOLDIER(1, "SOLDIER", 5, 5, 1, 1, 3),
-        TANK(2, "TANK", 7, 3, 2, 2, 6);
+        TANK(2, "TANK", 7, 3, 2, 2, 6),
+        SPACESHIP(4, "SPACESHIP", 1, 1, 1, 8, 1);
 
         public String toString() {
             return name;
