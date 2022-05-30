@@ -8,23 +8,21 @@ import java.awt.*;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.logging.Logger;
 
 public abstract class Player implements Serializable {
-    
+
     protected static Logger log;
-    
+
     public abstract void move() throws InterruptedException;
-    
+
     public Logger getLog() {
         if (log == null) {
             log = Logger.getLogger(getClass().getName());
         }
-        
+
         return log;
     }
 
@@ -38,7 +36,7 @@ public abstract class Player implements Serializable {
         // moving.  Using this set prevents a ConcurrentModificationException.
         units = new CopyOnWriteArraySet<>();
     }
-    
+
     private final String name;
     private final Color color;
 
@@ -66,54 +64,25 @@ public abstract class Player implements Serializable {
      */
     public void removeUnit(Unit unit) {
         // This is unnecessary but it could catch a real bug.
-        assert units.contains(unit) :
-            this + " does not have " + unit;
+        assert units.contains(unit) : this + " does not have " + unit;
         units.remove(unit);
     }
 
-    public void addGamePiece(GamePiece piece) {
-        piece.setOwner(this);
-        
-        if (piece instanceof Unit) {
-            assert !units.contains(piece);
-            units.add((Unit) piece);
-        } else {
-            assert false;
-        }
+    public void addUnit(Unit unit) {
+        unit.setOwner(this);
+        units.add(unit);
     }
 
     public Color getColor() {
         return color;
-    }
-    
-    public List<GamePiece> getGamePieces() {
-        List<GamePiece> result = new ArrayList<>(units);
-        return result;
-    }
-
-    /**
-     * Updates the shadow map for this player.
-     */
-    public void updateShadowMap(HexMap map) {
-        for (GamePiece entity : getGamePieces()) {
-            List<Hex> adjacent = map.getHexesInRange(entity.getHex(), 1);
-            adjacent.add(entity.getHex());
-        }
     }
 
     public GameView getView() {
         return view;
     }
 
-    public void removeGamePiece(GamePiece piece) {
-        if (piece instanceof Unit) {
-            assert units.contains(piece);
-            units.remove(piece);
-        } else {
-            assert false;
-        }
-    }
     private Unit readyUnit = null;
+
     /**
      * @pre getReadyUnit() == null
      */
@@ -149,7 +118,7 @@ public abstract class Player implements Serializable {
     public void finishTurn() {
         // The default version of this method does nothing.
     }
-    
+
     /**
      * Called to finish this player's turn and wake any
      * thread waiting in finishTurn().
@@ -172,13 +141,13 @@ public abstract class Player implements Serializable {
     public void setView(GameView view) {
         assert this.view == null;
         assert view != null;
-        
+
         this.view = view;
     }
-    
+
     public PlayerType getType() {
         PlayerType result = null;
-        
+
         if (this instanceof HumanPlayer) {
             result = PlayerType.HUMAN;
         } else if (this instanceof ComputerPlayer) {
@@ -188,7 +157,7 @@ public abstract class Player implements Serializable {
         } else {
             assert false;
         }
-        
+
         return result;
     }
 

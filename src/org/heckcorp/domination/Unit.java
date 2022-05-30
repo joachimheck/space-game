@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 /**
- * Stores all of the game-level information about a unit.
+ * Stores all the game-level information about a unit.
  *
  * @author Joachim Heck
  *
@@ -362,7 +362,7 @@ public class Unit extends GamePiece implements Serializable {
         movesLeft = type.movement;
         attacksLeft = type.attacks;
 
-        player.addGamePiece(this);
+        player.addUnit(this);
     }
 
     private boolean asleep = false;

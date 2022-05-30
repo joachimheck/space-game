@@ -23,14 +23,6 @@ import java.util.logging.Logger;
 public class HexMap implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    /**
-     * @return  the hexes
-     * @uml.property  name="hexes"
-     */
-    public Hex[][] getHexes() {
-        return hexes;
-    }
-
     public HexMap(int width, int height) {
         this.width = width;
         this.height = height;

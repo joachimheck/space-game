@@ -4,10 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3bc8c235-c2bd-4343-a6d7-4a6d6d4b49b0" name="Changes" comment="Removed the three old unit types and all the bomber-specific code.">
+    <list default="true" id="3bc8c235-c2bd-4343-a6d7-4a6d6d4b49b0" name="Changes" comment="Typos and cleanup.">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/domination/DefaultModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/domination/DefaultModel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/org/heckcorp/domination/HexMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/domination/HexMap.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/domination/NewGameInitializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/domination/NewGameInitializer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/domination/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/domination/Player.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/org/heckcorp/domination/Unit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/domination/Unit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/domination/desktop/TurnManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/domination/desktop/TurnManager.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -243,7 +246,14 @@
       <option name="project" value="LOCAL" />
       <updated>1653913381555</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="Removed HexFilter, implementors, and related code.">
+      <created>1653913675443</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1653913675443</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -284,7 +294,9 @@
     <MESSAGE value="Reversed the hex border color to look better against a dark (spacey) background." />
     <MESSAGE value="Updated initialization to add one spaceship per player, instead of tanks, planes, etc." />
     <MESSAGE value="Removed the three old unit types and all the bomber-specific code." />
-    <option name="LAST_COMMIT_MESSAGE" value="Removed the three old unit types and all the bomber-specific code." />
+    <MESSAGE value="Removed HexFilter, implementors, and related code." />
+    <MESSAGE value="Typos and cleanup." />
+    <option name="LAST_COMMIT_MESSAGE" value="Typos and cleanup." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

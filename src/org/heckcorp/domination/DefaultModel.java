@@ -19,7 +19,7 @@ import java.util.logging.Logger;
 
 /**
  * An implementation of a GameModel.
- * 
+ *
  * @author Joachim Heck
  */
 public class DefaultModel implements GameModel, Serializable {
@@ -27,42 +27,42 @@ public class DefaultModel implements GameModel, Serializable {
         public void write(ObjectOutputStream out) throws IOException {
             // Write Map
             map.write(out);
-            
+
             // Write Current player id #
             out.writeInt(players.indexOf(currentPlayer));
-            
+
             // Write Players
             out.writeInt(players.size());
             for (Player player : players) {
                 player.write(out);
             }
         }
-        
+
         private ObjectInputStream in;
         public void setInputStream(ObjectInputStream in) {
             this.in = in;
         }
-        
+
         @SuppressWarnings("unchecked")
         public void initializeModel(GameModel model, GameView mainPlayerView)
         throws IOException, ClassNotFoundException
         {
             HexMap map = new HexMap(in);
             model.setMap(map);
-            
+
             int currentPlayerIndex = in.readInt();
-            
+
             int playerCount = in.readInt();
             for (int i=0; i<playerCount; i++) {
                 log.finer("Reading player #" + i);
                 int typeNumber = in.readInt();
                 PlayerType type = PlayerType.values()[typeNumber];
-                
+
                 String name = (String) in.readObject();
                 Color color = (Color) in.readObject();
 
                 Player player = null;
-                
+
                 if (type == PlayerType.HUMAN) {
                     player = new HumanPlayer(name, color, mainPlayerView);
                 } else if (type == PlayerType.COMPUTER) {
@@ -82,13 +82,13 @@ public class DefaultModel implements GameModel, Serializable {
                 Set<Unit> units = (Set<Unit>) in.readObject();
                 for (Unit unit : units) {
                     unit.setOwner(player);
-                    player.addGamePiece(unit);
+                    player.addUnit(unit);
                     model.addGamePiece(unit, unit.getPosition());
                 }
             }
-            
+
             in.close();
-            
+
             model.startTurnManager();
         }
     }
@@ -171,7 +171,7 @@ public class DefaultModel implements GameModel, Serializable {
             // We use a copy of the unit because selectedUnit
             // may be set to null inside moveSelectedUnitOneHex().
             Unit unit = selectedUnit;
-            
+
             Hex hex = unit.getPath().get(0);
             assert hex != null;
 
@@ -185,7 +185,6 @@ public class DefaultModel implements GameModel, Serializable {
                 if (unit.canEnterHex(hex)) {
                     Direction direction = unit.getNextDirection();
                     unit.move();
-                    unit.getOwner().updateShadowMap(map);
                     views.move(unit, direction);
                 } else {
                     unit.decreaseMovesLeft(1);
@@ -197,7 +196,7 @@ public class DefaultModel implements GameModel, Serializable {
                     moveSelectedUnitOneHex();
                     assert unit.getMovesLeft() < movesLeft :
                         "Unit didn't move to " + unit.getPath().get(0);
-                    
+
                     Set<Hex> adjacent = map.getAdjacentHexes(unit.getHex());
                     for (Hex adjacentHex : adjacent) {
                         if (adjacentHex.getOwner() != unit.getOwner() &&
@@ -208,13 +207,13 @@ public class DefaultModel implements GameModel, Serializable {
                         }
                     }
                 }
-                
+
                 // If a unit was stopped, don't let it keep trying to move
                 // along its former path.
                 if (unit.getMovesLeft() > 0 && !unit.getPath().isEmpty()) {
                     unit.clearPath();
                 }
-                
+
                 log.fine("Finished moving selected unit: " + unit);
             }
 
@@ -242,7 +241,7 @@ public class DefaultModel implements GameModel, Serializable {
      * are friendly units in the hex, the first selectable unit
      * is selected.  Additionally, if the hex contains a city,
      * and that city belongs to the current player, the city is selected.
-     * 
+     *
      * @pre position != null
      */
     public void selectHex(Point position) {
@@ -273,7 +272,7 @@ public class DefaultModel implements GameModel, Serializable {
                 setStatus(topUnit, Status.SELECTED);
             }
         }
-        
+
         views.selectHex(hex);
     }
 
@@ -296,9 +295,9 @@ public class DefaultModel implements GameModel, Serializable {
         } else {
             log.fine("Can't select " + unit + ": no moves left.");
         }
-        
+
         log.finer("Selected unit - now selecting hex.");
-        
+
         views.selectHex(unit.getHex());
 
         log.exiting("DefaultModel", "selectUnit");
@@ -418,12 +417,11 @@ public class DefaultModel implements GameModel, Serializable {
     private void moveSelectedUnitOneHex() {
         Direction direction = selectedUnit.getNextDirection();
         log.finer("Model moving " + selectedUnit + " one hex.");
-        
+
         boolean moved = selectedUnit.move();
-        
+
         if (moved) {
             log.finer("Model moved " + selectedUnit + " to " + selectedUnit.getHex());
-            selectedUnit.getOwner().updateShadowMap(map);
             views.move(selectedUnit, direction);
             views.selectHex(selectedUnit.getHex());
         } else {
@@ -441,7 +439,7 @@ public class DefaultModel implements GameModel, Serializable {
      */
     private synchronized void setStatus(Unit unit, Status status) {
         log.fine("Setting status of " + unit + " to " + status);
-        
+
         // TODO: well this is ugly.  Make a method to do it?  If getStackTrace()
         // returned the right thing to start with we wouldn't have to.
         StackTraceElement[] trace = Thread.currentThread().getStackTrace();
@@ -454,7 +452,7 @@ public class DefaultModel implements GameModel, Serializable {
         }
         log.fine("SetStatus was called by " +
                  trace[i].getClassName() + "." + trace[i].getMethodName());
-        
+
         if (status == Status.SELECTED) {
             assert selectedUnit == null;
             selectedUnit = unit;
@@ -474,7 +472,7 @@ public class DefaultModel implements GameModel, Serializable {
         } else if (status == Status.SKIPPED) {
             // TODO: Remove this status!
         }
-        
+
         views.setStatus(unit, status);
     }
 
