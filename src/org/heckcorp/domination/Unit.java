@@ -9,9 +9,9 @@ import java.util.logging.Logger;
 
 /**
  * Stores all of the game-level information about a unit.
- * 
+ *
  * @author Joachim Heck
- * 
+ *
  * @invariant getOwner() never returns null.
  *
  */
@@ -32,20 +32,16 @@ public class Unit extends GamePiece implements Serializable {
         public boolean accept(Hex hex) {
             return (hex.isEmpty() || hex.getOwner() == unit.getOwner());
         }
-        
+
         public MovementHexFilter(Unit unit) {
             this.unit = unit;
         }
-        
+
         private final Unit unit;
     }
 
     public enum Type {
-        // TODO: load this from a file.
-        BOMBER(3, "BOMBER", 5, 1, 1, 8, 6),
-        SOLDIER(1, "SOLDIER", 5, 5, 1, 1, 3),
-        TANK(2, "TANK", 7, 3, 2, 2, 6),
-        SPACESHIP(4, "SPACESHIP", 1, 1, 1, 8, 1);
+        SPACESHIP(0, "SPACESHIP", 1, 1, 1, 8, 1);
 
         public String toString() {
             return name;
@@ -63,7 +59,7 @@ public class Unit extends GamePiece implements Serializable {
         }
 
         public final int attack;
-        
+
         public final int attacks;
 
         /**
@@ -72,9 +68,9 @@ public class Unit extends GamePiece implements Serializable {
         public final int cost;
 
         public final int defense;
-        
+
         public final int id;
-        
+
         public final int movement;
 
         public final String name;
@@ -131,12 +127,12 @@ public class Unit extends GamePiece implements Serializable {
      */
     public boolean canMoveAlongPath() {
         boolean result = false;
-        
+
         if (!getPath().isEmpty()) {
             Hex nextHex = getPath().get(0);
             result = getMovesLeft() > 0 && canEnterHex(nextHex);
         }
-        
+
         return result;
     }
 
@@ -165,7 +161,7 @@ public class Unit extends GamePiece implements Serializable {
     /**
      * This filter returns only those of the specified hexes that contain
      * terrains that this unit can enter.
-     * 
+     *
      * @param filter a HexFilter that chooses the acceptable hexes.
      *
      */
@@ -217,22 +213,6 @@ public class Unit extends GamePiece implements Serializable {
             return type.defense / 2;
         }
         return type.defense;
-    }
-
-    /**
-     * Returns the amount of fuel this unit has remaining.  Each unit of
-     *   fuel allows one attack or one hex of movement.  Only aircraft
-     *   have fuel limitations.
-     * @post result > 0 || (type == Unit.Type.BOMBER && result == 0)
-     */
-    public int getFuelLeft() {
-        int fuel = getMovement();
-        
-        if (type == Unit.Type.BOMBER) {
-            fuel = getMovesLeft();
-        }
-        
-        return fuel;
     }
 
     /**
@@ -289,17 +269,7 @@ public class Unit extends GamePiece implements Serializable {
      * from this turn.
      */
     public int getRange() {
-        int range = movesLeft;
-
-        if (getType() == Type.BOMBER) {
-            // This plane has moved away from a city and will have to move the
-            // same distance from here to get back.
-            range -= getMovement() - getMovesLeft();
-
-            range = range / 2;
-        }
-        
-        return range;
+        return movesLeft;
     }
 
     public Unit.Type getType() {
@@ -316,24 +286,6 @@ public class Unit extends GamePiece implements Serializable {
 
     public boolean isDestroyed() {
         return health == Health.DESTROYED;
-    }
-    
-    /**
-     * True if this unit can make it to the specified hex
-     * and back without running out of fuel.
-     */
-    public boolean isHexInRange(Hex hex) {
-        boolean inRange = true;
-        
-        if (type == Type.BOMBER) {
-            inRange = getFuelLeft() / 2 >= Calculator.distance(this, hex);
-        }
-        
-        return inRange;
-    }
-
-    public boolean isOutOfFuel() {
-        return getFuelLeft() == 0;
     }
 
     public boolean isReadyForAction() {
@@ -352,7 +304,7 @@ public class Unit extends GamePiece implements Serializable {
     public boolean move() {
         Hex destHex = getPath().get(0);
         assert destHex.isAdjacentTo(getHex());
-        
+
         if (getMovesLeft() > 0 && (destHex.getOwner() == getOwner() || destHex.isEmpty())) {
             lastHex = getHex();
             getHex().removeUnit(this);
@@ -366,10 +318,10 @@ public class Unit extends GamePiece implements Serializable {
                       (destHex.getOwner() != getOwner()) + " empty hex? " +
                       destHex.isEmpty());
         }
-        
+
         return destHex.getUnits() != null && destHex.getUnits().contains(this);
     }
-    
+
     /**
      * Resets a unit for the next turn.
      */
@@ -396,13 +348,13 @@ public class Unit extends GamePiece implements Serializable {
     /**
      * Sets the health of this unit.  If the health level is DESTROYED,
      * the unit removes itself from the hex.
-     * 
+     *
      * @param health the health to set
      * @uml.property  name="health"
      */
     public void setHealth(Health health) {
         this.health = health;
-        
+
         if (this.health == Health.DESTROYED) {
             getHex().removeUnit(this);
             getOwner().removeUnit(this);
@@ -450,7 +402,7 @@ public class Unit extends GamePiece implements Serializable {
 
         movesLeft = type.movement;
         attacksLeft = type.attacks;
-        
+
         player.addGamePiece(this);
     }
 
@@ -461,7 +413,7 @@ public class Unit extends GamePiece implements Serializable {
     private Health health = Health.HEALTHY;
 
     private transient Hex lastHex = null;
-    
+
     private int movesLeft;
 
     private final List<Hex> path;

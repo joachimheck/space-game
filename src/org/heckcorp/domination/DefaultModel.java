@@ -422,19 +422,12 @@ public class DefaultModel implements GameModel, Serializable {
         boolean moved = selectedUnit.move();
         
         if (moved) {
-            log.finer("Model moved " + selectedUnit + " to " +
-                               selectedUnit.getHex());
+            log.finer("Model moved " + selectedUnit + " to " + selectedUnit.getHex());
             selectedUnit.getOwner().updateShadowMap(map);
             views.move(selectedUnit, direction);
-            
-            if (selectedUnit.isOutOfFuel()) {
-                destroyUnit(selectedUnit);
-            } else  {
-                views.selectHex(selectedUnit.getHex());
-            }
+            views.selectHex(selectedUnit.getHex());
         } else {
-            log.fine("Model couldn't move " + selectedUnit +
-                               " to " + selectedUnit.getPath().get(0));
+            log.fine("Model couldn't move " + selectedUnit + " to " + selectedUnit.getPath().get(0));
         }
 
         log.finer("Model finished moving unit one hex.");

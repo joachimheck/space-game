@@ -16,7 +16,7 @@ import java.util.Set;
 public class ComputerPlayer extends Player {
     private void moveUnit(Unit unit) {
         getLog().finest("moveUnit(" + unit + ")");
-        
+
         while (unit.isReadyForAction()) {
             int movesLeft = unit.getMovesLeft();
             getLog().fine("Computer moving unit " + unit +
@@ -29,20 +29,18 @@ public class ComputerPlayer extends Player {
             // Attack enemy units.
             if (unit.getAttacksLeft() > 0) {
                 Unit closestEnemy = getClosest(unit, getEnemiesInRange(unit));
-                
+
                 if (closestEnemy != null) {
                     getLog().finer("Attacking enemy: " + closestEnemy);
                     destination = closestEnemy.getHex();
                 }
             }
-            
+
             // Move toward non-adjacent enemy units.
             if (destination == null) {
                 Unit target = getClosest(unit, myView.getKnownEnemies());
-                
-                if (target != null && unit.isHexInRange(target.getHex()) &&
-                    Calculator.distance(unit, target) > 1)
-                {
+
+                if (target != null && Calculator.distance(unit, target) > 1) {
                     getLog().finer("Moving toward enemy: " + target);
                     destination = target.getHex();
                 }
@@ -74,41 +72,41 @@ public class ComputerPlayer extends Player {
     private <P extends Positionable> P getClosest(Positionable base, Set<P> group) {
         P closest = null;
         int minDistance = Integer.MAX_VALUE;
-        
+
         for (P item : group) {
             int distance = Calculator.distance(base.getPosition(), item.getPosition());
-            
+
             if (distance < minDistance) {
                 minDistance = distance;
                 closest = item;
             }
         }
-        
+
         return closest;
     }
 
     private Set<Unit> getEnemiesInRange(Unit unit) {
         Set<Unit> inRange = new HashSet<>();
         Set<Unit> allEnemies = myView.getKnownEnemies();
-        
+
         int range = unit.getRange();
-        
+
         for (Unit enemy : allEnemies) {
             if (Calculator.distance(unit.getPosition(), enemy.getPosition()) <= range) {
                 inRange.add(enemy);
             }
         }
-        
+
         return inRange;
     }
 
     public ComputerPlayer(String name, Color color, GameModel model, GameView view) {
         super(name, color, view);
-        
+
         assert view instanceof ComputerPlayerView;
         myView = (ComputerPlayerView)view;
         myView.setPlayer(this);
-        
+
         this.model = model;
     }
 
@@ -117,7 +115,7 @@ public class ComputerPlayer extends Player {
      */
     private transient GameModel model;
     private transient ComputerPlayerView myView;
-    
+
     private static final long serialVersionUID = 1L;
 
     /**
@@ -126,9 +124,9 @@ public class ComputerPlayer extends Player {
     @Override
     public void setView(GameView view) {
         assert myView == null;
-        
+
         myView = (ComputerPlayerView) view;
-        
+
         super.setView(view);
     }
 
@@ -139,10 +137,10 @@ public class ComputerPlayer extends Player {
     public void setModel(GameModel model) {
         assert model != null;
         assert this.model == null;
-        
+
         this.model = model;
     }
-    
+
     @Override
     public void move() {
         assert getReadyUnit() != null;
