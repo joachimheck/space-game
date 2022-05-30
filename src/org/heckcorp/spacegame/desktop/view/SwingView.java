@@ -219,23 +219,19 @@ public class SwingView extends JPanel implements GameView
 
                 miniMap.invalidate();
             } else if (status == Status.DAMAGED) {
-                counter.setDamaged(true);
                 pause(Constants.PAUSE_TIME);
             } else {
                 invokeAndWait(() -> {
                     // Status.DAMAGED - dealt with earlier in the method.
                     // Status.DESTROYED - dealt with earlier in the method.
                     // Status.SKIPPED - do nothing.
-                    if (status == Status.HEALTHY) {
-                        counter.setDamaged(false);
-                    } else if (status == Status.HIDDEN) {
+                    if (status == Status.HIDDEN) {
                         counter.setHidden(true);
                         miniMap.invalidate();
                     } else if (status == Status.REVEALED) {
                         counter.setHidden(false);
                         miniMap.invalidate();
                     } else if (status == Status.SELECTED) {
-
                         if (!counter.isHidden()) {
                             Point point = new Point(counter.getMapPosition());
                             point.translate(-1, -1);

@@ -50,15 +50,6 @@ public class Counter extends JLabel {
                 location.y - (getHeight() / 2)));
     }
 
-    /**
-     * @pre  damagedSprite != null
-     * @uml.property  name="damaged"
-     */
-    public void setDamaged(boolean damaged) {
-        this.damaged = damaged;
-        repaint();
-    }
-
     public void moveCenterTo(final Point destination) {
         moveTo(new Point(destination.x - (getWidth() / 2),
                 destination.y - (getHeight() / 2)));
@@ -142,11 +133,6 @@ public class Counter extends JLabel {
             g.setColor(borderColor);
             g.drawRect(0, 0, getWidth() - 1, getHeight() - 1);
         }
-
-        if (damaged) {
-            g.setColor(Color.black);
-            g.drawLine(getWidth(), 0, 0, getHeight());
-        }
     }
 
     public void setLoop(boolean b) {
@@ -227,7 +213,6 @@ public class Counter extends JLabel {
      */
     private int speed;
     private final AnimatedImageIcon icon;
-    private boolean damaged = false;
     long lastTime = 0L;
 
     /**
