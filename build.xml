@@ -58,7 +58,7 @@
         </java>
     </target>
     <target name="Domination">
-        <java classname="org.heckcorp.domination.Wargame" failonerror="true" fork="yes">
+        <java classname="org.heckcorp.spacegame.Wargame" failonerror="true" fork="yes">
             <jvmarg line="-ea -esa"/>
             <classpath refid="domination.classpath"/>
         </java>
