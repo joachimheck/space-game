@@ -86,6 +86,9 @@ public class Counter extends JLabel {
             // Otherwise, we set destination and end up having multiple timers
             // running simultaneously, speeding up movement with every hex.
             moveTimer.stop();
+            synchronized (toNotify) {
+                toNotify.notify();
+            }
         }
     }
 
@@ -182,6 +185,10 @@ public class Counter extends JLabel {
         this.mapPosition = mapPosition;
     }
 
+    public void notifyWhenAnimationComplete(Object toNotify) {
+        this.toNotify = toNotify;
+    }
+
     private static final int ANIMATION_TIME = 100;
 
     /**
@@ -222,4 +229,5 @@ public class Counter extends JLabel {
     private boolean onScreen = true;
     private boolean hidden = false;
     private Point mapPosition;
+    private Object toNotify;
 }

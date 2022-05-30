@@ -4,10 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3bc8c235-c2bd-4343-a6d7-4a6d6d4b49b0" name="Changes" comment="Removed an unused field.">
+    <list default="true" id="3bc8c235-c2bd-4343-a6d7-4a6d6d4b49b0" name="Changes" comment="Shrunk the map for easier debugging.">
+      <change afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/desktop/view/MovementAnimationState.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/Unit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/Unit.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/desktop/view/HexDescriptionPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/desktop/view/HexDescriptionPanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/desktop/view/Counter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/desktop/view/Counter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/desktop/view/SwingView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/desktop/view/SwingView.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -20,6 +21,7 @@
         <option value="module-info" />
         <option value="package-info" />
         <option value="Class" />
+        <option value="Enum" />
       </list>
     </option>
   </component>
@@ -58,6 +60,9 @@
     <property name="settings.editor.selected.configurable" value="preferences.keymap" />
   </component>
   <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="org.heckcorp.spacegame.desktop.view" />
+    </key>
     <key name="ExtractSuperBase.RECENT_KEYS">
       <recent name="org.heckcorp.domination" />
     </key>
@@ -347,7 +352,21 @@
       <option name="project" value="LOCAL" />
       <updated>1653925730053</updated>
     </task>
-    <option name="localTasksCounter" value="38" />
+    <task id="LOCAL-00038" summary="Added hit points to units.">
+      <created>1653926186677</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1653926186678</updated>
+    </task>
+    <task id="LOCAL-00039" summary="Shrunk the map for easier debugging.">
+      <created>1653926230840</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1653926230840</updated>
+    </task>
+    <option name="localTasksCounter" value="40" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -366,8 +385,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
-    <MESSAGE value="Cleaned up warnings in most of the view classes." />
-    <MESSAGE value="Cleaned up warnings in most of the remaining classes." />
     <MESSAGE value="Removed ShadowMap and ShadowStatus. They won't be neede in a space game, at least not at first." />
     <MESSAGE value="Removed City." />
     <MESSAGE value="Removed Terrain." />
@@ -391,7 +408,30 @@
     <MESSAGE value="Removed the display of the damaged status." />
     <MESSAGE value="Increased the window size." />
     <MESSAGE value="Removed an unused field." />
-    <option name="LAST_COMMIT_MESSAGE" value="Removed an unused field." />
+    <MESSAGE value="Added hit points to units." />
+    <MESSAGE value="Shrunk the map for easier debugging." />
+    <option name="LAST_COMMIT_MESSAGE" value="Shrunk the map for easier debugging." />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/org/heckcorp/spacegame/DefaultModel.java</url>
+          <line>193</line>
+          <option name="timeStamp" value="23" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/org/heckcorp/spacegame/desktop/view/SwingView.java</url>
+          <line>443</line>
+          <option name="timeStamp" value="25" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/org/heckcorp/spacegame/desktop/view/Counter.java</url>
+          <line>79</line>
+          <option name="timeStamp" value="30" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

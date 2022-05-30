@@ -175,6 +175,7 @@ public class SwingView extends JPanel implements GameView
         public void moveCounter(final Counter counter, final Hex destHex) {
             MapPane mapPane = mapView.getMapPane();
             Point position = mapPane.getHexCenter(destHex.getPosition());
+            counter.notifyWhenAnimationComplete(this);
             counter.moveCenterTo(position);
 
             try {
@@ -214,6 +215,7 @@ public class SwingView extends JPanel implements GameView
 
                     explosion.setHidden(true);
                 } catch (InterruptedException e) {
+                    e.printStackTrace();
                     // Ignore.
                 }
 
@@ -295,7 +297,7 @@ public class SwingView extends JPanel implements GameView
             });
         }
 
-        public void updateShadowMap() {
+        public void invalidateMapViews() {
             invokeAndWait(() -> {
                 mapView.invalidate();
                 miniMap.invalidate();
@@ -310,6 +312,7 @@ public class SwingView extends JPanel implements GameView
             try {
                 SwingUtilities.invokeAndWait(runnable);
             } catch (InterruptedException e) {
+                e.printStackTrace();
                 // Ignore - what else can I do?
             } catch (InvocationTargetException e) {
                 // TODO: throw a new RuntimeException here maybe?
@@ -331,6 +334,7 @@ public class SwingView extends JPanel implements GameView
                 try {
                     Thread.sleep(millis);
                 } catch (InterruptedException e) {
+                    e.printStackTrace();
                     // Ignore
                 }
             });
@@ -438,7 +442,7 @@ public class SwingView extends JPanel implements GameView
 
         displayManager.displayPositions(unit.getLastHex(), unit.getHex());
         displayManager.moveCounter(counter, unit.getHex());
-        displayManager.updateShadowMap();
+        displayManager.invalidateMapViews();
         displayManager.setCounterVisibility();
         uiManager.hexDescriptionPanel.setHex(destHex);
     }
