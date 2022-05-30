@@ -14,8 +14,8 @@ public class Constants {
     public static final int MAJOR_VERSION = 0;
     public static final int MINOR_VERSION = 3;
     public static final String ACTION_END_TURN = "endTurn";
-    public static final int MAP_WIDTH = 15;
-    public static final int MAP_HEIGHT = 10;
+    public static final int MAP_WIDTH = 10;
+    public static final int MAP_HEIGHT = 6;
     public static final int PAUSE_TIME = 350;
     public static final Object ACTION_WAIT_UNIT = "waitUnit";
     public static final int UI_COMPONENT_SMALL_WIDTH = 200;
