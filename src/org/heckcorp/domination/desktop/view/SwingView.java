@@ -4,7 +4,6 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import org.heckcorp.domination.Constants;
 import org.heckcorp.domination.Direction;
-import org.heckcorp.domination.GamePiece;
 import org.heckcorp.domination.GameView;
 import org.heckcorp.domination.Hex;
 import org.heckcorp.domination.HexMap;
@@ -46,22 +45,21 @@ public class SwingView extends JPanel implements GameView
         }
 
         /**
-         * Creates all the sprites that will be used to display a GamePiecde of
-         * the specified type, and sets their position.
+         * Creates all the sprites that will be used to display a unit of
+         * the specified type, and sets their positions.
          *
-         * @param piece the GamePiece to create a unit for.
-         * @return the counter for the GamePiece.
-         * @pre piece != null
+         * @param unit the Unit to create a counter for.
+         * @return the counter for the unit.
          */
-        private Counter createCounter(GamePiece piece) {
+        private Counter createCounter(Unit unit) {
             Point position = new Point(0, 0);
 
             if (mapView.isInitialized()) {
-                position = mapView.getMapPane().getHexCenter(piece.getPosition());
+                position = mapView.getMapPane().getHexCenter(unit.getPosition());
             }
 
             return new Counter(UIResources.getInstance().getSpaceshipImages(),
-                    piece.getOwner().getColor(), position, piece.getPosition());
+                    unit.getOwner().getColor(), position, unit.getPosition());
         }
 
         public UIManager() {
@@ -404,7 +402,7 @@ public class SwingView extends JPanel implements GameView
 
     /**
      * Manages the non-graphical information for this SwingView, in particular
-     * the mapping between GamePieces and Counters.
+     * the mapping between Units and Counters.
      */
     private static class ViewDataManager {
         public void addUnit(Unit unit, Counter counter) {
@@ -419,7 +417,7 @@ public class SwingView extends JPanel implements GameView
     }
 
     public void addUnit(Unit unit) {
-        log.finest("Adding piece: " + unit);
+        log.finest("Adding unit: " + unit);
         Counter counter = uiManager.createCounter(unit);
         dataManager.addUnit(unit, counter);
         uiManager.getMapView().add(counter, MapView.SPRITE_LAYER);
