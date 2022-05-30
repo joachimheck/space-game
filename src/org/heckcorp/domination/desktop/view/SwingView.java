@@ -15,11 +15,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Observable;
-import java.util.Observer;
 import java.util.Set;
 import java.util.logging.Logger;
 
@@ -164,7 +164,7 @@ public class SwingView extends JPanel implements GameView
      *
      * @author Joachim Heck
      */
-    private class DisplayManager implements Observer {
+    private class DisplayManager implements PropertyChangeListener {
         public void hideAttackArrow() {
             invokeAndWait(() -> resources.getAttackArrow().setHidden(true));
         }
@@ -179,7 +179,7 @@ public class SwingView extends JPanel implements GameView
         public void moveCounter(final Counter counter, final Hex destHex) {
             MapPane mapPane = mapView.getMapPane();
             Point position = mapPane.getHexCenter(destHex.getPosition());
-            counter.addObserver(DisplayManager.this);
+            counter.addPropertyChangeListener(DisplayManager.this);
             counter.moveCenterTo(position);
 
             try {
@@ -191,7 +191,7 @@ public class SwingView extends JPanel implements GameView
                 // Ignore.
             }
 
-            counter.deleteObserver(DisplayManager.this);
+            counter.removePropertyChangeListener(DisplayManager.this);
             counter.setMapPosition(destHex.getPosition());
             resources.getSelection().setMapPosition(destHex.getPosition());
             resources.getSelection().setHidden(counter.isHidden());
@@ -203,12 +203,6 @@ public class SwingView extends JPanel implements GameView
             invokeAndWait(() -> mapView.moveToFront(counter));
         }
 
-        private Counter selectedCounter;
-
-        /**
-         * @pre counter != null
-         * @pre status != null
-         */
         public void setCounterStatus(final Counter counter, final Status status) {
             if (status == Status.DESTROYED) {
                 Counter explosion = UIResources.getInstance().getExplosion();
@@ -247,7 +241,6 @@ public class SwingView extends JPanel implements GameView
                         counter.setHidden(false);
                         miniMap.invalidate();
                     } else if (status == Status.SELECTED) {
-                        selectedCounter = counter;
 
                         if (!counter.isHidden()) {
                             Point point = new Point(counter.getMapPosition());
@@ -312,14 +305,14 @@ public class SwingView extends JPanel implements GameView
             });
         }
 
-        public synchronized void update(Observable o, Object state) {
-            if (state == ObservableState.State.FINISHED_ANIMATING ||
-                    state == ObservableState.State.FINISHED_MOVING)
-            {
+        @Override
+        public void propertyChange(PropertyChangeEvent evt) {
+            Object state = evt.getNewValue();
+            if (state == AnimationState.FINISHED_ANIMATING ||
+                    state == AnimationState.FINISHED_MOVING) {
                 notify();
-            } else if (state == ObservableState.State.MOVING ||
-                    state == ObservableState.State.ANIMATING)
-            {
+            } else if (state == AnimationState.MOVING ||
+                    state == AnimationState.ANIMATING) {
                 // TODO: revalidate?
                 repaint();
             } else {
@@ -356,9 +349,9 @@ public class SwingView extends JPanel implements GameView
             this.mapView = mapView;
             this.miniMap = miniMap;
 
-            resources.getExplosion().addObserver(this);
-            resources.getSelection().addObserver(this);
-            resources.getAttackArrow().addObserver(this);
+            resources.getExplosion().addPropertyChangeListener(this);
+            resources.getSelection().addPropertyChangeListener(this);
+            resources.getAttackArrow().addPropertyChangeListener(this);
 
         }
 
@@ -416,33 +409,23 @@ public class SwingView extends JPanel implements GameView
      * @author Joachim Heck
      */
     private static class ViewDataManager {
-        public void addPiece(GamePiece piece, Counter counter) {
-//            System.out.println("Adding game piece: " + piece);
-
-            counters.put(piece, counter);
-            pieces.put(counter, piece);
+        public void addUnit(Unit unit, Counter counter) {
+            counters.put(unit, counter);
+            units.put(counter, unit);
         }
 
-        public Set<Counter> getCounters() {
-            return pieces.keySet();
+        public Counter getCounter(Unit unit) {
+            return counters.get(unit);
         }
 
-        public GamePiece getGamePiece(Counter counter) {
-            return pieces.get(counter);
-        }
-
-        public Counter getCounter(GamePiece piece) {
-            return counters.get(piece);
-        }
-
-        private final Map<GamePiece, Counter> counters = new HashMap<>();
-        private final Map<Counter, GamePiece> pieces = new HashMap<>();
+        private final Map<Unit, Counter> counters = new HashMap<>();
+        private final Map<Counter, Unit> units = new HashMap<>();
     }
 
     public void addUnit(Unit unit) {
         log.finest("Adding piece: " + unit);
         Counter counter = uiManager.createCounter(unit);
-        dataManager.addPiece(unit, counter);
+        dataManager.addUnit(unit, counter);
         uiManager.getMapView().add(counter, MapView.SPRITE_LAYER);
         revalidate();
     }

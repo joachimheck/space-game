@@ -4,26 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3bc8c235-c2bd-4343-a6d7-4a6d6d4b49b0" name="Changes" comment="Added jsr305 and default non-nullness.">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/google_code_findbugs_jsr305.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/org/heckcorp/domination/desktop/package-info.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/org/heckcorp/domination/desktop/view/package-info.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/org/heckcorp/domination/package-info.java" afterDir="false" />
+    <list default="true" id="3bc8c235-c2bd-4343-a6d7-4a6d6d4b49b0" name="Changes" comment="Replaced Observer/Observable with PropertyChangeListener/PropertyChangeEvent.">
+      <change afterPath="$PROJECT_DIR$/src/org/heckcorp/domination/desktop/view/AnimationState.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/space-game.iml" beforeDir="false" afterPath="$PROJECT_DIR$/space-game.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/space-game.plantuml" beforeDir="false" afterPath="$PROJECT_DIR$/space-game.plantuml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/domination/ComputerPlayerView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/domination/ComputerPlayerView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/domination/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/domination/Constants.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/domination/DefaultModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/domination/DefaultModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/domination/GameModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/domination/GameModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/domination/GameView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/domination/GameView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/domination/HexMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/domination/HexMap.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/domination/NewGameInitializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/domination/NewGameInitializer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/domination/ViewMultiplexer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/domination/ViewMultiplexer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/domination/desktop/view/AnimatedImageIcon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/domination/desktop/view/AnimatedImageIcon.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/org/heckcorp/domination/desktop/view/Counter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/domination/desktop/view/Counter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/domination/desktop/view/ObservableState.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/org/heckcorp/domination/desktop/view/SwingView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/domination/desktop/view/SwingView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/domination/desktop/view/view.plantuml" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/domination/desktop/view/view.plantuml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/domination/domination.plantuml" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/domination/domination.plantuml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,9 +20,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="module-info" />
         <option value="package-info" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -71,13 +58,14 @@
     <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="preferences.editor" />
+    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
   </component>
   <component name="RecentsManager">
     <key name="ExtractSuperBase.RECENT_KEYS">
       <recent name="org.heckcorp.domination" />
     </key>
     <key name="MoveInnerDialog.RECENTS_KEY">
+      <recent name="org.heckcorp.domination.desktop.view" />
       <recent name="org.heckcorp.domination" />
     </key>
   </component>
@@ -299,7 +287,14 @@
       <option name="project" value="LOCAL" />
       <updated>1653916794437</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="Added jsr305 and default non-nullness.">
+      <created>1653918619018</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1653918619018</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -318,7 +313,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
-    <MESSAGE value="Fixed warnings in SwingView." />
     <MESSAGE value="Cleaned up the imports in SwingView and updated the UML diagrams." />
     <MESSAGE value="Pulled ViewMultiplexer out into a top-level class." />
     <MESSAGE value="Added project files and a new .gitignore." />
@@ -343,7 +337,8 @@
     <MESSAGE value="Comment cleanup" />
     <MESSAGE value="Added non-nullness by default." />
     <MESSAGE value="Added jsr305 and default non-nullness." />
-    <option name="LAST_COMMIT_MESSAGE" value="Added jsr305 and default non-nullness." />
+    <MESSAGE value="Replaced Observer/Observable with PropertyChangeListener/PropertyChangeEvent." />
+    <option name="LAST_COMMIT_MESSAGE" value="Replaced Observer/Observable with PropertyChangeListener/PropertyChangeEvent." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

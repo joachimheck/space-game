@@ -5,15 +5,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
-import java.util.Observer;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 
 
 public class Counter extends JLabel {
     public Counter(BufferedImage[] unitPix, Color borderColor, Point hexCenter, Point mapPosition) {
         this.mapPosition = mapPosition;
-
-        state = new ObservableState();
-        icon = new AnimatedImageIcon(unitPix, state);
+        icon = new AnimatedImageIcon(unitPix);
 
         icon.setAnimated(false);
         icon.setLoop(true);
@@ -36,10 +35,6 @@ public class Counter extends JLabel {
         moveTimer = new Timer(timerDelay, e -> updateCounterLocation());
     }
 
-    public void deleteObserver(Observer o) {
-        state.deleteObserver(o);
-    }
-
     public void setAnimated(boolean b) {
         icon.setAnimated(b);
     }
@@ -51,10 +46,6 @@ public class Counter extends JLabel {
     public Point getCenterLocation() {
         return new Point(mapLocation.x + (getWidth() / 2),
             mapLocation.y + (getHeight() / 2));
-    }
-
-    public void addObserver(Observer observer) {
-        state.addObserver(observer);
     }
 
     public void setCenterLocation(Point location) {
@@ -104,16 +95,19 @@ public class Counter extends JLabel {
             setAnimated(false);
 
             // It's important to stop the timer before calling notifyObservers.
-            // Otherwise we set destination and end up having multiple timers
+            // Otherwise, we set destination and end up having multiple timers
             // running simultaneously, speeding up movement with every hex.
             moveTimer.stop();
-
-            state.setChanged();
-            state.notifyObservers(ObservableState.State.FINISHED_MOVING);
+            setAnimationState(AnimationState.FINISHED_MOVING);
         } else if (destination != null) {
-            state.setChanged();
-            state.notifyObservers(ObservableState.State.MOVING);
+            setAnimationState(AnimationState.MOVING);
         }
+    }
+
+    private void setAnimationState(AnimationState animationState) {
+        AnimationState oldValue = this.animationState;
+        this.animationState = animationState;
+        this.propertyChangeSupport.firePropertyChange("AnimationState", oldValue, this.animationState);
     }
 
     /**
@@ -235,6 +229,17 @@ public class Counter extends JLabel {
         this.mapPosition = mapPosition;
     }
 
+    private final PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
+
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        propertyChangeSupport.addPropertyChangeListener(listener);
+        icon.addPropertyChangeListener(listener);
+    }
+
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        propertyChangeSupport.removePropertyChangeListener(listener);
+        icon.removePropertyChangeListener(listener);
+    }
 
     private static final int ANIMATION_TIME = 100;
 
@@ -296,11 +301,13 @@ public class Counter extends JLabel {
      * @uml.property  name="damaged"
      */
     private boolean damaged = false;
+
     /**
      * @uml.property  name="state"
      * @uml.associationEnd  multiplicity="(1 1)"
      */
-    private final ObservableState state;
+    private AnimationState animationState;
+
     /**
      * @uml.property  name="lastTime"
      */

@@ -1,9 +1,9 @@
 package org.heckcorp.domination.desktop.view;
 
-import org.heckcorp.domination.desktop.view.ObservableState.State;
-
 import javax.swing.*;
 import java.awt.image.BufferedImage;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 
 public class AnimatedImageIcon extends ImageIcon {
     /**
@@ -24,15 +24,14 @@ public class AnimatedImageIcon extends ImageIcon {
      */
     private final Timer timer;
 
-    public AnimatedImageIcon(BufferedImage[] images, ObservableState state) {
+    public AnimatedImageIcon(BufferedImage[] images) {
         super(images[0]);
 
         this.images = images;
-        this.state = state;
         timer = new Timer(1000, e -> step());
         timer.setInitialDelay(0);
     }
-    
+
     public void setAnimated(boolean animated) {
         if (animated) {
             timer.start();
@@ -40,7 +39,7 @@ public class AnimatedImageIcon extends ImageIcon {
             timer.stop();
         }
     }
-    
+
     /**
      * @param loop  the loop to set
      * @uml.property  name="loop"
@@ -52,7 +51,7 @@ public class AnimatedImageIcon extends ImageIcon {
     public void setAnimationTime(int time) {
         timer.setDelay(time);
     }
-    
+
     public void step() {
         currentFrame = currentFrame + 1;
 
@@ -62,19 +61,16 @@ public class AnimatedImageIcon extends ImageIcon {
             } else {
                 currentFrame = getFrameCount() - 1;
                 timer.stop();
-
-                state.setChanged();
-                state.notifyObservers(State.FINISHED_ANIMATING);
+                setAnimationState(AnimationState.FINISHED_ANIMATING);
             }
         }
-        
+
         setImageByFrame();
     }
 
     private void setImageByFrame() {
         setImage(images[currentFrame]);
-        state.setChanged();
-        state.notifyObservers(State.ANIMATING);
+        setAnimationState(AnimationState.ANIMATING);
     }
 
     public int getFrameCount() {
@@ -89,10 +85,21 @@ public class AnimatedImageIcon extends ImageIcon {
         currentFrame = frame;
         setImageByFrame();
     }
-    
-    /**
-     * @uml.property  name="state"
-     * @uml.associationEnd  multiplicity="(1 1)"
-     */
-    private final ObservableState state;
+
+    private void setAnimationState(AnimationState animationState) {
+        AnimationState oldValue = this.animationState;
+        this.animationState = animationState;
+        this.propertyChangeSupport.firePropertyChange("AnimationState", oldValue, this.animationState);
+    }
+
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        propertyChangeSupport.addPropertyChangeListener(listener);
+    }
+
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        propertyChangeSupport.removePropertyChangeListener(listener);
+    }
+
+    private final PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
+    private AnimationState animationState;
 }
