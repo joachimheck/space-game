@@ -5,9 +5,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
-
 
 public class Counter extends JLabel {
     public Counter(BufferedImage[] unitPix, Color borderColor, Point hexCenter, Point mapPosition) {
@@ -98,22 +95,9 @@ public class Counter extends JLabel {
             // Otherwise, we set destination and end up having multiple timers
             // running simultaneously, speeding up movement with every hex.
             moveTimer.stop();
-            setAnimationState(AnimationState.FINISHED_MOVING);
-        } else if (destination != null) {
-            setAnimationState(AnimationState.MOVING);
         }
     }
 
-    private void setAnimationState(AnimationState animationState) {
-        AnimationState oldValue = this.animationState;
-        this.animationState = animationState;
-        this.propertyChangeSupport.firePropertyChange("AnimationState", oldValue, this.animationState);
-    }
-
-    /**
-     * @param speed  the speed to set
-     * @uml.property  name="speed"
-     */
     public void setSpeed(int speed) {
         this.speed = speed;
     }
@@ -177,18 +161,6 @@ public class Counter extends JLabel {
         icon.setCurrentFrame(frame);
     }
 
-    /**
-     * @param borderColor  the borderColor to set
-     * @uml.property  name="borderColor"
-     */
-    public void setBorderColor(Color borderColor) {
-        this.borderColor = borderColor;
-    }
-
-    /**
-     * @param onScreen  the onScreen to set
-     * @uml.property  name="onScreen"
-     */
     public void setOnScreen(boolean onScreen) {
         this.onScreen = onScreen;
 
@@ -203,10 +175,6 @@ public class Counter extends JLabel {
         return hidden;
     }
 
-    /**
-     * @param hidden  the hidden to set
-     * @uml.property  name="hidden"
-     */
     public void setHidden(boolean hidden) {
         this.hidden = hidden;
 
@@ -219,7 +187,6 @@ public class Counter extends JLabel {
 
     /**
      * Returns the map position of this Counter.
-     * @post result != null
      */
     public Point getMapPosition() {
         return mapPosition;
@@ -229,104 +196,45 @@ public class Counter extends JLabel {
         this.mapPosition = mapPosition;
     }
 
-    private final PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
-
-    public void addPropertyChangeListener(PropertyChangeListener listener) {
-        propertyChangeSupport.addPropertyChangeListener(listener);
-        icon.addPropertyChangeListener(listener);
-    }
-
-    public void removePropertyChangeListener(PropertyChangeListener listener) {
-        propertyChangeSupport.removePropertyChangeListener(listener);
-        icon.removePropertyChangeListener(listener);
-    }
-
     private static final int ANIMATION_TIME = 100;
 
     /**
      * The movement speed of the Counter, in pixels per second.
      */
     private static final int MOVE_SPEED = 75;
-    /**
-     * @uml.property  name="borderColor"
-     * @uml.associationEnd  multiplicity="(0 -1)" elementType="java.awt.Color" qualifier="key:org.heckcorp.domination.game.Unit$Type [Ljava.awt.image.BufferedImage;"
-     */
-    private Color borderColor;
-    /**
-     * @uml.property  name="destination"
-     */
+    private final Color borderColor;
     private Point destination;
 
     /**
      * The location of this Counter on an imaginary component that contains the entire map.
-     * @uml.property  name="mapLocation"
-     * @uml.associationEnd  multiplicity="(0 -1)" elementType="java.awt.Color" qualifier="key:org.heckcorp.domination.game.Unit$Type [Ljava.awt.image.BufferedImage;"
      */
     private final Point mapLocation = new Point(0, 0);
-
-    /**
-     * @uml.property  name="moveTimer"
-     * @uml.associationEnd  multiplicity="(1 1)"
-     */
     private final Timer moveTimer;
 
     /**
      * The normal vector of this SpriteSet's movement direction. Null iff destination is null.
-     * @uml.property  name="normal"
      */
     private Point2D normal;
-    /**
-     * @uml.property  name="oldLocation"
-     * @uml.associationEnd  multiplicity="(0 -1)" elementType="java.awt.Color" qualifier="key:org.heckcorp.domination.game.Unit$Type [Ljava.awt.image.BufferedImage;"
-     */
     private final Point oldLocation;
 
     /**
      * This SpriteSet's location in double precision, used during movement calculations.
-     * @uml.property  name="realLocation"
      */
     private Point2D realLocation;
 
     /**
      * Speed the Sprite should move, in pixels per second.
-     * @uml.property  name="speed"
      */
     private int speed;
-    /**
-     * @uml.property  name="icon"
-     * @uml.associationEnd  multiplicity="(1 1)"
-     */
     private final AnimatedImageIcon icon;
-    /**
-     * @uml.property  name="damaged"
-     */
     private boolean damaged = false;
-
-    /**
-     * @uml.property  name="state"
-     * @uml.associationEnd  multiplicity="(1 1)"
-     */
-    private AnimationState animationState;
-
-    /**
-     * @uml.property  name="lastTime"
-     */
     long lastTime = 0L;
 
     /**
      * This vector is added to the Counter's screen position when it is displayed on the screen.
-     * @uml.property  name="offset"
-     * @uml.associationEnd  multiplicity="(0 -1)" elementType="java.awt.Color" qualifier="key:org.heckcorp.domination.game.Unit$Type [Ljava.awt.image.BufferedImage;"
      */
     private final Point offset = new Point(0, 0);
-    /**
-     * @uml.property  name="onScreen"
-     */
     private boolean onScreen = true;
-    /**
-     * @uml.property  name="hidden"
-     */
     private boolean hidden = false;
-
     private Point mapPosition;
 }

@@ -16,8 +16,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Set;
 import java.util.logging.Logger;
@@ -162,7 +160,7 @@ public class SwingView extends JPanel implements GameView
      *
      * @author Joachim Heck
      */
-    private class DisplayManager implements PropertyChangeListener {
+    private class DisplayManager {
         public void hideAttackArrow() {
             invokeAndWait(() -> resources.getAttackArrow().setHidden(true));
         }
@@ -177,7 +175,6 @@ public class SwingView extends JPanel implements GameView
         public void moveCounter(final Counter counter, final Hex destHex) {
             MapPane mapPane = mapView.getMapPane();
             Point position = mapPane.getHexCenter(destHex.getPosition());
-            counter.addPropertyChangeListener(DisplayManager.this);
             counter.moveCenterTo(position);
 
             try {
@@ -189,7 +186,6 @@ public class SwingView extends JPanel implements GameView
                 // Ignore.
             }
 
-            counter.removePropertyChangeListener(DisplayManager.this);
             counter.setMapPosition(destHex.getPosition());
             resources.getSelection().setMapPosition(destHex.getPosition());
             resources.getSelection().setHidden(counter.isHidden());
@@ -303,22 +299,6 @@ public class SwingView extends JPanel implements GameView
             });
         }
 
-        @Override
-        public void propertyChange(PropertyChangeEvent evt) {
-            Object state = evt.getNewValue();
-            if (state == AnimationState.FINISHED_ANIMATING ||
-                    state == AnimationState.FINISHED_MOVING) {
-                notify();
-            } else if (state == AnimationState.MOVING ||
-                    state == AnimationState.ANIMATING) {
-                // TODO: revalidate?
-                repaint();
-            } else {
-                // Unknown observable reporting.
-                assert false;
-            }
-        }
-
         public void updateShadowMap() {
             invokeAndWait(() -> {
                 mapView.invalidate();
@@ -342,15 +322,9 @@ public class SwingView extends JPanel implements GameView
             }
         }
 
-        public DisplayManager(MapView mapView, MiniMap miniMap)
-        {
+        public DisplayManager(MapView mapView, MiniMap miniMap) {
             this.mapView = mapView;
             this.miniMap = miniMap;
-
-            resources.getExplosion().addPropertyChangeListener(this);
-            resources.getSelection().addPropertyChangeListener(this);
-            resources.getAttackArrow().addPropertyChangeListener(this);
-
         }
 
         private final MapView mapView;

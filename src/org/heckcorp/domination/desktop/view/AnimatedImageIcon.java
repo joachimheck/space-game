@@ -1,28 +1,10 @@
 package org.heckcorp.domination.desktop.view;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 
 public class AnimatedImageIcon extends ImageIcon {
-    /**
-     * @uml.property  name="images" multiplicity="(0 -1)" dimension="1"
-     */
-    private final BufferedImage[] images;
-    /**
-     * @uml.property  name="currentFrame"
-     */
-    private int currentFrame = 0;
-    /**
-     * @uml.property  name="loop"
-     */
-    boolean loop = false;
-    /**
-     * @uml.property  name="timer"
-     * @uml.associationEnd  multiplicity="(1 1)"
-     */
-    private final Timer timer;
 
     public AnimatedImageIcon(BufferedImage[] images) {
         super(images[0]);
@@ -40,10 +22,6 @@ public class AnimatedImageIcon extends ImageIcon {
         }
     }
 
-    /**
-     * @param loop  the loop to set
-     * @uml.property  name="loop"
-     */
     public void setLoop(boolean loop) {
         this.loop = loop;
     }
@@ -61,7 +39,6 @@ public class AnimatedImageIcon extends ImageIcon {
             } else {
                 currentFrame = getFrameCount() - 1;
                 timer.stop();
-                setAnimationState(AnimationState.FINISHED_ANIMATING);
             }
         }
 
@@ -70,36 +47,31 @@ public class AnimatedImageIcon extends ImageIcon {
 
     private void setImageByFrame() {
         setImage(images[currentFrame]);
-        setAnimationState(AnimationState.ANIMATING);
+        component.repaint(x, y, images[0].getWidth(), images[0].getHeight());
     }
 
     public int getFrameCount() {
         return images.length;
     }
 
-    /**
-     * @param frame  the currentFrame to set
-     * @uml.property  name="currentFrame"
-     */
     public void setCurrentFrame(int frame) {
         currentFrame = frame;
         setImageByFrame();
     }
 
-    private void setAnimationState(AnimationState animationState) {
-        AnimationState oldValue = this.animationState;
-        this.animationState = animationState;
-        this.propertyChangeSupport.firePropertyChange("AnimationState", oldValue, this.animationState);
+    @Override
+    public void paintIcon(Component component, Graphics graphics, int x, int y) {
+        super.paintIcon(component, graphics, x, y);
+        this.component = component;
+        this.x = x;
+        this.y = y;
     }
 
-    public void addPropertyChangeListener(PropertyChangeListener listener) {
-        propertyChangeSupport.addPropertyChangeListener(listener);
-    }
-
-    public void removePropertyChangeListener(PropertyChangeListener listener) {
-        propertyChangeSupport.removePropertyChangeListener(listener);
-    }
-
-    private final PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
-    private AnimationState animationState;
+    private final BufferedImage[] images;
+    private int currentFrame = 0;
+    boolean loop = false;
+    private final Timer timer;
+    private Component component;
+    private int x;
+    private int y;
 }
