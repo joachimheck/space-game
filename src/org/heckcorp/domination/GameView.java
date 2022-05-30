@@ -11,11 +11,9 @@ public interface GameView {
 
     /**
      * Makes the unit available for use in the UI.
-     * @pre piece != null
-     * @pre piece.getPosition() != null
      */
-    void addGamePiece(GamePiece piece);
-    
+    void addUnit(Unit unit);
+
     /**
      * Initiates an attack.
      * @pre attacker != null
@@ -25,7 +23,7 @@ public interface GameView {
      * @pre attacker.canAttack(target.getHex())
      */
     void attack(Unit attacker, Unit target);
-    
+
     /**
      * Moves the unit.
      * @pre unit != null
@@ -33,27 +31,27 @@ public interface GameView {
      * @pre unit has been added to this view, and not destroyed
      */
     void move(Unit unit, Direction direction);
-    
+
     /**
      * Selects the specified hex.  If a unit or another hex is
      * currently selected, it is first unselected.
      * @pre hex != null
      */
     void selectHex(Hex hex);
-    
+
     /**
      * Sets this view's monitor.  The view will update the
      * controller whenever the viewport size or position changes.
      * @pre monitor != null
      */
     void setMonitor(ViewMonitor monitor);
-    
+
     /**
      * Sets this view's current player to the specified player.
      * @pre player != null
      */
     void setCurrentPlayer(String playerName);
-    
+
     /**
      * Sets the map to be displayed in this view.
      * @pre map != null

@@ -6,6 +6,7 @@ import org.heckcorp.domination.desktop.HumanPlayer;
 import org.heckcorp.domination.desktop.NeutralPlayer;
 import org.heckcorp.domination.desktop.Pathfinder;
 import org.heckcorp.domination.desktop.TurnManager;
+import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 import java.io.IOException;
@@ -83,7 +84,7 @@ public class DefaultModel implements GameModel, Serializable {
                 for (Unit unit : units) {
                     unit.setOwner(player);
                     player.addUnit(unit);
-                    model.addGamePiece(unit, unit.getPosition());
+                    model.addUnit(unit, unit.getPosition());
                 }
             }
 
@@ -95,14 +96,12 @@ public class DefaultModel implements GameModel, Serializable {
 
     /**
      * Adds the piece to the model at the specified position.
-     * @pre piece != null
-     * @pre position != null
      * @pre getMap().contains(position)
      */
-    public void addGamePiece(GamePiece piece, Point position) {
-        piece.setHex(map.getHex(position));
-        map.addGamePiece(piece, piece.getPosition());
-        views.addGamePiece(piece);
+    public void addUnit(@NotNull Unit unit, @NotNull Point position) {
+        unit.setHex(map.getHex(position));
+        map.addUnit(unit, unit.getPosition());
+        views.addUnit(unit);
     }
 
     /**
@@ -326,13 +325,11 @@ public class DefaultModel implements GameModel, Serializable {
 
     /**
      * Sets the destination of the selected unit to the specified point.
-     * @pre destination != null
      * @pre destination is in the map
      * @post result == false || the selected unit has a path
      */
     public void setSelectedUnitDestination(Point destination) {
         if (selectedUnit != null) {
-            assert destination != null;
             assert map.isInMap(destination);
 
             Hex hex = map.getHex(destination);

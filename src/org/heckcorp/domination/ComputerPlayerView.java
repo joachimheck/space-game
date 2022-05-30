@@ -1,6 +1,7 @@
 package org.heckcorp.domination;
 
 import org.heckcorp.domination.desktop.ComputerPlayer;
+import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 import java.util.HashSet;
@@ -13,15 +14,15 @@ public class ComputerPlayerView implements GameView {
     private HexMap map;
     private final Set<Unit> knownEnemies = new HashSet<>();
     private final Logger log;
-    
+
     public ComputerPlayerView() {
         super();
         log = Logger.getLogger(getClass().getName());
     }
-    
-    public void addGamePiece(GamePiece piece) {
-        if (piece instanceof Unit && piece.getOwner() != player) {
-            knownEnemies.add((Unit) piece);
+
+    public void addUnit(@NotNull Unit unit) {
+        if (unit.getOwner() != player) {
+            knownEnemies.add(unit);
         }
     }
 

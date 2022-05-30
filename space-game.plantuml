@@ -57,12 +57,6 @@ title __SPACE-GAME's Class Diagram__\n
   
 
   namespace org.heckcorp.domination {
-    interface org.heckcorp.domination.HexFilter {
-    }
-  }
-  
-
-  namespace org.heckcorp.domination {
     class org.heckcorp.domination.HexMap {
     }
   }

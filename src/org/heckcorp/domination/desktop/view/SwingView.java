@@ -351,21 +351,6 @@ public class SwingView extends JPanel implements GameView
             }
         }
 
-        public void relocateCounters() {
-            for (Counter counter : dataManager.getCounters()) {
-                GamePiece piece = dataManager.getGamePiece(counter);
-                Point hexCenter = uiManager.getMapView().getMapPane().
-                        getHexCenter(piece.getPosition());
-                counter.setCenterLocation(hexCenter);
-            }
-
-            if (selectedCounter != null) {
-                resources.getSelection().setLocation(selectedCounter.getLocation());
-            }
-
-            miniMap.invalidate();
-        }
-
         public DisplayManager(MapView mapView, MiniMap miniMap)
         {
             this.mapView = mapView;
@@ -454,10 +439,10 @@ public class SwingView extends JPanel implements GameView
         private final Map<Counter, GamePiece> pieces = new HashMap<>();
     }
 
-    public void addGamePiece(GamePiece piece) {
-        log.finest("Adding piece: " + piece);
-        Counter counter = uiManager.createCounter(piece);
-        dataManager.addPiece(piece, counter);
+    public void addUnit(Unit unit) {
+        log.finest("Adding piece: " + unit);
+        Counter counter = uiManager.createCounter(unit);
+        dataManager.addPiece(unit, counter);
         uiManager.getMapView().add(counter, MapView.SPRITE_LAYER);
         revalidate();
     }

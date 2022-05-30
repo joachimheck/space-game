@@ -242,6 +242,7 @@ title __VIEW's Class Diagram__\n
             + SwingView()
             + addGamePiece()
             + attack()
+            + initialize()
             + message()
             + move()
             + selectHex()
@@ -322,19 +323,15 @@ title __VIEW's Class Diagram__\n
     namespace desktop {
       namespace view {
         class org.heckcorp.domination.desktop.view.UIResources {
-            + cityPic : BufferedImage
-            + darkFog : BufferedImage
-            + lightFog : BufferedImage
             + selectedHexPix : BufferedImage[]
-            + spaceHex : BufferedImage
-            + tilePix : BufferedImage[]
-            + unitPixByType : Map<Type, BufferedImage[]>
+            + spaceshipPic : BufferedImage[]
+            + tilePic : BufferedImage[]
             {static} - instance : UIResources
             + getAttackArrow()
             + getExplosion()
             {static} + getInstance()
-            + getPictures()
             + getSelection()
+            + getSpaceshipImages()
             {static} + initializeResources()
             - UIResources()
         }

@@ -19,6 +19,7 @@ title __DOMINATION's Class Diagram__\n
         + attack()
         + getKnownEnemies()
         + getMap()
+        + initialize()
         + message()
         + move()
         + selectHex()
@@ -154,6 +155,7 @@ title __DOMINATION's Class Diagram__\n
     interface org.heckcorp.domination.GameView {
         {abstract} + addGamePiece()
         {abstract} + attack()
+        {abstract} + initialize()
         {abstract} + message()
         {abstract} + move()
         {abstract} + selectHex()
@@ -168,7 +170,6 @@ title __DOMINATION's Class Diagram__\n
 
   namespace org.heckcorp.domination {
     class org.heckcorp.domination.Hex {
-        + elevation : int
         + x : int
         + y : int
         {static} - serialVersionUID : long
@@ -183,13 +184,6 @@ title __DOMINATION's Class Diagram__\n
         + isEmpty()
         + removeUnit()
         + toString()
-    }
-  }
-  
-
-  namespace org.heckcorp.domination {
-    interface org.heckcorp.domination.HexFilter {
-        {abstract} + accept()
     }
   }
   
@@ -213,7 +207,6 @@ title __DOMINATION's Class Diagram__\n
         {static} + getDirection()
         + getHex()
         + getHex()
-        + getHexes()
         + getHexes()
         + getHexesAtRange()
         + getHexesInRange()
@@ -262,11 +255,10 @@ title __DOMINATION's Class Diagram__\n
         - name : String
         - units : Set<Unit>
         + Player()
-        + addGamePiece()
+        + addUnit()
         + clearReadyUnit()
         + finishTurn()
         + getColor()
-        + getGamePieces()
         + getLog()
         + getName()
         + getReadyUnit()
@@ -274,14 +266,12 @@ title __DOMINATION's Class Diagram__\n
         + getUnits()
         + getView()
         {abstract} + move()
-        + removeGamePiece()
         + removeUnit()
         + setReadyUnit()
         + setView()
         + startTurn()
         + turnFinished()
         + unitActionFinished()
-        + updateShadowMap()
         + write()
     }
   }
@@ -334,16 +324,13 @@ title __DOMINATION's Class Diagram__\n
         + clearPath()
         + decreaseAttacksLeft()
         + decreaseMovesLeft()
-        + getAccessibleHexes()
         + getAttack()
         + getAttacks()
         + getAttacksLeft()
         + getDefense()
-        + getFuelLeft()
         + getHealth()
         + getLastHex()
         + getMovement()
-        + getMovementHexFilter()
         + getMovesLeft()
         + getNextDirection()
         + getPath()
@@ -352,8 +339,6 @@ title __DOMINATION's Class Diagram__\n
         + isAsleep()
         + isDamaged()
         + isDestroyed()
-        + isHexInRange()
-        + isOutOfFuel()
         + isReadyForAction()
         + isSkipped()
         + move()
@@ -381,18 +366,8 @@ title __DOMINATION's Class Diagram__\n
   
 
   namespace org.heckcorp.domination {
-    class org.heckcorp.domination.Unit.MovementHexFilter {
-        + MovementHexFilter()
-        + accept()
-    }
-  }
-  
-
-  namespace org.heckcorp.domination {
     enum Type {
-      BOMBER
-      SOLDIER
-      TANK
+      SPACESHIP
       attack
       attacks
       cost
@@ -418,6 +393,7 @@ title __DOMINATION's Class Diagram__\n
         + addGamePiece()
         + addGameView()
         + attack()
+        + initialize()
         + message()
         + move()
         + selectHex()
@@ -464,10 +440,7 @@ title __DOMINATION's Class Diagram__\n
   org.heckcorp.domination.Unit o-- org.heckcorp.domination.Hex : lastHex
   org.heckcorp.domination.Unit o-- org.heckcorp.domination.Unit.Type : type
   org.heckcorp.domination.Unit +-down- org.heckcorp.domination.Unit.Health
-  org.heckcorp.domination.Unit +-down- org.heckcorp.domination.Unit.MovementHexFilter
   org.heckcorp.domination.Unit +-down- org.heckcorp.domination.Unit.Type
-  org.heckcorp.domination.Unit.MovementHexFilter .up.|> org.heckcorp.domination.HexFilter
-  org.heckcorp.domination.Unit.MovementHexFilter o-- org.heckcorp.domination.Unit : unit
   org.heckcorp.domination.ViewMultiplexer .up.|> org.heckcorp.domination.GameView
 
 

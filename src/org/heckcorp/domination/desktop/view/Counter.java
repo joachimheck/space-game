@@ -1,5 +1,6 @@
 package org.heckcorp.domination.desktop.view;
 
+import javax.annotation.Nullable;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -9,10 +10,8 @@ import java.util.Observer;
 
 public class Counter extends JLabel {
     public Counter(BufferedImage[] unitPix, Color borderColor, Point hexCenter, Point mapPosition) {
-        if (mapPosition != null) {
-            this.mapPosition = mapPosition;
-        }
-        
+        this.mapPosition = mapPosition;
+
         state = new ObservableState();
         icon = new AnimatedImageIcon(unitPix, state);
 
@@ -84,7 +83,7 @@ public class Counter extends JLabel {
 
         Point2D movementVector = new Point2D.Double(destination.x -
                 getLocation().x, destination.y - getLocation().y);
-        
+
         double length = Math.sqrt((movementVector.getX() * movementVector.getX()) +
                 (movementVector.getY() * movementVector.getY()));
         normal = new Point2D.Double(movementVector.getX() / length,
@@ -232,7 +231,7 @@ public class Counter extends JLabel {
         return mapPosition;
     }
 
-    public void setMapPosition(Point mapPosition) {
+    public void setMapPosition(@Nullable Point mapPosition) {
         this.mapPosition = mapPosition;
     }
 
@@ -322,5 +321,5 @@ public class Counter extends JLabel {
      */
     private boolean hidden = false;
 
-    private Point mapPosition = null;
+    private Point mapPosition;
 }

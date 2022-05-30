@@ -54,7 +54,7 @@ public class NewGameInitializer implements ModelInitializer {
                 List<Unit> units = createUnits(player);
                 Hex hex = map.getRandomHex();
                 for (Unit unit : units) {
-                    model.addGamePiece(unit, hex.getPosition());
+                    model.addUnit(unit, hex.getPosition());
                 }
             }
 

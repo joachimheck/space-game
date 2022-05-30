@@ -15,7 +15,7 @@ public interface GameModel {
      * @pre position != null
      * @pre getMap().contains(position)
      */
-    void addGamePiece(GamePiece piece, Point position);
+    void addUnit(Unit unit, Point position);
 
     /**
      * Adds the specified player to the model.
@@ -29,7 +29,7 @@ public interface GameModel {
      * orders will remain in place.
      */
     void endTurn();
-    
+
     /**
      * Returns the hex at the specified map coordinates.
      * @param position the map coordinates of the hex to get.
@@ -59,7 +59,7 @@ public interface GameModel {
      * are friendly units in the hex, the first selectable unit
      * is selected.  Additionally, if the hex contains a city,
      * the city is selected.
-     * 
+     *
      * @pre position != null
      */
     void selectHex(Point position);
@@ -70,26 +70,26 @@ public interface GameModel {
      * @pre unit.getOwner() == the current player
      */
     void selectUnit(Unit unit);
-    
+
     /**
      * Sets this model's map to the specified hex map.
      * @pre  map != null
      * @uml.property  name="map"
      */
     void setMap(HexMap map);
-    
+
     /**
      * Skips the selected unit for a turn.  The unit will not move
      * or require orders this turn.
      */
     void skipSelectedUnit();
-    
+
     /**
      * Puts the selected unit to sleep.  The unit will not move
      * or attack until ordered to do so.
      */
     void sleepSelectedUnit();
-    
+
     /**
      * Hex hiding is toggled to the state opposite its current state.
      */

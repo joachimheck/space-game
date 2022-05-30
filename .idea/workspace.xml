@@ -4,7 +4,27 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3bc8c235-c2bd-4343-a6d7-4a6d6d4b49b0" name="Changes" comment="Removed references to GamePiece from Player. For now, we're always dealing with Units." />
+    <list default="true" id="3bc8c235-c2bd-4343-a6d7-4a6d6d4b49b0" name="Changes" comment="Added jsr305 and default non-nullness.">
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/google_code_findbugs_jsr305.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/heckcorp/domination/desktop/package-info.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/heckcorp/domination/desktop/view/package-info.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/heckcorp/domination/package-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/space-game.iml" beforeDir="false" afterPath="$PROJECT_DIR$/space-game.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/space-game.plantuml" beforeDir="false" afterPath="$PROJECT_DIR$/space-game.plantuml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/domination/ComputerPlayerView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/domination/ComputerPlayerView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/domination/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/domination/Constants.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/domination/DefaultModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/domination/DefaultModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/domination/GameModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/domination/GameModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/domination/GameView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/domination/GameView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/domination/HexMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/domination/HexMap.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/domination/NewGameInitializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/domination/NewGameInitializer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/domination/ViewMultiplexer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/domination/ViewMultiplexer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/domination/desktop/view/Counter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/domination/desktop/view/Counter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/domination/desktop/view/SwingView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/domination/desktop/view/SwingView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/domination/desktop/view/view.plantuml" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/domination/desktop/view/view.plantuml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/domination/domination.plantuml" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/domination/domination.plantuml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -14,6 +34,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Class" />
+        <option value="module-info" />
+        <option value="package-info" />
       </list>
     </option>
   </component>
@@ -29,7 +51,9 @@
     </file-type-list>
   </component>
   <component name="ProjectId" id="29cTpdzHcZVWnuzcKzLHz6InJf2" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -42,8 +66,9 @@
     <property name="Repository.Attach.Sources" value="false" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="preferences.editor" />
@@ -267,7 +292,14 @@
       <option name="project" value="LOCAL" />
       <updated>1653915893418</updated>
     </task>
-    <option name="localTasksCounter" value="28" />
+    <task id="LOCAL-00028" summary="Comment cleanup">
+      <created>1653916794437</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1653916794437</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -286,9 +318,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
-    <MESSAGE value="Change name of project to space-game." />
-    <MESSAGE value="Remove hidden counters. This change removes from Counter all references to classes outside the view sub-package." />
-    <MESSAGE value="Remove references to Player from SwingView. Also clean up some warnings and typos." />
     <MESSAGE value="Fixed warnings in SwingView." />
     <MESSAGE value="Cleaned up the imports in SwingView and updated the UML diagrams." />
     <MESSAGE value="Pulled ViewMultiplexer out into a top-level class." />
@@ -311,7 +340,10 @@
     <MESSAGE value="Removed HexFilter, implementors, and related code." />
     <MESSAGE value="Typos and cleanup." />
     <MESSAGE value="Removed references to GamePiece from Player. For now, we're always dealing with Units." />
-    <option name="LAST_COMMIT_MESSAGE" value="Removed references to GamePiece from Player. For now, we're always dealing with Units." />
+    <MESSAGE value="Comment cleanup" />
+    <MESSAGE value="Added non-nullness by default." />
+    <MESSAGE value="Added jsr305 and default non-nullness." />
+    <option name="LAST_COMMIT_MESSAGE" value="Added jsr305 and default non-nullness." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

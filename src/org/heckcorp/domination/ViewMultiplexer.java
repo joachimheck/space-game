@@ -7,13 +7,9 @@ import java.util.logging.Logger;
 
 public class ViewMultiplexer implements GameView {
 
-    /**
-     * @pre piece != null
-     * @pre piece.getPosition != null
-     */
-    public void addGamePiece(GamePiece piece) {
+    public void addUnit(Unit unit) {
         for (GameView view : gameViews) {
-            view.addGamePiece(piece);
+            view.addUnit(unit);
         }
     }
 

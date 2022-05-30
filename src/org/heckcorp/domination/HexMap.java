@@ -1,6 +1,7 @@
 package org.heckcorp.domination;
 
 import org.heckcorp.domination.desktop.Pathfinder;
+import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 import java.io.IOException;
@@ -140,12 +141,8 @@ public class HexMap implements Serializable {
     /**
      * Returns the coordinates adjacent to the specified coordinates,
      * in the specified direction.
-     *
-     * @pre direction != null
      */
     public static Point getAdjacent(Point current, Direction direction) {
-        assert direction != null;
-
         Point offset = current;
         if (current.x % 2 == 0) {
             // This column is a half-hex lower than its neighbors.
@@ -229,21 +226,10 @@ public class HexMap implements Serializable {
     }
 
     /**
-     * @pre piece != null
-     * @pre position != null
      * @pre isInMap(position)
      */
-    public void addGamePiece(GamePiece piece, Point position) {
-        assert piece != null;
-        assert position != null;
-
-        Hex hex = hexes[position.x][position.y];
-
-        if (piece instanceof Unit) {
-            hex.addUnit((Unit)piece);
-        } else {
-            assert false;
-        }
+    public void addUnit(Unit unit, Point position) {
+        hexes[position.x][position.y].addUnit(unit);
    }
 
     public Hex getRandomHex() {
