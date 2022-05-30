@@ -31,8 +31,7 @@ public class Unit extends GamePiece implements Serializable {
             return name;
         }
 
-        Type(int id, String name, int attack, int defense,
-             int attacks, int movement, int cost) {
+        Type(int id, String name, int attack, int defense, int attacks, int movement, int cost) {
             this.id = id;
             this.name = name;
             this.attack = attack;
@@ -43,20 +42,11 @@ public class Unit extends GamePiece implements Serializable {
         }
 
         public final int attack;
-
         public final int attacks;
-
-        /**
-         * @uml.property  name="cost"
-         */
         public final int cost;
-
         public final int defense;
-
         public final int id;
-
         public final int movement;
-
         public final String name;
     }
 
@@ -349,6 +339,14 @@ public class Unit extends GamePiece implements Serializable {
         }
     }
 
+    public int getHitPoints() {
+        return hitPoints;
+    }
+
+    public int getStartingHitPoints() {
+        return startingHitPoints;
+    }
+
     public String toString() {
         return type + " (" + getOwner().getName() + ") at " + getHex().getPosition();
     }
@@ -361,6 +359,7 @@ public class Unit extends GamePiece implements Serializable {
 
         movesLeft = type.movement;
         attacksLeft = type.attacks;
+        hitPoints = startingHitPoints;
 
         player.addUnit(this);
     }
@@ -370,6 +369,10 @@ public class Unit extends GamePiece implements Serializable {
     private int attacksLeft;
 
     private Health health = Health.HEALTHY;
+
+    private final int startingHitPoints = 5;
+
+    private int hitPoints;
 
     private transient Hex lastHex = null;
 

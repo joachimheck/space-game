@@ -42,13 +42,7 @@ public class HexDescriptionPanel extends JPanel
 
             JPanel dataPanel = new JPanel();
             dataPanel.setLayout(new BoxLayout(dataPanel, BoxLayout.Y_AXIS));
-            dataPanel.add(new JLabel("A: " + unit.getAttack() + "/"
-                    + unit.getType().attack));
-            dataPanel.add(new JLabel("D: " + unit.getDefense() + "/"
-                    + unit.getType().defense));
-            dataPanel.add(new JLabel("M: " + unit.getMovesLeft() + "/"
-                    + unit.getMovement()));
-
+            dataPanel.add(new JLabel("HP: " + unit.getHitPoints() + "/" + unit.getStartingHitPoints()));
             add(dataPanel);
 
             add(Box.createHorizontalGlue());
