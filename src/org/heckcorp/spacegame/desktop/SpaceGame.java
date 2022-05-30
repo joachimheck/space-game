@@ -11,6 +11,7 @@ import org.heckcorp.spacegame.desktop.view.SwingView;
 import org.heckcorp.spacegame.desktop.view.UIResources;
 import org.heckcorp.spacegame.desktop.view.Util;
 
+import javax.annotation.Nullable;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -255,7 +256,7 @@ public class SpaceGame extends JPanel implements ViewMonitor {
      * @param in if not null, an ObjectInputStream from which the new model will
      *   read its data.
      */
-    private void createViewAndModel(final ObjectInputStream in) {
+    private void createViewAndModel(@Nullable final ObjectInputStream in) {
         if (view != null) {
             remove(view);
         }
@@ -294,8 +295,7 @@ public class SpaceGame extends JPanel implements ViewMonitor {
     private void windowOpened() {
         executor.execute(() -> {
             ModelInitializer initializer =
-                new NewGameInitializer(Constants.MAP_WIDTH,
-                                       Constants.MAP_HEIGHT);
+                new NewGameInitializer(Constants.MAP_WIDTH, Constants.MAP_HEIGHT);
             try {
                 initializer.initializeModel(model, view);
                 view.initialize();

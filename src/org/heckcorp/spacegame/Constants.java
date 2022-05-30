@@ -18,10 +18,10 @@ public class Constants {
     public static final int MAP_HEIGHT = 10;
     public static final int PAUSE_TIME = 350;
     public static final Object ACTION_WAIT_UNIT = "waitUnit";
-    public static final int UI_COMPONENT_SMALL_WIDTH = 100;
-    public static final int UI_COMPONENT_SMALL_HEIGHT = 100;
-    public static final int UI_COMPONENT_LARGE_WIDTH = 600;
-    public static final int UI_COMPONENT_LARGE_HEIGHT = 400;
+    public static final int UI_COMPONENT_SMALL_WIDTH = 200;
+    public static final int UI_COMPONENT_SMALL_HEIGHT = 200;
+    public static final int UI_COMPONENT_LARGE_WIDTH = 1200;
+    public static final int UI_COMPONENT_LARGE_HEIGHT = 800;
     public static final String LOGGING_CONFIG_FILE = "config/logging.properties";
     public static final String RELEASE_NOTES_FILE = "docs/release-notes.txt";
     public static final String INSTRUCTIONS_FILE = "docs/help.txt";
