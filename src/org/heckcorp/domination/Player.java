@@ -92,14 +92,15 @@ public abstract class Player implements Serializable {
         assert this.readyUnit == null : this.readyUnit;
         this.readyUnit = readyUnit;
     }
+
     public Unit getReadyUnit() {
         return readyUnit;
     }
+
     /**
      * @pre getReadyUnit() != null
      */
     public void clearReadyUnit() {
-//        assert this.readyUnit != null;
         this.readyUnit = null;
     }
 
