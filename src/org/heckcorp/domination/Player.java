@@ -63,7 +63,6 @@ public abstract class Player implements Serializable {
      * @pre getUnits().contains(unit)
      */
     public void removeUnit(Unit unit) {
-        // This is unnecessary but it could catch a real bug.
         assert units.contains(unit) : this + " does not have " + unit;
         units.remove(unit);
     }
@@ -112,6 +111,7 @@ public abstract class Player implements Serializable {
     public void startTurn() {
         // The default version of this method does nothing.
     }
+
     /**
      * Instructs this Player to perform any necessary cleanup
      * action before its turn ends.

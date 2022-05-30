@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3bc8c235-c2bd-4343-a6d7-4a6d6d4b49b0" name="Changes" comment="Removed references to GamePiece from Player. For now, we're always dealing with Units.">
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/domination/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/domination/Player.java" afterDir="false" />
-    </list>
+    <list default="true" id="3bc8c235-c2bd-4343-a6d7-4a6d6d4b49b0" name="Changes" comment="Removed references to GamePiece from Player. For now, we're always dealing with Units." />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -262,7 +260,14 @@
       <option name="project" value="LOCAL" />
       <updated>1653915860112</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="Removed references to GamePiece from Player. For now, we're always dealing with Units.">
+      <created>1653915893418</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1653915893418</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
