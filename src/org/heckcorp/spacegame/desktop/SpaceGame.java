@@ -152,7 +152,6 @@ public class SpaceGame extends JPanel implements ViewMonitor {
         executor.execute(() -> model.waitSelectedUnit());
     }
 
-    private JMenu cityMenu;
     private SequentialExecutor executor;
 
     private JMenuBar createMenuBar() {
