@@ -29,7 +29,7 @@ public class TurnManager implements Runnable, Serializable {
 
         // The game is over when all units belong to one player.
         Set<Player> remainingPlayers =
-                players.stream().filter(player -> !player.getGamePieces().isEmpty()).collect(Collectors.toSet());
+                players.stream().filter(player -> !player.getUnits().isEmpty()).collect(Collectors.toSet());
         if (remainingPlayers.size() == 1) {
             onlyPlayer = remainingPlayers.iterator().next();
         }
