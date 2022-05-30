@@ -4,11 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3bc8c235-c2bd-4343-a6d7-4a6d6d4b49b0" name="Changes" comment="Updated initialization to add one spaceship per player, instead of tanks, planes, etc.">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/domination/DefaultModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/domination/DefaultModel.java" afterDir="false" />
+    <list default="true" id="3bc8c235-c2bd-4343-a6d7-4a6d6d4b49b0" name="Changes" comment="Removed the three old unit types and all the bomber-specific code.">
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/domination/HexMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/domination/HexMap.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/domination/NewGameInitializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/domination/NewGameInitializer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/org/heckcorp/domination/Unit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/domination/Unit.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/domination/desktop/ComputerPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/domination/desktop/ComputerPlayer.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -237,7 +236,14 @@
       <option name="project" value="LOCAL" />
       <updated>1653847599542</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="Removed the three old unit types and all the bomber-specific code.">
+      <created>1653913381555</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1653913381555</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -277,7 +283,8 @@
     <MESSAGE value="Rescale the hex bitmap to better fit a 64x64 counter." />
     <MESSAGE value="Reversed the hex border color to look better against a dark (spacey) background." />
     <MESSAGE value="Updated initialization to add one spaceship per player, instead of tanks, planes, etc." />
-    <option name="LAST_COMMIT_MESSAGE" value="Updated initialization to add one spaceship per player, instead of tanks, planes, etc." />
+    <MESSAGE value="Removed the three old unit types and all the bomber-specific code." />
+    <option name="LAST_COMMIT_MESSAGE" value="Removed the three old unit types and all the bomber-specific code." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -301,11 +308,6 @@
           <url>file://$PROJECT_DIR$/src/org/heckcorp/domination/desktop/view/MapView.java</url>
           <line>215</line>
           <option name="timeStamp" value="7" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/org/heckcorp/domination/HexMap.java</url>
-          <line>292</line>
-          <option name="timeStamp" value="12" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

@@ -24,22 +24,6 @@ public class Unit extends GamePiece implements Serializable {
         DAMAGED, DESTROYED, HEALTHY
     }
 
-    /**
-     * @author    Joachim Heck
-     */
-    public static class MovementHexFilter implements HexFilter {
-        @Override
-        public boolean accept(Hex hex) {
-            return (hex.isEmpty() || hex.getOwner() == unit.getOwner());
-        }
-
-        public MovementHexFilter(Unit unit) {
-            this.unit = unit;
-        }
-
-        private final Unit unit;
-    }
-
     public enum Type {
         SPACESHIP(0, "SPACESHIP", 1, 1, 1, 8, 1);
 
@@ -159,27 +143,6 @@ public class Unit extends GamePiece implements Serializable {
     }
 
     /**
-     * This filter returns only those of the specified hexes that contain
-     * terrains that this unit can enter.
-     *
-     * @param filter a HexFilter that chooses the acceptable hexes.
-     *
-     */
-    public List<Hex> getAccessibleHexes(List<Hex> adjacentHexes,
-                                        HexFilter filter)
-    {
-        List<Hex> accessible = new ArrayList<>();
-
-        for (Hex hex : adjacentHexes) {
-            if (filter.accept(hex)) {
-                accessible.add(hex);
-            }
-        }
-
-        return accessible;
-    }
-
-    /**
      * @return the attack strength of this unit.
      */
     public int getAttack() {
@@ -232,10 +195,6 @@ public class Unit extends GamePiece implements Serializable {
      */
     public int getMovement() {
         return type.movement;
-    }
-
-    public MovementHexFilter getMovementHexFilter() {
-        return new MovementHexFilter(this);
     }
 
     /**

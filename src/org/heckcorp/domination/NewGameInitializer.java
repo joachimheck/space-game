@@ -11,7 +11,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class NewGameInitializer implements ModelInitializer {
-    
+
     private final int width;
     private final int height;
 
@@ -38,7 +38,7 @@ public class NewGameInitializer implements ModelInitializer {
         } else {
             assert false;
         }
-    
+
         return player;
     }
 
@@ -52,12 +52,12 @@ public class NewGameInitializer implements ModelInitializer {
                 model.addPlayer(player);
 
                 List<Unit> units = createUnits(player);
-                Hex hex = map.getRandomHex(u -> true);
+                Hex hex = map.getRandomHex();
                 for (Unit unit : units) {
                     model.addGamePiece(unit, hex.getPosition());
                 }
             }
-            
+
             model.startTurnManager();
         } catch (IllegalArgumentException e) {
             // TODO: something!
