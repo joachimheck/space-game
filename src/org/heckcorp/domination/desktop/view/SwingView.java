@@ -1,5 +1,7 @@
 package org.heckcorp.domination.desktop.view;
 
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
 import org.heckcorp.domination.Constants;
 import org.heckcorp.domination.Direction;
 import org.heckcorp.domination.GamePiece;
@@ -18,8 +20,6 @@ import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
 
@@ -405,21 +405,17 @@ public class SwingView extends JPanel implements GameView
     /**
      * Manages the non-graphical information for this SwingView, in particular
      * the mapping between GamePieces and Counters.
-     *
-     * @author Joachim Heck
      */
     private static class ViewDataManager {
         public void addUnit(Unit unit, Counter counter) {
-            counters.put(unit, counter);
-            units.put(counter, unit);
+            unitsToCounters.put(unit, counter);
         }
 
         public Counter getCounter(Unit unit) {
-            return counters.get(unit);
+            return unitsToCounters.get(unit);
         }
 
-        private final Map<Unit, Counter> counters = new HashMap<>();
-        private final Map<Counter, Unit> units = new HashMap<>();
+        BiMap<Unit, Counter> unitsToCounters = HashBiMap.create();
     }
 
     public void addUnit(Unit unit) {
