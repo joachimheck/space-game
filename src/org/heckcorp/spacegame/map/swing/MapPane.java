@@ -184,12 +184,9 @@ public class MapPane extends JPanel {
      */
     private void drawHex(Hex hex, Point position, Graphics2D g) {
         Point pixelPos = getHexCorner(position);
-
         g.drawImage(resources.tilePic[0], pixelPos.x, pixelPos.y, null);
-        g.setColor(Color.black);
-
-        g.drawString(hex.getPosition().x + "," + hex.getPosition().y,
-                     pixelPos.x + 16, pixelPos.y + 16);
+        g.setColor(Color.white);
+        g.drawString(hex.getPosition().x + "," + hex.getPosition().y, pixelPos.x + 32, pixelPos.y + 16);
     }
 
     /**
