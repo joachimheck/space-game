@@ -25,8 +25,6 @@ public class MapPane extends JPanel {
         setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, Color.darkGray));
     }
 
-    private final Rectangle oldBounds = new Rectangle();
-
     @Override
     public void setBounds(int x, int y, int width, int height) {
         Dimension viewportSize = getViewportSize(map, new Dimension(width, height));
@@ -39,15 +37,6 @@ public class MapPane extends JPanel {
                                                   borderHeight, borderWidth,
                                                   Color.darkGray));
         super.setBounds(x, y, width, height);
-
-        // TODO: is this necessary?
-        Rectangle bounds = oldBounds;
-        if (x != bounds.x || y != bounds.y ||
-            width != bounds.width || height != bounds.height)
-        {
-            repaint();
-            oldBounds.setBounds(x, y, width, height);
-        }
     }
 
     public void setViewportBounds(Rectangle bounds) {
@@ -122,8 +111,6 @@ public class MapPane extends JPanel {
     /**
      * Returns the viewport size, in hexes.
      * @param size the size of the viewport component, in pixels.
-     * @pre map != null
-     * @pre size != null
      */
     public Dimension getViewportSize(HexMap map, Dimension size) {
         int hexesAcross = Math.min(map.width,
@@ -155,31 +142,12 @@ public class MapPane extends JPanel {
         return guesses;
     }
 
-    private final int tileHeight;
-    private final int tileWidth;
-    /**
-     * @uml.property  name="map"
-     * @uml.associationEnd  multiplicity="(1 1)"
-     */
-    private HexMap map;
-
-    /**
-     * @uml.property  name="resources"
-     * @uml.associationEnd  multiplicity="(1 1)"
-     */
-    private final UIResources resources;
-
-    private final Rectangle viewport;
-
     @Override
     public void paintComponent(Graphics gIn) {
         if (map != null) {
             Point hexPosition = new Point(-1, -1);
             Point screenPosition = new Point(-1, -1);
             Graphics2D g = (Graphics2D) gIn;
-
-//          long startTime = System.currentTimeMillis();
-
             g.setBackground(Color.gray);
             g.clearRect(0, 0, getWidth(), getHeight());
 
@@ -196,7 +164,6 @@ public class MapPane extends JPanel {
     }
 
     /**
-     * @pre position != null
      * @pre the viewport fits entirely inside the map.
      */
     public void setViewportPosition(Point position) {
@@ -214,10 +181,6 @@ public class MapPane extends JPanel {
      * @param hex the hex to draw.
      * @param position the position on the screen to draw the hex.
      * @param g a Graphics to draw in.
-     *
-     * @pre hex != null
-     * @pre position != null
-     * @pre shadow map has been set.
      */
     private void drawHex(Hex hex, Point position, Graphics2D g) {
         Point pixelPos = getHexCorner(position);
@@ -230,18 +193,15 @@ public class MapPane extends JPanel {
     }
 
     /**
-     *
-     * @return true if the hex with the specified coordinates is visible
-     *   in this viewport.
+     * Return true if the hex with the specified coordinates is visible in this viewport.
      */
     public boolean isMapPointInViewport(Point mapPos) {
         return isInViewport(toViewportCoordinates(mapPos));
     }
 
     /**
+     * Return true if the hex position with the specified viewport coordinates lies within the bounds of this viewport.
      * @param viewPos the map coordinates to check.
-     * @return true if the hex position with the specified
-     *   viewport coordinates lies within the bounds of this viewport.
      */
     public boolean isInViewport(Point viewPos) {
         Rectangle rect = new Rectangle(0, 0, viewport.width, viewport.height);
@@ -261,8 +221,6 @@ public class MapPane extends JPanel {
         return getHexCenter(toMapCoordinates(viewPos));
     }
 
-    /**
-     */
     public void drawHexCenters(Point screenPoint) {
         Graphics g = getGraphics();
         int radius = 5;
@@ -294,7 +252,6 @@ public class MapPane extends JPanel {
     /**
      * Converts map coordinates to viewport coordinates.  This method
      * may return values that are outside the viewport bounds.
-     * @pre pos != null
      */
     private Point toViewportCoordinates(Point pos) {
         return new Point(pos.x - viewport.x, pos.y - viewport.y);
@@ -302,7 +259,6 @@ public class MapPane extends JPanel {
 
     /**
      * Converts viewport coordinates to map coordinates.
-     * @pre pos != null
      * @post isInViewport(result)
      */
     private Point toMapCoordinates(Point pos) {
@@ -312,4 +268,10 @@ public class MapPane extends JPanel {
     public Rectangle getViewport() {
         return viewport;
     }
+
+    private final int tileHeight;
+    private final int tileWidth;
+    private HexMap map;
+    private final UIResources resources;
+    private final Rectangle viewport;
 }

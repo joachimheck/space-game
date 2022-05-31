@@ -4,8 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3bc8c235-c2bd-4343-a6d7-4a6d6d4b49b0" name="Changes" comment="Shuffled the packages a bit, mostly to try to  better isolate the map code from the rest of the game, with an eye toward making it a library in the future.">
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/SpaceGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/SpaceGame.java" afterDir="false" />
+    <list default="true" id="3bc8c235-c2bd-4343-a6d7-4a6d6d4b49b0" name="Changes" comment="Deleted my custom SequentialExecutor, replacing it with SingleThreadExecutor.">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/NewGameInitializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/NewGameInitializer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/ViewMultiplexer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/ViewMultiplexer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/swing/MapPane.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/swing/MapPane.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -377,7 +380,14 @@
       <option name="project" value="LOCAL" />
       <updated>1654001027293</updated>
     </task>
-    <option name="localTasksCounter" value="42" />
+    <task id="LOCAL-00042" summary="Deleted my custom SequentialExecutor, replacing it with SingleThreadExecutor.">
+      <created>1654001305835</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1654001305835</updated>
+    </task>
+    <option name="localTasksCounter" value="43" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -396,7 +406,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
-    <MESSAGE value="Removed Terrain." />
     <MESSAGE value="Removed Some unused junk from ComputerPlayer." />
     <MESSAGE value="Fixed a build error." />
     <MESSAGE value="Added new hex tile and spaceship images; removed a bunch of stuff relating to the old tiles and unit images." />
@@ -421,7 +430,8 @@
     <MESSAGE value="Shrunk the map for easier debugging." />
     <MESSAGE value="Get movement working again, though hackily, with a modified wait/notify setup." />
     <MESSAGE value="Shuffled the packages a bit, mostly to try to  better isolate the map code from the rest of the game, with an eye toward making it a library in the future." />
-    <option name="LAST_COMMIT_MESSAGE" value="Shuffled the packages a bit, mostly to try to  better isolate the map code from the rest of the game, with an eye toward making it a library in the future." />
+    <MESSAGE value="Deleted my custom SequentialExecutor, replacing it with SingleThreadExecutor." />
+    <option name="LAST_COMMIT_MESSAGE" value="Deleted my custom SequentialExecutor, replacing it with SingleThreadExecutor." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

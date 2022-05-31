@@ -31,7 +31,7 @@ public class NewGameInitializer implements ModelInitializer {
             player = new HumanPlayer(name, color, view);
         } else if (type == Player.PlayerType.COMPUTER) {
             player = new ComputerPlayer(name, color, model,
-                                        new ComputerPlayerView());
+                    new ComputerPlayerView());
         } else if (type == Player.PlayerType.NEUTRAL) {
             player = new NeutralPlayer(name, color);
         } else {
@@ -42,27 +42,21 @@ public class NewGameInitializer implements ModelInitializer {
     }
 
     public void initializeModel(GameModel model, GameView mainPlayerView) {
-        try {
-            HexMap map = new HexMap(width, height);
-            model.setMap(map);
+        HexMap map = new HexMap(width, height);
+        model.setMap(map);
 
-            List<Player> players = createPlayers(model, mainPlayerView);
-            for (Player player : players) {
-                model.addPlayer(player);
+        List<Player> players = createPlayers(model, mainPlayerView);
+        for (Player player : players) {
+            model.addPlayer(player);
 
-                List<Unit> units = createUnits(player);
-                Hex hex = map.getRandomHex();
-                for (Unit unit : units) {
-                    model.addUnit(unit, hex.getPosition());
-                }
+            List<Unit> units = createUnits(player);
+            Hex hex = map.getRandomHex();
+            for (Unit unit : units) {
+                model.addUnit(unit, hex.getPosition());
             }
-
-            model.startTurnManager();
-        } catch (IllegalArgumentException e) {
-            // TODO: something!
-            // We couldn't find a random hex to put a city or a unit into -
-            // we need to start over with a new map.
         }
+
+        model.startTurnManager();
     }
 
     private List<Player> createPlayers(GameModel model, GameView mainPlayerView) {

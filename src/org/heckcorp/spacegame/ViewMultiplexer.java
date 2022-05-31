@@ -75,7 +75,6 @@ public class ViewMultiplexer implements GameView {
         }
     }
 
-    // TODO: remove?
     public void setWinningPlayer(String playerName, Color playerColor) {
         for (GameView view : gameViews) {
             view.setWinningPlayer(playerName, playerColor);
