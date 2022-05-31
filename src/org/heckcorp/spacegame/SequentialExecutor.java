@@ -1,4 +1,4 @@
-package org.heckcorp.spacegame.desktop.view;
+package org.heckcorp.spacegame;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,17 +36,7 @@ public final class SequentialExecutor implements Executor, Runnable {
         } while (run);
     }
 
-    /**
-     * Instructs the executor to terminate after its current task completes.
-     *
-     */
-    public synchronized void stop() {
-        run = false;
-        notify();
-    }
-
-    private SequentialExecutor() {
-    }
+    private SequentialExecutor() {}
 
     public static SequentialExecutor getInstance() {
         if (executor == null) {
@@ -57,10 +47,7 @@ public final class SequentialExecutor implements Executor, Runnable {
         return executor;
     }
 
-    /**
-     * @uml.property  name="run"
-     */
     private boolean run = true;
-    private List<Runnable> tasks = new ArrayList<Runnable>();
+    private final List<Runnable> tasks = new ArrayList<>();
     private static SequentialExecutor executor;
 }

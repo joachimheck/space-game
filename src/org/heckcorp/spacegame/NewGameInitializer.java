@@ -1,9 +1,8 @@
 package org.heckcorp.spacegame;
 
 import org.heckcorp.spacegame.Player.PlayerType;
-import org.heckcorp.spacegame.desktop.ComputerPlayer;
-import org.heckcorp.spacegame.desktop.HumanPlayer;
-import org.heckcorp.spacegame.desktop.NeutralPlayer;
+import org.heckcorp.spacegame.map.Hex;
+import org.heckcorp.spacegame.map.HexMap;
 
 import java.awt.*;
 import java.util.ArrayList;

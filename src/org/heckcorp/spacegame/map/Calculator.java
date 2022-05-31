@@ -1,4 +1,6 @@
-package org.heckcorp.spacegame;
+package org.heckcorp.spacegame.map;
+
+import org.heckcorp.spacegame.Positionable;
 
 import java.awt.*;
 

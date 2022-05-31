@@ -1,7 +1,7 @@
-package org.heckcorp.spacegame.desktop.view;
+package org.heckcorp.spacegame.map.swing;
 
-import org.heckcorp.spacegame.Hex;
-import org.heckcorp.spacegame.HexMap;
+import org.heckcorp.spacegame.map.Hex;
+import org.heckcorp.spacegame.map.HexMap;
 import org.heckcorp.spacegame.Unit;
 
 import javax.swing.*;

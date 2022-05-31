@@ -1,6 +1,7 @@
 package org.heckcorp.spacegame;
 
-import org.heckcorp.spacegame.desktop.TurnManager;
+import org.heckcorp.spacegame.map.Hex;
+import org.heckcorp.spacegame.map.HexMap;
 
 import java.awt.*;
 

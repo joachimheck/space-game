@@ -1,16 +1,21 @@
-package org.heckcorp.spacegame.desktop.view;
+package org.heckcorp.spacegame.swing;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import org.heckcorp.spacegame.Constants;
 import org.heckcorp.spacegame.Direction;
 import org.heckcorp.spacegame.GameView;
-import org.heckcorp.spacegame.Hex;
-import org.heckcorp.spacegame.HexMap;
+import org.heckcorp.spacegame.map.Hex;
+import org.heckcorp.spacegame.map.HexMap;
 import org.heckcorp.spacegame.Positionable;
-import org.heckcorp.spacegame.Status;
+import org.heckcorp.spacegame.UnitStatus;
 import org.heckcorp.spacegame.Unit;
-import org.heckcorp.spacegame.ViewMonitor;
+import org.heckcorp.spacegame.map.swing.ViewMonitor;
+import org.heckcorp.spacegame.map.swing.Counter;
+import org.heckcorp.spacegame.map.swing.MapPane;
+import org.heckcorp.spacegame.map.swing.MapView;
+import org.heckcorp.spacegame.map.swing.MiniMap;
+import org.heckcorp.spacegame.map.swing.UIResources;
 
 import javax.swing.*;
 import java.awt.*;
@@ -198,8 +203,8 @@ public class SwingView extends JPanel implements GameView
             invokeAndWait(() -> mapView.moveToFront(counter));
         }
 
-        public void setCounterStatus(final Counter counter, final Status status) {
-            if (status == Status.DESTROYED) {
+        public void setCounterStatus(final Counter counter, final UnitStatus status) {
+            if (status == UnitStatus.DESTROYED) {
                 Counter explosion = UIResources.getInstance().getExplosion();
 
                 explosion.setCenterLocation(counter.getCenterLocation());
@@ -220,22 +225,23 @@ public class SwingView extends JPanel implements GameView
                 }
 
                 miniMap.invalidate();
-            } else if (status == Status.DAMAGED) {
+            } else if (status == UnitStatus.DAMAGED) {
                 pause(Constants.PAUSE_TIME);
             } else {
                 invokeAndWait(() -> {
                     // Status.DAMAGED - dealt with earlier in the method.
                     // Status.DESTROYED - dealt with earlier in the method.
                     // Status.SKIPPED - do nothing.
-                    if (status == Status.HIDDEN) {
+                    if (status == UnitStatus.HIDDEN) {
                         counter.setHidden(true);
                         miniMap.invalidate();
-                    } else if (status == Status.REVEALED) {
+                    } else if (status == UnitStatus.REVEALED) {
                         counter.setHidden(false);
                         miniMap.invalidate();
-                    } else if (status == Status.SELECTED) {
-                        if (!counter.isHidden()) {
-                            Point point = new Point(counter.getMapPosition());
+                    } else if (status == UnitStatus.SELECTED) {
+                        Point mapPosition = counter.getMapPosition();
+                        if (!counter.isHidden() && mapPosition != null) {
+                            Point point = new Point(mapPosition);
                             point.translate(-1, -1);
                             Rectangle rect = new Rectangle(point, new Dimension(2, 2));
                             mapView.centerRectangle(rect);
@@ -249,7 +255,7 @@ public class SwingView extends JPanel implements GameView
                         selection.setAnimated(!counter.isHidden());
                         selection.setMapPosition(counter.getMapPosition());
                         selection.setCenterLocation(counter.getCenterLocation());
-                    } else if (status == Status.UNSELECTED) {
+                    } else if (status == UnitStatus.UNSELECTED) {
                         Counter selection = UIResources.getInstance().getSelection();
 
                         assert selection.getMapPosition() != null;
@@ -497,12 +503,12 @@ public class SwingView extends JPanel implements GameView
      * @pre unit != null
      * @pre unit has been added to this view, and not destroyed.
      */
-    public void setStatus(Unit unit, Status status) {
+    public void setStatus(Unit unit, UnitStatus status) {
         Counter counter = dataManager.getCounter(unit);
         assert counter != null : "No counter for " + unit;
         displayManager.setCounterStatus(counter, status);
 
-        if (status == Status.DESTROYED) {
+        if (status == UnitStatus.DESTROYED) {
             uiManager.getMapView().removeCounter(counter);
         }
     }

@@ -1,6 +1,8 @@
-package org.heckcorp.spacegame;
+package org.heckcorp.spacegame.map;
 
-import org.heckcorp.spacegame.desktop.Pathfinder;
+import org.heckcorp.spacegame.Direction;
+import org.heckcorp.spacegame.Positionable;
+import org.heckcorp.spacegame.Unit;
 
 import java.awt.*;
 import java.io.IOException;

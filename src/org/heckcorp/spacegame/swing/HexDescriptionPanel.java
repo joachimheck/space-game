@@ -1,6 +1,6 @@
-package org.heckcorp.spacegame.desktop.view;
+package org.heckcorp.spacegame.swing;
 
-import org.heckcorp.spacegame.Hex;
+import org.heckcorp.spacegame.map.Hex;
 import org.heckcorp.spacegame.Player;
 import org.heckcorp.spacegame.Unit;
 

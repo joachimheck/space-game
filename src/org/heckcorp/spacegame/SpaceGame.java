@@ -1,15 +1,9 @@
-package org.heckcorp.spacegame.desktop;
+package org.heckcorp.spacegame;
 
-import org.heckcorp.spacegame.Constants;
-import org.heckcorp.spacegame.DefaultModel;
-import org.heckcorp.spacegame.GameModel;
-import org.heckcorp.spacegame.ModelInitializer;
-import org.heckcorp.spacegame.NewGameInitializer;
-import org.heckcorp.spacegame.ViewMonitor;
-import org.heckcorp.spacegame.desktop.view.SequentialExecutor;
-import org.heckcorp.spacegame.desktop.view.SwingView;
-import org.heckcorp.spacegame.desktop.view.UIResources;
-import org.heckcorp.spacegame.desktop.view.Util;
+import org.heckcorp.spacegame.map.swing.ViewMonitor;
+import org.heckcorp.spacegame.swing.SwingView;
+import org.heckcorp.spacegame.map.swing.UIResources;
+import org.heckcorp.spacegame.map.swing.Util;
 
 import javax.annotation.Nullable;
 import javax.swing.*;
@@ -267,6 +261,7 @@ public class SpaceGame extends JPanel implements ViewMonitor {
 
         // All calls to the model must go through the executor,
         // so it doesn't call into the view on the AWT thread.
+        // TODO: use SingleThreadExecutor instead.
         executor = SequentialExecutor.getInstance();
 
         executor.execute(() -> {

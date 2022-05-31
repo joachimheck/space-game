@@ -1,4 +1,4 @@
-package org.heckcorp.spacegame;
+package org.heckcorp.spacegame.map.swing;
 
 import java.awt.Point;
 

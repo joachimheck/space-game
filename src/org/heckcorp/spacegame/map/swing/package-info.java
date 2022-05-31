@@ -1,4 +1,4 @@
 @ParametersAreNonnullByDefault
-package org.heckcorp.spacegame.desktop;
+package org.heckcorp.spacegame.map.swing;
 
 import javax.annotation.ParametersAreNonnullByDefault;

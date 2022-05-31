@@ -1,4 +1,8 @@
-package org.heckcorp.spacegame;
+package org.heckcorp.spacegame.map;
+
+import org.heckcorp.spacegame.Player;
+import org.heckcorp.spacegame.Positionable;
+import org.heckcorp.spacegame.Unit;
 
 import java.awt.*;
 import java.io.Serializable;

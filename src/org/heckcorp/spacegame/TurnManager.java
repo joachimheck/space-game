@@ -1,9 +1,6 @@
-package org.heckcorp.spacegame.desktop;
+package org.heckcorp.spacegame;
 
-import org.heckcorp.spacegame.DefaultModel;
-import org.heckcorp.spacegame.Player;
-import org.heckcorp.spacegame.Unit;
-
+import javax.annotation.Nullable;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
@@ -13,14 +10,10 @@ import java.util.stream.Collectors;
 /**
  * The TurnManager runs through the turn, selecting units
  * and players after the previous ones finish.
- *
- * @author Joachim Heck
  */
 public class TurnManager implements Runnable, Serializable {
-    /**
-     *
-     */
     private static final long serialVersionUID = 1L;
+
     /**
      * Determines whether the game has ended.
      */
@@ -127,12 +120,13 @@ public class TurnManager implements Runnable, Serializable {
      * Return a unit that is ready for action and has no movement
      * orders.  If another unit is available, avoidUnit is not returned.
      */
-    private Unit getReadyUnit(Player player, Unit avoidUnit) {
+    private Unit getReadyUnit(Player player, @Nullable Unit avoidUnit) {
         Unit readyUnit = avoidUnit;
 
-        if (avoidUnit == null || !avoidUnit.isReadyForAction() ||
-                avoidUnit.getPath().size() > 0 || avoidUnit.isSkipped())
-        {
+        if (avoidUnit == null
+                || !avoidUnit.isReadyForAction()
+                || avoidUnit.getPath().size() > 0
+                || avoidUnit.isSkipped()) {
             readyUnit = null;
         }
 
@@ -143,6 +137,7 @@ public class TurnManager implements Runnable, Serializable {
                 break;
             }
         }
+
         log.fine("Ready unit is: " + readyUnit);
 
         return readyUnit;
@@ -199,9 +194,7 @@ public class TurnManager implements Runnable, Serializable {
 
     private Player startPlayer;
 
-    /**
-     * @invariant never null.
-     */
     private final List<Player> players;
+
     private boolean turnOver = false;
 }

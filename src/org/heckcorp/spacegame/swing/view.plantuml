@@ -1,0 +1,143 @@
+@startuml
+
+title __VIEW's Class Diagram__\n
+
+  namespace org.heckcorp.spacegame {
+    namespace desktop {
+      namespace view {
+        class org.heckcorp.spacegame.desktop.view.HexDescriptionPanel {
+            - locationLabel : JLabel
+            - ownerLabel : JLabel
+            - productionLabel : JLabel
+            - unitsBox : Box
+            + HexDescriptionPanel()
+            + setHex()
+        }
+      }
+    }
+  }
+  
+
+  namespace org.heckcorp.spacegame {
+    namespace desktop {
+      namespace view {
+        class org.heckcorp.spacegame.desktop.view.HexDescriptionPanel.UnitDescriptionPanel {
+            + UnitDescriptionPanel()
+        }
+      }
+    }
+  }
+  
+
+  namespace org.heckcorp.spacegame {
+    namespace desktop {
+      namespace view {
+        class org.heckcorp.spacegame.desktop.view.SwingView {
+            - log : Logger
+            + SwingView()
+            + addUnit()
+            + attack()
+            + initialize()
+            + message()
+            + move()
+            + selectHex()
+            + setCurrentPlayer()
+            + setMap()
+            + setMonitor()
+            + setStatus()
+            + setWinningPlayer()
+            - getMap()
+        }
+      }
+    }
+  }
+  
+
+  namespace org.heckcorp.spacegame {
+    namespace desktop {
+      namespace view {
+        class org.heckcorp.spacegame.desktop.view.SwingView.DisplayManager {
+            + DisplayManager()
+            + displayPositions()
+            + hideAttackArrow()
+            + hideSelection()
+            + invalidateMapViews()
+            + moveCounter()
+            + moveToFront()
+            + pause()
+            + setCounterStatus()
+            + setCounterVisibility()
+            + showAttackArrow()
+            + showCounter()
+            - invokeAndWait()
+        }
+      }
+    }
+  }
+  
+
+  namespace org.heckcorp.spacegame {
+    namespace desktop {
+      namespace view {
+        class org.heckcorp.spacegame.desktop.view.SwingView.UIManager {
+            - textArea : JTextArea
+            - textScrollPane : JScrollPane
+            + UIManager()
+            + clearTextArea()
+            + getMapView()
+            + getMiniMap()
+            + getUnitIcon()
+            + initialize()
+            + message()
+            - createCounter()
+        }
+      }
+    }
+  }
+  
+
+  namespace org.heckcorp.spacegame {
+    namespace desktop {
+      namespace view {
+        class org.heckcorp.spacegame.desktop.view.SwingView.ViewDataManager {
+            ~ unitsToCounters : BiMap<Unit, Counter>
+            + addUnit()
+            + getCounter()
+        }
+      }
+    }
+  }
+  
+
+  org.heckcorp.spacegame.desktop.view.HexDescriptionPanel -up-|> javax.swing.JPanel
+  org.heckcorp.spacegame.desktop.view.HexDescriptionPanel o-- org.heckcorp.spacegame.desktop.view.SwingView.UIManager : uiManager
+  org.heckcorp.spacegame.desktop.view.HexDescriptionPanel +-down- org.heckcorp.spacegame.desktop.view.HexDescriptionPanel.UnitDescriptionPanel
+  org.heckcorp.spacegame.desktop.view.HexDescriptionPanel.UnitDescriptionPanel -up-|> javax.swing.JPanel
+  org.heckcorp.spacegame.desktop.view.HexDescriptionPanel.UnitDescriptionPanel o-- org.heckcorp.spacegame.Unit : unit
+  org.heckcorp.spacegame.desktop.view.SwingView .up.|> org.heckcorp.spacegame.GameView
+  org.heckcorp.spacegame.desktop.view.SwingView -up-|> javax.swing.JPanel
+  org.heckcorp.spacegame.desktop.view.SwingView o-- org.heckcorp.spacegame.desktop.view.SwingView.ViewDataManager : dataManager
+  org.heckcorp.spacegame.desktop.view.SwingView o-- org.heckcorp.spacegame.desktop.view.SwingView.DisplayManager : displayManager
+  org.heckcorp.spacegame.desktop.view.SwingView o-- org.heckcorp.spacegame.HexMap : map
+  org.heckcorp.spacegame.desktop.view.SwingView o-- org.heckcorp.spacegame.ViewMonitor : monitor
+  org.heckcorp.spacegame.desktop.view.SwingView o-- org.heckcorp.spacegame.desktop.view.map.UIResources : resources
+  org.heckcorp.spacegame.desktop.view.SwingView o-- org.heckcorp.spacegame.desktop.view.SwingView.UIManager : uiManager
+  org.heckcorp.spacegame.desktop.view.SwingView +-down- org.heckcorp.spacegame.desktop.view.SwingView.DisplayManager
+  org.heckcorp.spacegame.desktop.view.SwingView +-down- org.heckcorp.spacegame.desktop.view.SwingView.UIManager
+  org.heckcorp.spacegame.desktop.view.SwingView +-down- org.heckcorp.spacegame.desktop.view.SwingView.ViewDataManager
+  org.heckcorp.spacegame.desktop.view.SwingView.DisplayManager o-- org.heckcorp.spacegame.desktop.view.map.MapView : mapView
+  org.heckcorp.spacegame.desktop.view.SwingView.DisplayManager o-- org.heckcorp.spacegame.desktop.view.map.MiniMap : miniMap
+  org.heckcorp.spacegame.desktop.view.SwingView.UIManager -up-|> javax.swing.JPanel
+  org.heckcorp.spacegame.desktop.view.SwingView.UIManager o-- org.heckcorp.spacegame.desktop.view.HexDescriptionPanel : hexDescriptionPanel
+  org.heckcorp.spacegame.desktop.view.SwingView.UIManager o-- org.heckcorp.spacegame.desktop.view.map.MapView : mapView
+  org.heckcorp.spacegame.desktop.view.SwingView.UIManager o-- org.heckcorp.spacegame.desktop.view.map.MiniMap : miniMap
+
+
+right footer
+
+
+PlantUML diagram generated by SketchIt! (https://bitbucket.org/pmesmeur/sketch.it)
+For more information about this tool, please contact philippe.mesmeur@gmail.com
+endfooter
+
+@enduml

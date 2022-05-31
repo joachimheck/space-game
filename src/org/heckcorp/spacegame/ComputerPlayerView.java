@@ -1,6 +1,8 @@
 package org.heckcorp.spacegame;
 
-import org.heckcorp.spacegame.desktop.ComputerPlayer;
+import org.heckcorp.spacegame.map.Hex;
+import org.heckcorp.spacegame.map.HexMap;
+import org.heckcorp.spacegame.map.swing.ViewMonitor;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
@@ -64,11 +66,11 @@ public class ComputerPlayerView implements GameView {
         // TODO: implement? Use this to communicate with the player?
     }
 
-    public void setStatus(Unit unit, Status status) {
+    public void setStatus(Unit unit, UnitStatus status) {
         log.entering("ComputerPlayerView", "setStatus");
-        if (status == Status.SELECTED && unit.getOwner() == player) {
+        if (status == UnitStatus.SELECTED && unit.getOwner() == player) {
 //            player.setReadyUnit(unit);
-        } else if (status == Status.DESTROYED) {
+        } else if (status == UnitStatus.DESTROYED) {
             knownEnemies.remove(unit);
         }
         log.exiting("ComputerPlayerView", "setStatus");

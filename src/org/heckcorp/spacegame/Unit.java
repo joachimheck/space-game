@@ -1,5 +1,7 @@
 package org.heckcorp.spacegame;
 
+import org.heckcorp.spacegame.map.Hex;
+import org.heckcorp.spacegame.map.HexMap;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;

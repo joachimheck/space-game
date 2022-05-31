@@ -1,7 +1,6 @@
-package org.heckcorp.spacegame.desktop.view;
+package org.heckcorp.spacegame.map.swing;
 
-import org.heckcorp.spacegame.HexMap;
-import org.heckcorp.spacegame.ViewMonitor;
+import org.heckcorp.spacegame.map.HexMap;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;

@@ -1,4 +1,4 @@
-package org.heckcorp.spacegame.desktop;
+package org.heckcorp.spacegame;
 
 import java.awt.Color;
 

@@ -1,5 +1,9 @@
 package org.heckcorp.spacegame;
 
+import org.heckcorp.spacegame.map.Hex;
+import org.heckcorp.spacegame.map.HexMap;
+import org.heckcorp.spacegame.map.swing.ViewMonitor;
+
 import java.awt.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -64,7 +68,7 @@ public class ViewMultiplexer implements GameView {
         }
     }
 
-    public void setStatus(Unit unit, Status status) {
+    public void setStatus(Unit unit, UnitStatus status) {
         for (GameView view : gameViews) {
             log.finer("Setting status for view " + view);
             view.setStatus(unit, status);

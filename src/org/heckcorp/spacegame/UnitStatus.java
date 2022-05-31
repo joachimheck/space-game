@@ -1,5 +1,5 @@
 package org.heckcorp.spacegame;
 
-public enum Status {
+public enum UnitStatus {
     HEALTHY, DAMAGED, DESTROYED, SELECTED, HIDDEN, REVEALED, UNSELECTED, SKIPPED
 }

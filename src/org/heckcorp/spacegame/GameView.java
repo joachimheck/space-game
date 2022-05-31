@@ -1,5 +1,9 @@
 package org.heckcorp.spacegame;
 
+import org.heckcorp.spacegame.map.Hex;
+import org.heckcorp.spacegame.map.HexMap;
+import org.heckcorp.spacegame.map.swing.ViewMonitor;
+
 import java.awt.*;
 
 public interface GameView {
@@ -65,7 +69,7 @@ public interface GameView {
      * @pre unit != null
      * @pre unit has been added to this view, and not destroyed.
      */
-    void setStatus(Unit unit, Status status);
+    void setStatus(Unit unit, UnitStatus status);
 
     /**
      * Announces that the specified player is the winner.

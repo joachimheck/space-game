@@ -1,4 +1,4 @@
-package org.heckcorp.spacegame.desktop.view;
+package org.heckcorp.spacegame.map.swing;
 
 import javax.annotation.Nullable;
 import javax.swing.*;
@@ -7,7 +7,7 @@ import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 
 public class Counter extends JLabel {
-    public Counter(BufferedImage[] unitPix, Color borderColor, Point hexCenter, Point mapPosition) {
+    public Counter(BufferedImage[] unitPix, @Nullable Color borderColor, Point hexCenter, @Nullable Point mapPosition) {
         this.mapPosition = mapPosition;
         icon = new AnimatedImageIcon(unitPix);
 
@@ -86,6 +86,8 @@ public class Counter extends JLabel {
             // Otherwise, we set destination and end up having multiple timers
             // running simultaneously, speeding up movement with every hex.
             moveTimer.stop();
+            // TODO: use javafx Animation to avoid doing the thread stuff myself? Would that help?
+            //noinspection SynchronizeOnNonFinalField
             synchronized (toNotify) {
                 toNotify.notify();
             }
@@ -177,6 +179,7 @@ public class Counter extends JLabel {
     /**
      * Returns the map position of this Counter.
      */
+    @Nullable
     public Point getMapPosition() {
         return mapPosition;
     }

@@ -1,4 +1,4 @@
-package org.heckcorp.spacegame.desktop;
+package org.heckcorp.spacegame;
 
 import org.heckcorp.spacegame.GameView;
 import org.heckcorp.spacegame.Player;

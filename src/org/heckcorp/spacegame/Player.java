@@ -1,9 +1,6 @@
 package org.heckcorp.spacegame;
 
-import org.heckcorp.spacegame.desktop.ComputerPlayer;
-import org.heckcorp.spacegame.desktop.HumanPlayer;
-import org.heckcorp.spacegame.desktop.NeutralPlayer;
-
+import javax.annotation.Nullable;
 import java.awt.*;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -26,7 +23,7 @@ public abstract class Player implements Serializable {
         return log;
     }
 
-    public Player(String name, Color color, GameView view)
+    public Player(String name, Color color, @Nullable GameView view)
     {
         this.name = name;
         this.color = color;
@@ -46,9 +43,6 @@ public abstract class Player implements Serializable {
     protected transient GameView view;
     private final Set<Unit> units;
 
-    /**
-     * @author    Joachim Heck
-     */
     public enum PlayerType {
         HUMAN, COMPUTER, NEUTRAL
     }
@@ -59,7 +53,6 @@ public abstract class Player implements Serializable {
 
     /**
      * Removes the specified unit from this Player's list.
-     * @pre unit != null
      * @pre getUnits().contains(unit)
      */
     public void removeUnit(Unit unit) {
@@ -82,12 +75,8 @@ public abstract class Player implements Serializable {
 
     private Unit readyUnit = null;
 
-    /**
-     * @pre getReadyUnit() == null
-     */
     public void setReadyUnit(Unit readyUnit) {
         getLog().fine("Ready unit is " + readyUnit);
-        assert readyUnit != null;
         assert this.readyUnit == null : this.readyUnit;
         this.readyUnit = readyUnit;
     }
@@ -96,9 +85,6 @@ public abstract class Player implements Serializable {
         return readyUnit;
     }
 
-    /**
-     * @pre getReadyUnit() != null
-     */
     public void clearReadyUnit() {
         this.readyUnit = null;
     }
@@ -128,20 +114,12 @@ public abstract class Player implements Serializable {
         // The default version of this method does nothing.
     }
 
-    /**
-     * @return the name
-     */
     public String getName() {
         return name;
     }
 
-    /**
-     * @pre view != null
-     * @pre getView() == null
-     */
     public void setView(GameView view) {
         assert this.view == null;
-        assert view != null;
 
         this.view = view;
     }

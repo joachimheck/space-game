@@ -1,11 +1,9 @@
 package org.heckcorp.spacegame;
 
 import org.heckcorp.spacegame.Player.PlayerType;
-import org.heckcorp.spacegame.desktop.ComputerPlayer;
-import org.heckcorp.spacegame.desktop.HumanPlayer;
-import org.heckcorp.spacegame.desktop.NeutralPlayer;
-import org.heckcorp.spacegame.desktop.Pathfinder;
-import org.heckcorp.spacegame.desktop.TurnManager;
+import org.heckcorp.spacegame.map.Pathfinder;
+import org.heckcorp.spacegame.map.Hex;
+import org.heckcorp.spacegame.map.HexMap;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
@@ -122,7 +120,7 @@ public class DefaultModel implements GameModel, Serializable {
     public void destroyUnit(Unit unit) {
         unit.getOwner().removeUnit(unit);
         unit.getHex().removeUnit(unit);
-        setStatus(unit, Status.DESTROYED);
+        setStatus(unit, UnitStatus.DESTROYED);
     }
 
     /**
@@ -221,7 +219,7 @@ public class DefaultModel implements GameModel, Serializable {
                     log.fine("Unit is destroyed.");
                 } else {
                     log.fine("Unit is out of moves.");
-                    setStatus(selectedUnit, Status.UNSELECTED);
+                    setStatus(selectedUnit, UnitStatus.UNSELECTED);
                 }
 
                 unit.getOwner().unitActionFinished();
@@ -245,7 +243,7 @@ public class DefaultModel implements GameModel, Serializable {
      */
     public void selectHex(Point position) {
         if (selectedUnit != null) {
-            setStatus(selectedUnit, Status.UNSELECTED);
+            setStatus(selectedUnit, UnitStatus.UNSELECTED);
         }
 
         Hex hex = map.getHex(position);
@@ -268,7 +266,7 @@ public class DefaultModel implements GameModel, Serializable {
                 log.finer("Selecting new top unit: " + topUnit);
                 units.remove(topUnit);
                 units.add(topUnit);
-                setStatus(topUnit, Status.SELECTED);
+                setStatus(topUnit, UnitStatus.SELECTED);
             }
         }
 
@@ -286,10 +284,10 @@ public class DefaultModel implements GameModel, Serializable {
 
         if (unit.getMovesLeft() > 0) {
             if (selectedUnit != null) {
-                setStatus(selectedUnit, Status.UNSELECTED);
+                setStatus(selectedUnit, UnitStatus.UNSELECTED);
             }
 
-            setStatus(unit, Status.SELECTED);
+            setStatus(unit, UnitStatus.SELECTED);
             unit.setAsleep(false);
         } else {
             log.fine("Can't select " + unit + ": no moves left.");
@@ -357,7 +355,7 @@ public class DefaultModel implements GameModel, Serializable {
              selectedUnit.skip();
              log.fine("Model skipping unit.");
              selectedUnit.getOwner().unitActionFinished();
-             setStatus(selectedUnit, Status.UNSELECTED);
+             setStatus(selectedUnit, UnitStatus.UNSELECTED);
          }
      }
     /**
@@ -369,7 +367,7 @@ public class DefaultModel implements GameModel, Serializable {
              selectedUnit.setAsleep(true);
              log.fine("Model sleeping unit.");
              selectedUnit.getOwner().unitActionFinished();
-             setStatus(selectedUnit, Status.UNSELECTED);
+             setStatus(selectedUnit, UnitStatus.UNSELECTED);
              // TODO: we could notify the view that the unit is asleep.
          }
      }
@@ -400,12 +398,12 @@ public class DefaultModel implements GameModel, Serializable {
         Unit loser = selectedUnit.attack(hex);
 
         if (loser.getHealth() == Unit.Health.DESTROYED) {
-            setStatus(loser, Status.DESTROYED);
+            setStatus(loser, UnitStatus.DESTROYED);
             if (loser == selectedUnit) {
-                setStatus(loser, Status.UNSELECTED);
+                setStatus(loser, UnitStatus.UNSELECTED);
             }
         } else if (loser.getHealth() == Unit.Health.DAMAGED) {
-            setStatus(loser, Status.DAMAGED);
+            setStatus(loser, UnitStatus.DAMAGED);
         }
     }
     /**
@@ -434,7 +432,7 @@ public class DefaultModel implements GameModel, Serializable {
      * @pre unit != null
      * @pre status != null
      */
-    private synchronized void setStatus(Unit unit, Status status) {
+    private synchronized void setStatus(Unit unit, UnitStatus status) {
         log.fine("Setting status of " + unit + " to " + status);
 
         // TODO: well this is ugly.  Make a method to do it?  If getStackTrace()
@@ -450,23 +448,23 @@ public class DefaultModel implements GameModel, Serializable {
         log.fine("SetStatus was called by " +
                  trace[i].getClassName() + "." + trace[i].getMethodName());
 
-        if (status == Status.SELECTED) {
+        if (status == UnitStatus.SELECTED) {
             assert selectedUnit == null;
             selectedUnit = unit;
-        } else if (status == Status.UNSELECTED) {
+        } else if (status == UnitStatus.UNSELECTED) {
             assert selectedUnit != null;
             selectedUnit = null;
-        } else if (status == Status.HIDDEN) {
+        } else if (status == UnitStatus.HIDDEN) {
             // TODO: Remove this status!
-        } else if (status == Status.REVEALED) {
+        } else if (status == UnitStatus.REVEALED) {
             // TODO: Remove this status!
-        } else if (status == Status.DAMAGED) {
+        } else if (status == UnitStatus.DAMAGED) {
 //            unit.setHealth(Health.DAMAGED);
-        } else if (status == Status.DESTROYED) {
+        } else if (status == UnitStatus.DESTROYED) {
 //            unit.setHealth(Health.DESTROYED);
-        } else if (status == Status.HEALTHY) {
+        } else if (status == UnitStatus.HEALTHY) {
 //            unit.setHealth(Health.HEALTHY);
-        } else if (status == Status.SKIPPED) {
+        } else if (status == UnitStatus.SKIPPED) {
             // TODO: Remove this status!
         }
 

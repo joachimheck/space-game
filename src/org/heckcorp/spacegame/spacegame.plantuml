@@ -1,0 +1,514 @@
+@startuml
+
+title __SPACEGAME's Class Diagram__\n
+
+  namespace org.heckcorp.spacegame {
+    class org.heckcorp.spacegame.ComputerPlayer {
+        {static} - serialVersionUID : long
+        + ComputerPlayer()
+        + move()
+        + setModel()
+        + setView()
+        - getClosest()
+        - getEnemiesInRange()
+        - moveUnit()
+    }
+  }
+  
+
+  namespace org.heckcorp.spacegame {
+    class org.heckcorp.spacegame.ComputerPlayerView {
+        - knownEnemies : Set<Unit>
+        - log : Logger
+        + ComputerPlayerView()
+        + addUnit()
+        + attack()
+        + getKnownEnemies()
+        + getMap()
+        + initialize()
+        + message()
+        + move()
+        + selectHex()
+        + setCurrentPlayer()
+        + setMap()
+        + setMonitor()
+        + setPlayer()
+        + setStatus()
+        + setWinningPlayer()
+    }
+  }
+  
+
+  namespace org.heckcorp.spacegame {
+    class org.heckcorp.spacegame.Constants {
+        {static} + ACTION_END_TURN : String
+        {static} + ACTION_LOAD_GAME : String
+        {static} + ACTION_SAVE_GAME : String
+        {static} + ACTION_SKIP_UNIT : String
+        {static} + ACTION_SLEEP_UNIT : String
+        {static} + ACTION_TOGGLE_HEX_HIDING : String
+        {static} + ACTION_WAIT_UNIT : Object
+        {static} + COMPUTER_PLAYER_COLOR : Color
+        {static} + GAME_NAME : String
+        {static} + HUMAN_PLAYER_COLOR : Color
+        {static} + INSTRUCTIONS_FILE : String
+        {static} + LOGGING_CONFIG_FILE : String
+        {static} + MAJOR_VERSION : int
+        {static} + MAP_HEIGHT : int
+        {static} + MAP_WIDTH : int
+        {static} + MINOR_VERSION : int
+        {static} + NEUTRAL_PLAYER_COLOR : Color
+        {static} + PAUSE_TIME : int
+        {static} + RELEASE_NOTES_FILE : String
+        {static} + UI_COMPONENT_LARGE_HEIGHT : int
+        {static} + UI_COMPONENT_LARGE_WIDTH : int
+        {static} + UI_COMPONENT_SMALL_HEIGHT : int
+        {static} + UI_COMPONENT_SMALL_WIDTH : int
+    }
+  }
+  
+
+  namespace org.heckcorp.spacegame {
+    class org.heckcorp.spacegame.DefaultModel {
+        - log : Logger
+        - players : List<Player>
+        {static} - serialVersionUID : long
+        + addPlayer()
+        + addUnit()
+        + destroyUnit()
+        + endTurn()
+        + getGameStateManager()
+        + getHex()
+        + getTurnManager()
+        + moveSelectedUnit()
+        + selectHex()
+        + selectUnit()
+        + setCurrentPlayer()
+        + setMap()
+        + setSelectedUnitDestination()
+        + setWinningPlayer()
+        + skipSelectedUnit()
+        + sleepSelectedUnit()
+        + startTurnManager()
+        + toggleHexHiding()
+        + waitSelectedUnit()
+        - attack()
+        - moveSelectedUnitOneHex()
+        - setStatus()
+    }
+  }
+  
+
+  namespace org.heckcorp.spacegame {
+    class org.heckcorp.spacegame.DefaultModel.GameStateManager {
+        - in : ObjectInputStream
+        + initializeModel()
+        + setInputStream()
+        + write()
+    }
+  }
+  
+
+  namespace org.heckcorp.spacegame {
+    enum Direction {
+      NORTH
+      NORTHEAST
+      NORTHWEST
+      SOUTH
+      SOUTHEAST
+      SOUTHWEST
+      name
+      value
+    }
+  }
+  
+
+  namespace org.heckcorp.spacegame {
+    interface org.heckcorp.spacegame.GameModel {
+        {abstract} + addPlayer()
+        {abstract} + addUnit()
+        {abstract} + endTurn()
+        {abstract} + getHex()
+        {abstract} + getTurnManager()
+        {abstract} + moveSelectedUnit()
+        {abstract} + selectHex()
+        {abstract} + selectUnit()
+        {abstract} + setMap()
+        {abstract} + setSelectedUnitDestination()
+        {abstract} + skipSelectedUnit()
+        {abstract} + sleepSelectedUnit()
+        {abstract} + startTurnManager()
+        {abstract} + toggleHexHiding()
+        {abstract} + waitSelectedUnit()
+    }
+  }
+  
+
+  namespace org.heckcorp.spacegame {
+    abstract class org.heckcorp.spacegame.GamePiece {
+        + getHex()
+        + getOwner()
+        + getPosition()
+        + setHex()
+        + setOwner()
+    }
+  }
+  
+
+  namespace org.heckcorp.spacegame {
+    interface org.heckcorp.spacegame.GameView {
+        {abstract} + addUnit()
+        {abstract} + attack()
+        {abstract} + initialize()
+        {abstract} + message()
+        {abstract} + move()
+        {abstract} + selectHex()
+        {abstract} + setCurrentPlayer()
+        {abstract} + setMap()
+        {abstract} + setMonitor()
+        {abstract} + setStatus()
+        {abstract} + setWinningPlayer()
+    }
+  }
+  
+
+  namespace org.heckcorp.spacegame {
+    class org.heckcorp.spacegame.HumanPlayer {
+        # lock : Lock
+        # notMoving : Condition
+        # turnFinished : Condition
+        # unitReady : Condition
+        - finishingTurn : boolean
+        - moving : boolean
+        {static} - serialVersionUID : long
+        - turnOver : boolean
+        + HumanPlayer()
+        + finishTurn()
+        + move()
+        + setReadyUnit()
+        + startTurn()
+        + turnFinished()
+        + unitActionFinished()
+    }
+  }
+  
+
+  namespace org.heckcorp.spacegame {
+    class org.heckcorp.spacegame.LogFormatter {
+        + format()
+    }
+  }
+  
+
+  namespace org.heckcorp.spacegame {
+    interface org.heckcorp.spacegame.ModelInitializer {
+        {abstract} + initializeModel()
+    }
+  }
+  
+
+  namespace org.heckcorp.spacegame {
+    class org.heckcorp.spacegame.NeutralPlayer {
+        {static} - serialVersionUID : long
+        + NeutralPlayer()
+        + move()
+    }
+  }
+  
+
+  namespace org.heckcorp.spacegame {
+    class org.heckcorp.spacegame.NewGameInitializer {
+        - height : int
+        - width : int
+        + NewGameInitializer()
+        {static} + createPlayer()
+        + initializeModel()
+        - createPlayers()
+        - createUnits()
+    }
+  }
+  
+
+  namespace org.heckcorp.spacegame {
+    abstract class org.heckcorp.spacegame.Player {
+        {static} # log : Logger
+        - color : Color
+        - name : String
+        - units : Set<Unit>
+        + Player()
+        + addUnit()
+        + clearReadyUnit()
+        + finishTurn()
+        + getColor()
+        + getLog()
+        + getName()
+        + getReadyUnit()
+        + getType()
+        + getUnits()
+        + getView()
+        {abstract} + move()
+        + removeUnit()
+        + setReadyUnit()
+        + setView()
+        + startTurn()
+        + turnFinished()
+        + unitActionFinished()
+        + write()
+    }
+  }
+  
+
+  namespace org.heckcorp.spacegame {
+    enum PlayerType {
+      COMPUTER
+      HUMAN
+      NEUTRAL
+    }
+  }
+  
+
+  namespace org.heckcorp.spacegame {
+    interface org.heckcorp.spacegame.Positionable {
+        {abstract} + getPosition()
+    }
+  }
+  
+
+  namespace org.heckcorp.spacegame {
+    class org.heckcorp.spacegame.SequentialExecutor {
+        {static} - executor : SequentialExecutor
+        - run : boolean
+        - tasks : List<Runnable>
+        + execute()
+        {static} + getInstance()
+        + run()
+        + stop()
+        - SequentialExecutor()
+    }
+  }
+  
+
+  namespace org.heckcorp.spacegame {
+    class org.heckcorp.spacegame.SpaceGame {
+        {static} - instance : SpaceGame
+        {static} - log : Logger
+        {static} + getInstance()
+        + hexClicked()
+        {static} + main()
+        # displayAboutPopup()
+        # displayTextPopup()
+        # loadGame()
+        # skipSelectedUnit()
+        # sleepSelectedUnit()
+        # waitSelectedUnit()
+        - SpaceGame()
+        {static} - createAndShowGUI()
+        - createMenuBar()
+        - createViewAndModel()
+        - saveGame()
+        - windowOpened()
+    }
+  }
+  
+
+  namespace org.heckcorp.spacegame {
+    class org.heckcorp.spacegame.SpaceGame.ActionManager {
+        + manage()
+        - defineActions()
+        - defineKeyMaps()
+    }
+  }
+  
+
+  namespace org.heckcorp.spacegame {
+    enum Status {
+      DAMAGED
+      DESTROYED
+      HEALTHY
+      HIDDEN
+      REVEALED
+      SELECTED
+      SKIPPED
+      UNSELECTED
+    }
+  }
+  
+
+  namespace org.heckcorp.spacegame {
+    class org.heckcorp.spacegame.TurnManager {
+        {static} - log : Logger
+        - players : List<Player>
+        {static} - serialVersionUID : long
+        - thread : Thread
+        - turnOver : boolean
+        + TurnManager()
+        + getWinningPlayer()
+        + interrupt()
+        + run()
+        + setModel()
+        + start()
+        + turnFinished()
+        - finishTurn()
+        - getReadyUnit()
+        - moveUnitsWithOrders()
+        - runPlayerTurn()
+        - selectUnits()
+        - startTurn()
+    }
+  }
+  
+
+  namespace org.heckcorp.spacegame {
+    class org.heckcorp.spacegame.Unit {
+        - asleep : boolean
+        - attacksLeft : int
+        - hitPoints : int
+        {static} - log : Logger
+        - movesLeft : int
+        - path : List<Hex>
+        {static} - serialVersionUID : long
+        - skipped : boolean
+        - startingHitPoints : int
+        + Unit()
+        + attack()
+        + canAttack()
+        + canEnterHex()
+        + canMoveAlongPath()
+        + clearPath()
+        + decreaseAttacksLeft()
+        + decreaseMovesLeft()
+        + getAttack()
+        + getAttacks()
+        + getAttacksLeft()
+        + getDefense()
+        + getHealth()
+        + getHitPoints()
+        + getLastHex()
+        + getMovement()
+        + getMovesLeft()
+        + getNextDirection()
+        + getPath()
+        + getRange()
+        + getStartingHitPoints()
+        + getType()
+        + isAsleep()
+        + isDamaged()
+        + isDestroyed()
+        + isReadyForAction()
+        + isSkipped()
+        + move()
+        + reset()
+        + setAsleep()
+        + setAttacksLeft()
+        + setHealth()
+        + setHex()
+        + setMovesLeft()
+        + setPath()
+        + skip()
+        + takeDamage()
+        + toString()
+    }
+  }
+  
+
+  namespace org.heckcorp.spacegame {
+    enum Health {
+      DAMAGED
+      DESTROYED
+      HEALTHY
+    }
+  }
+  
+
+  namespace org.heckcorp.spacegame {
+    enum Type {
+      SPACESHIP
+      attack
+      attacks
+      cost
+      defense
+      id
+      movement
+      name
+    }
+  }
+  
+
+  namespace org.heckcorp.spacegame {
+    class org.heckcorp.spacegame.ViewMultiplexer {
+        - gameViews : Set<GameView>
+        - log : Logger
+        + addGameView()
+        + addUnit()
+        + attack()
+        + initialize()
+        + message()
+        + move()
+        + selectHex()
+        + setCurrentPlayer()
+        + setMap()
+        + setMonitor()
+        + setStatus()
+        + setWinningPlayer()
+    }
+  }
+  
+
+  org.heckcorp.spacegame.ComputerPlayer -up-|> org.heckcorp.spacegame.Player
+  org.heckcorp.spacegame.ComputerPlayer o-- org.heckcorp.spacegame.GameModel : model
+  org.heckcorp.spacegame.ComputerPlayer o-- org.heckcorp.spacegame.ComputerPlayerView : myView
+  org.heckcorp.spacegame.ComputerPlayerView .up.|> org.heckcorp.spacegame.GameView
+  org.heckcorp.spacegame.ComputerPlayerView o-- org.heckcorp.spacegame.map.HexMap : map
+  org.heckcorp.spacegame.ComputerPlayerView o-- org.heckcorp.spacegame.ComputerPlayer : player
+  org.heckcorp.spacegame.DefaultModel .up.|> java.io.Serializable
+  org.heckcorp.spacegame.DefaultModel .up.|> org.heckcorp.spacegame.GameModel
+  org.heckcorp.spacegame.DefaultModel o-- org.heckcorp.spacegame.Player : currentPlayer
+  org.heckcorp.spacegame.DefaultModel o-- org.heckcorp.spacegame.DefaultModel.GameStateManager : gameStateManager
+  org.heckcorp.spacegame.DefaultModel o-- org.heckcorp.spacegame.map.HexMap : map
+  org.heckcorp.spacegame.DefaultModel o-- org.heckcorp.spacegame.Unit : selectedUnit
+  org.heckcorp.spacegame.DefaultModel o-- org.heckcorp.spacegame.TurnManager : turnManager
+  org.heckcorp.spacegame.DefaultModel o-- org.heckcorp.spacegame.ViewMultiplexer : views
+  org.heckcorp.spacegame.DefaultModel +-down- org.heckcorp.spacegame.DefaultModel.GameStateManager
+  org.heckcorp.spacegame.DefaultModel.GameStateManager .up.|> org.heckcorp.spacegame.ModelInitializer
+  org.heckcorp.spacegame.GamePiece .up.|> java.io.Serializable
+  org.heckcorp.spacegame.GamePiece .up.|> org.heckcorp.spacegame.Positionable
+  org.heckcorp.spacegame.GamePiece o-- org.heckcorp.spacegame.map.Hex : hex
+  org.heckcorp.spacegame.GamePiece o-- org.heckcorp.spacegame.Player : owner
+  org.heckcorp.spacegame.HumanPlayer -up-|> org.heckcorp.spacegame.Player
+  org.heckcorp.spacegame.LogFormatter -up-|> java.util.logging.Formatter
+  org.heckcorp.spacegame.NeutralPlayer -up-|> org.heckcorp.spacegame.Player
+  org.heckcorp.spacegame.NewGameInitializer .up.|> org.heckcorp.spacegame.ModelInitializer
+  org.heckcorp.spacegame.Player .up.|> java.io.Serializable
+  org.heckcorp.spacegame.Player o-- org.heckcorp.spacegame.GameView : view
+  org.heckcorp.spacegame.Player o-- org.heckcorp.spacegame.Unit : readyUnit
+  org.heckcorp.spacegame.Player +-down- org.heckcorp.spacegame.Player.PlayerType
+  org.heckcorp.spacegame.SequentialExecutor .up.|> java.lang.Runnable
+  org.heckcorp.spacegame.SequentialExecutor .up.|> java.util.concurrent.Executor
+  org.heckcorp.spacegame.SpaceGame .up.|> org.heckcorp.spacegame.map.swing.ViewMonitor
+  org.heckcorp.spacegame.SpaceGame -up-|> javax.swing.JPanel
+  org.heckcorp.spacegame.SpaceGame o-- org.heckcorp.spacegame.SequentialExecutor : executor
+  org.heckcorp.spacegame.SpaceGame o-- org.heckcorp.spacegame.GameModel : model
+  org.heckcorp.spacegame.SpaceGame o-- org.heckcorp.spacegame.swing.SwingView : view
+  org.heckcorp.spacegame.SpaceGame +-down- org.heckcorp.spacegame.SpaceGame.ActionManager
+  org.heckcorp.spacegame.TurnManager .up.|> java.io.Serializable
+  org.heckcorp.spacegame.TurnManager .up.|> java.lang.Runnable
+  org.heckcorp.spacegame.TurnManager o-- org.heckcorp.spacegame.DefaultModel : model
+  org.heckcorp.spacegame.TurnManager o-- org.heckcorp.spacegame.Player : startPlayer
+  org.heckcorp.spacegame.Unit .up.|> java.io.Serializable
+  org.heckcorp.spacegame.Unit -up-|> org.heckcorp.spacegame.GamePiece
+  org.heckcorp.spacegame.Unit o-- org.heckcorp.spacegame.Unit.Health : health
+  org.heckcorp.spacegame.Unit o-- org.heckcorp.spacegame.map.Hex : lastHex
+  org.heckcorp.spacegame.Unit o-- org.heckcorp.spacegame.Unit.Type : type
+  org.heckcorp.spacegame.Unit +-down- org.heckcorp.spacegame.Unit.Health
+  org.heckcorp.spacegame.Unit +-down- org.heckcorp.spacegame.Unit.Type
+  org.heckcorp.spacegame.ViewMultiplexer .up.|> org.heckcorp.spacegame.GameView
+
+
+right footer
+
+
+PlantUML diagram generated by SketchIt! (https://bitbucket.org/pmesmeur/sketch.it)
+For more information about this tool, please contact philippe.mesmeur@gmail.com
+endfooter
+
+@enduml

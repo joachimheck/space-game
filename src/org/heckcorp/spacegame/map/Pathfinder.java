@@ -1,30 +1,21 @@
-package org.heckcorp.spacegame.desktop;
+package org.heckcorp.spacegame.map;
 
-import org.heckcorp.spacegame.Calculator;
-import org.heckcorp.spacegame.Hex;
-import org.heckcorp.spacegame.HexMap;
 import org.heckcorp.spacegame.Unit;
 
+import javax.annotation.Nullable;
 import java.awt.*;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-/**
- *
- * @author Joachim Heck
- * @concurrent safe
- */
 public final class Pathfinder implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    /**
-     * @author   Joachim Heck
-     */
     private final static class Node {
-        public Node(Point point, Node predecessor) {
+        public Node(Point point, @Nullable Node predecessor) {
             this.point = point;
             this.predecessor = predecessor;
         }
@@ -41,13 +32,11 @@ public final class Pathfinder implements Serializable {
 
         /**
          * The cost to reach this state from the initial state.
-         * @uml.property  name="cost"
          */
         private Integer cost = null;
 
         /**
          * The estimated distance from this state to the goal state.
-         * @uml.property  name="distance"
          */
         private Integer distance = null;
 
@@ -55,25 +44,14 @@ public final class Pathfinder implements Serializable {
             distance = Calculator.distance(point, goal.point);
         }
 
-        /**
-         * @return  the cost
-         * @uml.property  name="cost"
-         */
         public int getCost() {
             return cost;
         }
 
-        /**
-         * @return  the distance
-         * @uml.property  name="distance"
-         */
         public int getDistance() {
             return distance;
         }
 
-        /**
-         * @pre cost != null && distance != null
-         */
         public int getScore() {
             return cost + distance;
         }
@@ -91,11 +69,6 @@ public final class Pathfinder implements Serializable {
         this.map = map;
     }
 
-    /**
-     *
-     * @pre unit != null
-     * @pre goalHex != null
-     */
     public List<Hex> findPath(Unit unit, Hex goalHex) {
         Node goal = new Node(goalHex.getPosition(), null);
         Node start = new Node(unit.getHex().getPosition(), null);
@@ -145,7 +118,7 @@ public final class Pathfinder implements Serializable {
 
         // Process current to get the path.
         if (!current.point.equals(goal.point)) {
-            current = null;
+            return Collections.emptyList();
         }
 
         return createPath(start, current);
@@ -194,9 +167,6 @@ public final class Pathfinder implements Serializable {
         return found;
     }
 
-    /**
-     * @pre openNodes != null
-     */
     private Node getLowestScoreNode(Set<Node> nodes) {
         int lowestScore = Integer.MAX_VALUE;
         Node best = null;
@@ -211,9 +181,5 @@ public final class Pathfinder implements Serializable {
        return best;
     }
 
-    /**
-     * @uml.property   name="map"
-     * @uml.associationEnd   multiplicity="(1 1)" inverse="pathfinder:org.heckcorp.domination.HexMap"
-     */
     private final HexMap map;
 }

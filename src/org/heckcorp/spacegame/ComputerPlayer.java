@@ -1,13 +1,7 @@
-package org.heckcorp.spacegame.desktop;
+package org.heckcorp.spacegame;
 
-import org.heckcorp.spacegame.Calculator;
-import org.heckcorp.spacegame.ComputerPlayerView;
-import org.heckcorp.spacegame.GameModel;
-import org.heckcorp.spacegame.GameView;
-import org.heckcorp.spacegame.Hex;
-import org.heckcorp.spacegame.Player;
-import org.heckcorp.spacegame.Positionable;
-import org.heckcorp.spacegame.Unit;
+import org.heckcorp.spacegame.map.Calculator;
+import org.heckcorp.spacegame.map.Hex;
 
 import java.awt.*;
 import java.util.HashSet;
@@ -111,14 +105,6 @@ public class ComputerPlayer extends Player {
     }
 
     /**
-     * Should be final but it screws up serialization.
-     */
-    private transient GameModel model;
-    private transient ComputerPlayerView myView;
-
-    private static final long serialVersionUID = 1L;
-
-    /**
      * @pre view instanceof ComputerPlayerView
      */
     @Override
@@ -130,20 +116,18 @@ public class ComputerPlayer extends Player {
         super.setView(view);
     }
 
-    /**
-     * @pre model != null
-     * @pre this player's model has not yet been set.
-     */
-    public void setModel(GameModel model) {
-        assert model != null;
-        assert this.model == null;
-
-        this.model = model;
-    }
-
     @Override
     public void move() {
         assert getReadyUnit() != null;
         moveUnit(getReadyUnit());
     }
+
+    /**
+     * Should be final but it screws up serialization.
+     * @noinspection FieldMayBeFinal
+     */
+    private transient GameModel model;
+    private transient ComputerPlayerView myView;
+
+    private static final long serialVersionUID = 1L;
 }
