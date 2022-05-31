@@ -1,9 +1,9 @@
 package org.heckcorp.spacegame;
 
-import org.heckcorp.spacegame.map.swing.ViewMonitor;
-import org.heckcorp.spacegame.swing.SwingView;
 import org.heckcorp.spacegame.map.swing.UIResources;
 import org.heckcorp.spacegame.map.swing.Util;
+import org.heckcorp.spacegame.map.swing.ViewMonitor;
+import org.heckcorp.spacegame.swing.SwingView;
 
 import javax.annotation.Nullable;
 import javax.swing.*;
@@ -23,6 +23,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
@@ -146,7 +148,7 @@ public class SpaceGame extends JPanel implements ViewMonitor {
         executor.execute(() -> model.waitSelectedUnit());
     }
 
-    private SequentialExecutor executor;
+    private ExecutorService executor;
 
     private JMenuBar createMenuBar() {
         JMenuBar menuBar = new JMenuBar();
@@ -261,8 +263,7 @@ public class SpaceGame extends JPanel implements ViewMonitor {
 
         // All calls to the model must go through the executor,
         // so it doesn't call into the view on the AWT thread.
-        // TODO: use SingleThreadExecutor instead.
-        executor = SequentialExecutor.getInstance();
+        executor = Executors.newSingleThreadExecutor();
 
         executor.execute(() -> {
             if (in == null) {

@@ -5,51 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3bc8c235-c2bd-4343-a6d7-4a6d6d4b49b0" name="Changes" comment="Shuffled the packages a bit, mostly to try to  better isolate the map code from the rest of the game, with an eye toward making it a library in the future.">
-      <change afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/map.plantuml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/swing/package-info.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/swing/swing.plantuml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/spacegame.plantuml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/swing/swing.plantuml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/swing/view.plantuml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/logging.properties" beforeDir="false" afterPath="$PROJECT_DIR$/config/logging.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/space-game.plantuml" beforeDir="false" afterPath="$PROJECT_DIR$/space-game.plantuml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/Calculator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/Calculator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/ComputerPlayerView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/ComputerPlayerView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/DefaultModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/DefaultModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/GameModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/GameModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/GamePiece.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/GamePiece.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/GameView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/GameView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/Hex.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/Hex.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/HexMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/HexMap.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/NewGameInitializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/NewGameInitializer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/Player.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/Status.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/UnitStatus.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/Unit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/Unit.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/ViewMonitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/swing/ViewMonitor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/ViewMultiplexer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/ViewMultiplexer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/desktop/ComputerPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/ComputerPlayer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/desktop/HumanPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/HumanPlayer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/desktop/NeutralPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/NeutralPlayer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/desktop/Pathfinder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/Pathfinder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/desktop/SpaceGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/SpaceGame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/desktop/TurnManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/TurnManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/desktop/desktop.plantuml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/desktop/package-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/swing/package-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/desktop/view/AnimatedImageIcon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/swing/AnimatedImageIcon.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/desktop/view/Counter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/swing/Counter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/desktop/view/HexDescriptionPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/swing/HexDescriptionPanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/desktop/view/MapPane.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/swing/MapPane.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/desktop/view/MapView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/swing/MapView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/desktop/view/MapViewListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/swing/MapViewListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/desktop/view/MiniMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/swing/MiniMap.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/desktop/view/MovementAnimationState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/swing/MovementAnimationState.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/desktop/view/SequentialExecutor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/SequentialExecutor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/desktop/view/SwingView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/swing/SwingView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/desktop/view/UIResources.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/swing/UIResources.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/desktop/view/Util.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/swing/Util.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/desktop/view/package-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/package-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/desktop/view/view.plantuml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/SpaceGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/SpaceGame.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -414,7 +370,14 @@
       <option name="project" value="LOCAL" />
       <updated>1653930576386</updated>
     </task>
-    <option name="localTasksCounter" value="41" />
+    <task id="LOCAL-00041" summary="Shuffled the packages a bit, mostly to try to  better isolate the map code from the rest of the game, with an eye toward making it a library in the future.">
+      <created>1654001027293</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1654001027293</updated>
+    </task>
+    <option name="localTasksCounter" value="42" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
