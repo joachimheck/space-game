@@ -1,9 +1,9 @@
 package org.heckcorp.spacegame;
 
 import org.heckcorp.spacegame.Player.PlayerType;
-import org.heckcorp.spacegame.map.Pathfinder;
 import org.heckcorp.spacegame.map.Hex;
 import org.heckcorp.spacegame.map.HexMap;
+import org.heckcorp.spacegame.map.Pathfinder;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -20,72 +20,19 @@ import java.util.logging.Logger;
 
 /**
  * An implementation of a GameModel.
- *
- * @author Joachim Heck
  */
 public class DefaultModel implements GameModel, Serializable {
-    public final class GameStateManager {
-        public void write(ObjectOutputStream out) throws IOException {
-            // Write Map
-            map.write(out);
+    public void write(ObjectOutputStream out) throws IOException {
+        // Write Map
+        map.write(out);
 
-            // Write Current player id #
-            out.writeInt(players.indexOf(currentPlayer));
+        // Write Current player id #
+        out.writeInt(players.indexOf(currentPlayer));
 
-            // Write Players
-            out.writeInt(players.size());
-            for (Player player : players) {
-                player.write(out);
-            }
-        }
-
-
-        @SuppressWarnings("unchecked")
-        public void initializeModel(GameModel model, GameView mainPlayerView, ObjectInputStream in)
-                throws IOException, ClassNotFoundException {
-            HexMap map = new HexMap(in);
-            model.setMap(map);
-
-            int currentPlayerIndex = in.readInt();
-
-            int playerCount = in.readInt();
-            for (int i=0; i<playerCount; i++) {
-                log.finer("Reading player #" + i);
-                int typeNumber = in.readInt();
-                PlayerType type = PlayerType.values()[typeNumber];
-
-                String name = (String) in.readObject();
-                Color color = (Color) in.readObject();
-
-                @Nullable Player player = null;
-
-                if (type == PlayerType.HUMAN) {
-                    player = new HumanPlayer(name, color, mainPlayerView);
-                } else if (type == PlayerType.COMPUTER) {
-                    player = new ComputerPlayer(name, color, model,
-                                                new ComputerPlayerView());
-                } else if (type == PlayerType.NEUTRAL) {
-                    player = new NeutralPlayer(name, color);
-                } else {
-                    assert false;
-                }
-
-                model.addPlayer(player);
-                if (i == currentPlayerIndex) {
-                    currentPlayer = player;
-                }
-
-                Set<Unit> units = (Set<Unit>) in.readObject();
-                for (Unit unit : units) {
-                    unit.setOwner(player);
-                    player.addUnit(unit);
-                    model.addUnit(unit, unit.getPosition());
-                }
-            }
-
-            in.close();
-
-            model.startTurnManager();
+        // Write Players
+        out.writeInt(players.size());
+        for (Player player : players) {
+            player.write(out);
         }
     }
 
@@ -114,12 +61,6 @@ public class DefaultModel implements GameModel, Serializable {
         }
     }
 
-    public void destroyUnit(Unit unit) {
-        unit.getOwner().removeUnit(unit);
-        unit.getHex().removeUnit(unit);
-        setStatus(unit, UnitStatus.DESTROYED);
-    }
-
     /**
      * Ends the current player's turn.  Units with movement orders
      * will continue to move along their paths, but units without
@@ -134,26 +75,14 @@ public class DefaultModel implements GameModel, Serializable {
     /**
      * Returns the hex at the specified map coordinates.
      * @param position the map coordinates of the hex to get.
-     * @pre position != null
      * @pre position is within the map boundary
-     * @pre the map has been set.
-     * @post result != null
      */
     public Hex getHex(Point position) {
         return map.getHex(position);
     }
 
-    /**
-     * @pre all players have been added.
-     */
      public TurnManager getTurnManager() {
-        assert !players.isEmpty();
-
-        if (turnManager == null) {
-            turnManager = new TurnManager(players, this);
-        }
-
-        return turnManager;
+         return turnManager;
      }
 
     /**
@@ -166,7 +95,6 @@ public class DefaultModel implements GameModel, Serializable {
             Unit unit = selectedUnit;
 
             Hex hex = unit.getPath().get(0);
-            assert hex != null;
 
             // We only attack if the hex next to the unit was clicked.
             if (unit.getPath().size() == 1 && unit.canAttack(hex)) {
@@ -302,22 +230,6 @@ public class DefaultModel implements GameModel, Serializable {
     }
 
     /**
-     * Sets this model's map to the specified hex map.
-     * @pre  map != null
-     * @pre this model's map is null
-     * @uml.property  name="map"
-     */
-    public void setMap(HexMap map) {
-        assert this.map == null;
-
-        this.map = map;
-
-        // Because we don't get the views until we get the players,
-        // there's no point trying to set their maps here.
-//        views.setMap(map);
-    }
-
-    /**
      * Sets the destination of the selected unit to the specified point.
      * @pre destination is in the map
      * @post result == false || the selected unit has a path
@@ -390,6 +302,8 @@ public class DefaultModel implements GameModel, Serializable {
      * @pre unit.canAttack(hex)
      */
     private void attack(Hex hex) {
+        assert selectedUnit != null;
+
         // Compute the results of the attack.
         Unit loser = selectedUnit.attack(hex);
 
@@ -406,6 +320,8 @@ public class DefaultModel implements GameModel, Serializable {
      * @pre !selectedUnit.getPath().isEmpty()
      */
     private void moveSelectedUnitOneHex() {
+        assert selectedUnit != null;
+
         Direction direction = selectedUnit.getNextDirection();
         log.finer("Model moving " + selectedUnit + " one hex.");
 
@@ -467,30 +383,85 @@ public class DefaultModel implements GameModel, Serializable {
         views.setStatus(unit, status);
     }
 
-    private Player currentPlayer;
+    public static DefaultModel initialize(GameView view, ObjectInputStream in)
+            throws IOException, ClassNotFoundException {
+        Logger log = Logger.getLogger("DefaultModel");
+        HexMap map = new HexMap(in);
+        DefaultModel model = new DefaultModel(map);
 
-    private final transient Logger log = Logger.getLogger(getClass().getName());
+        int currentPlayerIndex = in.readInt();
 
-    private HexMap map;
+        int playerCount = in.readInt();
+        for (int i=0; i<playerCount; i++) {
+            log.finer("Reading player #" + i);
+            int typeNumber = in.readInt();
+            PlayerType type = PlayerType.values()[typeNumber];
 
-    private final List<Player> players = new ArrayList<>();
+            String name = (String) in.readObject();
+            Color color = (Color) in.readObject();
 
-    @Nullable private Unit selectedUnit;
+            @Nullable Player player = null;
 
-    @Nullable private transient TurnManager turnManager;
+            if (type == PlayerType.HUMAN) {
+                player = new HumanPlayer(name, color, view);
+            } else if (type == PlayerType.COMPUTER) {
+                player = new ComputerPlayer(name, color, model,
+                        new ComputerPlayerView());
+            } else if (type == PlayerType.NEUTRAL) {
+                player = new NeutralPlayer(name, color);
+            } else {
+                assert false;
+            }
 
-    private final transient ViewMultiplexer views = new ViewMultiplexer();
+            model.addPlayer(player);
+            if (i == currentPlayerIndex) {
+                model.setCurrentPlayer(player);
+            }
 
-    private final transient GameStateManager gameStateManager = new GameStateManager();
+            Set<Unit> units = (Set<Unit>) in.readObject();
+            for (Unit unit : units) {
+                unit.setOwner(player);
+                player.addUnit(unit);
+                model.addUnit(unit, unit.getPosition());
+            }
+        }
 
-    @Serial
-    private static final long serialVersionUID = 1L;
+        in.close();
+
+        model.startTurnManager();
+        return model;
+    }
+
+    public static DefaultModel initialize(int width, int height) {
+        DefaultModel model = new DefaultModel(new HexMap(width, height));
+        model.startTurnManager();
+        return model;
+    }
 
     public void startTurnManager() {
         getTurnManager().start(currentPlayer);
     }
 
-    public GameStateManager getGameStateManager() {
-        return gameStateManager;
+    DefaultModel(HexMap map) {
+        this.map = map;
+        this.currentPlayer = players.get(0);
+        turnManager = new TurnManager(players, this);
     }
+
+    private Player currentPlayer;
+
+    private final transient Logger log = Logger.getLogger(getClass().getName());
+
+    private final HexMap map;
+
+    private final List<Player> players = new ArrayList<>();
+
+    @Nullable private Unit selectedUnit;
+
+    private final TurnManager turnManager;
+
+    private final transient ViewMultiplexer views = new ViewMultiplexer();
+
+    @Serial
+    private static final long serialVersionUID = 1L;
 }

@@ -73,13 +73,6 @@ public interface GameModel {
     void selectUnit(Unit unit);
 
     /**
-     * Sets this model's map to the specified hex map.
-     * @pre  map != null
-     * @uml.property  name="map"
-     */
-    void setMap(HexMap map);
-
-    /**
      * Skips the selected unit for a turn.  The unit will not move
      * or require orders this turn.
      */

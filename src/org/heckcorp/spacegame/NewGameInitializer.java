@@ -6,19 +6,12 @@ import org.heckcorp.spacegame.map.HexMap;
 import org.jetbrains.annotations.Nullable;
 
 import java.awt.*;
-import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class NewGameInitializer {
-
-    private final int width;
-    private final int height;
-
-    public NewGameInitializer(int width, int height) {
-        this.width = width;
-        this.height = height;
+    public NewGameInitializer() {
     }
     /**
      * @param name the name of the player to create.
@@ -43,9 +36,9 @@ public class NewGameInitializer {
         return player;
     }
 
-    public void initializeModel(GameModel model, GameView mainPlayerView) {
+    public DefaultModel initialize(GameView mainPlayerView, int width, int height) {
         HexMap map = new HexMap(width, height);
-        model.setMap(map);
+        DefaultModel model = new DefaultModel(map);
 
         List<Player> players = createPlayers(model, mainPlayerView);
         for (Player player : players) {
@@ -59,6 +52,7 @@ public class NewGameInitializer {
         }
 
         model.startTurnManager();
+        return model;
     }
 
     private List<Player> createPlayers(GameModel model, GameView mainPlayerView) {

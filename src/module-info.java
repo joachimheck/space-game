@@ -7,4 +7,5 @@ module space.game.main {
     requires com.google.common;
     requires org.checkerframework.checker.qual;
     exports org.heckcorp.spacegame;
+    exports org.heckcorp.spacegame.map;
 }

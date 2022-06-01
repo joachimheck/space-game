@@ -267,13 +267,11 @@ public class SpaceGame extends JPanel implements ViewMonitor {
         executor.execute(() -> {
             if (in == null) {
                 log.fine("Creating new game model.");
-                model = new DefaultModel();
+                model = new NewGameInitializer().initialize(view, Constants.MAP_WIDTH, Constants.MAP_HEIGHT);
             } else {
                 try {
                     log.fine("Loading game model from file.");
-                    model = new DefaultModel();
-                    DefaultModel.GameStateManager gsm = ((DefaultModel) model).getGameStateManager();
-                    gsm.initializeModel(model, view, in);
+                    model = DefaultModel.initialize(view, in);
                     validate();
                     log.fine("Finished loading.");
                 } catch (IOException | ClassNotFoundException e) {
@@ -286,13 +284,9 @@ public class SpaceGame extends JPanel implements ViewMonitor {
 
     private void windowOpened() {
         assert view != null;
-        assert model != null;
 
         executor.execute(() -> {
-            NewGameInitializer initializer =
-                    new NewGameInitializer(Constants.MAP_WIDTH, Constants.MAP_HEIGHT);
             try {
-                initializer.initializeModel(model, view);
                 view.initialize();
             } catch (Exception e) {
                 // This initializer doesn't actually throw the exceptions it claims.
@@ -396,7 +390,7 @@ public class SpaceGame extends JPanel implements ViewMonitor {
         log.info("Saving game in " + saveFile.getName());
 
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(saveFile))) {
-            ((DefaultModel) model).getGameStateManager().write(out);
+            ((DefaultModel) model).write(out);
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
