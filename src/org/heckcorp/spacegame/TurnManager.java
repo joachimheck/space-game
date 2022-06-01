@@ -64,19 +64,17 @@ public class TurnManager implements Runnable, Serializable {
 
             startTurn(player);
 
-            if (!(player instanceof NeutralPlayer)) {
-                // Select each ready unit, and allow the player to
-                // move them all.  Note that the player can move any
-                // unit, not just the selected one!
-                selectUnits(player);
+            // Select each ready unit, and allow the player to
+            // move them all.  Note that the player can move any
+            // unit, not just the selected one!
+            selectUnits(player);
 
-                // Next move all units that have paths set.
-                moveUnitsWithOrders(player);
+            // Next move all units that have paths set.
+            moveUnitsWithOrders(player);
 
-                // Some units may have finished their orders but not
-                // used up all their movement.  Let the player move them.
-                selectUnits(player);
-            }
+            // Some units may have finished their orders but not
+            // used up all their movement.  Let the player move them.
+            selectUnits(player);
 
             finishTurn(player);
         }

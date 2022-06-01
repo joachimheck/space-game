@@ -22,8 +22,6 @@ public class NewGameInitializer {
             player = new HumanPlayer(name, color, view);
         } else if (type == Player.PlayerType.COMPUTER) {
             player = new ComputerPlayer(name, color, new ComputerPlayerView());
-        } else if (type == Player.PlayerType.NEUTRAL) {
-            player = new NeutralPlayer(name, color);
         } else {
             assert false;
         }
@@ -62,14 +60,12 @@ public class NewGameInitializer {
 
     private List<Player> createPlayers(GameView mainPlayerView) {
         List<Player> players = new ArrayList<>();
-        String[] playerNames = { "Human Player", "Computer Player", "Neutral Player" };
-        PlayerType[] playerTypes = { PlayerType.HUMAN, PlayerType.COMPUTER, PlayerType.NEUTRAL };
-        Color[] playerColors = { Constants.HUMAN_PLAYER_COLOR,
-                Constants.COMPUTER_PLAYER_COLOR,
-                Constants.NEUTRAL_PLAYER_COLOR };
+        String[] playerNames = { "Human Player", "Computer Player" };
+        PlayerType[] playerTypes = { PlayerType.HUMAN, PlayerType.COMPUTER };
+        Color[] playerColors = { Constants.HUMAN_PLAYER_COLOR, Constants.COMPUTER_PLAYER_COLOR };
 
-        // Create the three players.
-        for (int i=0; i<3; i++) {
+        // Create the two players.
+        for (int i=0; i<2; i++) {
             players.add(createPlayer(playerNames[i], playerTypes[i], playerColors[i], mainPlayerView));
         }
 
@@ -77,9 +73,6 @@ public class NewGameInitializer {
     }
 
     private List<Unit> createUnits(Player player) {
-        if (player instanceof NeutralPlayer) {
-            return Collections.emptyList();
-        }
         return List.of(new Unit(Unit.Type.SPACESHIP, player));
     }
 }

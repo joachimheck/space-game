@@ -409,8 +409,6 @@ public class DefaultModel implements GameModel, Serializable {
                 player = new HumanPlayer(name, color, view);
             } else if (type == PlayerType.COMPUTER) {
                 player = new ComputerPlayer(name, color, new ComputerPlayerView());
-            } else if (type == PlayerType.NEUTRAL) {
-                player = new NeutralPlayer(name, color);
             } else {
                 assert false;
             }

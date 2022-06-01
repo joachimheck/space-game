@@ -20,7 +20,7 @@ public abstract class Player implements Serializable {
         return log;
     }
 
-    public Player(String name, Color color, @Nullable GameView view) {
+    public Player(String name, Color color, GameView view) {
         log = Logger.getLogger(getClass().getName());
         this.name = name;
         this.color = color;
@@ -42,7 +42,7 @@ public abstract class Player implements Serializable {
     private final Set<Unit> units;
 
     public enum PlayerType {
-        HUMAN, COMPUTER, NEUTRAL
+        HUMAN, COMPUTER
     }
 
     public Set<Unit> getUnits() {
@@ -126,8 +126,6 @@ public abstract class Player implements Serializable {
             result = PlayerType.HUMAN;
         } else if (this instanceof ComputerPlayer) {
             result = PlayerType.COMPUTER;
-        } else if (this instanceof NeutralPlayer) {
-            result = PlayerType.NEUTRAL;
         } else {
             assert false;
         }
