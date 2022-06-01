@@ -1,15 +1,14 @@
 package org.heckcorp.spacegame.map;
 
-import org.heckcorp.spacegame.Unit;
-import org.jetbrains.annotations.Nullable;
-
 import java.awt.*;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 public final class Pathfinder implements Serializable {
@@ -17,9 +16,14 @@ public final class Pathfinder implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private final static class Node {
-        public Node(Point point, @Nullable Node predecessor) {
+        public Node(Point point, Node predecessor) {
             this.point = point;
             this.predecessor = predecessor;
+        }
+
+        private Node(Point point) {
+            this.point = point;
+            this.predecessor = this;
         }
 
         /**
@@ -30,18 +34,17 @@ public final class Pathfinder implements Serializable {
         /**
          * The predecessor to this node along a path.
          */
-        @Nullable
         public final Node predecessor;
 
         /**
          * The cost to reach this state from the initial state.
          */
-        private Integer cost = null;
+        private int cost = Integer.MAX_VALUE;
 
         /**
          * The estimated distance from this state to the goal state.
          */
-        private Integer distance = null;
+        private int distance = Integer.MAX_VALUE;
 
         public void computeDistance(Node goal) {
             distance = Calculator.distance(point, goal.point);
@@ -49,10 +52,6 @@ public final class Pathfinder implements Serializable {
 
         public int getCost() {
             return cost;
-        }
-
-        public int getDistance() {
-            return distance;
         }
 
         public int getScore() {
@@ -63,18 +62,16 @@ public final class Pathfinder implements Serializable {
             this.cost = cost;
         }
 
-        public void setDistance(int distance) {
-            this.distance = distance;
-        }
+        public static Node INVALID = new Node(new Point(-1, -1));
     }
 
     public Pathfinder(HexMap map) {
         this.map = map;
     }
 
-    public List<Hex> findPath(Unit unit, Hex goalHex) {
-        Node goal = new Node(goalHex.getPosition(), null);
-        Node start = new Node(unit.getHex().getPosition(), null);
+    public List<Hex> findPath(Hex startHex, Hex goalHex) {
+        Node goal = new Node(goalHex.getPosition(), Node.INVALID);
+        Node start = new Node(startHex.getPosition(), Node.INVALID);
 
         start.setCost(0);
         start.computeDistance(goal);
@@ -85,53 +82,51 @@ public final class Pathfinder implements Serializable {
         // Put the start state (hex) on the open list.
         openNodes.add(start);
 
-        Node current = null;
+        Optional<Node> current = Optional.empty();
         while (!openNodes.isEmpty()) {
             current = getLowestScoreNode(openNodes);
 
-            if (current.point.equals(goal.point)) {
+            if (current.isEmpty() || current.get().point.equals(goal.point)) {
                 break;
             } else {
+                Node currentNode = current.get();
                 // Generate all the successors.
-                Set<Node> successors = generateSuccessors(current);
+                Set<Node> successors = generateSuccessors(currentNode);
 
                 for (Node successor : successors) {
                     // TODO: fix cost computation.
-                    successor.setCost(current.getCost() + 1);
-                    Node alreadyOpen = findNode(openNodes, successor);
-                    Node alreadyClosed = findNode(closedNodes, successor);
+                    successor.setCost(currentNode.getCost() + 1);
+                    Optional<Node> alreadyOpen = findNode(openNodes, successor);
+                    Optional<Node> alreadyClosed = findNode(closedNodes, successor);
 
-                    if ((alreadyOpen == null ||
-                        alreadyOpen.getCost() > successor.getCost()) &&
-                        (alreadyClosed == null ||
-                            alreadyClosed.getCost() > successor.getCost()))
-                    {
-                        openNodes.remove(alreadyOpen);
-                        closedNodes.remove(alreadyClosed);
+                    if ((alreadyOpen.isEmpty() || alreadyOpen.get().getCost() > successor.getCost())
+                            && (alreadyClosed.isEmpty() || alreadyClosed.get().getCost() > successor.getCost())) {
+                        alreadyOpen.ifPresent(openNodes::remove);
+                        alreadyClosed.ifPresent(closedNodes::remove);
                         successor.computeDistance(goal);
                         openNodes.add(successor);
                     }
                 }
 
                 // Move the current node to the closed list.
-                openNodes.remove(current);
-                closedNodes.add(current);
+                openNodes.remove(currentNode);
+                closedNodes.add(currentNode);
             }
         }
 
         // Process current to get the path.
-        if (!current.point.equals(goal.point)) {
+        if (current.isEmpty() || !current.get().point.equals(goal.point)) {
             return Collections.emptyList();
         }
 
-        return createPath(start, current);
+        return createPath(start, current.get());
     }
 
     private List<Hex> createPath(Node start, Node end) {
         List<Hex> path = new ArrayList<>();
 
         Node current = end;
-        while (current != null && current != start) {
+        while (current != start) {
             path.add(0, map.getHex(current.point));
             current = current.predecessor;
         }
@@ -157,31 +152,12 @@ public final class Pathfinder implements Serializable {
      * Finds a node with the same state as the specified node
      * in the set of nodes and returns it if it is present.
      */
-    private Node findNode(Set<Node> nodes, Node target) {
-        Node found = null;
-
-        for (Node node : nodes) {
-            if (node.point.equals(target.point)) {
-                found = node;
-                break;
-            }
-        }
-
-        return found;
+    private Optional<Node> findNode(Set<Node> nodes, Node target) {
+        return nodes.stream().filter(n -> n.point.equals(target.point)).findFirst();
     }
 
-    private Node getLowestScoreNode(Set<Node> nodes) {
-        int lowestScore = Integer.MAX_VALUE;
-        Node best = null;
-
-        for (Node node : nodes) {
-            if (node.getScore() < lowestScore) {
-                best = node;
-                lowestScore = node.getScore();
-            }
-        }
-
-       return best;
+    private Optional<Node> getLowestScoreNode(Set<Node> nodes) {
+        return nodes.stream().min(Comparator.comparingInt(Node::getScore));
     }
 
     private final HexMap map;

@@ -240,7 +240,7 @@ public class DefaultModel implements GameModel, Serializable {
 
             Hex hex = map.getHex(destination);
             Pathfinder pathfinder = map.getPathfinder();
-            List<Hex> path = pathfinder.findPath(selectedUnit, hex);
+            List<Hex> path = pathfinder.findPath(selectedUnit.getHex(), hex);
 
             if (!path.isEmpty()) {
                 selectedUnit.setPath(path);
