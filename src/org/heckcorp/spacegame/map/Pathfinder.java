@@ -1,9 +1,10 @@
 package org.heckcorp.spacegame.map;
 
 import org.heckcorp.spacegame.Unit;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nullable;
 import java.awt.*;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -12,6 +13,7 @@ import java.util.List;
 import java.util.Set;
 
 public final class Pathfinder implements Serializable {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     private final static class Node {
@@ -28,6 +30,7 @@ public final class Pathfinder implements Serializable {
         /**
          * The predecessor to this node along a path.
          */
+        @Nullable
         public final Node predecessor;
 
         /**

@@ -5,11 +5,13 @@ import org.heckcorp.spacegame.map.Pathfinder;
 import org.heckcorp.spacegame.map.Hex;
 import org.heckcorp.spacegame.map.HexMap;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.awt.*;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +24,7 @@ import java.util.logging.Logger;
  * @author Joachim Heck
  */
 public class DefaultModel implements GameModel, Serializable {
-    public final class GameStateManager implements ModelInitializer {
+    public final class GameStateManager {
         public void write(ObjectOutputStream out) throws IOException {
             // Write Map
             map.write(out);
@@ -37,15 +39,10 @@ public class DefaultModel implements GameModel, Serializable {
             }
         }
 
-        private ObjectInputStream in;
-        public void setInputStream(ObjectInputStream in) {
-            this.in = in;
-        }
 
         @SuppressWarnings("unchecked")
-        public void initializeModel(GameModel model, GameView mainPlayerView)
-        throws IOException, ClassNotFoundException
-        {
+        public void initializeModel(GameModel model, GameView mainPlayerView, ObjectInputStream in)
+                throws IOException, ClassNotFoundException {
             HexMap map = new HexMap(in);
             model.setMap(map);
 
@@ -60,7 +57,7 @@ public class DefaultModel implements GameModel, Serializable {
                 String name = (String) in.readObject();
                 Color color = (Color) in.readObject();
 
-                Player player = null;
+                @Nullable Player player = null;
 
                 if (type == PlayerType.HUMAN) {
                     player = new HumanPlayer(name, color, mainPlayerView);
@@ -153,8 +150,7 @@ public class DefaultModel implements GameModel, Serializable {
         assert !players.isEmpty();
 
         if (turnManager == null) {
-            turnManager = new TurnManager(players);
-            turnManager.setModel(this);
+            turnManager = new TurnManager(players, this);
         }
 
         return turnManager;
@@ -479,14 +475,15 @@ public class DefaultModel implements GameModel, Serializable {
 
     private final List<Player> players = new ArrayList<>();
 
-    private Unit selectedUnit;
+    @Nullable private Unit selectedUnit;
 
-    private transient TurnManager turnManager;
+    @Nullable private transient TurnManager turnManager;
 
     private final transient ViewMultiplexer views = new ViewMultiplexer();
 
     private final transient GameStateManager gameStateManager = new GameStateManager();
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     public void startTurnManager() {

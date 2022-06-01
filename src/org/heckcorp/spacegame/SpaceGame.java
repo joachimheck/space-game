@@ -4,8 +4,8 @@ import org.heckcorp.spacegame.map.swing.UIResources;
 import org.heckcorp.spacegame.map.swing.Util;
 import org.heckcorp.spacegame.map.swing.ViewMonitor;
 import org.heckcorp.spacegame.swing.SwingView;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nullable;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -29,21 +29,16 @@ import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 /**
- * Domination serves as the controller component of the application.
+ * SpaceGame serves as the controller component of the application.
  * It manages communications and control between the UIManager and
  * GameManager classes, which serve respectively as the view and
  * model components.
- *
- * @author Joachim Heck
- *
  */
 public class SpaceGame extends JPanel implements ViewMonitor {
 
     /**
      * This convenience class exists primarily to reduce clutter
      * in the parent class.  It handles action mappings.
-     *
-     * @author Joachim Heck
      */
     private final class ActionManager {
         public void manage() {
@@ -79,11 +74,13 @@ public class SpaceGame extends JPanel implements ViewMonitor {
             });
             getActionMap().put(Constants.ACTION_END_TURN, new AbstractAction() {
                 public void actionPerformed(ActionEvent e) {
+                    assert model != null;
                     executor.execute(() -> model.endTurn());
                 }
             });
             getActionMap().put(Constants.ACTION_TOGGLE_HEX_HIDING, new AbstractAction() {
                 public void actionPerformed(ActionEvent e) {
+                    assert model != null;
                     executor.execute(() -> model.toggleHexHiding());
                 }
             });
@@ -101,10 +98,10 @@ public class SpaceGame extends JPanel implements ViewMonitor {
 
     protected void displayAboutPopup() {
         String message = Constants.GAME_NAME + " version " +
-        Constants.MAJOR_VERSION + "." + Constants.MINOR_VERSION +
-        "\nBy Joachim Heck";
+                Constants.MAJOR_VERSION + "." + Constants.MINOR_VERSION +
+                "\nBy Joachim Heck";
         JOptionPane.showMessageDialog(this, message, "About " + Constants.GAME_NAME,
-                                      JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.INFORMATION_MESSAGE);
     }
 
     protected void displayTextPopup(String filename) {
@@ -113,7 +110,7 @@ public class SpaceGame extends JPanel implements ViewMonitor {
 
         try {
             BufferedReader in = new BufferedReader(new InputStreamReader(
-                Util.getResource(filename)));
+                    Util.getResource(filename)));
 
             int maxColumns = 0;
             StringBuilder stringBuilder = new StringBuilder();
@@ -137,18 +134,22 @@ public class SpaceGame extends JPanel implements ViewMonitor {
     }
 
     protected void skipSelectedUnit() {
+        assert model != null;
         executor.execute(() -> model.skipSelectedUnit());
     }
 
     protected void sleepSelectedUnit() {
+        assert model != null;
         executor.execute(() -> model.sleepSelectedUnit());
     }
 
     protected void waitSelectedUnit() {
+        assert model != null;
         executor.execute(() -> model.waitSelectedUnit());
     }
 
-    private ExecutorService executor;
+    private final ExecutorService executor = Executors.newSingleThreadExecutor();
+
 
     private JMenuBar createMenuBar() {
         JMenuBar menuBar = new JMenuBar();
@@ -263,8 +264,6 @@ public class SpaceGame extends JPanel implements ViewMonitor {
 
         // All calls to the model must go through the executor,
         // so it doesn't call into the view on the AWT thread.
-        executor = Executors.newSingleThreadExecutor();
-
         executor.execute(() -> {
             if (in == null) {
                 log.fine("Creating new game model.");
@@ -273,10 +272,8 @@ public class SpaceGame extends JPanel implements ViewMonitor {
                 try {
                     log.fine("Loading game model from file.");
                     model = new DefaultModel();
-                    DefaultModel.GameStateManager gsm =
-                        ((DefaultModel) model).getGameStateManager();
-                    gsm.setInputStream(in);
-                    gsm.initializeModel(model, view);
+                    DefaultModel.GameStateManager gsm = ((DefaultModel) model).getGameStateManager();
+                    gsm.initializeModel(model, view, in);
                     validate();
                     log.fine("Finished loading.");
                 } catch (IOException | ClassNotFoundException e) {
@@ -288,9 +285,12 @@ public class SpaceGame extends JPanel implements ViewMonitor {
     }
 
     private void windowOpened() {
+        assert view != null;
+        assert model != null;
+
         executor.execute(() -> {
-            ModelInitializer initializer =
-                new NewGameInitializer(Constants.MAP_WIDTH, Constants.MAP_HEIGHT);
+            NewGameInitializer initializer =
+                    new NewGameInitializer(Constants.MAP_WIDTH, Constants.MAP_HEIGHT);
             try {
                 initializer.initializeModel(model, view);
                 view.initialize();
@@ -303,7 +303,7 @@ public class SpaceGame extends JPanel implements ViewMonitor {
         view.message("Game Started");
     }
 
-    private static SpaceGame instance = null;
+    @Nullable private static SpaceGame instance = null;
 
     /**
      * @pre createInstance() has already been called.
@@ -327,7 +327,7 @@ public class SpaceGame extends JPanel implements ViewMonitor {
         } catch (IOException e) {
             if (args.length > 0) {
                 System.err.println("Couldn't read configuration file: " +
-                                   e.getMessage());
+                        e.getMessage());
                 System.err.println("Usage: java -jar Domination.jar [configfile]");
             } else {
                 e.printStackTrace();
@@ -371,6 +371,8 @@ public class SpaceGame extends JPanel implements ViewMonitor {
     }
 
     protected void loadGame() {
+        assert model != null;
+
         File saveFile = new File(Constants.GAME_NAME + ".sav");
         log.info("Loading game from " + saveFile.getName());
 
@@ -388,6 +390,8 @@ public class SpaceGame extends JPanel implements ViewMonitor {
     }
 
     private void saveGame() {
+        assert model != null;
+
         File saveFile = new File(Constants.GAME_NAME + ".sav");
         log.info("Saving game in " + saveFile.getName());
 
@@ -399,10 +403,12 @@ public class SpaceGame extends JPanel implements ViewMonitor {
         }
     }
 
-    private GameModel model;
-    private SwingView view;
+    @Nullable private GameModel model;
+    @Nullable private SwingView view;
 
     public void hexClicked(final Point hexPos, int button) {
+        assert model != null;
+
         if (button == MouseEvent.BUTTON1) {
             // Button 1 selects.
             executor.execute(() -> model.selectHex(hexPos));

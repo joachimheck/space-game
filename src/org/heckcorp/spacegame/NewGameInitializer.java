@@ -3,13 +3,15 @@ package org.heckcorp.spacegame;
 import org.heckcorp.spacegame.Player.PlayerType;
 import org.heckcorp.spacegame.map.Hex;
 import org.heckcorp.spacegame.map.HexMap;
+import org.jetbrains.annotations.Nullable;
 
 import java.awt.*;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class NewGameInitializer implements ModelInitializer {
+public class NewGameInitializer {
 
     private final int width;
     private final int height;
@@ -25,7 +27,7 @@ public class NewGameInitializer implements ModelInitializer {
     public static Player createPlayer(String name, Player.PlayerType type,
                                       Color color, GameModel model, GameView view)
     {
-        Player player = null;
+        @Nullable Player player = null;
 
         if (type == Player.PlayerType.HUMAN) {
             player = new HumanPlayer(name, color, view);

@@ -1,6 +1,7 @@
 package org.heckcorp.spacegame;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
+
 import java.awt.*;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -11,20 +12,16 @@ import java.util.logging.Logger;
 
 public abstract class Player implements Serializable {
 
-    protected static Logger log;
+    protected final Logger log;
 
     public abstract void move() throws InterruptedException;
 
     public Logger getLog() {
-        if (log == null) {
-            log = Logger.getLogger(getClass().getName());
-        }
-
         return log;
     }
 
-    public Player(String name, Color color, @Nullable GameView view)
-    {
+    public Player(String name, Color color, @Nullable GameView view) {
+        log = Logger.getLogger(getClass().getName());
         this.name = name;
         this.color = color;
         this.view = view;
@@ -40,6 +37,7 @@ public abstract class Player implements Serializable {
     /**
      * This should be final, but that breaks serialization.
      */
+    @Nullable
     protected transient GameView view;
     private final Set<Unit> units;
 
@@ -69,10 +67,12 @@ public abstract class Player implements Serializable {
         return color;
     }
 
+    @Nullable
     public GameView getView() {
         return view;
     }
 
+    @Nullable
     private Unit readyUnit = null;
 
     public void setReadyUnit(Unit readyUnit) {
@@ -81,6 +81,7 @@ public abstract class Player implements Serializable {
         this.readyUnit = readyUnit;
     }
 
+    @Nullable
     public Unit getReadyUnit() {
         return readyUnit;
     }
@@ -125,7 +126,7 @@ public abstract class Player implements Serializable {
     }
 
     public PlayerType getType() {
-        PlayerType result = null;
+        @Nullable PlayerType result = null;
 
         if (this instanceof HumanPlayer) {
             result = PlayerType.HUMAN;

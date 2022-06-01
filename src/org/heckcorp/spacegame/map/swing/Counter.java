@@ -1,6 +1,7 @@
 package org.heckcorp.spacegame.map.swing;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -86,10 +87,12 @@ public class Counter extends JLabel {
             // Otherwise, we set destination and end up having multiple timers
             // running simultaneously, speeding up movement with every hex.
             moveTimer.stop();
-            // TODO: use javafx Animation to avoid doing the thread stuff myself? Would that help?
-            //noinspection SynchronizeOnNonFinalField
-            synchronized (toNotify) {
-                toNotify.notify();
+            if (toNotify != null) {
+                // TODO: use javafx Animation to avoid doing the thread stuff myself? Would that help?
+                //noinspection SynchronizeOnNonFinalField
+                synchronized (toNotify) {
+                    toNotify.notify();
+                }
             }
         }
     }
@@ -99,7 +102,7 @@ public class Counter extends JLabel {
     }
 
     private void updateCounterLocation() {
-        if (destination != null) {
+        if (destination != null && normal != null) {
             // Distance = speed * time
             long current = System.currentTimeMillis();
             long elapsed = current - lastTime;
@@ -109,8 +112,8 @@ public class Counter extends JLabel {
             // runs regularly - shouldn't that make it rougher?
             //            double distance = speed * ((double) moveTimer.getDelay() / 1000.0);
             double distance = speed * ((double) elapsed / 1000.0);
-            Point2D movementVector = new Point2D.Double(distance * normal.getX(),
-                    distance * normal.getY());
+            Point2D movementVector = new Point2D.Double(
+                    distance * normal.getX(), distance * normal.getY());
             double newx = realLocation.getX() + movementVector.getX();
             double newy = realLocation.getY() + movementVector.getY();
             realLocation.setLocation(newx, newy);
@@ -198,7 +201,9 @@ public class Counter extends JLabel {
      * The movement speed of the Counter, in pixels per second.
      */
     private static final int MOVE_SPEED = 75;
+    @Nullable
     private final Color borderColor;
+    @Nullable
     private Point destination;
 
     /**
@@ -210,13 +215,14 @@ public class Counter extends JLabel {
     /**
      * The normal vector of this SpriteSet's movement direction. Null iff destination is null.
      */
+    @Nullable
     private Point2D normal;
     private final Point oldLocation;
 
     /**
      * This SpriteSet's location in double precision, used during movement calculations.
      */
-    private Point2D realLocation;
+    private Point2D realLocation = new Point2D.Double(0.0, 0.0);
 
     /**
      * Speed the Sprite should move, in pixels per second.
@@ -231,6 +237,8 @@ public class Counter extends JLabel {
     private final Point offset = new Point(0, 0);
     private boolean onScreen = true;
     private boolean hidden = false;
+    @Nullable
     private Point mapPosition;
+    @Nullable
     private Object toNotify;
 }

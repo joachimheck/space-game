@@ -1,6 +1,8 @@
 package org.heckcorp.spacegame;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
+
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
@@ -12,13 +14,15 @@ import java.util.stream.Collectors;
  * and players after the previous ones finish.
  */
 public class TurnManager implements Runnable, Serializable {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     /**
      * Determines whether the game has ended.
      */
+    @Nullable
     public Player getWinningPlayer() {
-        Player onlyPlayer = null;
+        @Nullable Player onlyPlayer = null;
 
         // The game is over when all units belong to one player.
         Set<Player> remainingPlayers =
@@ -31,9 +35,7 @@ public class TurnManager implements Runnable, Serializable {
     }
 
     public void run() {
-        assert model != null;
-
-        Player winner = null;
+        @Nullable Player winner = null;
 
         try {
             while (winner == null) {
@@ -80,10 +82,6 @@ public class TurnManager implements Runnable, Serializable {
         }
     }
 
-    public void setModel(DefaultModel model) {
-        this.model = model;
-    }
-
     /**
      * @param startPlayer if not null, the player to start with.
      * @pre this TurnManager's model has been set.
@@ -94,11 +92,13 @@ public class TurnManager implements Runnable, Serializable {
         thread.start();
     }
 
-    private transient Thread thread = null;
+    @Nullable private transient Thread thread = null;
 
     public void interrupt() {
         log.fine("Interrupting turn manager.");
-        thread.interrupt();
+        if (thread != null) {
+            thread.interrupt();
+        }
     }
 
     public void turnFinished() {
@@ -120,8 +120,9 @@ public class TurnManager implements Runnable, Serializable {
      * Return a unit that is ready for action and has no movement
      * orders.  If another unit is available, avoidUnit is not returned.
      */
+    @Nullable
     private Unit getReadyUnit(Player player, @Nullable Unit avoidUnit) {
-        Unit readyUnit = avoidUnit;
+        @Nullable Unit readyUnit = avoidUnit;
 
         if (avoidUnit == null
                 || !avoidUnit.isReadyForAction()
@@ -157,7 +158,7 @@ public class TurnManager implements Runnable, Serializable {
 
     private void selectUnits(Player player) throws InterruptedException {
         log.fine("Selecting units for " + player);
-        Unit unit = getReadyUnit(player, null);
+        @Nullable Unit unit = getReadyUnit(player, null);
         while (unit != null && !turnOver) {
             model.selectUnit(unit);
             player.setReadyUnit(unit);
@@ -179,8 +180,9 @@ public class TurnManager implements Runnable, Serializable {
     /**
      * @param players the players to iterate over.
      */
-    public TurnManager(List<Player> players) {
+    public TurnManager(List<Player> players, DefaultModel model) {
         this.players = players;
+        this.model = model;
 
         // The ready unit may still be set from before the game was saved.
         for (Player player : players) {
@@ -190,8 +192,9 @@ public class TurnManager implements Runnable, Serializable {
 
     private final static Logger log = Logger.getLogger(TurnManager.class.getName());
 
-    private DefaultModel model;
+    private final DefaultModel model;
 
+    @Nullable
     private Player startPlayer;
 
     private final List<Player> players;
