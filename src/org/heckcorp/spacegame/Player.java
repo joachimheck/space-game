@@ -14,7 +14,7 @@ public abstract class Player implements Serializable {
 
     protected final Logger log;
 
-    public abstract void move() throws InterruptedException;
+    public abstract void move(GameModel model) throws InterruptedException;
 
     public Logger getLog() {
         return log;
@@ -117,12 +117,6 @@ public abstract class Player implements Serializable {
 
     public String getName() {
         return name;
-    }
-
-    public void setView(GameView view) {
-        assert this.view == null;
-
-        this.view = view;
     }
 
     public PlayerType getType() {

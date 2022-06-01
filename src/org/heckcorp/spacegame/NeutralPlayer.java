@@ -1,10 +1,10 @@
 package org.heckcorp.spacegame;
 
-import java.awt.Color;
-
-import org.heckcorp.spacegame.Player;
+import java.awt.*;
+import java.io.Serial;
 
 public final class NeutralPlayer extends Player {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     public NeutralPlayer(String name, Color color) {
@@ -12,8 +12,7 @@ public final class NeutralPlayer extends Player {
     }
 
     @Override
-    public void move() {
+    public void move(GameModel model) {
         // Do nothing.  Neutral units don't move.
     }
-
 }

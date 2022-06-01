@@ -6,11 +6,11 @@ import org.heckcorp.spacegame.map.swing.ViewMonitor;
 
 import java.awt.*;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
 public class ViewMultiplexer implements GameView {
-
     public void addUnit(Unit unit) {
         for (GameView view : gameViews) {
             view.addUnit(unit);
@@ -79,6 +79,10 @@ public class ViewMultiplexer implements GameView {
         for (GameView view : gameViews) {
             view.setWinningPlayer(playerName, playerColor);
         }
+    }
+
+    public ViewMultiplexer(List<GameView> views) {
+        gameViews.addAll(views);
     }
 
     private final transient Set<GameView> gameViews = new HashSet<>();

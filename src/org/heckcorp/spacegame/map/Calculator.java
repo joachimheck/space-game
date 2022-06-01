@@ -5,10 +5,6 @@ import org.heckcorp.spacegame.Positionable;
 import java.awt.*;
 
 public final class Calculator {
-    /**
-     * @pre p1 != null
-     * @pre p2 != null
-     */
     public static int distance(Positionable p1, Positionable p2) {
         return distance(p1.getPosition(), p2.getPosition());
     }

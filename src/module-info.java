@@ -8,4 +8,6 @@ module space.game.main {
     requires org.checkerframework.checker.qual;
     exports org.heckcorp.spacegame;
     exports org.heckcorp.spacegame.map;
+    exports org.heckcorp.spacegame.map.swing;
+    exports org.heckcorp.spacegame.swing;
 }

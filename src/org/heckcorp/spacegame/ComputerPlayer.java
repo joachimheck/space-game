@@ -2,13 +2,16 @@ package org.heckcorp.spacegame;
 
 import org.heckcorp.spacegame.map.Calculator;
 import org.heckcorp.spacegame.map.Hex;
+import org.jetbrains.annotations.Nullable;
 
 import java.awt.*;
+import java.io.Serial;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 public class ComputerPlayer extends Player {
-    private void moveUnit(Unit unit) {
+    private void moveUnit(Unit unit, GameModel model) {
         getLog().finest("moveUnit(" + unit + ")");
 
         while (unit.isReadyForAction()) {
@@ -18,25 +21,25 @@ public class ComputerPlayer extends Player {
 
             // Order of precedence:
             // Attack units, move toward units, sit.
-            Hex destination = null;
+            @Nullable Hex destination = null;
 
             // Attack enemy units.
             if (unit.getAttacksLeft() > 0) {
-                Unit closestEnemy = getClosest(unit, getEnemiesInRange(unit));
+                Optional<Unit> closestEnemy = getClosest(unit, getEnemiesInRange(unit));
 
-                if (closestEnemy != null) {
+                if (closestEnemy.isPresent()) {
                     getLog().finer("Attacking enemy: " + closestEnemy);
-                    destination = closestEnemy.getHex();
+                    destination = closestEnemy.get().getHex();
                 }
             }
 
             // Move toward non-adjacent enemy units.
             if (destination == null) {
-                Unit target = getClosest(unit, myView.getKnownEnemies());
+                Optional<Unit> target = getClosest(unit, myView.getKnownEnemies());
 
-                if (target != null && Calculator.distance(unit, target) > 1) {
-                    getLog().finer("Moving toward enemy: " + target);
-                    destination = target.getHex();
+                if (target.isPresent() && Calculator.distance(unit, target.get()) > 1) {
+                    getLog().finer("Moving toward enemy: " + target.get());
+                    destination = target.get().getHex();
                 }
             }
 
@@ -63,20 +66,11 @@ public class ComputerPlayer extends Player {
         getLog().fine("Move finished.");
     }
 
-    private <P extends Positionable> P getClosest(Positionable base, Set<P> group) {
-        P closest = null;
-        int minDistance = Integer.MAX_VALUE;
-
-        for (P item : group) {
-            int distance = Calculator.distance(base.getPosition(), item.getPosition());
-
-            if (distance < minDistance) {
-                minDistance = distance;
-                closest = item;
-            }
-        }
-
-        return closest;
+    private <P extends Positionable> Optional<P> getClosest(Positionable base, Set<P> group) {
+        return group.stream().min((p1, p2) ->
+            Calculator.distance(base.getPosition(), p2.getPosition())
+                    - Calculator.distance(base.getPosition(), p1.getPosition())
+        );
     }
 
     private Set<Unit> getEnemiesInRange(Unit unit) {
@@ -94,40 +88,26 @@ public class ComputerPlayer extends Player {
         return inRange;
     }
 
-    public ComputerPlayer(String name, Color color, GameModel model, GameView view) {
+    public ComputerPlayer(String name, Color color, GameView view) {
         super(name, color, view);
 
         assert view instanceof ComputerPlayerView;
         myView = (ComputerPlayerView)view;
         myView.setPlayer(this);
-
-        this.model = model;
-    }
-
-    /**
-     * @pre view instanceof ComputerPlayerView
-     */
-    @Override
-    public void setView(GameView view) {
-        assert myView == null;
-
-        myView = (ComputerPlayerView) view;
-
-        super.setView(view);
     }
 
     @Override
-    public void move() {
+    public void move(GameModel model) {
         assert getReadyUnit() != null;
-        moveUnit(getReadyUnit());
+        moveUnit(getReadyUnit(), model);
     }
 
     /**
      * Should be final but it screws up serialization.
      * @noinspection FieldMayBeFinal
      */
-    private transient GameModel model;
     private transient ComputerPlayerView myView;
 
+    @Serial
     private static final long serialVersionUID = 1L;
 }

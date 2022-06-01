@@ -162,7 +162,7 @@ public class TurnManager implements Runnable, Serializable {
         while (unit != null && !turnOver) {
             model.selectUnit(unit);
             player.setReadyUnit(unit);
-            player.move();
+            player.move(model);
 
             // We pass in the last unit so that when a unit
             // is waited, it doesn't immediately get selected again.

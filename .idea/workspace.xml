@@ -4,10 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3bc8c235-c2bd-4343-a6d7-4a6d6d4b49b0" name="Changes" comment="Removed GameStateManager from DefaultModel and added some new initialization code that lets some of its fields be non-null. I also updated NewGameInitializer for the same reason.">
+    <list default="true" id="3bc8c235-c2bd-4343-a6d7-4a6d6d4b49b0" name="Changes" comment="Modified the initialization code for DefaultModel (in DefaultModel and NewGameInitializer) to allow most of the fields to be final and non-null.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/space-game.plantuml" beforeDir="false" afterPath="$PROJECT_DIR$/space-game.plantuml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/module-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/ComputerPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/ComputerPlayer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/DefaultModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/DefaultModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/Pathfinder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/Pathfinder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/HumanPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/HumanPlayer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/NeutralPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/NeutralPlayer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/NewGameInitializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/NewGameInitializer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/TurnManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/TurnManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/ViewMultiplexer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/ViewMultiplexer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/Calculator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/Calculator.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -456,7 +465,14 @@
       <option name="project" value="LOCAL" />
       <updated>1654096170764</updated>
     </task>
-    <option name="localTasksCounter" value="49" />
+    <task id="LOCAL-00049" summary="Fixed the warnings in Pathfinder and updated some of the code to streams while I was in there.">
+      <created>1654111113038</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1654111113038</updated>
+    </task>
+    <option name="localTasksCounter" value="50" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -474,8 +490,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
-    <MESSAGE value="Typos and cleanup." />
-    <MESSAGE value="Removed references to GamePiece from Player. For now, we're always dealing with Units." />
     <MESSAGE value="Comment cleanup" />
     <MESSAGE value="Added non-nullness by default." />
     <MESSAGE value="Added jsr305 and default non-nullness." />
@@ -499,7 +513,30 @@
     <MESSAGE value="Got the old code and the new JavaFxGame class building, and modularized the entire project. Since I changed the default non-nullness specification, I had to fix a bunch of null-related warnings. I did this everywhere but Pathfinder, which needs more refactoring to get rid of boxed integers." />
     <MESSAGE value="Got the old code and the new JavaFxGame class building, and modularized the entire project. Since I changed the default non-nullness specification, I had to fix a bunch of null-related warnings. I did this everywhere but Pathfinder, which needs more refactoring to get rid of boxed integers, and DefaultModel, which needs an initializer." />
     <MESSAGE value="Removed GameStateManager from DefaultModel and added some new initialization code that lets some of its fields be non-null. I also updated NewGameInitializer for the same reason." />
-    <option name="LAST_COMMIT_MESSAGE" value="Removed GameStateManager from DefaultModel and added some new initialization code that lets some of its fields be non-null. I also updated NewGameInitializer for the same reason." />
+    <MESSAGE value="Fixed the warnings in Pathfinder and updated some of the code to streams while I was in there." />
+    <MESSAGE value="Modified the initialization code for DefaultModel (in DefaultModel and NewGameInitializer) to allow most of the fields to be final and non-null." />
+    <option name="LAST_COMMIT_MESSAGE" value="Modified the initialization code for DefaultModel (in DefaultModel and NewGameInitializer) to allow most of the fields to be final and non-null." />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/org/heckcorp/spacegame/swing/SwingView.java</url>
+          <line>57</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/org/heckcorp/spacegame/swing/SwingView.java</url>
+          <line>40</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/org/heckcorp/spacegame/NewGameInitializer.java</url>
+          <line>45</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

@@ -1,5 +1,6 @@
 package org.heckcorp.spacegame;
 
+import com.google.common.collect.Lists;
 import org.heckcorp.spacegame.Player.PlayerType;
 import org.heckcorp.spacegame.map.Hex;
 import org.heckcorp.spacegame.map.HexMap;
@@ -13,7 +14,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
@@ -386,11 +386,14 @@ public class DefaultModel implements GameModel, Serializable {
     public static DefaultModel initialize(GameView view, ObjectInputStream in)
             throws IOException, ClassNotFoundException {
         Logger log = Logger.getLogger("DefaultModel");
+
+        List<GameView> views = Lists.newArrayList();
         HexMap map = new HexMap(in);
-        DefaultModel model = new DefaultModel(map);
+        view.setMap(map);
+        List<Player> players = Lists.newArrayList();
+        @Nullable Player currentPlayer = null;
 
         int currentPlayerIndex = in.readInt();
-
         int playerCount = in.readInt();
         for (int i=0; i<playerCount; i++) {
             log.finer("Reading player #" + i);
@@ -405,35 +408,45 @@ public class DefaultModel implements GameModel, Serializable {
             if (type == PlayerType.HUMAN) {
                 player = new HumanPlayer(name, color, view);
             } else if (type == PlayerType.COMPUTER) {
-                player = new ComputerPlayer(name, color, model,
-                        new ComputerPlayerView());
+                player = new ComputerPlayer(name, color, new ComputerPlayerView());
             } else if (type == PlayerType.NEUTRAL) {
                 player = new NeutralPlayer(name, color);
             } else {
                 assert false;
             }
 
-            model.addPlayer(player);
+            players.add(player);
+            // TODO: make the player's view non-null.
+            @Nullable GameView playerView = player.getView();
+            if (playerView != null) {
+                views.add(playerView);
+                // We don't get the views until we get the players, so we haven't set the map yet.
+                playerView.setMap(map);
+            }
+
             if (i == currentPlayerIndex) {
-                model.setCurrentPlayer(player);
+                currentPlayer = player;
             }
 
             Set<Unit> units = (Set<Unit>) in.readObject();
             for (Unit unit : units) {
                 unit.setOwner(player);
                 player.addUnit(unit);
-                model.addUnit(unit, unit.getPosition());
+                unit.setHex(map.getHex(unit.getPosition()));
+                map.addUnit(unit, unit.getPosition());
+                if (playerView != null) {
+                    playerView.addUnit(unit);
+                }
             }
+        }
+
+        if (currentPlayer == null) {
+            currentPlayer = players.get(0);
         }
 
         in.close();
 
-        model.startTurnManager();
-        return model;
-    }
-
-    public static DefaultModel initialize(int width, int height) {
-        DefaultModel model = new DefaultModel(new HexMap(width, height));
+        DefaultModel model = new DefaultModel(map, players, views, currentPlayer);
         model.startTurnManager();
         return model;
     }
@@ -442,9 +455,11 @@ public class DefaultModel implements GameModel, Serializable {
         getTurnManager().start(currentPlayer);
     }
 
-    DefaultModel(HexMap map) {
+    DefaultModel(HexMap map, List<Player> players, List<GameView> views, Player currentPlayer) {
         this.map = map;
-        this.currentPlayer = players.get(0);
+        this.players = players;
+        this.views = new ViewMultiplexer(views);
+        this.currentPlayer = currentPlayer;
         turnManager = new TurnManager(players, this);
     }
 
@@ -454,13 +469,13 @@ public class DefaultModel implements GameModel, Serializable {
 
     private final HexMap map;
 
-    private final List<Player> players = new ArrayList<>();
+    private final List<Player> players;
+
+    private final transient ViewMultiplexer views;
 
     @Nullable private Unit selectedUnit;
 
     private final TurnManager turnManager;
-
-    private final transient ViewMultiplexer views = new ViewMultiplexer();
 
     @Serial
     private static final long serialVersionUID = 1L;

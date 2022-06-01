@@ -1,21 +1,17 @@
 package org.heckcorp.spacegame;
 
-import org.heckcorp.spacegame.GameView;
-import org.heckcorp.spacegame.Player;
-import org.heckcorp.spacegame.Unit;
-
 import java.awt.*;
+import java.io.Serial;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class HumanPlayer extends Player {
-    /**
-     */
     public HumanPlayer(String name, Color color, GameView view) {
         super(name, color, view);
     }
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     @Override
@@ -24,7 +20,7 @@ public class HumanPlayer extends Player {
     }
 
     @Override
-    public void move() throws InterruptedException {
+    public void move(GameModel model) throws InterruptedException {
         getLog().entering("HumanPlayer", "move()");
 
         while (getReadyUnit() == null && !turnOver) {
@@ -90,6 +86,8 @@ public class HumanPlayer extends Player {
     @Override
     public void finishTurn() {
         getLog().finer("Finishing turn. Turn over? " + turnOver);
+        // TODO: get rid of the neutral player, which doesn't have a view.
+        assert view != null;
         view.message("All units have moved.  Press <Enter> to end turn.");
 
         finishingTurn  = true;
