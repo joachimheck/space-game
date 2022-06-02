@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3bc8c235-c2bd-4343-a6d7-4a6d6d4b49b0" name="Changes" comment="Added a counter image, rotation, and an animation to JavaFxGame.">
+    <list default="true" id="3bc8c235-c2bd-4343-a6d7-4a6d6d4b49b0" name="Changes" comment="Set up the basic application layout in JavaFxGame.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/JavaFxGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/JavaFxGame.java" afterDir="false" />
     </list>
@@ -118,13 +118,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1653411560064</updated>
-    </task>
-    <task id="LOCAL-00004" summary="Remove references to Player from SwingView. Also clean up some warnings and typos.">
-      <created>1653658319929</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1653658319929</updated>
     </task>
     <task id="LOCAL-00005" summary="Fixed warnings in SwingView.">
       <created>1653658986788</created>
@@ -462,7 +455,14 @@
       <option name="project" value="LOCAL" />
       <updated>1654170508925</updated>
     </task>
-    <option name="localTasksCounter" value="53" />
+    <task id="LOCAL-00053" summary="Set up the basic application layout in JavaFxGame.">
+      <created>1654174289425</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1654174289425</updated>
+    </task>
+    <option name="localTasksCounter" value="54" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -480,7 +480,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
-    <MESSAGE value="Added jsr305 and default non-nullness." />
     <MESSAGE value="Replaced Observer/Observable with PropertyChangeListener/PropertyChangeEvent." />
     <MESSAGE value="Added Guava and replaced the units and counters maps with a BiMap." />
     <MESSAGE value="Removed PropertyChangeListener, internalized repainting inside AnimatedIcon." />
@@ -505,7 +504,8 @@
     <MESSAGE value="Modified the initialization code for DefaultModel (in DefaultModel and NewGameInitializer) to allow most of the fields to be final and non-null." />
     <MESSAGE value="Removed NeutralPlayer and associated code." />
     <MESSAGE value="Added a counter image, rotation, and an animation to JavaFxGame." />
-    <option name="LAST_COMMIT_MESSAGE" value="Added a counter image, rotation, and an animation to JavaFxGame." />
+    <MESSAGE value="Set up the basic application layout in JavaFxGame." />
+    <option name="LAST_COMMIT_MESSAGE" value="Set up the basic application layout in JavaFxGame." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

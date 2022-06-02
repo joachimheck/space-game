@@ -5,10 +5,13 @@ import javafx.animation.PathTransition.OrientationType;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.CubicCurveTo;
 import javafx.scene.shape.MoveTo;
@@ -47,15 +50,19 @@ public class JavaFxGame extends Application {
         ScrollPane textScrollPane = new ScrollPane(new Text("Text pane!"));
         textScrollPane.setPrefSize(UI_COMPONENT_LARGE_WIDTH, UI_COMPONENT_SMALL_HEIGHT);
         Canvas miniMapPane = new Canvas(UI_COMPONENT_SMALL_WIDTH, UI_COMPONENT_SMALL_HEIGHT);
+        MenuBar menuBar = new MenuBar(new Menu("File"), new Menu("Game"), new Menu("Unit"));
 
         GridPane gridPane = new GridPane();
-        GridPane.setConstraints(mapPane, 0, 0);
-        GridPane.setConstraints(hexDescriptionPane, 1, 0);
-        GridPane.setConstraints(textScrollPane, 0, 1);
-        GridPane.setConstraints(miniMapPane, 1, 1);
+        GridPane.setConstraints(mapPane, 0, 1);
+        GridPane.setConstraints(hexDescriptionPane, 1, 1);
+        GridPane.setConstraints(textScrollPane, 0, 2);
+        GridPane.setConstraints(miniMapPane, 1, 2);
         gridPane.getChildren().addAll(mapPane, hexDescriptionPane, textScrollPane);
 
-        Scene scene = new Scene(gridPane);
+        GridPane.setConstraints(menuBar, 0, 0, 2, 1);
+        VBox vBox = new VBox(menuBar, gridPane);
+
+        Scene scene = new Scene(vBox);
         stage.setScene(scene);
         stage.show();
     }
