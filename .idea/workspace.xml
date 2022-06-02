@@ -6,11 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="3bc8c235-c2bd-4343-a6d7-4a6d6d4b49b0" name="Changes" comment="Removed NeutralPlayer and associated code.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/DefaultModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/DefaultModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/NeutralPlayer.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/NewGameInitializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/NewGameInitializer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/Player.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/TurnManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/TurnManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/JavaFxGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/JavaFxGame.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -88,7 +84,7 @@
       <recent name="org.heckcorp.domination" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.SpaceGame">
+  <component name="RunManager" selected="Application.JavaFxGame">
     <configuration name="JavaFxGame" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="org.heckcorp.spacegame.JavaFxGame" />
       <module name="space-game.main" />
@@ -122,13 +118,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1653411560064</updated>
-    </task>
-    <task id="LOCAL-00002" summary="Change name of project to space-game.">
-      <created>1653415115675</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1653415115675</updated>
     </task>
     <task id="LOCAL-00003" summary="Remove hidden counters. This change removes from Counter all references to classes outside the view sub-package.">
       <created>1653599539750</created>
@@ -466,7 +455,14 @@
       <option name="project" value="LOCAL" />
       <updated>1654116881662</updated>
     </task>
-    <option name="localTasksCounter" value="51" />
+    <task id="LOCAL-00051" summary="Removed NeutralPlayer and associated code.">
+      <created>1654117139679</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1654117139680</updated>
+    </task>
+    <option name="localTasksCounter" value="52" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
