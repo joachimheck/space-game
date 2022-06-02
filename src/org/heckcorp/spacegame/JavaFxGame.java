@@ -4,13 +4,17 @@ import javafx.animation.PathTransition;
 import javafx.animation.PathTransition.OrientationType;
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.CubicCurveTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -18,16 +22,12 @@ import org.heckcorp.spacegame.map.swing.Util;
 
 import java.io.FileNotFoundException;
 
-import static org.heckcorp.spacegame.Constants.UI_COMPONENT_LARGE_HEIGHT;
-import static org.heckcorp.spacegame.Constants.UI_COMPONENT_LARGE_WIDTH;
+import static org.heckcorp.spacegame.Constants.*;
 
 public class JavaFxGame extends Application {
 
     @Override
     public void start(Stage stage) throws FileNotFoundException {
-        String javaVersion = System.getProperty("java.version");
-        String javafxVersion = System.getProperty("javafx.version");
-        Label l = new Label("Hello, JavaFX " + javafxVersion + ", running on Java " + javaVersion + ".");
         ImageView imageView = new ImageView(new Image(Util.getResource("resource/spaceship.png")));
         Rotate rotate = new Rotate(90);
         imageView.getTransforms().add(rotate);
@@ -40,8 +40,22 @@ public class JavaFxGame extends Application {
         pathTransition.setAutoReverse(true);
         pathTransition.play();
 
-        Scene scene = new Scene(new FlowPane(l, imageView), UI_COMPONENT_LARGE_WIDTH, UI_COMPONENT_LARGE_HEIGHT);
-//        Scene scene = new Scene(new Group(imageView), UI_COMPONENT_LARGE_WIDTH, UI_COMPONENT_LARGE_HEIGHT);
+        ScrollPane mapPane = new ScrollPane(new Canvas(2 * UI_COMPONENT_LARGE_WIDTH, 2 * UI_COMPONENT_LARGE_HEIGHT));
+        mapPane.setPrefSize(UI_COMPONENT_LARGE_WIDTH, UI_COMPONENT_LARGE_HEIGHT);
+        Rectangle hexDescriptionPane = new Rectangle(UI_COMPONENT_SMALL_WIDTH, UI_COMPONENT_LARGE_HEIGHT);
+        hexDescriptionPane.setFill(Color.gray(.75));
+        ScrollPane textScrollPane = new ScrollPane(new Text("Text pane!"));
+        textScrollPane.setPrefSize(UI_COMPONENT_LARGE_WIDTH, UI_COMPONENT_SMALL_HEIGHT);
+        Canvas miniMapPane = new Canvas(UI_COMPONENT_SMALL_WIDTH, UI_COMPONENT_SMALL_HEIGHT);
+
+        GridPane gridPane = new GridPane();
+        GridPane.setConstraints(mapPane, 0, 0);
+        GridPane.setConstraints(hexDescriptionPane, 1, 0);
+        GridPane.setConstraints(textScrollPane, 0, 1);
+        GridPane.setConstraints(miniMapPane, 1, 1);
+        gridPane.getChildren().addAll(mapPane, hexDescriptionPane, textScrollPane);
+
+        Scene scene = new Scene(gridPane);
         stage.setScene(scene);
         stage.show();
     }

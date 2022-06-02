@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3bc8c235-c2bd-4343-a6d7-4a6d6d4b49b0" name="Changes" comment="Removed NeutralPlayer and associated code.">
+    <list default="true" id="3bc8c235-c2bd-4343-a6d7-4a6d6d4b49b0" name="Changes" comment="Added a counter image, rotation, and an animation to JavaFxGame.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/JavaFxGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/JavaFxGame.java" afterDir="false" />
     </list>
@@ -118,13 +118,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1653411560064</updated>
-    </task>
-    <task id="LOCAL-00003" summary="Remove hidden counters. This change removes from Counter all references to classes outside the view sub-package.">
-      <created>1653599539750</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1653599539750</updated>
     </task>
     <task id="LOCAL-00004" summary="Remove references to Player from SwingView. Also clean up some warnings and typos.">
       <created>1653658319929</created>
@@ -462,7 +455,14 @@
       <option name="project" value="LOCAL" />
       <updated>1654117139680</updated>
     </task>
-    <option name="localTasksCounter" value="52" />
+    <task id="LOCAL-00052" summary="Added a counter image, rotation, and an animation to JavaFxGame.">
+      <created>1654170508925</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1654170508925</updated>
+    </task>
+    <option name="localTasksCounter" value="53" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -480,7 +480,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
-    <MESSAGE value="Added non-nullness by default." />
     <MESSAGE value="Added jsr305 and default non-nullness." />
     <MESSAGE value="Replaced Observer/Observable with PropertyChangeListener/PropertyChangeEvent." />
     <MESSAGE value="Added Guava and replaced the units and counters maps with a BiMap." />
@@ -505,7 +504,8 @@
     <MESSAGE value="Fixed the warnings in Pathfinder and updated some of the code to streams while I was in there." />
     <MESSAGE value="Modified the initialization code for DefaultModel (in DefaultModel and NewGameInitializer) to allow most of the fields to be final and non-null." />
     <MESSAGE value="Removed NeutralPlayer and associated code." />
-    <option name="LAST_COMMIT_MESSAGE" value="Removed NeutralPlayer and associated code." />
+    <MESSAGE value="Added a counter image, rotation, and an animation to JavaFxGame." />
+    <option name="LAST_COMMIT_MESSAGE" value="Added a counter image, rotation, and an animation to JavaFxGame." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
