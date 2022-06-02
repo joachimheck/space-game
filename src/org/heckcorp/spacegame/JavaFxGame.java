@@ -59,7 +59,6 @@ public class JavaFxGame extends Application {
         GridPane.setConstraints(miniMapPane, 1, 2);
         gridPane.getChildren().addAll(mapPane, hexDescriptionPane, textScrollPane);
 
-        GridPane.setConstraints(menuBar, 0, 0, 2, 1);
         VBox vBox = new VBox(menuBar, gridPane);
 
         Scene scene = new Scene(vBox);

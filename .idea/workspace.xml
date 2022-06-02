@@ -4,8 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3bc8c235-c2bd-4343-a6d7-4a6d6d4b49b0" name="Changes" comment="Set up the basic application layout in JavaFxGame.">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="3bc8c235-c2bd-4343-a6d7-4a6d6d4b49b0" name="Changes" comment="Added a placeholder menu bar.">
       <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/JavaFxGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/JavaFxGame.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -118,13 +117,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1653411560064</updated>
-    </task>
-    <task id="LOCAL-00005" summary="Fixed warnings in SwingView.">
-      <created>1653658986788</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1653658986788</updated>
     </task>
     <task id="LOCAL-00006" summary="Cleaned up the imports in SwingView and updated the UML diagrams.">
       <created>1653659702113</created>
@@ -462,7 +454,14 @@
       <option name="project" value="LOCAL" />
       <updated>1654174289425</updated>
     </task>
-    <option name="localTasksCounter" value="54" />
+    <task id="LOCAL-00054" summary="Added a placeholder menu bar.">
+      <created>1654174820348</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1654174820348</updated>
+    </task>
+    <option name="localTasksCounter" value="55" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -480,7 +479,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
-    <MESSAGE value="Replaced Observer/Observable with PropertyChangeListener/PropertyChangeEvent." />
     <MESSAGE value="Added Guava and replaced the units and counters maps with a BiMap." />
     <MESSAGE value="Removed PropertyChangeListener, internalized repainting inside AnimatedIcon." />
     <MESSAGE value="Renamed class and package to SpaceGame." />
@@ -505,7 +503,8 @@
     <MESSAGE value="Removed NeutralPlayer and associated code." />
     <MESSAGE value="Added a counter image, rotation, and an animation to JavaFxGame." />
     <MESSAGE value="Set up the basic application layout in JavaFxGame." />
-    <option name="LAST_COMMIT_MESSAGE" value="Set up the basic application layout in JavaFxGame." />
+    <MESSAGE value="Added a placeholder menu bar." />
+    <option name="LAST_COMMIT_MESSAGE" value="Added a placeholder menu bar." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
