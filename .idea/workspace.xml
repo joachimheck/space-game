@@ -5,6 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3bc8c235-c2bd-4343-a6d7-4a6d6d4b49b0" name="Changes" comment="Added a placeholder menu bar.">
+      <change afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/javafx/MapCanvas.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/javafx/package-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/module-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/Constants.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/JavaFxGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/JavaFxGame.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -64,16 +69,20 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "last_opened_file_path": "C:/Users/joach_000/Documents/Programming Projects/Java/space-game/src/org/heckcorp/spacegame/map/javafx",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="org.heckcorp.spacegame.desktop.view" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\joach_000\Documents\Programming Projects\Java\space-game\src\org\heckcorp\spacegame\map\javafx" />
     </key>
     <key name="ExtractSuperBase.RECENT_KEYS">
       <recent name="org.heckcorp.domination" />
@@ -81,6 +90,9 @@
     <key name="MoveInnerDialog.RECENTS_KEY">
       <recent name="org.heckcorp.domination.desktop.view" />
       <recent name="org.heckcorp.domination" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="org.heckcorp.spacegame.map.javafx" />
     </key>
   </component>
   <component name="RunManager" selected="Application.JavaFxGame">
@@ -117,13 +129,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1653411560064</updated>
-    </task>
-    <task id="LOCAL-00006" summary="Cleaned up the imports in SwingView and updated the UML diagrams.">
-      <created>1653659702113</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1653659702113</updated>
     </task>
     <task id="LOCAL-00007" summary="Pulled ViewMultiplexer out into a top-level class.">
       <created>1653738725803</created>
@@ -461,7 +466,14 @@
       <option name="project" value="LOCAL" />
       <updated>1654174820348</updated>
     </task>
-    <option name="localTasksCounter" value="55" />
+    <task id="LOCAL-00055" summary="Added a placeholder menu bar.">
+      <created>1654174872688</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1654174872688</updated>
+    </task>
+    <option name="localTasksCounter" value="56" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -523,6 +535,11 @@
           <url>file://$PROJECT_DIR$/src/org/heckcorp/spacegame/NewGameInitializer.java</url>
           <line>43</line>
           <option name="timeStamp" value="5" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/org/heckcorp/spacegame/map/javafx/MapCanvas.java</url>
+          <line>29</line>
+          <option name="timeStamp" value="6" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

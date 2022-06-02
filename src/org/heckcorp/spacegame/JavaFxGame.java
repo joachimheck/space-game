@@ -3,6 +3,7 @@ package org.heckcorp.spacegame;
 import javafx.animation.PathTransition;
 import javafx.animation.PathTransition.OrientationType;
 import javafx.application.Application;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Menu;
@@ -10,6 +11,14 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderStrokeStyle;
+import javafx.scene.layout.BorderWidths;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -21,6 +30,8 @@ import javafx.scene.text.Text;
 import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import org.heckcorp.spacegame.map.HexMap;
+import org.heckcorp.spacegame.map.javafx.MapCanvas;
 import org.heckcorp.spacegame.map.swing.Util;
 
 import java.io.FileNotFoundException;
@@ -43,8 +54,13 @@ public class JavaFxGame extends Application {
         pathTransition.setAutoReverse(true);
         pathTransition.play();
 
-        ScrollPane mapPane = new ScrollPane(new Canvas(2 * UI_COMPONENT_LARGE_WIDTH, 2 * UI_COMPONENT_LARGE_HEIGHT));
-        mapPane.setPrefSize(UI_COMPONENT_LARGE_WIDTH, UI_COMPONENT_LARGE_HEIGHT);
+//        GameModel model = new NewGameInitializer().initialize(view, Constants.MAP_WIDTH, Constants.MAP_HEIGHT);
+
+        BorderPane mapPane = new BorderPane(new MapCanvas(new HexMap(MAP_WIDTH, MAP_HEIGHT)));
+        mapPane.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
+        mapPane.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(10))));
+        ScrollPane mapScrollPane = new ScrollPane(mapPane);
+        mapScrollPane.setPrefSize(UI_COMPONENT_LARGE_WIDTH, UI_COMPONENT_LARGE_HEIGHT);
         Rectangle hexDescriptionPane = new Rectangle(UI_COMPONENT_SMALL_WIDTH, UI_COMPONENT_LARGE_HEIGHT);
         hexDescriptionPane.setFill(Color.gray(.75));
         ScrollPane textScrollPane = new ScrollPane(new Text("Text pane!"));
@@ -53,11 +69,11 @@ public class JavaFxGame extends Application {
         MenuBar menuBar = new MenuBar(new Menu("File"), new Menu("Game"), new Menu("Unit"));
 
         GridPane gridPane = new GridPane();
-        GridPane.setConstraints(mapPane, 0, 1);
+        GridPane.setConstraints(mapScrollPane, 0, 1);
         GridPane.setConstraints(hexDescriptionPane, 1, 1);
         GridPane.setConstraints(textScrollPane, 0, 2);
         GridPane.setConstraints(miniMapPane, 1, 2);
-        gridPane.getChildren().addAll(mapPane, hexDescriptionPane, textScrollPane);
+        gridPane.getChildren().addAll(mapScrollPane, hexDescriptionPane, textScrollPane);
 
         VBox vBox = new VBox(menuBar, gridPane);
 
