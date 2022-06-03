@@ -28,6 +28,7 @@ public abstract class GamePiece implements Positionable, Serializable {
         return owner;
     }
 
+    // TODO: convert this to MapUtils.Point.
     public Point getPosition() {
         if (hex == null) {
             return null;

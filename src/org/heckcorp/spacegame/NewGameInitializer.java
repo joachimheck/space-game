@@ -15,7 +15,7 @@ public class NewGameInitializer {
         mainPlayerView.setMap(map);
 
         List<GameView> views = Lists.newArrayList();
-        List<Player> players = createPlayers(mainPlayerView);
+        List<Player> players = createPlayers();
         for (Player player : players) {
             GameView playerView = player.getType() == PlayerType.HUMAN
                     ? mainPlayerView : new ComputerPlayerView();
@@ -37,7 +37,7 @@ public class NewGameInitializer {
         return model;
     }
 
-    private List<Player> createPlayers(GameView mainPlayerView) {
+    private List<Player> createPlayers() {
         List<Player> players = new ArrayList<>();
         String[] playerNames = { "Human Player", "Computer Player" };
         PlayerType[] playerTypes = { PlayerType.HUMAN, PlayerType.COMPUTER };
@@ -45,7 +45,7 @@ public class NewGameInitializer {
 
         // Create the two players.
         for (int i=0; i<2; i++) {
-            players.add(createPlayer(playerNames[i], playerTypes[i], playerColors[i], mainPlayerView));
+            players.add(createPlayer(playerNames[i], playerTypes[i], playerColors[i]));
         }
 
         return players;
@@ -55,7 +55,7 @@ public class NewGameInitializer {
      * @param name the name of the player to create.
      * @param type the type of player to create.
      */
-    public static Player createPlayer(String name, Player.PlayerType type, Color color, GameView view) {
+    public static Player createPlayer(String name, PlayerType type, Color color) {
         @Nullable Player player = null;
 
         if (type == Player.PlayerType.HUMAN) {

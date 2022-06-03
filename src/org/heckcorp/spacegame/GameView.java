@@ -75,5 +75,6 @@ public interface GameView {
      * Announces that the specified player is the winner.
      * @pre player != null
      */
+    // TODO: migrate to javafx color.
     void setWinningPlayer(String playerName, Color playerColor);
 }
