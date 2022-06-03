@@ -33,12 +33,7 @@ public abstract class Player implements Serializable {
 
     private final String name;
     private final Color color;
-
-    /**
-     * This should be final, but that breaks serialization.
-     */
-    @Nullable
-    protected transient GameView view;
+    protected final transient GameView view;
     private final Set<Unit> units;
 
     public enum PlayerType {
@@ -67,7 +62,6 @@ public abstract class Player implements Serializable {
         return color;
     }
 
-    @Nullable
     public GameView getView() {
         return view;
     }

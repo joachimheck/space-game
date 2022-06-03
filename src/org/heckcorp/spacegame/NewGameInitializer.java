@@ -7,7 +7,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class NewGameInitializer {
@@ -36,17 +35,13 @@ public class NewGameInitializer {
         List<GameView> views = Lists.newArrayList();
         List<Player> players = createPlayers(mainPlayerView);
         for (Player player : players) {
-            if (player.getView() != null) {
-                views.add(player.getView());
-            }
+            views.add(player.getView());
 
             List<Unit> units = createUnits(player);
             for (Unit unit : units) {
                 unit.setHex(map.getRandomHex());
                 map.addUnit(unit, unit.getPosition());
-                if (player.getView() != null) {
-                    player.getView().addUnit(unit);
-                }
+                player.getView().addUnit(unit);
                 if (player.getView() != mainPlayerView) {
                     mainPlayerView.addUnit(unit);
                 }

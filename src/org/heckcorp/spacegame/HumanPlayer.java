@@ -86,8 +86,6 @@ public class HumanPlayer extends Player {
     @Override
     public void finishTurn() {
         getLog().finer("Finishing turn. Turn over? " + turnOver);
-        // TODO: get rid of the neutral player, which doesn't have a view.
-        assert view != null;
         view.message("All units have moved.  Press <Enter> to end turn.");
 
         finishingTurn  = true;

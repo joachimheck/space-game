@@ -53,12 +53,10 @@ public class DefaultModel implements GameModel, Serializable {
      */
     public void addPlayer(Player player) {
         players.add(player);
-        if (player.getView() != null) {
-            views.addGameView(player.getView());
-            // We don't get the views until we get the players,
-            // so we haven't set the map yet.
-            player.getView().setMap(map);
-        }
+        views.addGameView(player.getView());
+        // We don't get the views until we get the players,
+        // so we haven't set the map yet.
+        player.getView().setMap(map);
     }
 
     /**
@@ -414,13 +412,10 @@ public class DefaultModel implements GameModel, Serializable {
             }
 
             players.add(player);
-            // TODO: make the player's view non-null.
-            @Nullable GameView playerView = player.getView();
-            if (playerView != null) {
-                views.add(playerView);
-                // We don't get the views until we get the players, so we haven't set the map yet.
-                playerView.setMap(map);
-            }
+            GameView playerView = player.getView();
+            views.add(playerView);
+            // We don't get the views until we get the players, so we haven't set the map yet.
+            playerView.setMap(map);
 
             if (i == currentPlayerIndex) {
                 currentPlayer = player;
@@ -432,9 +427,7 @@ public class DefaultModel implements GameModel, Serializable {
                 player.addUnit(unit);
                 unit.setHex(map.getHex(unit.getPosition()));
                 map.addUnit(unit, unit.getPosition());
-                if (playerView != null) {
-                    playerView.addUnit(unit);
-                }
+                playerView.addUnit(unit);
             }
         }
 
