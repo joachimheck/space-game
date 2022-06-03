@@ -17,10 +17,6 @@ public class ViewMultiplexer implements GameView {
         }
     }
 
-    public void addGameView(GameView view) {
-        gameViews.add(view);
-    }
-
     public void attack(Unit attacker, Unit target) {
         for (GameView view : gameViews) {
             view.attack(attacker, target);

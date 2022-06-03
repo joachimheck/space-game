@@ -20,11 +20,10 @@ public abstract class Player implements Serializable {
         return log;
     }
 
-    public Player(String name, Color color, GameView view) {
+    public Player(String name, Color color) {
         log = Logger.getLogger(getClass().getName());
         this.name = name;
         this.color = color;
-        this.view = view;
         // The turn manager steps over a player's units to move them,
         // but a unit can be destroyed, and removed from the set, while
         // moving.  Using this set prevents a ConcurrentModificationException.
@@ -33,7 +32,6 @@ public abstract class Player implements Serializable {
 
     private final String name;
     private final Color color;
-    protected final transient GameView view;
     private final Set<Unit> units;
 
     public enum PlayerType {
@@ -60,10 +58,6 @@ public abstract class Player implements Serializable {
 
     public Color getColor() {
         return color;
-    }
-
-    public GameView getView() {
-        return view;
     }
 
     @Nullable

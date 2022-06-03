@@ -1,9 +1,9 @@
 package org.heckcorp.spacegame;
 
 import org.heckcorp.spacegame.map.Hex;
-import org.heckcorp.spacegame.map.HexMap;
 
 import java.awt.*;
+import java.util.Set;
 
 
 /**
@@ -17,12 +17,6 @@ public interface GameModel {
      * @pre getMap().contains(position)
      */
     void addUnit(Unit unit, Point position);
-
-    /**
-     * Adds the specified player to the model.
-     * @pre cannot be called after the turn manager begins running.
-     */
-    void addPlayer(Player player);
 
     /**
      * Ends the current player's turn.  Units with movement orders
@@ -101,4 +95,6 @@ public interface GameModel {
     void waitSelectedUnit();
 
     void startTurnManager();
+
+    Set<Unit> getKnownEnemies(Player player);
 }

@@ -10,24 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NewGameInitializer {
-    /**
-     * @param name the name of the player to create.
-     * @param type the type of player to create.
-     */
-    public static Player createPlayer(String name, Player.PlayerType type, Color color, GameView view) {
-        @Nullable Player player = null;
-
-        if (type == Player.PlayerType.HUMAN) {
-            player = new HumanPlayer(name, color, view);
-        } else if (type == Player.PlayerType.COMPUTER) {
-            player = new ComputerPlayer(name, color, new ComputerPlayerView());
-        } else {
-            assert false;
-        }
-
-        return player;
-    }
-
     public DefaultModel initialize(GameView mainPlayerView, int width, int height) {
         HexMap map = new HexMap(width, height);
         mainPlayerView.setMap(map);
@@ -35,14 +17,16 @@ public class NewGameInitializer {
         List<GameView> views = Lists.newArrayList();
         List<Player> players = createPlayers(mainPlayerView);
         for (Player player : players) {
-            views.add(player.getView());
+            GameView playerView = player.getType() == PlayerType.HUMAN
+                    ? mainPlayerView : new ComputerPlayerView();
+            views.add(playerView);
 
             List<Unit> units = createUnits(player);
             for (Unit unit : units) {
                 unit.setHex(map.getRandomHex());
                 map.addUnit(unit, unit.getPosition());
-                player.getView().addUnit(unit);
-                if (player.getView() != mainPlayerView) {
+                playerView.addUnit(unit);
+                if (playerView != mainPlayerView) {
                     mainPlayerView.addUnit(unit);
                 }
             }
@@ -65,6 +49,24 @@ public class NewGameInitializer {
         }
 
         return players;
+    }
+
+    /**
+     * @param name the name of the player to create.
+     * @param type the type of player to create.
+     */
+    public static Player createPlayer(String name, Player.PlayerType type, Color color, GameView view) {
+        @Nullable Player player = null;
+
+        if (type == Player.PlayerType.HUMAN) {
+            player = new HumanPlayer(name, color);
+        } else if (type == Player.PlayerType.COMPUTER) {
+            player = new ComputerPlayer(name, color);
+        } else {
+            assert false;
+        }
+
+        return player;
     }
 
     private List<Unit> createUnits(Player player) {

@@ -7,8 +7,8 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class HumanPlayer extends Player {
-    public HumanPlayer(String name, Color color, GameView view) {
-        super(name, color, view);
+    public HumanPlayer(String name, Color color) {
+        super(name, color);
     }
 
     @Serial
@@ -86,7 +86,7 @@ public class HumanPlayer extends Player {
     @Override
     public void finishTurn() {
         getLog().finer("Finishing turn. Turn over? " + turnOver);
-        view.message("All units have moved.  Press <Enter> to end turn.");
+//        view.message("All units have moved.  Press <Enter> to end turn.");
 
         finishingTurn  = true;
 

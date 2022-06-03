@@ -17,6 +17,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 /**
  * An implementation of a GameModel.
@@ -44,19 +45,6 @@ public class DefaultModel implements GameModel, Serializable {
         unit.setHex(map.getHex(position));
         map.addUnit(unit, unit.getPosition());
         views.addUnit(unit);
-    }
-
-    /**
-     * Adds the specified player to the model.
-     * @pre player must not have been added already.
-     * @pre cannot be called after the turn manager begins running.
-     */
-    public void addPlayer(Player player) {
-        players.add(player);
-        views.addGameView(player.getView());
-        // We don't get the views until we get the players,
-        // so we haven't set the map yet.
-        player.getView().setMap(map);
     }
 
     /**
@@ -401,18 +389,17 @@ public class DefaultModel implements GameModel, Serializable {
             String name = (String) in.readObject();
             Color color = (Color) in.readObject();
 
-            @Nullable Player player = null;
-
+            final Player player;
+            final GameView playerView;
             if (type == PlayerType.HUMAN) {
-                player = new HumanPlayer(name, color, view);
-            } else if (type == PlayerType.COMPUTER) {
-                player = new ComputerPlayer(name, color, new ComputerPlayerView());
+                playerView = view;
+                player = new HumanPlayer(name, color);
             } else {
-                assert false;
+                playerView = new ComputerPlayerView();
+                player = new ComputerPlayer(name, color);
             }
 
             players.add(player);
-            GameView playerView = player.getView();
             views.add(playerView);
             // We don't get the views until we get the players, so we haven't set the map yet.
             playerView.setMap(map);
@@ -444,6 +431,12 @@ public class DefaultModel implements GameModel, Serializable {
 
     public void startTurnManager() {
         getTurnManager().start(currentPlayer);
+    }
+
+    @Override
+    public Set<Unit> getKnownEnemies(Player player) {
+        return players.stream().filter(p -> p != player)
+                .map(Player::getUnits).flatMap(Set::stream).collect(Collectors.toSet());
     }
 
     DefaultModel(HexMap map, List<Player> players, List<GameView> views, Player currentPlayer) {

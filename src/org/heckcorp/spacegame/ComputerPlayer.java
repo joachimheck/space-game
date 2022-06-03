@@ -25,7 +25,7 @@ public class ComputerPlayer extends Player {
 
             // Attack enemy units.
             if (unit.getAttacksLeft() > 0) {
-                Optional<Unit> closestEnemy = getClosest(unit, getEnemiesInRange(unit));
+                Optional<Unit> closestEnemy = getClosest(unit, getEnemiesInRange(unit, model));
 
                 if (closestEnemy.isPresent()) {
                     getLog().finer("Attacking enemy: " + closestEnemy);
@@ -35,7 +35,7 @@ public class ComputerPlayer extends Player {
 
             // Move toward non-adjacent enemy units.
             if (destination == null) {
-                Optional<Unit> target = getClosest(unit, myView.getKnownEnemies());
+                Optional<Unit> target = getClosest(unit, model.getKnownEnemies(this));
 
                 if (target.isPresent() && Calculator.distance(unit, target.get()) > 1) {
                     getLog().finer("Moving toward enemy: " + target.get());
@@ -73,9 +73,9 @@ public class ComputerPlayer extends Player {
         );
     }
 
-    private Set<Unit> getEnemiesInRange(Unit unit) {
+    private Set<Unit> getEnemiesInRange(Unit unit, GameModel model) {
         Set<Unit> inRange = new HashSet<>();
-        Set<Unit> allEnemies = myView.getKnownEnemies();
+        Set<Unit> allEnemies = model.getKnownEnemies(this);
 
         int range = unit.getRange();
 
@@ -88,12 +88,8 @@ public class ComputerPlayer extends Player {
         return inRange;
     }
 
-    public ComputerPlayer(String name, Color color, GameView view) {
-        super(name, color, view);
-
-        assert view instanceof ComputerPlayerView;
-        myView = (ComputerPlayerView)view;
-        myView.setPlayer(this);
+    public ComputerPlayer(String name, Color color) {
+        super(name, color);
     }
 
     @Override
@@ -101,12 +97,6 @@ public class ComputerPlayer extends Player {
         assert getReadyUnit() != null;
         moveUnit(getReadyUnit(), model);
     }
-
-    /**
-     * Should be final but it screws up serialization.
-     * @noinspection FieldMayBeFinal
-     */
-    private transient ComputerPlayerView myView;
 
     @Serial
     private static final long serialVersionUID = 1L;

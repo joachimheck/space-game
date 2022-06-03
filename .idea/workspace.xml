@@ -4,12 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3bc8c235-c2bd-4343-a6d7-4a6d6d4b49b0" name="Changes" comment="The hexes are now drawn in the map pane.">
+    <list default="true" id="3bc8c235-c2bd-4343-a6d7-4a6d6d4b49b0" name="Changes" comment="Made Player.view non-nullable.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/ComputerPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/ComputerPlayer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/ComputerPlayerView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/ComputerPlayerView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/DefaultModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/DefaultModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/GameModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/GameModel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/HumanPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/HumanPlayer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/NewGameInitializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/NewGameInitializer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/ViewMultiplexer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/ViewMultiplexer.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,7 +62,7 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="ProjectErrors" />
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectId" id="29cTpdzHcZVWnuzcKzLHz6InJf2" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
@@ -128,13 +132,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1653411560064</updated>
-    </task>
-    <task id="LOCAL-00008" summary="Added project files and a new .gitignore.">
-      <created>1653738794777</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1653738794777</updated>
     </task>
     <task id="LOCAL-00009" summary="Cleaned up errors in GameView and its implementors.">
       <created>1653739053907</created>
@@ -472,7 +469,14 @@
       <option name="project" value="LOCAL" />
       <updated>1654181311111</updated>
     </task>
-    <option name="localTasksCounter" value="57" />
+    <task id="LOCAL-00057" summary="Made Player.view non-nullable.">
+      <created>1654257616419</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1654257616421</updated>
+    </task>
+    <option name="localTasksCounter" value="58" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -490,7 +494,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
-    <MESSAGE value="Removed PropertyChangeListener, internalized repainting inside AnimatedIcon." />
     <MESSAGE value="Renamed class and package to SpaceGame." />
     <MESSAGE value="Removed the display of the damaged status." />
     <MESSAGE value="Increased the window size." />
@@ -515,7 +518,8 @@
     <MESSAGE value="Set up the basic application layout in JavaFxGame." />
     <MESSAGE value="Added a placeholder menu bar." />
     <MESSAGE value="The hexes are now drawn in the map pane." />
-    <option name="LAST_COMMIT_MESSAGE" value="The hexes are now drawn in the map pane." />
+    <MESSAGE value="Made Player.view non-nullable." />
+    <option name="LAST_COMMIT_MESSAGE" value="Made Player.view non-nullable." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
