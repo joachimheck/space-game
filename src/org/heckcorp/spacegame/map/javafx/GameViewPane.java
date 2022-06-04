@@ -4,6 +4,7 @@ import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Polygon;
 import org.heckcorp.spacegame.Direction;
 import org.heckcorp.spacegame.GameView;
 import org.heckcorp.spacegame.Unit;
@@ -15,7 +16,6 @@ import org.heckcorp.spacegame.map.swing.ViewMonitor;
 
 import java.awt.*;
 import java.io.FileNotFoundException;
-import java.util.logging.Logger;
 
 public class GameViewPane extends Pane implements GameView {
     @Override
@@ -101,13 +101,18 @@ public class GameViewPane extends Pane implements GameView {
         this.mapUtils = mapUtils;
     }
 
-    private final MapUtils mapUtils;
-
     public void onMouseClicked(MouseEvent mouseEvent) {
+        getChildren().remove(selectionHexagon);
         Point2D position = new Point2D(mouseEvent.getX(), mouseEvent.getY());
         MapUtils.Point hexCoordinates = mapUtils.getHexCoordinates(position);
-        Logger logger = Logger.getLogger(GameViewPane.class.getName());
-        logger.info("Mouse Clicked at " + position.getX() + ", " + position.getY()
-                + ": " + hexCoordinates.x() + ", " + hexCoordinates.y());
+        selectionHexagon = mapUtils.getHexagon(hexCoordinates);
+        selectionHexagon.getStrokeDashArray().setAll(10d, 10d);
+        selectionHexagon.setStrokeWidth(2);
+        selectionHexagon.setStroke(javafx.scene.paint.Color.YELLOW);
+        selectionHexagon.setFill(javafx.scene.paint.Color.TRANSPARENT);
+        getChildren().add(selectionHexagon);
     }
+
+    private final MapUtils mapUtils;
+    private Polygon selectionHexagon = new Polygon(0d, 0d);
 }

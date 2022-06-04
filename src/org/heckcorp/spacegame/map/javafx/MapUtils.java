@@ -2,6 +2,7 @@ package org.heckcorp.spacegame.map.javafx;
 
 import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
+import javafx.scene.shape.Polygon;
 import org.heckcorp.spacegame.map.swing.Util;
 
 import java.io.FileNotFoundException;
@@ -18,14 +19,6 @@ public class MapUtils {
 
     public Image getTilePic() {
         return tilePic;
-    }
-
-    public MapUtils() throws FileNotFoundException {
-        tilePic = new Image(Util.getResource("resource/hex-large-light.png"));
-        tileWidth = (int) Math.floor(3.0 * tilePic.getWidth() / 4.0);
-        tileHeight = (int) tilePic.getHeight();
-        assert tileWidth % 4 == 0;
-        assert tileHeight % 2 == 0;
     }
 
     Point2D getHexCorner(Point position) {
@@ -48,6 +41,17 @@ public class MapUtils {
             pixelY += tileHeight / 2;
         }
         return new Point2D(pixelX + tilePic.getWidth() / 2.0, pixelY + tileHeight / 2.0);
+    }
+
+    public Polygon getHexagon(Point hexCoordinates) {
+        Point2D corner = getHexCorner(hexCoordinates);
+        return new Polygon(
+                corner.getX() + 32d, corner.getY(),
+                corner.getX() + 96d, corner.getY(),
+                corner.getX() + 128d, corner.getY() + 55d,
+                corner.getX() + 96d, corner.getY() + 110d,
+                corner.getX() + 32d, corner.getY() + 110d,
+                corner.getX(), corner.getY() + 55d);
     }
 
     /**
@@ -75,7 +79,7 @@ public class MapUtils {
     /**
      * Returns three sets of viewport coordinates, one of which corresponds to the clicked-on hex.
      */
-    public MapUtils.Point[] guessHex(Point2D screenPoint) {
+    private MapUtils.Point[] guessHex(Point2D screenPoint) {
         int columnGuess = (int) (screenPoint.getX() / tileWidth);
         int rowShift = columnGuess % 2 != 0 ? 1 : 0;
         int rowGuess = (int) (screenPoint.getY() - (rowShift * tileHeight / 2)) / tileHeight;
@@ -86,6 +90,14 @@ public class MapUtils {
         guesses[2] = new MapUtils.Point(columnGuess - 1, rowGuess + rowShift);
 
         return guesses;
+    }
+
+    public MapUtils() throws FileNotFoundException {
+        tilePic = new Image(Util.getResource("resource/hex-large-light.png"));
+        tileWidth = (int) Math.floor(3.0 * tilePic.getWidth() / 4.0);
+        tileHeight = (int) tilePic.getHeight();
+        assert tileWidth % 4 == 0;
+        assert tileHeight % 2 == 0;
     }
 
     public record Point(int x, int y) { }

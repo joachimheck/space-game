@@ -4,11 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3bc8c235-c2bd-4343-a6d7-4a6d6d4b49b0" name="Changes" comment="Refactored Counter to take an Image instead of an ImageView.">
+    <list default="true" id="3bc8c235-c2bd-4343-a6d7-4a6d6d4b49b0" name="Changes" comment="Added mouse click handling, printing the clicked-on hex in a log message.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/JavaFxGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/JavaFxGame.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/javafx/GameViewPane.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/javafx/GameViewPane.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/javafx/MapCanvas.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/javafx/MapCanvas.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/javafx/MapUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/javafx/MapUtils.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -129,13 +127,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1653411560064</updated>
-    </task>
-    <task id="LOCAL-00012" summary="Cleaned up warnings in most of the view classes.">
-      <created>1653740967639</created>
-      <option name="number" value="00012" />
-      <option name="presentableId" value="LOCAL-00012" />
-      <option name="project" value="LOCAL" />
-      <updated>1653740967639</updated>
     </task>
     <task id="LOCAL-00013" summary="Cleaned up warnings in most of the remaining classes.">
       <created>1653743073190</created>
@@ -473,7 +464,14 @@
       <option name="project" value="LOCAL" />
       <updated>1654343326563</updated>
     </task>
-    <option name="localTasksCounter" value="61" />
+    <task id="LOCAL-00061" summary="Added mouse click handling, printing the clicked-on hex in a log message.">
+      <created>1654347145306</created>
+      <option name="number" value="00061" />
+      <option name="presentableId" value="LOCAL-00061" />
+      <option name="project" value="LOCAL" />
+      <updated>1654347145306</updated>
+    </task>
+    <option name="localTasksCounter" value="62" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -502,7 +500,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
-    <MESSAGE value="Removed an unused field." />
     <MESSAGE value="Added hit points to units." />
     <MESSAGE value="Shrunk the map for easier debugging." />
     <MESSAGE value="Get movement working again, though hackily, with a modified wait/notify setup." />
@@ -527,7 +524,8 @@
     <MESSAGE value="Removed View from Player. It was used by ComputerPlayer to get information about enemy units that came into view, but that information should come from the model and in SpaceGame, all units are always visible anyway." />
     <MESSAGE value="Added a new layer on which counters can be rendered, as well as some preliminary code to render a counter." />
     <MESSAGE value="Refactored Counter to take an Image instead of an ImageView." />
-    <option name="LAST_COMMIT_MESSAGE" value="Refactored Counter to take an Image instead of an ImageView." />
+    <MESSAGE value="Added mouse click handling, printing the clicked-on hex in a log message." />
+    <option name="LAST_COMMIT_MESSAGE" value="Added mouse click handling, printing the clicked-on hex in a log message." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
