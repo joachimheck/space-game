@@ -2,7 +2,6 @@ package org.heckcorp.spacegame.map.javafx;
 
 import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import org.heckcorp.spacegame.Direction;
 import org.heckcorp.spacegame.GameView;
@@ -26,8 +25,7 @@ public class GameViewPane extends Pane implements GameView {
     public void addUnit(Unit unit) {
         try {
             Image spaceshipImage = new Image(Util.getResource("resource/spaceship.png"));
-            ImageView spaceshipImageView = new ImageView(spaceshipImage);
-            Counter counter = new Counter(spaceshipImageView);
+            Counter counter = new Counter(spaceshipImage);
             getChildren().add(counter);
             Point2D pixelPos = mapUtils.getHexCenter(new MapUtils.Point(unit.getPosition().x, unit.getPosition().y));
             setCounterLocation(counter, pixelPos, spaceshipImage.getWidth(), spaceshipImage.getHeight());
