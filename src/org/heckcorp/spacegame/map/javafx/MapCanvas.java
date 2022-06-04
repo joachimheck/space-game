@@ -7,8 +7,6 @@ import javafx.scene.paint.Color;
 import org.heckcorp.spacegame.map.HexMap;
 import org.heckcorp.spacegame.map.javafx.MapUtils.Point;
 
-import java.awt.*;
-
 public class MapCanvas extends Canvas {
     public MapCanvas(HexMap map, MapUtils mapUtils) {
         this.mapUtils = mapUtils;
