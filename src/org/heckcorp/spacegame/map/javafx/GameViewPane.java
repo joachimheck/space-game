@@ -1,11 +1,16 @@
 package org.heckcorp.spacegame.map.javafx;
 
+import javafx.animation.Interpolator;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
+import javafx.util.Duration;
 import org.heckcorp.spacegame.Unit;
 import org.heckcorp.spacegame.map.swing.Util;
 
@@ -55,6 +60,29 @@ public class GameViewPane extends Pane {
         selectionHexagon.setStroke(Color.YELLOW);
         selectionHexagon.setFill(Color.TRANSPARENT);
         getChildren().add(selectionHexagon);
+
+        Timeline timeline = new Timeline(
+                new KeyFrame(
+                        Duration.ZERO,
+                        new KeyValue(
+                                selectionHexagon.strokeDashOffsetProperty(),
+                                20,
+                                Interpolator.LINEAR
+                        )
+                ),
+                new KeyFrame(
+                        Duration.seconds(2),
+                        new KeyValue(
+                                selectionHexagon.strokeDashOffsetProperty(),
+                                0,
+                                Interpolator.LINEAR
+                        )
+                )
+        );
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        timeline.play();
+
+
     }
 
     private final MapUtils mapUtils;

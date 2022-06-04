@@ -4,11 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3bc8c235-c2bd-4343-a6d7-4a6d6d4b49b0" name="Changes" comment="Updated click handling to display a dashed line around the selected hex.">
+    <list default="true" id="3bc8c235-c2bd-4343-a6d7-4a6d6d4b49b0" name="Changes" comment="Changed GameViewPane to no longer implement GameView, so it doesn't have to bring in AWT imports.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/JavaFxGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/JavaFxGame.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/javafx/GameViewPane.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/javafx/GameViewPane.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/javafx/MapCanvas.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/javafx/MapCanvas.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -128,13 +126,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1653411560064</updated>
-    </task>
-    <task id="LOCAL-00014" summary="Removed ShadowMap and ShadowStatus. They won't be neede in a space game, at least not at first.">
-      <created>1653744254635</created>
-      <option name="number" value="00014" />
-      <option name="presentableId" value="LOCAL-00014" />
-      <option name="project" value="LOCAL" />
-      <updated>1653744254635</updated>
     </task>
     <task id="LOCAL-00015" summary="Removed City.">
       <created>1653746320613</created>
@@ -472,7 +463,14 @@
       <option name="project" value="LOCAL" />
       <updated>1654349496056</updated>
     </task>
-    <option name="localTasksCounter" value="63" />
+    <task id="LOCAL-00063" summary="Changed GameViewPane to no longer implement GameView, so it doesn't have to bring in AWT imports.">
+      <created>1654349652390</created>
+      <option name="number" value="00063" />
+      <option name="presentableId" value="LOCAL-00063" />
+      <option name="project" value="LOCAL" />
+      <updated>1654349652390</updated>
+    </task>
+    <option name="localTasksCounter" value="64" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -501,7 +499,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
-    <MESSAGE value="Shrunk the map for easier debugging." />
     <MESSAGE value="Get movement working again, though hackily, with a modified wait/notify setup." />
     <MESSAGE value="Shuffled the packages a bit, mostly to try to  better isolate the map code from the rest of the game, with an eye toward making it a library in the future." />
     <MESSAGE value="Deleted my custom SequentialExecutor, replacing it with SingleThreadExecutor." />
@@ -526,7 +523,8 @@
     <MESSAGE value="Refactored Counter to take an Image instead of an ImageView." />
     <MESSAGE value="Added mouse click handling, printing the clicked-on hex in a log message." />
     <MESSAGE value="Updated click handling to display a dashed line around the selected hex." />
-    <option name="LAST_COMMIT_MESSAGE" value="Updated click handling to display a dashed line around the selected hex." />
+    <MESSAGE value="Changed GameViewPane to no longer implement GameView, so it doesn't have to bring in AWT imports." />
+    <option name="LAST_COMMIT_MESSAGE" value="Changed GameViewPane to no longer implement GameView, so it doesn't have to bring in AWT imports." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -543,7 +541,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/org/heckcorp/spacegame/map/javafx/GameViewPane.java</url>
-          <line>19</line>
+          <line>24</line>
           <option name="timeStamp" value="7" />
         </line-breakpoint>
       </breakpoints>
