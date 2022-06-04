@@ -7,6 +7,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Border;
@@ -45,6 +46,7 @@ public class JavaFxGame extends Application {
         Unit spaceship = new Unit(Unit.Type.SPACESHIP, new HumanPlayer("player1", java.awt.Color.BLUE));
         spaceship.setHex(new Hex(1, 1));
         gameViewPane.addUnit(spaceship);
+        gameViewPane.setOnMouseClicked(gameViewPane::onMouseClicked);
         StackPane gameViewStackPane = new StackPane(mapPane, gameViewPane);
         gameViewStackPane.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(10))));
         ScrollPane mapScrollPane = new ScrollPane(gameViewStackPane);

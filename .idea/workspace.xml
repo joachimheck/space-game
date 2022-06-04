@@ -4,10 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3bc8c235-c2bd-4343-a6d7-4a6d6d4b49b0" name="Changes" comment="Added a new layer on which counters can be rendered, as well as some preliminary code to render a counter.">
+    <list default="true" id="3bc8c235-c2bd-4343-a6d7-4a6d6d4b49b0" name="Changes" comment="Refactored Counter to take an Image instead of an ImageView.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/javafx/Counter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/javafx/Counter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/JavaFxGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/JavaFxGame.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/javafx/GameViewPane.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/javafx/GameViewPane.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/javafx/MapCanvas.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/javafx/MapCanvas.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/javafx/MapUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/javafx/MapUtils.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -66,15 +68,15 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/joach_000/Documents/Programming Projects/Java/space-game/src/org/heckcorp/spacegame/map/javafx&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "last_opened_file_path": "C:/Users/joach_000/Documents/Programming Projects/Java/space-game/src/org/heckcorp/spacegame/map/javafx",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "preferences.pluginManager"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="org.heckcorp.spacegame.desktop.view" />
@@ -127,13 +129,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1653411560064</updated>
-    </task>
-    <task id="LOCAL-00011" summary="Cleaned up MapView.">
-      <created>1653739660365</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1653739660365</updated>
     </task>
     <task id="LOCAL-00012" summary="Cleaned up warnings in most of the view classes.">
       <created>1653740967639</created>
@@ -471,7 +466,14 @@
       <option name="project" value="LOCAL" />
       <updated>1654267020133</updated>
     </task>
-    <option name="localTasksCounter" value="60" />
+    <task id="LOCAL-00060" summary="Refactored Counter to take an Image instead of an ImageView.">
+      <created>1654343326563</created>
+      <option name="number" value="00060" />
+      <option name="presentableId" value="LOCAL-00060" />
+      <option name="project" value="LOCAL" />
+      <updated>1654343326563</updated>
+    </task>
+    <option name="localTasksCounter" value="61" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -500,7 +502,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
-    <MESSAGE value="Increased the window size." />
     <MESSAGE value="Removed an unused field." />
     <MESSAGE value="Added hit points to units." />
     <MESSAGE value="Shrunk the map for easier debugging." />
@@ -525,7 +526,8 @@
     <MESSAGE value="Made Player.view non-nullable." />
     <MESSAGE value="Removed View from Player. It was used by ComputerPlayer to get information about enemy units that came into view, but that information should come from the model and in SpaceGame, all units are always visible anyway." />
     <MESSAGE value="Added a new layer on which counters can be rendered, as well as some preliminary code to render a counter." />
-    <option name="LAST_COMMIT_MESSAGE" value="Added a new layer on which counters can be rendered, as well as some preliminary code to render a counter." />
+    <MESSAGE value="Refactored Counter to take an Image instead of an ImageView." />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactored Counter to take an Image instead of an ImageView." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -542,7 +544,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/org/heckcorp/spacegame/map/javafx/GameViewPane.java</url>
-          <line>29</line>
+          <line>31</line>
           <option name="timeStamp" value="7" />
         </line-breakpoint>
       </breakpoints>

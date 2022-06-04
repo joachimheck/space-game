@@ -2,6 +2,7 @@ package org.heckcorp.spacegame.map.javafx;
 
 import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import org.heckcorp.spacegame.Direction;
 import org.heckcorp.spacegame.GameView;
@@ -14,6 +15,7 @@ import org.heckcorp.spacegame.map.swing.ViewMonitor;
 
 import java.awt.*;
 import java.io.FileNotFoundException;
+import java.util.logging.Logger;
 
 public class GameViewPane extends Pane implements GameView {
     @Override
@@ -100,4 +102,12 @@ public class GameViewPane extends Pane implements GameView {
     }
 
     private final MapUtils mapUtils;
+
+    public void onMouseClicked(MouseEvent mouseEvent) {
+        Point2D position = new Point2D(mouseEvent.getX(), mouseEvent.getY());
+        MapUtils.Point hexCoordinates = mapUtils.getHexCoordinates(position);
+        Logger logger = Logger.getLogger(GameViewPane.class.getName());
+        logger.info("Mouse Clicked at " + position.getX() + ", " + position.getY()
+                + ": " + hexCoordinates.x() + ", " + hexCoordinates.y());
+    }
 }

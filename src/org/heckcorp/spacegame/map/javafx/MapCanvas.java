@@ -7,6 +7,8 @@ import javafx.scene.paint.Color;
 import org.heckcorp.spacegame.map.HexMap;
 import org.heckcorp.spacegame.map.javafx.MapUtils.Point;
 
+import java.awt.*;
+
 public class MapCanvas extends Canvas {
     public MapCanvas(HexMap map, MapUtils mapUtils) {
         this.mapUtils = mapUtils;
@@ -27,7 +29,7 @@ public class MapCanvas extends Canvas {
 
     /**
      * @param position the position on the screen to draw the hex.
-     * @param gc a Graphics to draw in.
+     * @param gc a GraphicsContext to draw in.
      */
     private void drawHex(Point position, GraphicsContext gc) {
         Point2D pixelPos = mapUtils.getHexCorner(position);
