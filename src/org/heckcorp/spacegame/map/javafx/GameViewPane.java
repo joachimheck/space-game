@@ -51,6 +51,10 @@ public class GameViewPane extends Pane {
         getChildren().remove(selectionHexagon);
         Point2D position = new Point2D(mouseEvent.getX(), mouseEvent.getY());
         MapUtils.Point hexCoordinates = mapUtils.getHexCoordinates(position);
+        selectHex(hexCoordinates);
+    }
+
+    private void selectHex(MapUtils.Point hexCoordinates) {
         if (hexCoordinates.equals(selectedHex)) {
             selectedHex = NO_SELECTED_HEX;
             return;
