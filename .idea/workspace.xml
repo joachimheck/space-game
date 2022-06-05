@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3bc8c235-c2bd-4343-a6d7-4a6d6d4b49b0" name="Changes" comment="Refactor the MVC situation. There's now a JavaFxModel class that contains the map and selected hex, and the selected hex is a property whose changes are listened to by the view. The user inputs enter through a new controller pane.">
+    <list default="true" id="3bc8c235-c2bd-4343-a6d7-4a6d6d4b49b0" name="Changes" comment="Units are added to the model, not the view.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/JavaFxGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/JavaFxGame.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/JavaFxModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/JavaFxModel.java" afterDir="false" />
@@ -131,13 +131,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1653411560064</updated>
-    </task>
-    <task id="LOCAL-00025" summary="Removed references to GamePiece from Player. For now, we're always dealing with Units.">
-      <created>1653915849928</created>
-      <option name="number" value="00025" />
-      <option name="presentableId" value="LOCAL-00025" />
-      <option name="project" value="LOCAL" />
-      <updated>1653915849928</updated>
     </task>
     <task id="LOCAL-00026" summary="Removed references to GamePiece from Player. For now, we're always dealing with Units.">
       <created>1653915860112</created>
@@ -475,7 +468,14 @@
       <option name="project" value="LOCAL" />
       <updated>1654444488014</updated>
     </task>
-    <option name="localTasksCounter" value="74" />
+    <task id="LOCAL-00074" summary="Units are added to the model, not the view.">
+      <created>1654445767076</created>
+      <option name="number" value="00074" />
+      <option name="presentableId" value="LOCAL-00074" />
+      <option name="project" value="LOCAL" />
+      <updated>1654445767076</updated>
+    </task>
+    <option name="localTasksCounter" value="75" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -504,7 +504,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
-    <MESSAGE value="Fixed the warnings in Pathfinder and updated some of the code to streams while I was in there." />
     <MESSAGE value="Modified the initialization code for DefaultModel (in DefaultModel and NewGameInitializer) to allow most of the fields to be final and non-null." />
     <MESSAGE value="Removed NeutralPlayer and associated code." />
     <MESSAGE value="Added a counter image, rotation, and an animation to JavaFxGame." />
@@ -529,7 +528,8 @@
     <MESSAGE value="Move hex selection code into a ViewMonitor." />
     <MESSAGE value="Made a separate ViewMonitor class for the JavaFx code, since the existing ViewMonitor code uses executors to call into the model but I don't think that will be necessary in JavaFx." />
     <MESSAGE value="Refactor the MVC situation. There's now a JavaFxModel class that contains the map and selected hex, and the selected hex is a property whose changes are listened to by the view. The user inputs enter through a new controller pane." />
-    <option name="LAST_COMMIT_MESSAGE" value="Refactor the MVC situation. There's now a JavaFxModel class that contains the map and selected hex, and the selected hex is a property whose changes are listened to by the view. The user inputs enter through a new controller pane." />
+    <MESSAGE value="Units are added to the model, not the view." />
+    <option name="LAST_COMMIT_MESSAGE" value="Units are added to the model, not the view." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

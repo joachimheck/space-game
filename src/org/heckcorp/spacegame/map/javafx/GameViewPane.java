@@ -1,5 +1,6 @@
 package org.heckcorp.spacegame.map.javafx;
 
+import com.google.common.collect.BiMap;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -15,6 +16,8 @@ import org.heckcorp.spacegame.map.Point;
 import org.heckcorp.spacegame.map.swing.Util;
 
 import java.io.FileNotFoundException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 public class GameViewPane extends Pane {
@@ -23,12 +26,22 @@ public class GameViewPane extends Pane {
             Image spaceshipImage = new Image(Util.getResource("resource/spaceship.png"));
             for (Unit unit : units) {
                 Counter counter = new Counter(spaceshipImage);
+                countersByUnit.put(unit, counter);
                 getChildren().add(counter);
                 Point2D pixelPos = mapUtils.getHexCenter(new Point(unit.getPosition().x(), unit.getPosition().y()));
                 setCounterLocation(counter, pixelPos, spaceshipImage.getWidth(), spaceshipImage.getHeight());
             }
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    public void removeUnits(Set<Unit> units) {
+        for (Unit unit : units) {
+            Counter counter = countersByUnit.get(unit);
+            if (counter != null) {
+                getChildren().remove(counter);
+            }
         }
     }
 
@@ -89,6 +102,7 @@ public class GameViewPane extends Pane {
     private final MapUtils mapUtils;
     private Polygon selectionHexagon = new Polygon(0d, 0d);
     private Point selectedHex = NO_SELECTED_HEX;
+    private final Map<Unit, Counter> countersByUnit = new HashMap<>();
 
     private static final Point NO_SELECTED_HEX = new Point(-1, -1);
 }

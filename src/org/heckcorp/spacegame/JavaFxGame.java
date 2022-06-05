@@ -1,6 +1,5 @@
 package org.heckcorp.spacegame;
 
-import com.google.common.collect.ImmutableSet;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -43,7 +42,7 @@ public class JavaFxGame extends Application {
                 Unit.Type.SPACESHIP,
                 new HumanPlayer("player1", java.awt.Color.BLUE),
                 model.getMap().getHex(1, 1));
-        model.currentUnits().setValue(new ImmutableSet.Builder<Unit>().addAll(model.getUnits()).add(spaceship).build());
+        model.addUnit(spaceship);
         BorderPane mapPane = new BorderPane(new MapCanvas(model, mapUtils));
         StackPane gameViewStackPane = new StackPane(mapPane, gameViewPane, controllerPane);
         gameViewStackPane.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(10))));

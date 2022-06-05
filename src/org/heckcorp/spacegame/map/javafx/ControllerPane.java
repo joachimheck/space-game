@@ -35,7 +35,7 @@ public class ControllerPane extends Pane {
             }
         });
         model.currentUnits().addListener((observable, oldValue, newValue) -> {
-            // TODO: view.removeUnits()
+            view.removeUnits(Sets.difference(oldValue, newValue));
             view.addUnits(Sets.difference(newValue, oldValue));
         });
     }
