@@ -12,6 +12,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.util.Duration;
 import org.heckcorp.spacegame.Unit;
+import org.heckcorp.spacegame.map.Point;
 import org.heckcorp.spacegame.map.swing.Util;
 
 import java.io.FileNotFoundException;
@@ -22,7 +23,8 @@ public class GameViewPane extends Pane {
             Image spaceshipImage = new Image(Util.getResource("resource/spaceship.png"));
             Counter counter = new Counter(spaceshipImage);
             getChildren().add(counter);
-            Point2D pixelPos = mapUtils.getHexCenter(new MapUtils.Point(unit.getPosition().x, unit.getPosition().y));
+            assert unit.getPosition() != null;
+            Point2D pixelPos = mapUtils.getHexCenter(new Point(unit.getPosition().x(), unit.getPosition().y()));
             setCounterLocation(counter, pixelPos, spaceshipImage.getWidth(), spaceshipImage.getHeight());
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
@@ -50,11 +52,11 @@ public class GameViewPane extends Pane {
     public void onMouseClicked(MouseEvent mouseEvent) {
         getChildren().remove(selectionHexagon);
         Point2D position = new Point2D(mouseEvent.getX(), mouseEvent.getY());
-        MapUtils.Point hexCoordinates = mapUtils.getHexCoordinates(position);
+        Point hexCoordinates = mapUtils.getHexCoordinates(position);
         selectHex(hexCoordinates);
     }
 
-    private void selectHex(MapUtils.Point hexCoordinates) {
+    private void selectHex(Point hexCoordinates) {
         if (hexCoordinates.equals(selectedHex)) {
             selectedHex = NO_SELECTED_HEX;
             return;
@@ -92,7 +94,7 @@ public class GameViewPane extends Pane {
 
     private final MapUtils mapUtils;
     private Polygon selectionHexagon = new Polygon(0d, 0d);
-    private MapUtils.Point selectedHex = NO_SELECTED_HEX;
+    private Point selectedHex = NO_SELECTED_HEX;
 
-    private static final MapUtils.Point NO_SELECTED_HEX = new MapUtils.Point(-1, -1);
+    private static final Point NO_SELECTED_HEX = new Point(-1, -1);
 }

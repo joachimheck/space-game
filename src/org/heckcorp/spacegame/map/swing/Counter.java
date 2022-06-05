@@ -3,12 +3,14 @@ package org.heckcorp.spacegame.map.swing;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 
 public class Counter extends JLabel {
-    public Counter(BufferedImage[] unitPix, @Nullable Color borderColor, Point hexCenter, @Nullable Point mapPosition) {
+    public Counter(BufferedImage[] unitPix, @Nullable Color borderColor, Point hexCenter, @Nullable org.heckcorp.spacegame.map.Point mapPosition) {
         this.mapPosition = mapPosition;
         icon = new AnimatedImageIcon(unitPix);
 
@@ -183,11 +185,11 @@ public class Counter extends JLabel {
      * Returns the map position of this Counter.
      */
     @Nullable
-    public Point getMapPosition() {
+    public org.heckcorp.spacegame.map.Point getMapPosition() {
         return mapPosition;
     }
 
-    public void setMapPosition(@Nullable Point mapPosition) {
+    public void setMapPosition(@Nullable org.heckcorp.spacegame.map.Point mapPosition) {
         this.mapPosition = mapPosition;
     }
 
@@ -238,7 +240,7 @@ public class Counter extends JLabel {
     private boolean onScreen = true;
     private boolean hidden = false;
     @Nullable
-    private Point mapPosition;
+    private org.heckcorp.spacegame.map.Point mapPosition;
     @Nullable
     private Object toNotify;
 }

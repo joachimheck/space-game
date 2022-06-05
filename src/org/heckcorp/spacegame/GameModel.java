@@ -1,8 +1,8 @@
 package org.heckcorp.spacegame;
 
 import org.heckcorp.spacegame.map.Hex;
+import org.heckcorp.spacegame.map.Point;
 
-import java.awt.*;
 import java.util.Set;
 
 

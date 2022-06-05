@@ -4,9 +4,29 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3bc8c235-c2bd-4343-a6d7-4a6d6d4b49b0" name="Changes" comment="Animated the selection line.">
+    <list default="true" id="3bc8c235-c2bd-4343-a6d7-4a6d6d4b49b0" name="Changes" comment="Whew! Updated the old code (including the swing classes) to use the new local Point class instead of java.awt.Point, when referring to hex coordinates and the like. Also fixed a bunch of warnings, though not all.">
+      <change afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/Point.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/DefaultModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/DefaultModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/GameModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/GameModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/GamePiece.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/GamePiece.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/LogFormatter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/LogFormatter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/Positionable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/Positionable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/SpaceGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/SpaceGame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/Unit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/Unit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/Calculator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/Calculator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/Hex.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/Hex.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/HexMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/HexMap.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/javafx/GameViewPane.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/javafx/GameViewPane.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/javafx/MapCanvas.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/javafx/MapCanvas.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/javafx/MapUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/javafx/MapUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/swing/Counter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/swing/Counter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/swing/MapPane.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/swing/MapPane.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/swing/MapView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/swing/MapView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/swing/MiniMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/swing/MiniMap.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/swing/ViewMonitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/swing/ViewMonitor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/swing/HexDescriptionPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/swing/HexDescriptionPanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/swing/SwingView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/swing/SwingView.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,15 +85,15 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/joach_000/Documents/Programming Projects/Java/space-game/src/org/heckcorp/spacegame/map/javafx&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "last_opened_file_path": "C:/Users/joach_000/Documents/Programming Projects/Java/space-game/src/org/heckcorp/spacegame/map/javafx",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "reference.settingsdialog.IDE.editor.colors.Language Defaults"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="org.heckcorp.spacegame.desktop.view" />
@@ -85,6 +105,7 @@
       <recent name="org.heckcorp.domination" />
     </key>
     <key name="MoveInnerDialog.RECENTS_KEY">
+      <recent name="org.heckcorp.spacegame.map.javafx" />
       <recent name="org.heckcorp.domination.desktop.view" />
       <recent name="org.heckcorp.domination" />
     </key>
@@ -126,20 +147,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1653411560064</updated>
-    </task>
-    <task id="LOCAL-00016" summary="Removed Terrain.">
-      <created>1653747451925</created>
-      <option name="number" value="00016" />
-      <option name="presentableId" value="LOCAL-00016" />
-      <option name="project" value="LOCAL" />
-      <updated>1653747451925</updated>
-    </task>
-    <task id="LOCAL-00017" summary="Removed Some unused junk from ComputerPlayer.">
-      <created>1653747603101</created>
-      <option name="number" value="00017" />
-      <option name="presentableId" value="LOCAL-00017" />
-      <option name="project" value="LOCAL" />
-      <updated>1653747603101</updated>
     </task>
     <task id="LOCAL-00018" summary="Fixed a build error.">
       <created>1653748163607</created>
@@ -470,7 +477,21 @@
       <option name="project" value="LOCAL" />
       <updated>1654349915073</updated>
     </task>
-    <option name="localTasksCounter" value="65" />
+    <task id="LOCAL-00065" summary="Clicking again on the selected hex deselects it.">
+      <created>1654427729102</created>
+      <option name="number" value="00065" />
+      <option name="presentableId" value="LOCAL-00065" />
+      <option name="project" value="LOCAL" />
+      <updated>1654427729103</updated>
+    </task>
+    <task id="LOCAL-00066" summary="Separated out the hex selection code into a new method.">
+      <created>1654428212583</created>
+      <option name="number" value="00066" />
+      <option name="presentableId" value="LOCAL-00066" />
+      <option name="project" value="LOCAL" />
+      <updated>1654428212583</updated>
+    </task>
+    <option name="localTasksCounter" value="67" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -499,10 +520,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
-    <MESSAGE value="Shuffled the packages a bit, mostly to try to  better isolate the map code from the rest of the game, with an eye toward making it a library in the future." />
-    <MESSAGE value="Deleted my custom SequentialExecutor, replacing it with SingleThreadExecutor." />
-    <MESSAGE value="Cleaned up some TODOs." />
-    <MESSAGE value="Fixed the display of hex coordinates." />
     <MESSAGE value="Switched to Gradle." />
     <MESSAGE value="Added a JavaFx application and eventually updated Gradle to compile it." />
     <MESSAGE value="Got the old code and the new JavaFxGame class building, and modularized the entire project." />
@@ -524,23 +541,11 @@
     <MESSAGE value="Updated click handling to display a dashed line around the selected hex." />
     <MESSAGE value="Changed GameViewPane to no longer implement GameView, so it doesn't have to bring in AWT imports." />
     <MESSAGE value="Animated the selection line." />
-    <option name="LAST_COMMIT_MESSAGE" value="Animated the selection line." />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint type="java-line">
-          <url>file://$PROJECT_DIR$/src/org/heckcorp/spacegame/swing/SwingView.java</url>
-          <line>57</line>
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/org/heckcorp/spacegame/swing/SwingView.java</url>
-          <line>40</line>
-          <option name="timeStamp" value="4" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <MESSAGE value="Clicking again on the selected hex deselects it." />
+    <MESSAGE value="Separated out the hex selection code into a new method." />
+    <MESSAGE value="Whew! Updated the old code (including the swing classes) to use the new local Point class instead of java.awt.Point, when referring to hex coordinates and the like." />
+    <MESSAGE value="Whew! Updated the old code (including the swing classes) to use the new local Point class instead of java.awt.Point, when referring to hex coordinates and the like. Also fixed a bunch of warnings, though not all." />
+    <option name="LAST_COMMIT_MESSAGE" value="Whew! Updated the old code (including the swing classes) to use the new local Point class instead of java.awt.Point, when referring to hex coordinates and the like. Also fixed a bunch of warnings, though not all." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

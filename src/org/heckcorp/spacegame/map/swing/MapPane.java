@@ -3,9 +3,15 @@ package org.heckcorp.spacegame.map.swing;
 import org.heckcorp.spacegame.map.Hex;
 import org.heckcorp.spacegame.map.HexMap;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.Rectangle;
 
 public class MapPane extends JPanel {
     public MapPane() {
@@ -27,6 +33,7 @@ public class MapPane extends JPanel {
 
     @Override
     public void setBounds(int x, int y, int width, int height) {
+        assert map != null;
         Dimension viewportSize = getViewportSize(map, new Dimension(width, height));
         setViewportBounds(new Rectangle(viewport.getLocation(), viewportSize));
 
@@ -50,12 +57,13 @@ public class MapPane extends JPanel {
      *   point, or null if the clicked point is not in a hex.
      * @post result.isVisible()
      */
-    public Point getHexCoordinates(Point screenPoint) {
-        Point[] guesses = guessHex(screenPoint, viewport);
+    @Nullable
+    public org.heckcorp.spacegame.map.Point getHexCoordinates(Point screenPoint) {
+        org.heckcorp.spacegame.map.Point[] guesses = guessHex(screenPoint, viewport);
 
-        double minDistance = screenPoint.distance(guesses[0]);
-        Point closest = guesses[0];
-        for (Point guess : guesses) {
+        double minDistance = screenPoint.distance(new java.awt.Point(guesses[0].x(), guesses[0].y()));
+        @Nullable org.heckcorp.spacegame.map.Point closest = guesses[0];
+        for (org.heckcorp.spacegame.map.Point guess : guesses) {
             if (isInViewport(guess)) {
                 Point guessCenter = getViewportHexCenter(guess);
                 double distance = screenPoint.distance(guessCenter);
@@ -79,15 +87,14 @@ public class MapPane extends JPanel {
      * Returns the pixel coordinates of the center of the hex
      * with the specified map coordinates.
      */
-    public Point getHexCenter(Point pos) {
-        Point viewPos = toViewportCoordinates(pos);
-        int pixelX = viewPos.x * tileWidth + getInsets().left;
-        int pixelY = viewPos.y * tileHeight + getInsets().top;
-        if ((viewPos.x + viewport.x) % 2 == 0) {
+    public Point getHexCenter(org.heckcorp.spacegame.map.Point pos) {
+        int pixelX = pos.x() * tileWidth + getInsets().left;
+        int pixelY = pos.y() * tileHeight + getInsets().top;
+        if ((pos.x() + viewport.x) % 2 == 0) {
             pixelY += tileHeight / 2;
         }
 
-        return new Point(pixelX + 2*tileWidth/3, pixelY + tileHeight/2);
+        return toViewportCoordinates(new Point(pixelX + 2*tileWidth/3, pixelY + tileHeight/2));
     }
 
     public Point getHexCorner(Point position) {
@@ -124,7 +131,7 @@ public class MapPane extends JPanel {
      * Returns three sets of viewport coordinates, one of which
      * corresponds to the clicked-on hex.
      */
-    public Point[] guessHex(Point screenPoint, Rectangle viewport) {
+    public org.heckcorp.spacegame.map.Point[] guessHex(Point screenPoint, Rectangle viewport) {
         int columnGuess = (screenPoint.x - getInsets().left) / tileWidth;
         int rowShift = 0;
         if ((columnGuess + viewport.x) % 2 == 0) {
@@ -134,10 +141,10 @@ public class MapPane extends JPanel {
             ((screenPoint.y - getInsets().top) - (rowShift * tileHeight / 2)) /
             tileHeight;
 
-        Point[] guesses = new Point[3];
-        guesses[0] = new Point(columnGuess, rowGuess);
-        guesses[1] = new Point(columnGuess - 1, rowGuess - 1 + rowShift);
-        guesses[2] = new Point(columnGuess - 1, rowGuess + rowShift);
+        org.heckcorp.spacegame.map.Point[] guesses = new org.heckcorp.spacegame.map.Point[3];
+        guesses[0] = new org.heckcorp.spacegame.map.Point(columnGuess, rowGuess);
+        guesses[1] = new org.heckcorp.spacegame.map.Point(columnGuess - 1, rowGuess - 1 + rowShift);
+        guesses[2] = new org.heckcorp.spacegame.map.Point(columnGuess - 1, rowGuess + rowShift);
 
         return guesses;
     }
@@ -145,17 +152,14 @@ public class MapPane extends JPanel {
     @Override
     public void paintComponent(Graphics gIn) {
         if (map != null) {
-            Point hexPosition = new Point(-1, -1);
-            Point screenPosition = new Point(-1, -1);
             Graphics2D g = (Graphics2D) gIn;
             g.setBackground(Color.gray);
             g.clearRect(0, 0, getWidth(), getHeight());
 
             for (int i=0; i<viewport.width; i++) {
                 for (int j=0; j<viewport.height; j++) {
-                    screenPosition.move(i, j);
-                    hexPosition.move(i + viewport.x, j + viewport.y);
-                    drawHex(map.getHex(hexPosition), screenPosition, g);
+                    drawHex(map.getHex(new org.heckcorp.spacegame.map.Point(i + viewport.x, j + viewport.y)),
+                            new Point(i, j), g);
                 }
             }
         } else {
@@ -169,6 +173,7 @@ public class MapPane extends JPanel {
     public void setViewportPosition(Point position) {
         assert position.x >= 0;
         assert position.y >= 0;
+        assert map != null;
         assert position.x + viewport.width <= map.width :
             position.x + " + " + viewport.width + " > " + map.width + "!";
         assert position.y + viewport.height <= map.height :
@@ -186,23 +191,23 @@ public class MapPane extends JPanel {
         Point pixelPos = getHexCorner(position);
         g.drawImage(resources.tilePic[0], pixelPos.x, pixelPos.y, null);
         g.setColor(Color.white);
-        g.drawString(hex.getPosition().x + "," + hex.getPosition().y, pixelPos.x + 32, pixelPos.y + 16);
+        g.drawString(hex.getPosition().x() + "," + hex.getPosition().y(), pixelPos.x + 32, pixelPos.y + 16);
     }
 
     /**
      * Return true if the hex with the specified coordinates is visible in this viewport.
      */
-    public boolean isMapPointInViewport(Point mapPos) {
-        return isInViewport(toViewportCoordinates(mapPos));
+    public boolean isMapPointInViewport(org.heckcorp.spacegame.map.Point mapPos) {
+        return isInViewport(mapPos);
     }
 
     /**
      * Return true if the hex position with the specified viewport coordinates lies within the bounds of this viewport.
      * @param viewPos the map coordinates to check.
      */
-    public boolean isInViewport(Point viewPos) {
+    public boolean isInViewport(org.heckcorp.spacegame.map.Point viewPos) {
         Rectangle rect = new Rectangle(0, 0, viewport.width, viewport.height);
-        return rect.contains(viewPos);
+        return rect.contains(new java.awt.Point(viewPos.x(), viewPos.y()));
     }
 
     /**
@@ -212,7 +217,7 @@ public class MapPane extends JPanel {
      * @param viewPos the viewport coordinates of the hex.
      * @pre isInViewport(pos)
      */
-    public Point getViewportHexCenter(Point viewPos) {
+    public Point getViewportHexCenter(org.heckcorp.spacegame.map.Point viewPos) {
         assert isInViewport(viewPos) : viewPos;
 
         return getHexCenter(toMapCoordinates(viewPos));
@@ -221,11 +226,11 @@ public class MapPane extends JPanel {
     public void drawHexCenters(Point screenPoint) {
         Graphics g = getGraphics();
         int radius = 5;
-        Point[] guesses = guessHex(screenPoint, viewport);
+        org.heckcorp.spacegame.map.Point[] guesses = guessHex(screenPoint, viewport);
 
-        double minDistance = screenPoint.distance(guesses[0]);
-        Point closest = guesses[0];
-        for (Point guess : guesses) {
+        double minDistance = screenPoint.distance(new java.awt.Point(guesses[0].x(), guesses[0].y()));
+        org.heckcorp.spacegame.map.Point closest = guesses[0];
+        for (org.heckcorp.spacegame.map.Point guess : guesses) {
             Point guessCenter = getViewportHexCenter(guess);
             double distance = screenPoint.distance(guessCenter);
 
@@ -258,8 +263,8 @@ public class MapPane extends JPanel {
      * Converts viewport coordinates to map coordinates.
      * @post isInViewport(result)
      */
-    private Point toMapCoordinates(Point pos) {
-        return new Point(pos.x + viewport.x, pos.y + viewport.y);
+    private org.heckcorp.spacegame.map.Point toMapCoordinates(org.heckcorp.spacegame.map.Point pos) {
+        return new org.heckcorp.spacegame.map.Point(pos.x() + viewport.x, pos.y() + viewport.y);
     }
 
     public Rectangle getViewport() {
@@ -268,6 +273,7 @@ public class MapPane extends JPanel {
 
     private final int tileHeight;
     private final int tileWidth;
+    @Nullable
     private HexMap map;
     private final UIResources resources;
     private final Rectangle viewport;

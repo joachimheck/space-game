@@ -5,7 +5,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import org.heckcorp.spacegame.map.HexMap;
-import org.heckcorp.spacegame.map.javafx.MapUtils.Point;
+import org.heckcorp.spacegame.map.Point;
 
 public class MapCanvas extends Canvas {
     public MapCanvas(HexMap map, MapUtils mapUtils) {

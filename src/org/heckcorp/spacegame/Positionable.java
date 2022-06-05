@@ -1,10 +1,8 @@
 package org.heckcorp.spacegame;
 
-import java.awt.*;
+import org.heckcorp.spacegame.map.Point;
+import org.jetbrains.annotations.Nullable;
 
 public interface Positionable {
-    /**
-     * Returns this Positionable's position.
-     */
-    Point getPosition();
+    @Nullable Point getPosition();
 }

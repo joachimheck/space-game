@@ -19,7 +19,7 @@ public class LogFormatter extends Formatter {
         String pattern = "yyyy-MM-dd HH:mm:ss.SS";
         DateFormat df = new SimpleDateFormat(pattern);
         sb.append(df.format(new Date(record.getMillis()))).append(" ");
-        sb.append("Thread: ").append(record.getThreadID()).append(" ");
+        sb.append("Thread: ").append(record.getLongThreadID()).append(" ");
         sb.append(record.getSourceClassName()).append(" ");
         sb.append(record.getSourceMethodName());
         sb.append("\n");

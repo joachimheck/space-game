@@ -5,10 +5,11 @@ import org.heckcorp.spacegame.Player.PlayerType;
 import org.heckcorp.spacegame.map.Hex;
 import org.heckcorp.spacegame.map.HexMap;
 import org.heckcorp.spacegame.map.Pathfinder;
+import org.heckcorp.spacegame.map.Point;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.awt.*;
+import java.awt.Color;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -43,6 +44,7 @@ public class DefaultModel implements GameModel, Serializable {
      */
     public void addUnit(@NotNull Unit unit, @NotNull Point position) {
         unit.setHex(map.getHex(position));
+        assert unit.getPosition() != null;
         map.addUnit(unit, unit.getPosition());
         views.addUnit(unit);
     }
@@ -104,6 +106,7 @@ public class DefaultModel implements GameModel, Serializable {
                     assert unit.getMovesLeft() < movesLeft :
                         "Unit didn't move to " + unit.getPath().get(0);
 
+                    assert unit.getHex() != null;
                     Set<Hex> adjacent = map.getAdjacentHexes(unit.getHex());
                     for (Hex adjacentHex : adjacent) {
                         if (adjacentHex.getOwner() != unit.getOwner() &&
@@ -205,7 +208,9 @@ public class DefaultModel implements GameModel, Serializable {
 
         log.finer("Selected unit - now selecting hex.");
 
-        views.selectHex(unit.getHex());
+        if (unit.getHex() != null) {
+            views.selectHex(unit.getHex());
+        }
 
         log.exiting("DefaultModel", "selectUnit");
     }
@@ -226,6 +231,7 @@ public class DefaultModel implements GameModel, Serializable {
 
             Hex hex = map.getHex(destination);
             Pathfinder pathfinder = map.getPathfinder();
+            assert selectedUnit.getHex() != null;
             List<Hex> path = pathfinder.findPath(selectedUnit.getHex(), hex);
 
             if (!path.isEmpty()) {
@@ -316,7 +322,9 @@ public class DefaultModel implements GameModel, Serializable {
         if (moved) {
             log.finer("Model moved " + selectedUnit + " to " + selectedUnit.getHex());
             views.move(selectedUnit, direction);
-            views.selectHex(selectedUnit.getHex());
+            if (selectedUnit.getHex() != null) {
+                views.selectHex(selectedUnit.getHex());
+            }
         } else {
             log.fine("Model couldn't move " + selectedUnit + " to " + selectedUnit.getPath().get(0));
         }
@@ -412,7 +420,9 @@ public class DefaultModel implements GameModel, Serializable {
             for (Unit unit : units) {
                 unit.setOwner(player);
                 player.addUnit(unit);
-                unit.setHex(map.getHex(unit.getPosition()));
+                if (unit.getPosition() != null) {
+                    unit.setHex(map.getHex(unit.getPosition()));
+                }
                 map.addUnit(unit, unit.getPosition());
                 playerView.addUnit(unit);
             }

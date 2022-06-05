@@ -1,22 +1,18 @@
 package org.heckcorp.spacegame.map;
 
 import org.heckcorp.spacegame.Player;
-import org.heckcorp.spacegame.Positionable;
 import org.heckcorp.spacegame.Unit;
+import org.jetbrains.annotations.Nullable;
 
-import java.awt.*;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This object represents one of the hexagonal spaces from which the map is
- * composed.
- *
- * @author Joachim Heck
- *
+ * This object represents one of the hexagonal spaces from which the map is composed.
  */
-public class Hex implements Serializable, Positionable {
+public class Hex implements Serializable {
 
     public void addUnit(Unit unit) {
         assert isEmpty() || owner == unit.getOwner() :
@@ -44,10 +40,7 @@ public class Hex implements Serializable, Positionable {
         return bestDefender;
     }
 
-    /**
-     * @return  the owner
-     * @uml.property  name="owner"
-     */
+    @Nullable
     public Player getOwner() {
         return owner;
     }
@@ -84,7 +77,7 @@ public class Hex implements Serializable, Positionable {
     }
 
     public String toString() {
-        return "Hex (" + getPosition().x + "," + getPosition().y + ")";
+        return "Hex (" + getPosition().x() + "," + getPosition().y() + ")";
     }
 
     public Hex(int x, int y) {
@@ -96,8 +89,9 @@ public class Hex implements Serializable, Positionable {
 
     public final int x;
     public final int y;
-    private transient Player owner = null;
+    @Nullable private transient Player owner = null;
     private final transient List<Unit> units;
+    @Serial
     private static final long serialVersionUID = 1L;
 
 }

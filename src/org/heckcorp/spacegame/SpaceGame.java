@@ -400,7 +400,7 @@ public class SpaceGame extends JPanel implements ViewMonitor {
     @Nullable private GameModel model;
     @Nullable private SwingView view;
 
-    public void hexClicked(final Point hexPos, int button) {
+    public void hexClicked(final org.heckcorp.spacegame.map.Point hexPos, int button) {
         assert model != null;
 
         if (button == MouseEvent.BUTTON1) {

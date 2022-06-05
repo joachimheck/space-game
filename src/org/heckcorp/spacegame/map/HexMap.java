@@ -1,13 +1,12 @@
 package org.heckcorp.spacegame.map;
 
 import org.heckcorp.spacegame.Direction;
-import org.heckcorp.spacegame.Positionable;
 import org.heckcorp.spacegame.Unit;
 
-import java.awt.*;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -18,11 +17,9 @@ import java.util.logging.Logger;
 
 /**
  * This object holds all the hexes from which the playing area is composed.
- *
- * @author Joachim Heck
- *
  */
 public class HexMap implements Serializable {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     public HexMap(int width, int height) {
@@ -37,6 +34,7 @@ public class HexMap implements Serializable {
         pathfinder = new Pathfinder(this);
     }
 
+    @SuppressWarnings("FieldCanBeLocal")
     private final Logger log = Logger.getLogger(getClass().getName());
 
     public HexMap(ObjectInputStream in) throws IOException {
@@ -112,8 +110,7 @@ public class HexMap implements Serializable {
      */
     public Set<Hex> getHexesAtRange(Hex hex, int radius) {
         Set<Hex> atRange = new HashSet<>();
-        Point current = new Point(hex.getPosition().x,
-                                  hex.getPosition().y - radius);
+        Point current = new Point(hex.getPosition().x(), hex.getPosition().y() - radius);
 
         for (Direction side : Direction.values()) {
             // We start out moving southeast, direction 2.
@@ -121,7 +118,7 @@ public class HexMap implements Serializable {
 
             for (int h=0; h<radius; h++) {
                 if (isInMap(current)) {
-                    atRange.add(hexes[current.x][current.y]);
+                    atRange.add(hexes[current.x()][current.y()]);
                 }
 
                 // Move on to the next hex.
@@ -136,7 +133,7 @@ public class HexMap implements Serializable {
      * Determins whether the point is within the map.
      */
     public boolean isInMap(Point p) {
-        return p.x >= 0 && p.x < width && p.y >= 0 && p.y < height;
+        return p.x() >= 0 && p.x() < width && p.y() >= 0 && p.y() < height;
     }
 
     /**
@@ -145,37 +142,19 @@ public class HexMap implements Serializable {
      */
     public static Point getAdjacent(Point current, Direction direction) {
         Point offset = current;
-        if (current.x % 2 == 0) {
+        if (current.x() % 2 == 0) {
             // This column is a half-hex lower than its neighbors.
-            offset = new Point(current.x, current.y + 1);
+            offset = new Point(current.x(), current.y() + 1);
         }
 
-        Point adjacent = null;
-
-        switch (direction) {
-        case NORTH:
-            adjacent = new Point(current.x, current.y - 1);
-            break;
-        case NORTHEAST:
-            adjacent = new Point(current.x + 1, offset.y - 1);
-            break;
-        case SOUTHEAST:
-            adjacent = new Point(current.x + 1, offset.y);
-            break;
-        case SOUTH:
-            adjacent = new Point(current.x, current.y + 1);
-            break;
-        case SOUTHWEST:
-            adjacent = new Point(current.x - 1, offset.y);
-            break;
-        case NORTHWEST:
-            adjacent = new Point(current.x - 1, offset.y - 1);
-            break;
-        default:
-            assert(false);
-        }
-
-        return adjacent;
+        return switch (direction) {
+            case NORTH -> new Point(current.x(), current.y() - 1);
+            case NORTHEAST -> new Point(current.x() + 1, offset.y() - 1);
+            case SOUTHEAST -> new Point(current.x() + 1, offset.y());
+            case SOUTH -> new Point(current.x(), current.y() + 1);
+            case SOUTHWEST -> new Point(current.x() - 1, offset.y());
+            case NORTHWEST -> new Point(current.x() - 1, offset.y() - 1);
+        };
     }
 
     /**
@@ -191,7 +170,7 @@ public class HexMap implements Serializable {
     }
 
     public Hex getHex(Point position) {
-        return getHex(position.x, position.y);
+        return getHex(position.x(), position.y());
     }
 
     /**
@@ -207,10 +186,10 @@ public class HexMap implements Serializable {
      * @return true if the two hex coordinates are adjacent (or the same).
      */
     public static boolean adjacent(Point p1, Point p2) {
-        return (p1.x == p2.x && Math.abs(p1.y - p2.y) <= 1.0) ||
-                (Math.abs(p1.x - p2.x) == 1.0 &&
-                        (p1.x % 2 == 0 && p2.y - p1.y >= 0 && p2.y - p1.y <= 1) ||
-                        (p1.x % 2 != 0 && p1.y - p2.y >= 0 && p1.y - p2.y <= 1));
+        return (p1.x() == p2.x() && Math.abs(p1.y() - p2.y()) <= 1.0) ||
+                (Math.abs(p1.x() - p2.x()) == 1.0 &&
+                        (p1.x() % 2 == 0 && p2.y() - p1.y() >= 0 && p2.y() - p1.y() <= 1) ||
+                        (p1.x() % 2 != 0 && p1.y() - p2.y() >= 0 && p1.y() - p2.y() <= 1));
     }
 
     /**
@@ -221,16 +200,11 @@ public class HexMap implements Serializable {
         return pathfinder;
     }
 
-
-    public Dimension getSize() {
-        return new Dimension(width, height);
-    }
-
     /**
      * @pre isInMap(position)
      */
     public void addUnit(Unit unit, Point position) {
-        hexes[position.x][position.y].addUnit(unit);
+        hexes[position.x()][position.y()].addUnit(unit);
    }
 
     public Hex getRandomHex() {
@@ -274,37 +248,17 @@ public class HexMap implements Serializable {
 
     public Hex getAdjacentHex(Hex hex, Direction direction) {
         Point adjacent = getAdjacent(hex.getPosition(), direction);
-        return hexes[adjacent.x][adjacent.y];
+        return hexes[adjacent.x()][adjacent.y()];
     }
 
     public static Direction getDirection(Hex hex, Hex destHex) {
         return getDirection(hex.getPosition(), destHex.getPosition());
     }
 
-    public static Set<Point> getAllAdjacent(Point point) {
-        Set<Point> allAdjacent = new HashSet<>();
-
-        for (Direction direction : Direction.values()) {
-            allAdjacent.add(getAdjacent(point, direction));
-        }
-
-        return allAdjacent;
-    }
-
-    public Set<Hex> getHexes(Set<Point> points) {
-        Set<Hex> result = new HashSet<>();
-
-        for (Point point : points) {
-            result.add(hexes[point.x][point.y]);
-        }
-
-        return result;
-    }
-
     /**
      * @pre hex != null
      */
-    public Set<Hex> getAdjacentHexes(Positionable pos) {
+    public Set<Hex> getAdjacentHexes(Hex pos) {
         Set<Hex> adjacent = new HashSet<>();
 
         for (Direction direction : Direction.values()) {

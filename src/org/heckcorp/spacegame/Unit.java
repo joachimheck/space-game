@@ -3,7 +3,9 @@ package org.heckcorp.spacegame;
 import org.heckcorp.spacegame.map.Hex;
 import org.heckcorp.spacegame.map.HexMap;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -89,6 +91,8 @@ public class Unit extends GamePiece implements Serializable {
      * can attack this turn.
      */
     public boolean canAttack(Hex hex) {
+        // TODO: make hex non-null.
+        assert getHex() != null;
         return getHex().isAdjacentTo(hex) &&
             hex.getOwner() != null && hex.getOwner() != getOwner() &&
             !hex.getUnits().isEmpty() && getMovesLeft() > 0 && getAttacksLeft() > 0;
@@ -178,6 +182,7 @@ public class Unit extends GamePiece implements Serializable {
         return health;
     }
 
+    @Nullable
     public Hex getLastHex() {
         return lastHex;
     }
@@ -204,6 +209,7 @@ public class Unit extends GamePiece implements Serializable {
      * @pre !getPath().isEmpty()
      */
     public Direction getNextDirection() {
+        assert getHex() != null;
         return HexMap.getDirection(getHex(), getPath().get(0));
     }
 
@@ -254,7 +260,7 @@ public class Unit extends GamePiece implements Serializable {
      */
     public boolean move() {
         Hex destHex = getPath().get(0);
-        assert destHex.isAdjacentTo(getHex());
+        assert getHex() != null && destHex.isAdjacentTo(getHex());
 
         if (getMovesLeft() > 0 && (destHex.getOwner() == getOwner() || destHex.isEmpty())) {
             lastHex = getHex();
@@ -270,7 +276,7 @@ public class Unit extends GamePiece implements Serializable {
                       destHex.isEmpty());
         }
 
-        return destHex.getUnits() != null && destHex.getUnits().contains(this);
+        return destHex.getUnits().contains(this);
     }
 
     /**
@@ -306,7 +312,7 @@ public class Unit extends GamePiece implements Serializable {
     public void setHealth(Health health) {
         this.health = health;
 
-        if (this.health == Health.DESTROYED) {
+        if (this.health == Health.DESTROYED && getHex() != null) {
             getHex().removeUnit(this);
             getOwner().removeUnit(this);
         }
@@ -350,11 +356,12 @@ public class Unit extends GamePiece implements Serializable {
     }
 
     public String toString() {
+        assert getHex() != null;
         return type + " (" + getOwner().getName() + ") at " + getHex().getPosition();
     }
 
     public Unit(Type type, Player player) {
-        setOwner(player);
+        super(player);
         this.type = type;
 
         this.path = new ArrayList<>();
@@ -374,8 +381,9 @@ public class Unit extends GamePiece implements Serializable {
 
     private final int startingHitPoints = 5;
 
-    private int hitPoints;
+    private final int hitPoints;
 
+    @Nullable
     private transient Hex lastHex = null;
 
     private int movesLeft;
@@ -388,6 +396,7 @@ public class Unit extends GamePiece implements Serializable {
 
     private static final Logger log = Logger.getLogger(Unit.class.getName());
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
 }

@@ -1,8 +1,9 @@
 package org.heckcorp.spacegame;
 
 import org.heckcorp.spacegame.map.Hex;
+import org.heckcorp.spacegame.map.Point;
+import org.jetbrains.annotations.Nullable;
 
-import java.awt.*;
 import java.io.Serializable;
 
 /**
@@ -11,24 +12,16 @@ import java.io.Serializable;
  *
  */
 public abstract class GamePiece implements Positionable, Serializable {
-
-    /**
-     * @return  the hex
-     * @uml.property  name="hex"
-     */
+    @Nullable
     public Hex getHex() {
         return hex;
     }
 
-    /**
-     * @return  the owner
-     * @uml.property  name="owner"
-     */
     public Player getOwner() {
         return owner;
     }
 
-    // TODO: convert this to MapUtils.Point.
+    @Nullable
     public Point getPosition() {
         if (hex == null) {
             return null;
@@ -37,22 +30,18 @@ public abstract class GamePiece implements Positionable, Serializable {
         }
     }
 
-    /**
-     * @param hex  the hex to set
-     * @uml.property  name="hex"
-     */
     public void setHex(Hex hex) {
         this.hex = hex;
     }
 
-    /**
-     * @param owner  the owner to set
-     * @uml.property  name="owner"
-     */
     public void setOwner(Player owner) {
         this.owner = owner;
     }
 
-    protected Hex hex;
+    protected GamePiece(Player owner) {
+        this.owner = owner;
+    }
+
+    @Nullable protected Hex hex;
     private transient Player owner;
 }

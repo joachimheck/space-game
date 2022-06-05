@@ -5,20 +5,26 @@ import com.google.common.collect.HashBiMap;
 import org.heckcorp.spacegame.Constants;
 import org.heckcorp.spacegame.Direction;
 import org.heckcorp.spacegame.GameView;
+import org.heckcorp.spacegame.Unit;
+import org.heckcorp.spacegame.UnitStatus;
 import org.heckcorp.spacegame.map.Hex;
 import org.heckcorp.spacegame.map.HexMap;
-import org.heckcorp.spacegame.Positionable;
-import org.heckcorp.spacegame.UnitStatus;
-import org.heckcorp.spacegame.Unit;
-import org.heckcorp.spacegame.map.swing.ViewMonitor;
+import org.heckcorp.spacegame.map.Point;
 import org.heckcorp.spacegame.map.swing.Counter;
 import org.heckcorp.spacegame.map.swing.MapPane;
 import org.heckcorp.spacegame.map.swing.MapView;
 import org.heckcorp.spacegame.map.swing.MiniMap;
 import org.heckcorp.spacegame.map.swing.UIResources;
+import org.heckcorp.spacegame.map.swing.ViewMonitor;
+import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.lang.reflect.InvocationTargetException;
@@ -55,9 +61,9 @@ public class SwingView extends JPanel implements GameView
          * @return the counter for the unit.
          */
         private Counter createCounter(Unit unit) {
-            Point position = new Point(0, 0);
+            java.awt.Point position = new java.awt.Point(0, 0);
 
-            if (mapView.isInitialized()) {
+            if (mapView.isInitialized() && unit.getPosition() != null) {
                 position = mapView.getMapPane().getHexCenter(unit.getPosition());
             }
 
@@ -76,6 +82,7 @@ public class SwingView extends JPanel implements GameView
             textScrollPane = new JScrollPane(textArea);
             textScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
+            assert getMap() != null;
             miniMap = new MiniMap(getMap());
             miniMap.setMinimumSize(new Dimension(Constants.UI_COMPONENT_SMALL_WIDTH,
                     Constants.UI_COMPONENT_SMALL_HEIGHT));
@@ -179,7 +186,7 @@ public class SwingView extends JPanel implements GameView
          */
         public void moveCounter(final Counter counter, final Hex destHex) {
             MapPane mapPane = mapView.getMapPane();
-            Point position = mapPane.getHexCenter(destHex.getPosition());
+            java.awt.Point position = mapPane.getHexCenter(destHex.getPosition());
             counter.notifyWhenAnimationComplete(this);
             counter.moveCenterTo(position);
 
@@ -239,10 +246,9 @@ public class SwingView extends JPanel implements GameView
                         counter.setHidden(false);
                         miniMap.invalidate();
                     } else if (status == UnitStatus.SELECTED) {
-                        Point mapPosition = counter.getMapPosition();
+                        @Nullable Point mapPosition = counter.getMapPosition();
                         if (!counter.isHidden() && mapPosition != null) {
-                            Point point = new Point(mapPosition);
-                            point.translate(-1, -1);
+                            java.awt.Point point = new java.awt.Point(mapPosition.x() - 1, mapPosition.y() - 1);
                             Rectangle rect = new Rectangle(point, new Dimension(2, 2));
                             mapView.centerRectangle(rect);
                             mapView.moveToFront(counter);
@@ -282,9 +288,9 @@ public class SwingView extends JPanel implements GameView
             invokeAndWait(() -> {
                 final Direction d = HexMap.getDirection(hexFrom.getPosition(),
                         hexTo.getPosition());
-                Point pFrom = mapView.getMapPane().getHexCenter(hexFrom.getPosition());
-                Point pTo = mapView.getMapPane().getHexCenter(hexTo.getPosition());
-                final Point center = new Point(pFrom.x + (pTo.x - pFrom.x)/2,
+                java.awt.Point pFrom = mapView.getMapPane().getHexCenter(hexFrom.getPosition());
+                java.awt.Point pTo = mapView.getMapPane().getHexCenter(hexTo.getPosition());
+                final java.awt.Point center = new java.awt.Point(pFrom.x + (pTo.x - pFrom.x)/2,
                         pFrom.y + (pTo.y - pFrom.y)/2);
 
                 Counter attackArrow = UIResources.getInstance().getAttackArrow();
@@ -349,34 +355,35 @@ public class SwingView extends JPanel implements GameView
         /**
          * @pre first and second are adjacent
          */
-        public void displayPositions(Positionable first, Positionable second) {
+        public void displayPositions(Hex first, Hex second) {
             // Make sure all the hexes surrounding the start point and all
             // those surrounding the end point are visible.
+            // TODO: make map non-null.
+            assert map != null;
             Set<Hex> adjacent = map.getAdjacentHexes(first);
             adjacent.addAll(map.getAdjacentHexes(second));
 
-            Point min = new Point(Integer.MAX_VALUE, Integer.MAX_VALUE);
-            Point max = new Point(Integer.MIN_VALUE, Integer.MIN_VALUE);
+            int minx = Integer.MAX_VALUE;
+            int miny = Integer.MAX_VALUE;
+            int maxx = Integer.MIN_VALUE;
+            int maxy = Integer.MIN_VALUE;
 
             for (Hex hex : adjacent) {
-                if (hex.getPosition().x < min.x) {
-                    min.x = hex.getPosition().x;
+                if (hex.getPosition().x() < minx) {
+                    minx = hex.getPosition().x();
                 }
-                if (hex.getPosition().y < min.y) {
-                    min.y = hex.getPosition().y;
+                if (hex.getPosition().y() < miny) {
+                    miny = hex.getPosition().y();
                 }
-                if (hex.getPosition().x > max.x) {
-                    max.x = hex.getPosition().x;
+                if (hex.getPosition().x() > maxx) {
+                    maxx = hex.getPosition().x();
                 }
-                if (hex.getPosition().y > max.y) {
-                    max.y = hex.getPosition().y;
+                if (hex.getPosition().y() > maxy) {
+                    maxy = hex.getPosition().y();
                 }
             }
 
-            Dimension size = new Dimension(max.x - min.x, max.y - min.y);
-
-            mapView.centerRectangle(new Rectangle(min, size));
-
+            mapView.centerRectangle(new Rectangle(minx, miny, maxx, maxy));
         }
     }
 
@@ -415,7 +422,9 @@ public class SwingView extends JPanel implements GameView
     public void attack(final Unit attacker, final Unit target) {
         final Counter targetCounter = dataManager.getCounter(target);
 
-        displayManager.displayPositions(attacker, target);
+        assert attacker.getHex() != null;
+        assert target.getHex() != null;
+        displayManager.displayPositions(attacker.getHex(), target.getHex());
         displayManager.moveToFront(targetCounter);
         displayManager.showAttackArrow(attacker.getHex(),
                 target.getHex());
@@ -440,12 +449,15 @@ public class SwingView extends JPanel implements GameView
      * @pre unit has been added to this view, and not destroyed
      */
     public void move(final Unit unit, final Direction direction) {
+        assert unit.getLastHex() != null;
+        assert map != null;
         Hex destHex = map.getAdjacentHex(unit.getLastHex(), direction);
         displayManager.hideSelection();
 
         Counter counter = dataManager.getCounter(unit);
         displayManager.showCounter(counter);
 
+        assert unit.getHex() != null;
         displayManager.displayPositions(unit.getLastHex(), unit.getHex());
         displayManager.moveCounter(counter, unit.getHex());
         displayManager.invalidateMapViews();
@@ -494,6 +506,9 @@ public class SwingView extends JPanel implements GameView
 
     @Override
     public void initialize() {
+        assert map != null;
+        assert monitor != null;
+        // TODO: make monitor non-null?
         uiManager.initialize(map, monitor);
     }
 
@@ -505,7 +520,6 @@ public class SwingView extends JPanel implements GameView
      */
     public void setStatus(Unit unit, UnitStatus status) {
         Counter counter = dataManager.getCounter(unit);
-        assert counter != null : "No counter for " + unit;
         displayManager.setCounterStatus(counter, status);
 
         if (status == UnitStatus.DESTROYED) {
@@ -541,6 +555,7 @@ public class SwingView extends JPanel implements GameView
 //        repaint();
     }
 
+    @Nullable
     private HexMap getMap() {
         return map;
     }
@@ -566,12 +581,14 @@ public class SwingView extends JPanel implements GameView
     }
 
     private final Logger log;
+    @Nullable
     private ViewMonitor monitor;
 
     private final ViewDataManager dataManager;
 
     private final DisplayManager displayManager;
 
+    @Nullable
     private HexMap map;
 
     private final UIResources resources = UIResources.getInstance();

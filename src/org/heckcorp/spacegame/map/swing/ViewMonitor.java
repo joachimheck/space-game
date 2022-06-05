@@ -1,11 +1,11 @@
 package org.heckcorp.spacegame.map.swing;
 
-import java.awt.Point;
+
+import org.heckcorp.spacegame.map.Point;
 
 public interface ViewMonitor {
     /**
      * Notifies this monitor that a hex has been clicked.
-     * @pre viewCoordinates != null
      * @pre button == MouseEvent.BUTTON1 ||
      *      button == MouseEvent.BUTTON2 ||
      *      button == MouseEvent.BUTTON3

@@ -3,6 +3,7 @@ package org.heckcorp.spacegame.swing;
 import org.heckcorp.spacegame.map.Hex;
 import org.heckcorp.spacegame.Player;
 import org.heckcorp.spacegame.Unit;
+import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 import java.awt.*;
@@ -104,7 +105,7 @@ public class HexDescriptionPanel extends JPanel
         unitsBox.removeAll();
 
         String hexType = "Hex";
-        Player owner = hex.getOwner();
+        @Nullable Player owner = hex.getOwner();
 
         if (owner != null) {
             ownerLabel.setText(owner.getName());
@@ -126,7 +127,7 @@ public class HexDescriptionPanel extends JPanel
             productionLabel.setVisible(false);
         }
 
-        locationLabel.setText(hexType + " " + hex.getPosition().x + "," + hex.getPosition().y);
+        locationLabel.setText(hexType + " " + hex.getPosition().x() + "," + hex.getPosition().y());
 
         // Make sure Swing knows about the new components, and draws them.
         revalidate();
