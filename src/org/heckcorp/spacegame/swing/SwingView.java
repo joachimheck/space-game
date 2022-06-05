@@ -63,7 +63,8 @@ public class SwingView extends JPanel implements GameView
         private Counter createCounter(Unit unit) {
             java.awt.Point position = new java.awt.Point(0, 0);
 
-            if (mapView.isInitialized() && unit.getPosition() != null) {
+            if (mapView.isInitialized()) {
+                unit.getPosition();
                 position = mapView.getMapPane().getHexCenter(unit.getPosition());
             }
 
@@ -421,13 +422,9 @@ public class SwingView extends JPanel implements GameView
      */
     public void attack(final Unit attacker, final Unit target) {
         final Counter targetCounter = dataManager.getCounter(target);
-
-        assert attacker.getHex() != null;
-        assert target.getHex() != null;
         displayManager.displayPositions(attacker.getHex(), target.getHex());
         displayManager.moveToFront(targetCounter);
-        displayManager.showAttackArrow(attacker.getHex(),
-                target.getHex());
+        displayManager.showAttackArrow(attacker.getHex(), target.getHex());
         displayManager.pause(Constants.PAUSE_TIME);
         displayManager.hideAttackArrow();
     }
@@ -444,12 +441,9 @@ public class SwingView extends JPanel implements GameView
      * updated already, so it uses the unit's last hex as the starting point for
      * the move.
      *
-     * @pre unit != null
-     * @pre direction != null
      * @pre unit has been added to this view, and not destroyed
      */
     public void move(final Unit unit, final Direction direction) {
-        assert unit.getLastHex() != null;
         assert map != null;
         Hex destHex = map.getAdjacentHex(unit.getLastHex(), direction);
         displayManager.hideSelection();
@@ -457,7 +451,6 @@ public class SwingView extends JPanel implements GameView
         Counter counter = dataManager.getCounter(unit);
         displayManager.showCounter(counter);
 
-        assert unit.getHex() != null;
         displayManager.displayPositions(unit.getLastHex(), unit.getHex());
         displayManager.moveCounter(counter, unit.getHex());
         displayManager.invalidateMapViews();

@@ -4,7 +4,6 @@ import org.heckcorp.spacegame.map.Hex;
 import org.heckcorp.spacegame.map.HexMap;
 import org.heckcorp.spacegame.map.Point;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -100,7 +99,6 @@ public class Unit implements Serializable {
      * can attack this turn.
      */
     public boolean canAttack(Hex hex) {
-        // TODO: make hex non-null.
         return getHex().isAdjacentTo(hex) &&
             hex.getOwner() != null && hex.getOwner() != getOwner() &&
             !hex.getUnits().isEmpty() && getMovesLeft() > 0 && getAttacksLeft() > 0;
@@ -179,17 +177,15 @@ public class Unit implements Serializable {
         return health;
     }
 
-    // TODO: make non-null?
-    @Nullable
-    public Hex getLastHex() {
-        return lastHex;
-    }
-
     /**
      * @return the number of movement points this unit can expend in a turn.
      */
     public int getMovement() {
         return type.movement;
+    }
+
+    public Hex getLastHex() {
+        return lastHex;
     }
 
     public int getMovesLeft() {
@@ -348,6 +344,7 @@ public class Unit implements Serializable {
         this.type = type;
         this.owner = player;
         this.hex = hex;
+        this.lastHex = hex;
 
         this.path = new ArrayList<>();
 
@@ -368,8 +365,7 @@ public class Unit implements Serializable {
 
     private final int hitPoints;
 
-    @Nullable
-    private transient Hex lastHex = null;
+    private transient Hex lastHex;
 
     private int movesLeft;
 
