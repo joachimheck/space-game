@@ -4,18 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3bc8c235-c2bd-4343-a6d7-4a6d6d4b49b0" name="Changes" comment="Updated the mouse click handler to pay attention to which button was clicked.">
-      <change afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/MouseButton.java" afterDir="false" />
+    <list default="true" id="3bc8c235-c2bd-4343-a6d7-4a6d6d4b49b0" name="Changes" comment="Move hex selection code into a ViewMonitor.">
+      <change afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/JavaFxViewMonitor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/ComputerPlayerView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/ComputerPlayerView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/GameView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/GameView.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/JavaFxGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/JavaFxGame.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/SpaceGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/SpaceGame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/ViewMultiplexer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/ViewMultiplexer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/javafx/GameViewPane.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/javafx/GameViewPane.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/swing/MapView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/swing/MapView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/swing/ViewMonitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/ViewMonitor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/swing/SwingView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/swing/SwingView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/ViewMonitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/ViewMonitor.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,8 +38,8 @@
       <list>
         <option value="package-info" />
         <option value="module-info" />
-        <option value="Class" />
         <option value="Enum" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -136,13 +130,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1653411560064</updated>
-    </task>
-    <task id="LOCAL-00022" summary="Updated initialization to add one spaceship per player, instead of tanks, planes, etc.">
-      <created>1653847599542</created>
-      <option name="number" value="00022" />
-      <option name="presentableId" value="LOCAL-00022" />
-      <option name="project" value="LOCAL" />
-      <updated>1653847599542</updated>
     </task>
     <task id="LOCAL-00023" summary="Removed the three old unit types and all the bomber-specific code.">
       <created>1653913381555</created>
@@ -480,7 +467,14 @@
       <option name="project" value="LOCAL" />
       <updated>1654437422094</updated>
     </task>
-    <option name="localTasksCounter" value="71" />
+    <task id="LOCAL-00071" summary="Move hex selection code into a ViewMonitor.">
+      <created>1654438771555</created>
+      <option name="number" value="00071" />
+      <option name="presentableId" value="LOCAL-00071" />
+      <option name="project" value="LOCAL" />
+      <updated>1654438771555</updated>
+    </task>
+    <option name="localTasksCounter" value="72" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -509,7 +503,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
-    <MESSAGE value="Got the old code and the new JavaFxGame class building, and modularized the entire project. Since I changed the default non-nullness specification, I had to fix a bunch of null-related warnings. I did this everywhere but Pathfinder, which needs more refactoring to get rid of boxed integers." />
     <MESSAGE value="Got the old code and the new JavaFxGame class building, and modularized the entire project. Since I changed the default non-nullness specification, I had to fix a bunch of null-related warnings. I did this everywhere but Pathfinder, which needs more refactoring to get rid of boxed integers, and DefaultModel, which needs an initializer." />
     <MESSAGE value="Removed GameStateManager from DefaultModel and added some new initialization code that lets some of its fields be non-null. I also updated NewGameInitializer for the same reason." />
     <MESSAGE value="Fixed the warnings in Pathfinder and updated some of the code to streams while I was in there." />
@@ -534,7 +527,8 @@
     <MESSAGE value="Made Unit's hex field non-nullable." />
     <MESSAGE value="Made Unit.lastHex non-nullable." />
     <MESSAGE value="Updated the mouse click handler to pay attention to which button was clicked." />
-    <option name="LAST_COMMIT_MESSAGE" value="Updated the mouse click handler to pay attention to which button was clicked." />
+    <MESSAGE value="Move hex selection code into a ViewMonitor." />
+    <option name="LAST_COMMIT_MESSAGE" value="Move hex selection code into a ViewMonitor." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

@@ -400,15 +400,15 @@ public class SpaceGame extends JPanel implements ViewMonitor {
     @Nullable private GameModel model;
     @Nullable private SwingView view;
 
-    public void hexClicked(final org.heckcorp.spacegame.map.Point hexPos, MouseButton button) {
+    public void hexClicked(final org.heckcorp.spacegame.map.Point hexCoordinates, MouseButton button) {
         assert model != null;
 
         if (button == MouseButton.PRIMARY) {
-            executor.execute(() -> model.selectHex(hexPos));
+            executor.execute(() -> model.selectHex(hexCoordinates));
         } else if (button == MouseButton.SECONDARY) {
             // The secondary button moves a unit.
             executor.execute(() -> {
-                model.setSelectedUnitDestination(hexPos);
+                model.setSelectedUnitDestination(hexCoordinates);
                 model.moveSelectedUnit();
             });
         }

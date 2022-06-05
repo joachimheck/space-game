@@ -5,5 +5,5 @@ public interface ViewMonitor {
     /**
      * Notifies this monitor that a hex has been clicked.
      */
-    void hexClicked(Point viewCoordinates, MouseButton button);
+    void hexClicked(Point hexCoordinates, MouseButton button);
 }
