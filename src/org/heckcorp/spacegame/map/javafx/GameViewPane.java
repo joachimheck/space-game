@@ -15,15 +15,18 @@ import org.heckcorp.spacegame.map.Point;
 import org.heckcorp.spacegame.map.swing.Util;
 
 import java.io.FileNotFoundException;
+import java.util.Set;
 
 public class GameViewPane extends Pane {
-    public void addUnit(Unit unit) {
+    public void addUnits(Set<Unit> units) {
         try {
             Image spaceshipImage = new Image(Util.getResource("resource/spaceship.png"));
-            Counter counter = new Counter(spaceshipImage);
-            getChildren().add(counter);
-            Point2D pixelPos = mapUtils.getHexCenter(new Point(unit.getPosition().x(), unit.getPosition().y()));
-            setCounterLocation(counter, pixelPos, spaceshipImage.getWidth(), spaceshipImage.getHeight());
+            for (Unit unit : units) {
+                Counter counter = new Counter(spaceshipImage);
+                getChildren().add(counter);
+                Point2D pixelPos = mapUtils.getHexCenter(new Point(unit.getPosition().x(), unit.getPosition().y()));
+                setCounterLocation(counter, pixelPos, spaceshipImage.getWidth(), spaceshipImage.getHeight());
+            }
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }

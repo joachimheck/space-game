@@ -1,5 +1,6 @@
 package org.heckcorp.spacegame;
 
+import com.google.common.collect.ImmutableSet;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -19,7 +20,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import org.heckcorp.spacegame.map.Hex;
 import org.heckcorp.spacegame.map.HexMap;
 import org.heckcorp.spacegame.map.javafx.ControllerPane;
 import org.heckcorp.spacegame.map.javafx.GameViewPane;
@@ -37,14 +37,13 @@ public class JavaFxGame extends Application {
         MapUtils mapUtils = new MapUtils();
         JavaFxModel model = new JavaFxModel(new HexMap(MAP_WIDTH, MAP_HEIGHT));
         GameViewPane gameViewPane = new GameViewPane(mapUtils);
-        // TODO: add the ship to the model, not the view.
+        ControllerPane controllerPane = new ControllerPane(model, gameViewPane, mapUtils);
+        controllerPane.setOnMouseClicked(controllerPane::onMouseClicked);
         Unit spaceship = new Unit(
                 Unit.Type.SPACESHIP,
                 new HumanPlayer("player1", java.awt.Color.BLUE),
-                new Hex(1, 1));
-        gameViewPane.addUnit(spaceship);
-        ControllerPane controllerPane = new ControllerPane(model, gameViewPane, mapUtils);
-        controllerPane.setOnMouseClicked(controllerPane::onMouseClicked);
+                model.getMap().getHex(1, 1));
+        model.currentUnits().setValue(new ImmutableSet.Builder<Unit>().addAll(model.getUnits()).add(spaceship).build());
         BorderPane mapPane = new BorderPane(new MapCanvas(model, mapUtils));
         StackPane gameViewStackPane = new StackPane(mapPane, gameViewPane, controllerPane);
         gameViewStackPane.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(10))));

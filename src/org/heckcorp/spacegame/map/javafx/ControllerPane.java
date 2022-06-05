@@ -1,5 +1,6 @@
 package org.heckcorp.spacegame.map.javafx;
 
+import com.google.common.collect.Sets;
 import javafx.geometry.Point2D;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -32,6 +33,10 @@ public class ControllerPane extends Pane {
             } else {
                 view.selectHex(newValue.get());
             }
+        });
+        model.currentUnits().addListener((observable, oldValue, newValue) -> {
+            // TODO: view.removeUnits()
+            view.addUnits(Sets.difference(newValue, oldValue));
         });
     }
 
