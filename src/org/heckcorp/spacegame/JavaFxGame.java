@@ -42,8 +42,10 @@ public class JavaFxGame extends Application {
         BorderPane mapPane = new BorderPane(new MapCanvas(new HexMap(MAP_WIDTH, MAP_HEIGHT), mapUtils));
         mapPane.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
         GameViewPane gameViewPane = new GameViewPane(mapUtils);
-        Unit spaceship = new Unit(Unit.Type.SPACESHIP, new HumanPlayer("player1", java.awt.Color.BLUE));
-        spaceship.setHex(new Hex(1, 1));
+        Unit spaceship = new Unit(
+                Unit.Type.SPACESHIP,
+                new HumanPlayer("player1", java.awt.Color.BLUE),
+                new Hex(1, 1));
         gameViewPane.addUnit(spaceship);
         gameViewPane.setOnMouseClicked(gameViewPane::onMouseClicked);
         StackPane gameViewStackPane = new StackPane(mapPane, gameViewPane);

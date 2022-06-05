@@ -2,6 +2,7 @@ package org.heckcorp.spacegame;
 
 import org.heckcorp.spacegame.map.Hex;
 import org.heckcorp.spacegame.map.HexMap;
+import org.heckcorp.spacegame.map.Point;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -13,17 +14,25 @@ import java.util.logging.Logger;
 
 /**
  * Stores all the game-level information about a unit.
- *
- * @author Joachim Heck
- *
- * @invariant getOwner() never returns null.
- *
  */
-public class Unit extends GamePiece implements Serializable {
+public class Unit implements Serializable {
 
-    /**
-     * @author    Joachim Heck
-     */
+    public Hex getHex() {
+        return hex;
+    }
+
+    public Player getOwner() {
+        return owner;
+    }
+
+    public Point getPosition() {
+        return hex.getPosition();
+    }
+
+    public void setOwner(Player owner) {
+        this.owner = owner;
+    }
+
     public enum Health {
         DAMAGED, DESTROYED, HEALTHY
     }
@@ -92,7 +101,6 @@ public class Unit extends GamePiece implements Serializable {
      */
     public boolean canAttack(Hex hex) {
         // TODO: make hex non-null.
-        assert getHex() != null;
         return getHex().isAdjacentTo(hex) &&
             hex.getOwner() != null && hex.getOwner() != getOwner() &&
             !hex.getUnits().isEmpty() && getMovesLeft() > 0 && getAttacksLeft() > 0;
@@ -156,17 +164,10 @@ public class Unit extends GamePiece implements Serializable {
         return type.attacks;
     }
 
-    /**
-     * @return  the attacksLeft
-     * @uml.property  name="attacksLeft"
-     */
     public int getAttacksLeft() {
         return attacksLeft;
     }
 
-    /**
-     * @return the defense strength of this unit.
-     */
     public int getDefense() {
         if (health == Health.DAMAGED) {
             return type.defense / 2;
@@ -174,14 +175,11 @@ public class Unit extends GamePiece implements Serializable {
         return type.defense;
     }
 
-    /**
-     * @return  the health
-     * @uml.property  name="health"
-     */
     public Health getHealth() {
         return health;
     }
 
+    // TODO: make non-null?
     @Nullable
     public Hex getLastHex() {
         return lastHex;
@@ -194,10 +192,6 @@ public class Unit extends GamePiece implements Serializable {
         return type.movement;
     }
 
-    /**
-     * @return  the movesLeft
-     * @uml.property  name="movesLeft"
-     */
     public int getMovesLeft() {
         return movesLeft;
     }
@@ -209,7 +203,6 @@ public class Unit extends GamePiece implements Serializable {
      * @pre !getPath().isEmpty()
      */
     public Direction getNextDirection() {
-        assert getHex() != null;
         return HexMap.getDirection(getHex(), getPath().get(0));
     }
 
@@ -260,7 +253,7 @@ public class Unit extends GamePiece implements Serializable {
      */
     public boolean move() {
         Hex destHex = getPath().get(0);
-        assert getHex() != null && destHex.isAdjacentTo(getHex());
+        assert destHex.isAdjacentTo(getHex());
 
         if (getMovesLeft() > 0 && (destHex.getOwner() == getOwner() || destHex.isEmpty())) {
             lastHex = getHex();
@@ -288,17 +281,10 @@ public class Unit extends GamePiece implements Serializable {
         skipped = false;
     }
 
-    /**
-     * @param asleep  the asleep to set
-     * @uml.property  name="asleep"
-     */
     public void setAsleep(boolean asleep) {
         this.asleep = asleep;
     }
-    /**
-     * @param attacksLeft  the attacksLeft to set
-     * @uml.property  name="attacksLeft"
-     */
+
     public void setAttacksLeft(int attacksLeft) {
         this.attacksLeft = attacksLeft;
     }
@@ -312,31 +298,30 @@ public class Unit extends GamePiece implements Serializable {
     public void setHealth(Health health) {
         this.health = health;
 
-        if (this.health == Health.DESTROYED && getHex() != null) {
+        if (this.health == Health.DESTROYED) {
             getHex().removeUnit(this);
             getOwner().removeUnit(this);
         }
     }
-    @Override
     public void setHex(Hex hex) {
-        super.setHex(hex);
+        this.hex = hex;
         lastHex = hex;
     }
-    /**
-     * @param movementLeft the movesLeft to set
-     * @uml.property  name="movesLeft"
-     */
+
     public void setMovesLeft(int movementLeft) {
         this.movesLeft = movementLeft;
     }
+
     public void setPath(List<Hex> path) {
         this.path.clear();
         this.path.addAll(path);
     }
+
     public void skip() {
         log.fine("Skipping " + this);
         skipped = true;
     }
+
     public void takeDamage() {
         if (health == Health.HEALTHY) {
             setHealth(Health.DAMAGED);
@@ -356,13 +341,13 @@ public class Unit extends GamePiece implements Serializable {
     }
 
     public String toString() {
-        assert getHex() != null;
         return type + " (" + getOwner().getName() + ") at " + getHex().getPosition();
     }
 
-    public Unit(Type type, Player player) {
-        super(player);
+    public Unit(Type type, Player player, Hex hex) {
         this.type = type;
+        this.owner = player;
+        this.hex = hex;
 
         this.path = new ArrayList<>();
 
@@ -395,6 +380,9 @@ public class Unit extends GamePiece implements Serializable {
     private final Type type;
 
     private static final Logger log = Logger.getLogger(Unit.class.getName());
+
+    protected Hex hex;
+    private transient Player owner;
 
     @Serial
     private static final long serialVersionUID = 1L;

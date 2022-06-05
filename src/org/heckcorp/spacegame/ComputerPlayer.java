@@ -37,7 +37,7 @@ public class ComputerPlayer extends Player {
             if (destination == null) {
                 Optional<Unit> target = getClosest(unit, model.getKnownEnemies(this));
 
-                if (target.isPresent() && Calculator.distance(unit, target.get()) > 1) {
+                if (target.isPresent() && Calculator.distance(unit.getPosition(), target.get().getPosition()) > 1) {
                     getLog().finer("Moving toward enemy: " + target.get());
                     destination = target.get().getHex();
                 }
@@ -66,7 +66,7 @@ public class ComputerPlayer extends Player {
         getLog().fine("Move finished.");
     }
 
-    private <P extends Positionable> Optional<P> getClosest(Positionable base, Set<P> group) {
+    private Optional<Unit> getClosest(Unit base, Set<Unit> group) {
         return group.stream().min((p1, p2) ->
             Calculator.distance(base.getPosition(), p2.getPosition())
                     - Calculator.distance(base.getPosition(), p1.getPosition())

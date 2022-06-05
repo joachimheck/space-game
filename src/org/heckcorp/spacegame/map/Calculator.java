@@ -1,14 +1,6 @@
 package org.heckcorp.spacegame.map;
 
-import org.heckcorp.spacegame.Positionable;
-
 public final class Calculator {
-    public static int distance(Positionable p1, Positionable p2) {
-        assert p1.getPosition() != null;
-        assert p2.getPosition() != null;
-        return distance(p1.getPosition(), p2.getPosition());
-    }
-
     /**
      * @return the distance between hex coordinates p1 and p2.
      *

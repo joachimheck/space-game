@@ -21,9 +21,8 @@ public class NewGameInitializer {
                     ? mainPlayerView : new ComputerPlayerView();
             views.add(playerView);
 
-            List<Unit> units = createUnits(player);
+            List<Unit> units = createUnits(player, map);
             for (Unit unit : units) {
-                unit.setHex(map.getRandomHex());
                 map.addUnit(unit, unit.getPosition());
                 playerView.addUnit(unit);
                 if (playerView != mainPlayerView) {
@@ -69,7 +68,7 @@ public class NewGameInitializer {
         return player;
     }
 
-    private List<Unit> createUnits(Player player) {
-        return List.of(new Unit(Unit.Type.SPACESHIP, player));
+    private List<Unit> createUnits(Player player, HexMap map) {
+        return List.of(new Unit(Unit.Type.SPACESHIP, player, map.getRandomHex()));
     }
 }
