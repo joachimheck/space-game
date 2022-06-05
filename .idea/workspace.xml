@@ -4,10 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3bc8c235-c2bd-4343-a6d7-4a6d6d4b49b0" name="Changes" comment="Made Unit's hex field non-nullable.">
+    <list default="true" id="3bc8c235-c2bd-4343-a6d7-4a6d6d4b49b0" name="Changes" comment="Updated the mouse click handler to pay attention to which button was clicked.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/Unit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/Unit.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/swing/SwingView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/swing/SwingView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/javafx/GameViewPane.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/javafx/GameViewPane.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -128,13 +127,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1653411560064</updated>
-    </task>
-    <task id="LOCAL-00020" summary="Rescale the hex bitmap to better fit a 64x64 counter.">
-      <created>1653845371839</created>
-      <option name="number" value="00020" />
-      <option name="presentableId" value="LOCAL-00020" />
-      <option name="project" value="LOCAL" />
-      <updated>1653845371839</updated>
     </task>
     <task id="LOCAL-00021" summary="Reversed the hex border color to look better against a dark (spacey) background.">
       <created>1653845498416</created>
@@ -472,7 +464,14 @@
       <option name="project" value="LOCAL" />
       <updated>1654436879009</updated>
     </task>
-    <option name="localTasksCounter" value="69" />
+    <task id="LOCAL-00069" summary="Made Unit.lastHex non-nullable.">
+      <created>1654437168765</created>
+      <option name="number" value="00069" />
+      <option name="presentableId" value="LOCAL-00069" />
+      <option name="project" value="LOCAL" />
+      <updated>1654437168765</updated>
+    </task>
+    <option name="localTasksCounter" value="70" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -501,8 +500,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
-    <MESSAGE value="Added a JavaFx application and eventually updated Gradle to compile it." />
-    <MESSAGE value="Got the old code and the new JavaFxGame class building, and modularized the entire project." />
     <MESSAGE value="Got the old code and the new JavaFxGame class building, and modularized the entire project. Since I changed the default non-nullness specification, I had to fix a bunch of null-related warnings. I did this everywhere but Pathfinder, which needs more refactoring to get rid of boxed integers." />
     <MESSAGE value="Got the old code and the new JavaFxGame class building, and modularized the entire project. Since I changed the default non-nullness specification, I had to fix a bunch of null-related warnings. I did this everywhere but Pathfinder, which needs more refactoring to get rid of boxed integers, and DefaultModel, which needs an initializer." />
     <MESSAGE value="Removed GameStateManager from DefaultModel and added some new initialization code that lets some of its fields be non-null. I also updated NewGameInitializer for the same reason." />
@@ -526,7 +523,9 @@
     <MESSAGE value="Whew! Updated the old code (including the swing classes) to use the new local Point class instead of java.awt.Point, when referring to hex coordinates and the like." />
     <MESSAGE value="Whew! Updated the old code (including the swing classes) to use the new local Point class instead of java.awt.Point, when referring to hex coordinates and the like. Also fixed a bunch of warnings, though not all." />
     <MESSAGE value="Made Unit's hex field non-nullable." />
-    <option name="LAST_COMMIT_MESSAGE" value="Made Unit's hex field non-nullable." />
+    <MESSAGE value="Made Unit.lastHex non-nullable." />
+    <MESSAGE value="Updated the mouse click handler to pay attention to which button was clicked." />
+    <option name="LAST_COMMIT_MESSAGE" value="Updated the mouse click handler to pay attention to which button was clicked." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

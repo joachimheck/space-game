@@ -6,6 +6,7 @@ import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -23,7 +24,6 @@ public class GameViewPane extends Pane {
             Image spaceshipImage = new Image(Util.getResource("resource/spaceship.png"));
             Counter counter = new Counter(spaceshipImage);
             getChildren().add(counter);
-            assert unit.getPosition() != null;
             Point2D pixelPos = mapUtils.getHexCenter(new Point(unit.getPosition().x(), unit.getPosition().y()));
             setCounterLocation(counter, pixelPos, spaceshipImage.getWidth(), spaceshipImage.getHeight());
         } catch (FileNotFoundException e) {
@@ -50,10 +50,12 @@ public class GameViewPane extends Pane {
     }
 
     public void onMouseClicked(MouseEvent mouseEvent) {
-        getChildren().remove(selectionHexagon);
-        Point2D position = new Point2D(mouseEvent.getX(), mouseEvent.getY());
-        Point hexCoordinates = mapUtils.getHexCoordinates(position);
-        selectHex(hexCoordinates);
+        if (mouseEvent.getButton() == MouseButton.PRIMARY) {
+            getChildren().remove(selectionHexagon);
+            Point2D position = new Point2D(mouseEvent.getX(), mouseEvent.getY());
+            Point hexCoordinates = mapUtils.getHexCoordinates(position);
+            selectHex(hexCoordinates);
+        }
     }
 
     private void selectHex(Point hexCoordinates) {
