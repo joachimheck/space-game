@@ -1,6 +1,8 @@
 package org.heckcorp.spacegame.map.swing;
 
 import org.heckcorp.spacegame.map.HexMap;
+import org.heckcorp.spacegame.map.MouseButton;
+import org.heckcorp.spacegame.map.ViewMonitor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -146,7 +148,9 @@ public class MapView extends JPanel implements AdjustmentListener
                 @Nullable org.heckcorp.spacegame.map.Point hexPos = mapPane.getHexCoordinates(e.getPoint());
 
                 if (hexPos != null && map.isInMap(hexPos)) {
-                    viewMonitor.hexClicked(hexPos, e.getButton());
+                    viewMonitor.hexClicked(
+                            hexPos,
+                            e.getButton() == MouseEvent.BUTTON1 ? MouseButton.PRIMARY : MouseButton.SECONDARY);
                 }
 
                 if (e.getButton() == MouseEvent.BUTTON2) {

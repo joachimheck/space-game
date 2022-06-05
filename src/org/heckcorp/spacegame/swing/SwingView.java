@@ -15,7 +15,7 @@ import org.heckcorp.spacegame.map.swing.MapPane;
 import org.heckcorp.spacegame.map.swing.MapView;
 import org.heckcorp.spacegame.map.swing.MiniMap;
 import org.heckcorp.spacegame.map.swing.UIResources;
-import org.heckcorp.spacegame.map.swing.ViewMonitor;
+import org.heckcorp.spacegame.map.ViewMonitor;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;

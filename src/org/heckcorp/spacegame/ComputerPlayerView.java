@@ -2,7 +2,7 @@ package org.heckcorp.spacegame;
 
 import org.heckcorp.spacegame.map.Hex;
 import org.heckcorp.spacegame.map.HexMap;
-import org.heckcorp.spacegame.map.swing.ViewMonitor;
+import org.heckcorp.spacegame.map.ViewMonitor;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;

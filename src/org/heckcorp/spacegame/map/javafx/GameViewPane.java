@@ -6,14 +6,15 @@ import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
-import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.util.Duration;
 import org.heckcorp.spacegame.Unit;
+import org.heckcorp.spacegame.map.MouseButton;
 import org.heckcorp.spacegame.map.Point;
+import org.heckcorp.spacegame.map.ViewMonitor;
 import org.heckcorp.spacegame.map.swing.Util;
 
 import java.io.FileNotFoundException;
@@ -45,26 +46,22 @@ public class GameViewPane extends Pane {
 //        pathTransition.setAutoReverse(true);
 //        pathTransition.play();
 
-    public GameViewPane(MapUtils mapUtils) {
-        this.mapUtils = mapUtils;
-    }
-
     public void onMouseClicked(MouseEvent mouseEvent) {
-        if (mouseEvent.getButton() == MouseButton.PRIMARY) {
-            getChildren().remove(selectionHexagon);
-            Point2D position = new Point2D(mouseEvent.getX(), mouseEvent.getY());
-            Point hexCoordinates = mapUtils.getHexCoordinates(position);
-            selectHex(hexCoordinates);
-        }
+        Point2D position = new Point2D(mouseEvent.getX(), mouseEvent.getY());
+        Point hexCoordinates = mapUtils.getHexCoordinates(position);
+        viewMonitor.hexClicked(hexCoordinates, getMouseButton(mouseEvent));
     }
 
-    private void selectHex(Point hexCoordinates) {
-        if (hexCoordinates.equals(selectedHex)) {
-            selectedHex = NO_SELECTED_HEX;
-            return;
-        } else {
-            selectedHex = hexCoordinates;
-        }
+    private MouseButton getMouseButton(MouseEvent mouseEvent) {
+        return switch (mouseEvent.getButton()) {
+            case PRIMARY -> MouseButton.PRIMARY;
+            case SECONDARY -> MouseButton.SECONDARY;
+            default -> MouseButton.UNKNOWN;
+        };
+    }
+
+    public void selectHex(Point hexCoordinates) {
+        selectedHex = hexCoordinates;
         selectionHexagon = mapUtils.getHexagon(selectedHex);
         selectionHexagon.getStrokeDashArray().setAll(10d, 10d);
         selectionHexagon.setStrokeWidth(2);
@@ -94,9 +91,20 @@ public class GameViewPane extends Pane {
         timeline.play();
     }
 
+    public void unselectHex() {
+        selectedHex = NO_SELECTED_HEX;
+        getChildren().remove(selectionHexagon);
+    }
+
+    public GameViewPane(MapUtils mapUtils, ViewMonitor viewMonitor) {
+        this.mapUtils = mapUtils;
+        this.viewMonitor = viewMonitor;
+    }
+
     private final MapUtils mapUtils;
     private Polygon selectionHexagon = new Polygon(0d, 0d);
     private Point selectedHex = NO_SELECTED_HEX;
+    private final ViewMonitor viewMonitor;
 
     private static final Point NO_SELECTED_HEX = new Point(-1, -1);
 }

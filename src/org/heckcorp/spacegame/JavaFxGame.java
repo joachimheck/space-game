@@ -24,15 +24,19 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.heckcorp.spacegame.map.Hex;
 import org.heckcorp.spacegame.map.HexMap;
+import org.heckcorp.spacegame.map.MouseButton;
+import org.heckcorp.spacegame.map.Point;
+import org.heckcorp.spacegame.map.ViewMonitor;
 import org.heckcorp.spacegame.map.javafx.GameViewPane;
 import org.heckcorp.spacegame.map.javafx.MapCanvas;
 import org.heckcorp.spacegame.map.javafx.MapUtils;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.FileNotFoundException;
 
 import static org.heckcorp.spacegame.Constants.*;
 
-public class JavaFxGame extends Application {
+public class JavaFxGame extends Application implements ViewMonitor {
 
     @Override
     public void start(Stage stage) throws FileNotFoundException {
@@ -41,7 +45,7 @@ public class JavaFxGame extends Application {
         MapUtils mapUtils = new MapUtils();
         BorderPane mapPane = new BorderPane(new MapCanvas(new HexMap(MAP_WIDTH, MAP_HEIGHT), mapUtils));
         mapPane.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
-        GameViewPane gameViewPane = new GameViewPane(mapUtils);
+        gameViewPane = new GameViewPane(mapUtils, this);
         Unit spaceship = new Unit(
                 Unit.Type.SPACESHIP,
                 new HumanPlayer("player1", java.awt.Color.BLUE),
@@ -73,7 +77,20 @@ public class JavaFxGame extends Application {
         stage.show();
     }
 
+    @Override
+    public void hexClicked(Point hexPos, MouseButton button) {
+        assert gameViewPane != null;
+        gameViewPane.unselectHex();
+        if (button == MouseButton.PRIMARY) {
+            gameViewPane.selectHex(hexPos);
+        }
+    }
+
     public static void main(String[] args) {
         launch();
     }
+
+    // TODO: make final or better yet, move this and the ViewMonitor implementation into a separate class.
+    @Nullable
+    private GameViewPane gameViewPane;
 }

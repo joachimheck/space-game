@@ -1,16 +1,16 @@
 package org.heckcorp.spacegame;
 
+import org.heckcorp.spacegame.map.MouseButton;
+import org.heckcorp.spacegame.map.ViewMonitor;
 import org.heckcorp.spacegame.map.swing.UIResources;
 import org.heckcorp.spacegame.map.swing.Util;
-import org.heckcorp.spacegame.map.swing.ViewMonitor;
 import org.heckcorp.spacegame.swing.SwingView;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
@@ -400,16 +400,13 @@ public class SpaceGame extends JPanel implements ViewMonitor {
     @Nullable private GameModel model;
     @Nullable private SwingView view;
 
-    public void hexClicked(final org.heckcorp.spacegame.map.Point hexPos, int button) {
+    public void hexClicked(final org.heckcorp.spacegame.map.Point hexPos, MouseButton button) {
         assert model != null;
 
-        if (button == MouseEvent.BUTTON1) {
-            // Button 1 selects.
+        if (button == MouseButton.PRIMARY) {
             executor.execute(() -> model.selectHex(hexPos));
-        } else if (button == MouseEvent.BUTTON2) {
-            // Button 2 does nothing.
-        } else if (button == MouseEvent.BUTTON3) {
-            // Button 3 moves a unit.
+        } else if (button == MouseButton.SECONDARY) {
+            // The secondary button moves a unit.
             executor.execute(() -> {
                 model.setSelectedUnitDestination(hexPos);
                 model.moveSelectedUnit();
