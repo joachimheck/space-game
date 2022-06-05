@@ -6,15 +6,12 @@ import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.util.Duration;
 import org.heckcorp.spacegame.Unit;
-import org.heckcorp.spacegame.map.MouseButton;
 import org.heckcorp.spacegame.map.Point;
-import org.heckcorp.spacegame.map.ViewMonitor;
 import org.heckcorp.spacegame.map.swing.Util;
 
 import java.io.FileNotFoundException;
@@ -45,20 +42,6 @@ public class GameViewPane extends Pane {
 //        pathTransition.setOrientation(PathTransition.OrientationType.NONE);
 //        pathTransition.setAutoReverse(true);
 //        pathTransition.play();
-
-    public void onMouseClicked(MouseEvent mouseEvent) {
-        Point2D position = new Point2D(mouseEvent.getX(), mouseEvent.getY());
-        Point hexCoordinates = mapUtils.getHexCoordinates(position);
-        viewMonitor.hexClicked(hexCoordinates, getMouseButton(mouseEvent));
-    }
-
-    private MouseButton getMouseButton(MouseEvent mouseEvent) {
-        return switch (mouseEvent.getButton()) {
-            case PRIMARY -> MouseButton.PRIMARY;
-            case SECONDARY -> MouseButton.SECONDARY;
-            default -> MouseButton.UNKNOWN;
-        };
-    }
 
     public void selectHex(Point hexCoordinates) {
         selectedHex = hexCoordinates;
@@ -96,15 +79,13 @@ public class GameViewPane extends Pane {
         getChildren().remove(selectionHexagon);
     }
 
-    public GameViewPane(MapUtils mapUtils, ViewMonitor viewMonitor) {
+    public GameViewPane(MapUtils mapUtils) {
         this.mapUtils = mapUtils;
-        this.viewMonitor = viewMonitor;
     }
 
     private final MapUtils mapUtils;
     private Polygon selectionHexagon = new Polygon(0d, 0d);
     private Point selectedHex = NO_SELECTED_HEX;
-    private final ViewMonitor viewMonitor;
 
     private static final Point NO_SELECTED_HEX = new Point(-1, -1);
 }

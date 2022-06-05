@@ -4,13 +4,14 @@ import javafx.geometry.Point2D;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import org.heckcorp.spacegame.JavaFxModel;
 import org.heckcorp.spacegame.map.HexMap;
 import org.heckcorp.spacegame.map.Point;
 
 public class MapCanvas extends Canvas {
-    public MapCanvas(HexMap map, MapUtils mapUtils) {
+    public MapCanvas(JavaFxModel model, MapUtils mapUtils) {
         this.mapUtils = mapUtils;
-
+        HexMap map = model.getMap();
         setWidth(mapUtils.getTileWidth() * (map.width + 1.0 / 3));
         setHeight(mapUtils.getTileHeight() * (map.height + 1.0 / 2) + 1);
 

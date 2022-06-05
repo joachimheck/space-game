@@ -1,14 +1,11 @@
 package org.heckcorp.spacegame;
 
 import javafx.application.Application;
-import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.BorderStroke;
@@ -24,6 +21,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.heckcorp.spacegame.map.Hex;
 import org.heckcorp.spacegame.map.HexMap;
+import org.heckcorp.spacegame.map.javafx.ControllerPane;
 import org.heckcorp.spacegame.map.javafx.GameViewPane;
 import org.heckcorp.spacegame.map.javafx.MapCanvas;
 import org.heckcorp.spacegame.map.javafx.MapUtils;
@@ -36,21 +34,19 @@ public class JavaFxGame extends Application {
 
     @Override
     public void start(Stage stage) throws FileNotFoundException {
-//        GameModel model = new NewGameInitializer().initialize(view, Constants.MAP_WIDTH, Constants.MAP_HEIGHT);
-
         MapUtils mapUtils = new MapUtils();
-        BorderPane mapPane = new BorderPane(new MapCanvas(new HexMap(MAP_WIDTH, MAP_HEIGHT), mapUtils));
-        mapPane.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY, Insets.EMPTY)));
-        JavaFxViewMonitor viewMonitor = new JavaFxViewMonitor();
-        GameViewPane gameViewPane = new GameViewPane(mapUtils, viewMonitor);
-        viewMonitor.setGameViewPane(gameViewPane);
+        JavaFxModel model = new JavaFxModel(new HexMap(MAP_WIDTH, MAP_HEIGHT));
+        GameViewPane gameViewPane = new GameViewPane(mapUtils);
+        // TODO: add the ship to the model, not the view.
         Unit spaceship = new Unit(
                 Unit.Type.SPACESHIP,
                 new HumanPlayer("player1", java.awt.Color.BLUE),
                 new Hex(1, 1));
         gameViewPane.addUnit(spaceship);
-        gameViewPane.setOnMouseClicked(gameViewPane::onMouseClicked);
-        StackPane gameViewStackPane = new StackPane(mapPane, gameViewPane);
+        ControllerPane controllerPane = new ControllerPane(model, gameViewPane, mapUtils);
+        controllerPane.setOnMouseClicked(controllerPane::onMouseClicked);
+        BorderPane mapPane = new BorderPane(new MapCanvas(model, mapUtils));
+        StackPane gameViewStackPane = new StackPane(mapPane, gameViewPane, controllerPane);
         gameViewStackPane.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(10))));
         ScrollPane mapScrollPane = new ScrollPane(gameViewStackPane);
         mapScrollPane.setPrefSize(UI_COMPONENT_LARGE_WIDTH, UI_COMPONENT_LARGE_HEIGHT);
