@@ -27,17 +27,14 @@ public class GameViewPane extends Pane {
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
-//        Rotate rotate = new Rotate(90);
-//        imageView.getTransforms().add(rotate);
-
-
-
     }
 
     public void setCounterLocation(Counter counter, Point2D location, double width, double height) {
         counter.relocate(location.getX() - (width / 2.0), location.getY() - (height / 2.0));
     }
 
+//        Rotate rotate = new Rotate(90);
+//        imageView.getTransforms().add(rotate);
 //        Path path = new Path();
 //        path.getElements().add(new MoveTo(200, 200));
 //        path.getElements().add(new CubicCurveTo(400, 40, 175, 250, 500, 150));
@@ -54,7 +51,13 @@ public class GameViewPane extends Pane {
         getChildren().remove(selectionHexagon);
         Point2D position = new Point2D(mouseEvent.getX(), mouseEvent.getY());
         MapUtils.Point hexCoordinates = mapUtils.getHexCoordinates(position);
-        selectionHexagon = mapUtils.getHexagon(hexCoordinates);
+        if (hexCoordinates.equals(selectedHex)) {
+            selectedHex = NO_SELECTED_HEX;
+            return;
+        } else {
+            selectedHex = hexCoordinates;
+        }
+        selectionHexagon = mapUtils.getHexagon(selectedHex);
         selectionHexagon.getStrokeDashArray().setAll(10d, 10d);
         selectionHexagon.setStrokeWidth(2);
         selectionHexagon.setStroke(Color.YELLOW);
@@ -81,10 +84,11 @@ public class GameViewPane extends Pane {
         );
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
-
-
     }
 
     private final MapUtils mapUtils;
     private Polygon selectionHexagon = new Polygon(0d, 0d);
+    private MapUtils.Point selectedHex = NO_SELECTED_HEX;
+
+    private static final MapUtils.Point NO_SELECTED_HEX = new MapUtils.Point(-1, -1);
 }

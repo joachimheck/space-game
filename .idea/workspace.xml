@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3bc8c235-c2bd-4343-a6d7-4a6d6d4b49b0" name="Changes" comment="Changed GameViewPane to no longer implement GameView, so it doesn't have to bring in AWT imports.">
+    <list default="true" id="3bc8c235-c2bd-4343-a6d7-4a6d6d4b49b0" name="Changes" comment="Animated the selection line.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/javafx/GameViewPane.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/javafx/GameViewPane.java" afterDir="false" />
     </list>
@@ -65,15 +65,15 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "last_opened_file_path": "C:/Users/joach_000/Documents/Programming Projects/Java/space-game/src/org/heckcorp/spacegame/map/javafx",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "preferences.pluginManager"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/joach_000/Documents/Programming Projects/Java/space-game/src/org/heckcorp/spacegame/map/javafx&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="org.heckcorp.spacegame.desktop.view" />
@@ -126,13 +126,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1653411560064</updated>
-    </task>
-    <task id="LOCAL-00015" summary="Removed City.">
-      <created>1653746320613</created>
-      <option name="number" value="00015" />
-      <option name="presentableId" value="LOCAL-00015" />
-      <option name="project" value="LOCAL" />
-      <updated>1653746320613</updated>
     </task>
     <task id="LOCAL-00016" summary="Removed Terrain.">
       <created>1653747451925</created>
@@ -470,7 +463,14 @@
       <option name="project" value="LOCAL" />
       <updated>1654349652390</updated>
     </task>
-    <option name="localTasksCounter" value="64" />
+    <task id="LOCAL-00064" summary="Animated the selection line.">
+      <created>1654349915073</created>
+      <option name="number" value="00064" />
+      <option name="presentableId" value="LOCAL-00064" />
+      <option name="project" value="LOCAL" />
+      <updated>1654349915073</updated>
+    </task>
+    <option name="localTasksCounter" value="65" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -499,7 +499,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
-    <MESSAGE value="Get movement working again, though hackily, with a modified wait/notify setup." />
     <MESSAGE value="Shuffled the packages a bit, mostly to try to  better isolate the map code from the rest of the game, with an eye toward making it a library in the future." />
     <MESSAGE value="Deleted my custom SequentialExecutor, replacing it with SingleThreadExecutor." />
     <MESSAGE value="Cleaned up some TODOs." />
@@ -524,7 +523,8 @@
     <MESSAGE value="Added mouse click handling, printing the clicked-on hex in a log message." />
     <MESSAGE value="Updated click handling to display a dashed line around the selected hex." />
     <MESSAGE value="Changed GameViewPane to no longer implement GameView, so it doesn't have to bring in AWT imports." />
-    <option name="LAST_COMMIT_MESSAGE" value="Changed GameViewPane to no longer implement GameView, so it doesn't have to bring in AWT imports." />
+    <MESSAGE value="Animated the selection line." />
+    <option name="LAST_COMMIT_MESSAGE" value="Animated the selection line." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -538,11 +538,6 @@
           <url>file://$PROJECT_DIR$/src/org/heckcorp/spacegame/swing/SwingView.java</url>
           <line>40</line>
           <option name="timeStamp" value="4" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/org/heckcorp/spacegame/map/javafx/GameViewPane.java</url>
-          <line>24</line>
-          <option name="timeStamp" value="7" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
