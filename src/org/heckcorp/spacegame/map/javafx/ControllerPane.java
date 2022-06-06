@@ -42,17 +42,17 @@ public class ControllerPane extends Pane {
             }
         });
         model.currentUnits().addListener((observable, oldValue, newValue) -> {
-            Sets.difference(oldValue, newValue).forEach(u -> view.removeCounter(countersByUnit.get(u)));
+            Sets.difference(oldValue, newValue).forEach(u -> view.removeCounter(unitCounters.get(u)));
             Sets.difference(newValue, oldValue).forEach(u -> {
-                countersByUnit.put(u, new Counter(SPACESHIP_IMAGE));
-                view.addCounter(countersByUnit.get(u), u.getPosition());
+                unitCounters.put(u, new Counter(SPACESHIP_IMAGE));
+                view.addCounter(unitCounters.get(u), u.getPosition());
             });
         });
     }
 
     private final JavaFxModel model;
     private final MapUtils mapUtils;
-    private final Map<Unit, Counter> countersByUnit = new HashMap<>();
+    private final Map<Unit, Counter> unitCounters = new HashMap<>();
 
     private final Image SPACESHIP_IMAGE = new Image(Util.getResource("resource/spaceship.png"));
 }
