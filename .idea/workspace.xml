@@ -4,10 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3bc8c235-c2bd-4343-a6d7-4a6d6d4b49b0" name="Changes" comment="Added basic unit movement, by removing the unit from the map and re-adding it elsewhere, while the view listens.">
+    <list default="true" id="3bc8c235-c2bd-4343-a6d7-4a6d6d4b49b0" name="Changes" comment="Moved Unit out of GameViewPane, so it only knows about Counters. That's good, but it means that the controller has to know about counters, which may not be great.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/JavaFxModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/JavaFxModel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/javafx/ControllerPane.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/javafx/ControllerPane.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/javafx/Counter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/javafx/Counter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/javafx/GameViewPane.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/javafx/GameViewPane.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -67,15 +67,15 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/joach_000/Documents/Programming Projects/Java/space-game/src/org/heckcorp/spacegame/map/javafx&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.IDE.editor.colors.Language Defaults&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "last_opened_file_path": "C:/Users/joach_000/Documents/Programming Projects/Java/space-game/src/org/heckcorp/spacegame/map/javafx",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "preferences.keymap"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="org.heckcorp.spacegame" />
@@ -130,20 +130,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1653411560064</updated>
-    </task>
-    <task id="LOCAL-00027" summary="Removed references to GamePiece from Player. For now, we're always dealing with Units.">
-      <created>1653915893418</created>
-      <option name="number" value="00027" />
-      <option name="presentableId" value="LOCAL-00027" />
-      <option name="project" value="LOCAL" />
-      <updated>1653915893418</updated>
-    </task>
-    <task id="LOCAL-00028" summary="Comment cleanup">
-      <created>1653916794437</created>
-      <option name="number" value="00028" />
-      <option name="presentableId" value="LOCAL-00028" />
-      <option name="project" value="LOCAL" />
-      <updated>1653916794437</updated>
     </task>
     <task id="LOCAL-00029" summary="Added jsr305 and default non-nullness.">
       <created>1653918619018</created>
@@ -474,7 +460,21 @@
       <option name="project" value="LOCAL" />
       <updated>1654447768561</updated>
     </task>
-    <option name="localTasksCounter" value="76" />
+    <task id="LOCAL-00076" summary="Moved Unit out of GameViewPane, so it only knows about Counters. That's good, but it means that the controller has to know about counters, which may not be great.">
+      <created>1654517649286</created>
+      <option name="number" value="00076" />
+      <option name="presentableId" value="LOCAL-00076" />
+      <option name="project" value="LOCAL" />
+      <updated>1654517649286</updated>
+    </task>
+    <task id="LOCAL-00077" summary="Moved Unit out of GameViewPane, so it only knows about Counters. That's good, but it means that the controller has to know about counters, which may not be great.">
+      <created>1654518675217</created>
+      <option name="number" value="00077" />
+      <option name="presentableId" value="LOCAL-00077" />
+      <option name="project" value="LOCAL" />
+      <updated>1654518675217</updated>
+    </task>
+    <option name="localTasksCounter" value="78" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -503,7 +503,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
-    <MESSAGE value="Removed NeutralPlayer and associated code." />
     <MESSAGE value="Added a counter image, rotation, and an animation to JavaFxGame." />
     <MESSAGE value="Set up the basic application layout in JavaFxGame." />
     <MESSAGE value="Added a placeholder menu bar." />
@@ -528,7 +527,19 @@
     <MESSAGE value="Refactor the MVC situation. There's now a JavaFxModel class that contains the map and selected hex, and the selected hex is a property whose changes are listened to by the view. The user inputs enter through a new controller pane." />
     <MESSAGE value="Units are added to the model, not the view." />
     <MESSAGE value="Added basic unit movement, by removing the unit from the map and re-adding it elsewhere, while the view listens." />
-    <option name="LAST_COMMIT_MESSAGE" value="Added basic unit movement, by removing the unit from the map and re-adding it elsewhere, while the view listens." />
+    <MESSAGE value="Moved Unit out of GameViewPane, so it only knows about Counters. That's good, but it means that the controller has to know about counters, which may not be great." />
+    <option name="LAST_COMMIT_MESSAGE" value="Moved Unit out of GameViewPane, so it only knows about Counters. That's good, but it means that the controller has to know about counters, which may not be great." />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/org/heckcorp/spacegame/map/javafx/GameViewPane.java</url>
+          <line>83</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

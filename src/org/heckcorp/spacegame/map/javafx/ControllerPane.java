@@ -1,5 +1,6 @@
 package org.heckcorp.spacegame.map.javafx;
 
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
@@ -34,20 +35,23 @@ public class ControllerPane extends Pane {
         this.model = model;
         this.mapUtils = mapUtils;
 
-        model.currentSelectedHexPosition().addListener((observable, oldValue, newValue) -> {
+        model.selectedHexPositionProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue.isEmpty()) {
                 view.unselectHex();
             } else {
                 view.selectHex(newValue.get());
             }
         });
-        model.currentUnits().addListener((observable, oldValue, newValue) -> {
+        model.unitsProperty().addListener((observable, oldValue, newValue) -> {
             Sets.difference(oldValue, newValue).forEach(u -> view.removeCounter(unitCounters.get(u)));
             Sets.difference(newValue, oldValue).forEach(u -> {
                 unitCounters.put(u, new Counter(SPACESHIP_IMAGE));
                 view.addCounter(unitCounters.get(u), u.getPosition());
             });
         });
+        model.unitPositionsProperty().addListener((observable, oldValue, newValue) ->
+                Maps.difference(oldValue, newValue).entriesDiffering().forEach((u, d) ->
+                        view.moveCounter(unitCounters.get(u), d.leftValue(), d.rightValue())));
     }
 
     private final JavaFxModel model;
