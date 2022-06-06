@@ -4,11 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3bc8c235-c2bd-4343-a6d7-4a6d6d4b49b0" name="Changes" comment="Units are added to the model, not the view.">
+    <list default="true" id="3bc8c235-c2bd-4343-a6d7-4a6d6d4b49b0" name="Changes" comment="Added basic unit movement, by removing the unit from the map and re-adding it elsewhere, while the view listens.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/JavaFxGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/JavaFxGame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/JavaFxModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/JavaFxModel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/javafx/ControllerPane.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/javafx/ControllerPane.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/javafx/Counter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/javafx/Counter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/javafx/GameViewPane.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/javafx/GameViewPane.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -68,15 +67,15 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "last_opened_file_path": "C:/Users/joach_000/Documents/Programming Projects/Java/space-game/src/org/heckcorp/spacegame/map/javafx",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "reference.settingsdialog.IDE.editor.colors.Language Defaults"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/joach_000/Documents/Programming Projects/Java/space-game/src/org/heckcorp/spacegame/map/javafx&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.IDE.editor.colors.Language Defaults&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="org.heckcorp.spacegame" />
@@ -131,13 +130,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1653411560064</updated>
-    </task>
-    <task id="LOCAL-00026" summary="Removed references to GamePiece from Player. For now, we're always dealing with Units.">
-      <created>1653915860112</created>
-      <option name="number" value="00026" />
-      <option name="presentableId" value="LOCAL-00026" />
-      <option name="project" value="LOCAL" />
-      <updated>1653915860112</updated>
     </task>
     <task id="LOCAL-00027" summary="Removed references to GamePiece from Player. For now, we're always dealing with Units.">
       <created>1653915893418</created>
@@ -475,7 +467,14 @@
       <option name="project" value="LOCAL" />
       <updated>1654445767076</updated>
     </task>
-    <option name="localTasksCounter" value="75" />
+    <task id="LOCAL-00075" summary="Added basic unit movement, by removing the unit from the map and re-adding it elsewhere, while the view listens.">
+      <created>1654447768561</created>
+      <option name="number" value="00075" />
+      <option name="presentableId" value="LOCAL-00075" />
+      <option name="project" value="LOCAL" />
+      <updated>1654447768561</updated>
+    </task>
+    <option name="localTasksCounter" value="76" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -504,7 +503,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
-    <MESSAGE value="Modified the initialization code for DefaultModel (in DefaultModel and NewGameInitializer) to allow most of the fields to be final and non-null." />
     <MESSAGE value="Removed NeutralPlayer and associated code." />
     <MESSAGE value="Added a counter image, rotation, and an animation to JavaFxGame." />
     <MESSAGE value="Set up the basic application layout in JavaFxGame." />
@@ -529,7 +527,8 @@
     <MESSAGE value="Made a separate ViewMonitor class for the JavaFx code, since the existing ViewMonitor code uses executors to call into the model but I don't think that will be necessary in JavaFx." />
     <MESSAGE value="Refactor the MVC situation. There's now a JavaFxModel class that contains the map and selected hex, and the selected hex is a property whose changes are listened to by the view. The user inputs enter through a new controller pane." />
     <MESSAGE value="Units are added to the model, not the view." />
-    <option name="LAST_COMMIT_MESSAGE" value="Units are added to the model, not the view." />
+    <MESSAGE value="Added basic unit movement, by removing the unit from the map and re-adding it elsewhere, while the view listens." />
+    <option name="LAST_COMMIT_MESSAGE" value="Added basic unit movement, by removing the unit from the map and re-adding it elsewhere, while the view listens." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

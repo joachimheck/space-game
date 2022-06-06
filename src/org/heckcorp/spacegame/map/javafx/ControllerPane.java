@@ -2,11 +2,18 @@ package org.heckcorp.spacegame.map.javafx;
 
 import com.google.common.collect.Sets;
 import javafx.geometry.Point2D;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import org.heckcorp.spacegame.JavaFxModel;
+import org.heckcorp.spacegame.Unit;
 import org.heckcorp.spacegame.map.MouseButton;
 import org.heckcorp.spacegame.map.Point;
+import org.heckcorp.spacegame.map.swing.Util;
+
+import java.io.FileNotFoundException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ControllerPane extends Pane {
     public void onMouseClicked(MouseEvent mouseEvent) {
@@ -23,7 +30,7 @@ public class ControllerPane extends Pane {
         };
     }
 
-    public ControllerPane(JavaFxModel model, GameViewPane view, MapUtils mapUtils) {
+    public ControllerPane(JavaFxModel model, GameViewPane view, MapUtils mapUtils) throws FileNotFoundException {
         this.model = model;
         this.mapUtils = mapUtils;
 
@@ -35,11 +42,17 @@ public class ControllerPane extends Pane {
             }
         });
         model.currentUnits().addListener((observable, oldValue, newValue) -> {
-            view.removeUnits(Sets.difference(oldValue, newValue));
-            view.addUnits(Sets.difference(newValue, oldValue));
+            Sets.difference(oldValue, newValue).forEach(u -> view.removeCounter(countersByUnit.get(u)));
+            Sets.difference(newValue, oldValue).forEach(u -> {
+                countersByUnit.put(u, new Counter(SPACESHIP_IMAGE));
+                view.addCounter(countersByUnit.get(u), u.getPosition());
+            });
         });
     }
 
     private final JavaFxModel model;
     private final MapUtils mapUtils;
+    private final Map<Unit, Counter> countersByUnit = new HashMap<>();
+
+    private final Image SPACESHIP_IMAGE = new Image(Util.getResource("resource/spaceship.png"));
 }

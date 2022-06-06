@@ -13,5 +13,11 @@ public class Counter extends Pane {
     public Counter(Image image) {
         setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
         getChildren().add(new ImageView(image));
+        setMinWidth(image.getWidth());
+        setMinHeight(image.getHeight());
+        setMaxWidth(image.getWidth());
+        setMaxHeight(image.getHeight());
+        setWidth(image.getWidth());
+        setHeight(image.getHeight());
     }
 }
