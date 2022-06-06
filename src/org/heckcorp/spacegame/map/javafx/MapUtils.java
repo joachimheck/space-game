@@ -4,7 +4,7 @@ import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
 import javafx.scene.shape.Polygon;
 import org.heckcorp.spacegame.map.Point;
-import org.heckcorp.spacegame.map.swing.Util;
+import org.heckcorp.spacegame.Util;
 
 import java.io.FileNotFoundException;
 

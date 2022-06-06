@@ -4,11 +4,45 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3bc8c235-c2bd-4343-a6d7-4a6d6d4b49b0" name="Changes" comment="Moved Unit out of GameViewPane, so it only knows about Counters. That's good, but it means that the controller has to know about counters, which may not be great.">
+    <list default="true" id="3bc8c235-c2bd-4343-a6d7-4a6d6d4b49b0" name="Changes" comment="Removed most of the classes used by the old swing SpaceGame. If I need to re-add stuff I'll dig it out of Domination or the git history.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/ComputerPlayer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/ComputerPlayerView.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/DefaultModel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/GameModel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/GameView.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/HumanPlayer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/JavaFxGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/JavaFxGame.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/JavaFxModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/JavaFxModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/LogFormatter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/NewGameInitializer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/Player.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/TurnManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/Unit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/Unit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/UnitStatus.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/ViewMultiplexer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/Hex.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/HexMap.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/Pathfinder.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/javafx/ControllerPane.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/javafx/ControllerPane.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/javafx/GameViewPane.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/javafx/GameViewPane.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/javafx/MapCanvas.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/javafx/MapCanvas.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/javafx/MapUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/javafx/MapUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/swing/AnimatedImageIcon.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/swing/Counter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/swing/MapPane.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/swing/MapView.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/swing/MapViewListener.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/swing/MiniMap.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/swing/MovementAnimationState.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/swing/UIResources.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/swing/Util.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/Util.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/swing/package-info.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/swing/swing.plantuml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/swing/HexDescriptionPanel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/swing/SwingView.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/swing/package-info.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/swing/swing.plantuml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/swing/view.plantuml" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -96,7 +130,7 @@
       <recent name="org.heckcorp.spacegame.map.javafx" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.JavaFxGame">
+  <component name="RunManager">
     <configuration name="JavaFxGame" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="org.heckcorp.spacegame.JavaFxGame" />
       <module name="space-game.main" />
@@ -104,19 +138,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="SpaceGame" type="Application" factoryName="Application">
-      <option name="ALTERNATIVE_JRE_PATH" value="19" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
-      <option name="MAIN_CLASS_NAME" value="org.heckcorp.spacegame.SpaceGame" />
-      <module name="space-game.main" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <list>
-      <item itemvalue="Application.SpaceGame" />
-      <item itemvalue="Application.JavaFxGame" />
-    </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration" cleanupOnStartRun="true">
@@ -130,20 +151,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1653411560064</updated>
-    </task>
-    <task id="LOCAL-00029" summary="Added jsr305 and default non-nullness.">
-      <created>1653918619018</created>
-      <option name="number" value="00029" />
-      <option name="presentableId" value="LOCAL-00029" />
-      <option name="project" value="LOCAL" />
-      <updated>1653918619018</updated>
-    </task>
-    <task id="LOCAL-00030" summary="Replaced Observer/Observable with PropertyChangeListener/PropertyChangeEvent.">
-      <created>1653921690815</created>
-      <option name="number" value="00030" />
-      <option name="presentableId" value="LOCAL-00030" />
-      <option name="project" value="LOCAL" />
-      <updated>1653921690815</updated>
     </task>
     <task id="LOCAL-00031" summary="Added Guava and replaced the units and counters maps with a BiMap.">
       <created>1653921954374</created>
@@ -474,7 +481,21 @@
       <option name="project" value="LOCAL" />
       <updated>1654518675217</updated>
     </task>
-    <option name="localTasksCounter" value="78" />
+    <task id="LOCAL-00078" summary="With some difficulty, got animated movement working for Counters.">
+      <created>1654522569975</created>
+      <option name="number" value="00078" />
+      <option name="presentableId" value="LOCAL-00078" />
+      <option name="project" value="LOCAL" />
+      <updated>1654522569975</updated>
+    </task>
+    <task id="LOCAL-00079" summary="Removed SpaceGame, since I'm putting the code into JavaFxGame now.">
+      <created>1654523232169</created>
+      <option name="number" value="00079" />
+      <option name="presentableId" value="LOCAL-00079" />
+      <option name="project" value="LOCAL" />
+      <updated>1654523232169</updated>
+    </task>
+    <option name="localTasksCounter" value="80" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -503,9 +524,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
-    <MESSAGE value="Added a counter image, rotation, and an animation to JavaFxGame." />
-    <MESSAGE value="Set up the basic application layout in JavaFxGame." />
-    <MESSAGE value="Added a placeholder menu bar." />
     <MESSAGE value="The hexes are now drawn in the map pane." />
     <MESSAGE value="Made Player.view non-nullable." />
     <MESSAGE value="Removed View from Player. It was used by ComputerPlayer to get information about enemy units that came into view, but that information should come from the model and in SpaceGame, all units are always visible anyway." />
@@ -528,7 +546,10 @@
     <MESSAGE value="Units are added to the model, not the view." />
     <MESSAGE value="Added basic unit movement, by removing the unit from the map and re-adding it elsewhere, while the view listens." />
     <MESSAGE value="Moved Unit out of GameViewPane, so it only knows about Counters. That's good, but it means that the controller has to know about counters, which may not be great." />
-    <option name="LAST_COMMIT_MESSAGE" value="Moved Unit out of GameViewPane, so it only knows about Counters. That's good, but it means that the controller has to know about counters, which may not be great." />
+    <MESSAGE value="With some difficulty, got animated movement working for Counters." />
+    <MESSAGE value="Removed SpaceGame, since I'm putting the code into JavaFxGame now." />
+    <MESSAGE value="Removed most of the classes used by the old swing SpaceGame. If I need to re-add stuff I'll dig it out of Domination or the git history." />
+    <option name="LAST_COMMIT_MESSAGE" value="Removed most of the classes used by the old swing SpaceGame. If I need to re-add stuff I'll dig it out of Domination or the git history." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

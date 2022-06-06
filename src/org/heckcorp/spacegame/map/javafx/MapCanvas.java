@@ -4,23 +4,20 @@ import javafx.geometry.Point2D;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
-import org.heckcorp.spacegame.JavaFxModel;
-import org.heckcorp.spacegame.map.HexMap;
 import org.heckcorp.spacegame.map.Point;
 
 public class MapCanvas extends Canvas {
-    public MapCanvas(JavaFxModel model, MapUtils mapUtils) {
+    public MapCanvas(MapUtils mapUtils, int width, int height) {
         this.mapUtils = mapUtils;
-        HexMap map = model.getMap();
-        setWidth(mapUtils.getTileWidth() * (map.width + 1.0 / 3));
-        setHeight(mapUtils.getTileHeight() * (map.height + 1.0 / 2) + 1);
+        setWidth(mapUtils.getTileWidth() * (width + 1.0 / 3));
+        setHeight(mapUtils.getTileHeight() * (height + 1.0 / 2) + 1);
 
         GraphicsContext gc = this.getGraphicsContext2D();
         gc.setStroke(Color.BLACK);
         gc.fillRect(0, 0, getWidth(), getHeight());
 
-        for (int i=0; i<map.width; i++) {
-            for (int j=0; j<map.height; j++) {
+        for (int i=0; i<width; i++) {
+            for (int j=0; j<height; j++) {
                 drawHex(new Point(i, j), gc);
             }
         }

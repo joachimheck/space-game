@@ -19,7 +19,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import org.heckcorp.spacegame.map.HexMap;
+import org.heckcorp.spacegame.map.Point;
 import org.heckcorp.spacegame.map.javafx.ControllerPane;
 import org.heckcorp.spacegame.map.javafx.GameViewPane;
 import org.heckcorp.spacegame.map.javafx.MapCanvas;
@@ -33,17 +33,13 @@ public class JavaFxGame extends Application {
 
     @Override
     public void start(Stage stage) throws FileNotFoundException {
+        JavaFxModel model = new JavaFxModel();
         MapUtils mapUtils = new MapUtils();
-        JavaFxModel model = new JavaFxModel(new HexMap(MAP_WIDTH, MAP_HEIGHT));
         GameViewPane gameViewPane = new GameViewPane(mapUtils);
         ControllerPane controllerPane = new ControllerPane(model, gameViewPane, mapUtils);
         controllerPane.setOnMouseClicked(controllerPane::onMouseClicked);
-        Unit spaceship = new Unit(
-                Unit.Type.SPACESHIP,
-                new HumanPlayer("player1", java.awt.Color.BLUE),
-                model.getMap().getHex(1, 1));
-        model.addUnit(spaceship);
-        BorderPane mapPane = new BorderPane(new MapCanvas(model, mapUtils));
+        model.addUnit(new Unit(), new Point(1, 1));
+        BorderPane mapPane = new BorderPane(new MapCanvas(mapUtils, MAP_WIDTH, MAP_HEIGHT));
         StackPane gameViewStackPane = new StackPane(mapPane, gameViewPane, controllerPane);
         gameViewStackPane.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(10))));
         ScrollPane mapScrollPane = new ScrollPane(gameViewStackPane);

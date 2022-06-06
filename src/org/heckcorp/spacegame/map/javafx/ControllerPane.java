@@ -8,9 +8,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import org.heckcorp.spacegame.JavaFxModel;
 import org.heckcorp.spacegame.Unit;
+import org.heckcorp.spacegame.Util;
 import org.heckcorp.spacegame.map.MouseButton;
 import org.heckcorp.spacegame.map.Point;
-import org.heckcorp.spacegame.map.swing.Util;
 
 import java.io.FileNotFoundException;
 import java.util.HashMap;
@@ -46,7 +46,7 @@ public class ControllerPane extends Pane {
             Sets.difference(oldValue, newValue).forEach(u -> view.removeCounter(unitCounters.get(u)));
             Sets.difference(newValue, oldValue).forEach(u -> {
                 unitCounters.put(u, new Counter(SPACESHIP_IMAGE));
-                view.addCounter(unitCounters.get(u), u.getPosition());
+                view.addCounter(unitCounters.get(u), model.unitPositionsProperty().get().get(u));
             });
         });
         model.unitPositionsProperty().addListener((observable, oldValue, newValue) ->
