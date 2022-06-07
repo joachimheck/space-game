@@ -9,8 +9,11 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
+import java.io.InputStream;
+
 public class Counter extends Pane {
-    public Counter(Image image, Color backgroundColor) {
+    public Counter(InputStream imageStream, Color backgroundColor) {
+        Image image = new Image(imageStream);
         setBackground(new Background(new BackgroundFill(backgroundColor, CornerRadii.EMPTY, Insets.EMPTY)));
         getChildren().add(new ImageView(image));
         setMinWidth(image.getWidth());

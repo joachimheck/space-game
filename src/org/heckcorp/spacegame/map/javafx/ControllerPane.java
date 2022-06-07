@@ -3,7 +3,6 @@ package org.heckcorp.spacegame.map.javafx;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import javafx.geometry.Point2D;
-import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -15,6 +14,7 @@ import org.heckcorp.spacegame.map.MouseButton;
 import org.heckcorp.spacegame.map.Point;
 
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -48,7 +48,7 @@ public class ControllerPane extends Pane {
             Sets.difference(oldValue, newValue).forEach(u -> view.removeCounter(unitCounters.get(u)));
             Sets.difference(newValue, oldValue).forEach(u -> {
                 Player.Color color = u.getOwner().getColor();
-                unitCounters.put(u, new Counter(SPACESHIP_IMAGE, new Color(color.r(), color.g(), color.b(), 1.0)));
+                unitCounters.put(u, new Counter(SPACESHIP_IMAGE_STREAM, new Color(color.r(), color.g(), color.b(), 1.0)));
                 view.addCounter(unitCounters.get(u), model.unitPositionsProperty().get().get(u));
             });
         });
@@ -61,5 +61,5 @@ public class ControllerPane extends Pane {
     private final MapUtils mapUtils;
     private final Map<Unit, Counter> unitCounters = new HashMap<>();
 
-    private final Image SPACESHIP_IMAGE = new Image(Util.getResource("resource/spaceship.png"));
+    private final InputStream SPACESHIP_IMAGE_STREAM = Util.getResource("resource/spaceship.png");
 }
