@@ -4,11 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3bc8c235-c2bd-4343-a6d7-4a6d6d4b49b0" name="Changes" comment="Split a new Controller class out from ControllerPane.">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/Controller.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/javafx/Counter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/javafx/Counter.java" afterDir="false" />
-    </list>
+    <list default="true" id="3bc8c235-c2bd-4343-a6d7-4a6d6d4b49b0" name="Changes" comment="Trying again to remove Intellij workspace files from the Git commit." />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -116,13 +112,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1653411560064</updated>
-    </task>
-    <task id="LOCAL-00035" summary="Removed the display of the damaged status.">
-      <created>1653925469170</created>
-      <option name="number" value="00035" />
-      <option name="presentableId" value="LOCAL-00035" />
-      <option name="project" value="LOCAL" />
-      <updated>1653925469170</updated>
     </task>
     <task id="LOCAL-00036" summary="Increased the window size.">
       <created>1653925685490</created>
@@ -460,7 +449,14 @@
       <option name="project" value="LOCAL" />
       <updated>1654609727956</updated>
     </task>
-    <option name="localTasksCounter" value="84" />
+    <task id="LOCAL-00084" summary="Removed javafx Color from the Counter constructor; just passing r, g, and b.">
+      <created>1654609867036</created>
+      <option name="number" value="00084" />
+      <option name="presentableId" value="LOCAL-00084" />
+      <option name="project" value="LOCAL" />
+      <updated>1654609867036</updated>
+    </task>
+    <option name="localTasksCounter" value="85" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -514,8 +510,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
-    <MESSAGE value="Added a new layer on which counters can be rendered, as well as some preliminary code to render a counter." />
-    <MESSAGE value="Refactored Counter to take an Image instead of an ImageView." />
     <MESSAGE value="Added mouse click handling, printing the clicked-on hex in a log message." />
     <MESSAGE value="Updated click handling to display a dashed line around the selected hex." />
     <MESSAGE value="Changed GameViewPane to no longer implement GameView, so it doesn't have to bring in AWT imports." />
@@ -539,7 +533,9 @@
     <MESSAGE value="Added a second spaceship to the game initialization, as well as players and colors to distinguish it from the first one." />
     <MESSAGE value="Reverting image stream change, which caused a mysterious bug." />
     <MESSAGE value="Split a new Controller class out from ControllerPane." />
-    <option name="LAST_COMMIT_MESSAGE" value="Split a new Controller class out from ControllerPane." />
+    <MESSAGE value="Removed javafx Color from the Counter constructor; just passing r, g, and b." />
+    <MESSAGE value="Trying again to remove Intellij workspace files from the Git commit." />
+    <option name="LAST_COMMIT_MESSAGE" value="Trying again to remove Intellij workspace files from the Git commit." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
