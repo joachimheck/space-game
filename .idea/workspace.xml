@@ -4,13 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3bc8c235-c2bd-4343-a6d7-4a6d6d4b49b0" name="Changes" comment="Removed most of the classes used by the old swing SpaceGame. If I need to re-add stuff I'll dig it out of Domination or the git history.">
-      <change afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/Player.java" afterDir="false" />
+    <list default="true" id="3bc8c235-c2bd-4343-a6d7-4a6d6d4b49b0" name="Changes" comment="Added a second spaceship to the game initialization, as well as players and colors to distinguish it from the first one.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/module-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/JavaFxGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/JavaFxGame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/JavaFxModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/JavaFxModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/Unit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/Unit.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/javafx/ControllerPane.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/javafx/ControllerPane.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/javafx/Counter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/javafx/Counter.java" afterDir="false" />
     </list>
@@ -121,13 +116,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1653411560064</updated>
-    </task>
-    <task id="LOCAL-00032" summary="Removed references to GamePiece from SwingView.">
-      <created>1653922097742</created>
-      <option name="number" value="00032" />
-      <option name="presentableId" value="LOCAL-00032" />
-      <option name="project" value="LOCAL" />
-      <updated>1653922097742</updated>
     </task>
     <task id="LOCAL-00033" summary="Removed references to GamePiece from SwingView.">
       <created>1653924615479</created>
@@ -465,7 +453,14 @@
       <option name="project" value="LOCAL" />
       <updated>1654525583998</updated>
     </task>
-    <option name="localTasksCounter" value="81" />
+    <task id="LOCAL-00081" summary="Added a second spaceship to the game initialization, as well as players and colors to distinguish it from the first one.">
+      <created>1654605673039</created>
+      <option name="number" value="00081" />
+      <option name="presentableId" value="LOCAL-00081" />
+      <option name="project" value="LOCAL" />
+      <updated>1654605673039</updated>
+    </task>
+    <option name="localTasksCounter" value="82" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -519,7 +514,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
-    <MESSAGE value="The hexes are now drawn in the map pane." />
     <MESSAGE value="Made Player.view non-nullable." />
     <MESSAGE value="Removed View from Player. It was used by ComputerPlayer to get information about enemy units that came into view, but that information should come from the model and in SpaceGame, all units are always visible anyway." />
     <MESSAGE value="Added a new layer on which counters can be rendered, as well as some preliminary code to render a counter." />
@@ -544,7 +538,8 @@
     <MESSAGE value="With some difficulty, got animated movement working for Counters." />
     <MESSAGE value="Removed SpaceGame, since I'm putting the code into JavaFxGame now." />
     <MESSAGE value="Removed most of the classes used by the old swing SpaceGame. If I need to re-add stuff I'll dig it out of Domination or the git history." />
-    <option name="LAST_COMMIT_MESSAGE" value="Removed most of the classes used by the old swing SpaceGame. If I need to re-add stuff I'll dig it out of Domination or the git history." />
+    <MESSAGE value="Added a second spaceship to the game initialization, as well as players and colors to distinguish it from the first one." />
+    <option name="LAST_COMMIT_MESSAGE" value="Added a second spaceship to the game initialization, as well as players and colors to distinguish it from the first one." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
