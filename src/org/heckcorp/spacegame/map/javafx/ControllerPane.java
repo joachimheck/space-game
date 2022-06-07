@@ -6,7 +6,9 @@ import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import org.heckcorp.spacegame.JavaFxModel;
+import org.heckcorp.spacegame.Player;
 import org.heckcorp.spacegame.Unit;
 import org.heckcorp.spacegame.Util;
 import org.heckcorp.spacegame.map.MouseButton;
@@ -45,7 +47,8 @@ public class ControllerPane extends Pane {
         model.unitsProperty().addListener((observable, oldValue, newValue) -> {
             Sets.difference(oldValue, newValue).forEach(u -> view.removeCounter(unitCounters.get(u)));
             Sets.difference(newValue, oldValue).forEach(u -> {
-                unitCounters.put(u, new Counter(SPACESHIP_IMAGE));
+                Player.Color color = u.getOwner().getColor();
+                unitCounters.put(u, new Counter(SPACESHIP_IMAGE, new Color(color.r(), color.g(), color.b(), 1.0)));
                 view.addCounter(unitCounters.get(u), model.unitPositionsProperty().get().get(u));
             });
         });

@@ -1,14 +1,12 @@
 module space.game.main {
+    requires org.checkerframework.checker.qual;
+    requires com.google.common;
+    requires java.desktop;
+    requires java.logging;
     requires javafx.controls;
     requires javafx.fxml;
-    requires java.desktop;
     requires org.jetbrains.annotations;
-    requires java.logging;
-    requires com.google.common;
-    requires org.checkerframework.checker.qual;
     exports org.heckcorp.spacegame;
     exports org.heckcorp.spacegame.map;
     exports org.heckcorp.spacegame.map.javafx;
-    exports org.heckcorp.spacegame.map.swing;
-    exports org.heckcorp.spacegame.swing;
 }

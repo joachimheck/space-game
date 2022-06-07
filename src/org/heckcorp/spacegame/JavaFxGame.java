@@ -38,7 +38,12 @@ public class JavaFxGame extends Application {
         GameViewPane gameViewPane = new GameViewPane(mapUtils);
         ControllerPane controllerPane = new ControllerPane(model, gameViewPane, mapUtils);
         controllerPane.setOnMouseClicked(controllerPane::onMouseClicked);
-        model.addUnit(new Unit(), new Point(1, 1));
+        Player humanPlayer = new Player(.25, .45, .85);
+        model.addPlayer(humanPlayer);
+        Player computerPlayer = new Player(.75, .25, .25);
+        model.addPlayer(computerPlayer);
+        model.addUnit(new Unit(humanPlayer), new Point(1, 1));
+        model.addUnit(new Unit(computerPlayer), new Point(5, 5));
         BorderPane mapPane = new BorderPane(new MapCanvas(mapUtils, MAP_WIDTH, MAP_HEIGHT));
         StackPane gameViewStackPane = new StackPane(mapPane, gameViewPane, controllerPane);
         gameViewStackPane.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(10))));

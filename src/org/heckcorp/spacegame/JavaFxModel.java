@@ -45,15 +45,18 @@ public class JavaFxModel {
                 .collect(Collectors.toList());
     }
 
+    public void addPlayer(Player player) {
+        players.setValue(new ImmutableSet.Builder<Player>().addAll(getPlayers()).add(player).build());
+    }
     public void addUnit(Unit unit, Point hexPosition) {
-        unitsProperty().setValue(new ImmutableSet.Builder<Unit>().addAll(getUnits()).add(unit).build());
         unitPositions.get().put(unit, hexPosition);
+        unitsProperty().setValue(new ImmutableSet.Builder<Unit>().addAll(getUnits()).add(unit).build());
     }
 
     @SuppressWarnings("unused")
     private void removeUnit(Unit unit) {
-        unitsProperty().setValue(Sets.difference(getUnits(), ImmutableSet.of(unit)));
         unitPositions.get().remove(unit);
+        unitsProperty().setValue(Sets.difference(getUnits(), ImmutableSet.of(unit)));
     }
 
     public final ObjectProperty<Optional<Point>> selectedHexPositionProperty() {
@@ -68,13 +71,16 @@ public class JavaFxModel {
         return units;
     }
 
+    public final Set<Player> getPlayers() {
+        return players.get();
+    }
+
     public final Set<Unit> getUnits() {
         return units.get();
     }
 
+    private final ObjectProperty<Set<Player>> players = new SimpleObjectProperty<>(Sets.newHashSet());
     private final ObjectProperty<Optional<Point>> selectedHexPosition = new SimpleObjectProperty<>(Optional.empty());
-
     private final ObjectProperty<Set<Unit>> units = new SimpleObjectProperty<>(Sets.newHashSet());
-
     private final ObjectProperty<Map<Unit, Point>> unitPositions = new SimpleObjectProperty<>(Maps.newHashMap());
 }

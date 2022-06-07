@@ -10,8 +10,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
 public class Counter extends Pane {
-    public Counter(Image image) {
-        setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+    public Counter(Image image, Color backgroundColor) {
+        setBackground(new Background(new BackgroundFill(backgroundColor, CornerRadii.EMPTY, Insets.EMPTY)));
         getChildren().add(new ImageView(image));
         setMinWidth(image.getWidth());
         setMinHeight(image.getHeight());
