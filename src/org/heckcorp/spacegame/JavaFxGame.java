@@ -24,6 +24,7 @@ import org.heckcorp.spacegame.map.javafx.ControllerPane;
 import org.heckcorp.spacegame.map.javafx.GameViewPane;
 import org.heckcorp.spacegame.map.javafx.MapCanvas;
 import org.heckcorp.spacegame.map.javafx.MapUtils;
+import org.heckcorp.spacegame.map.javafx.ViewResources;
 
 import java.io.FileNotFoundException;
 
@@ -35,8 +36,10 @@ public class JavaFxGame extends Application {
     public void start(Stage stage) throws FileNotFoundException {
         JavaFxModel model = new JavaFxModel();
         MapUtils mapUtils = new MapUtils();
+        ViewResources viewResources = new ViewResources();
+        ViewResources.Identifier spaceshipId = viewResources.addImageResource(Util.getResource("resource/spaceship.png"));
         GameViewPane gameViewPane = new GameViewPane(mapUtils);
-        Controller controller = new Controller(model, gameViewPane);
+        Controller controller = new Controller(model, gameViewPane, viewResources);
         controller.listenForPropertyChanges();
         ControllerPane controllerPane = new ControllerPane(model, mapUtils);
         controllerPane.setOnMouseClicked(controllerPane::onMouseClicked);
@@ -44,8 +47,8 @@ public class JavaFxGame extends Application {
         model.addPlayer(humanPlayer);
         Player computerPlayer = new Player(.75, .25, .25);
         model.addPlayer(computerPlayer);
-        model.addUnit(new Unit(humanPlayer), new Point(1, 1));
-        model.addUnit(new Unit(computerPlayer), new Point(5, 5));
+        model.addUnit(new Unit(humanPlayer, spaceshipId), new Point(1, 1));
+        model.addUnit(new Unit(computerPlayer, spaceshipId), new Point(5, 5));
         BorderPane mapPane = new BorderPane(new MapCanvas(mapUtils, MAP_WIDTH, MAP_HEIGHT));
         StackPane gameViewStackPane = new StackPane(mapPane, gameViewPane, controllerPane);
         gameViewStackPane.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(10))));

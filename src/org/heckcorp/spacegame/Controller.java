@@ -2,19 +2,19 @@ package org.heckcorp.spacegame;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import javafx.scene.image.Image;
 import org.heckcorp.spacegame.map.javafx.Counter;
 import org.heckcorp.spacegame.map.javafx.GameViewPane;
+import org.heckcorp.spacegame.map.javafx.ViewResources;
 
-import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Controller {
 
-    public Controller(JavaFxModel model, GameViewPane view) throws FileNotFoundException {
+    public Controller(JavaFxModel model, GameViewPane view, ViewResources viewResources) {
         this.model = model;
         this.view = view;
+        this.viewResources = viewResources;
     }
 
     public void listenForPropertyChanges() {
@@ -29,7 +29,7 @@ public class Controller {
             Sets.difference(oldValue, newValue).forEach(u -> view.removeCounter(unitCounters.get(u)));
             Sets.difference(newValue, oldValue).forEach(u -> {
                 Player.Color color = u.getOwner().getColor();
-                unitCounters.put(u, new Counter(SPACESHIP_IMAGE, color.r(), color.g(), color.b()));
+                unitCounters.put(u, new Counter(viewResources, u.getImageId(), color.r(), color.g(), color.b()));
                 view.addCounter(unitCounters.get(u), model.unitPositionsProperty().get().get(u));
             });
         });
@@ -38,9 +38,8 @@ public class Controller {
                         view.moveCounter(unitCounters.get(u), d.leftValue(), d.rightValue())));
     }
 
-    private final GameViewPane view;
     private final JavaFxModel model;
     private final Map<Unit, Counter> unitCounters = new HashMap<>();
-
-    private final Image SPACESHIP_IMAGE = new Image(Util.getResource("resource/spaceship.png"));
+    private final GameViewPane view;
+    private final ViewResources viewResources;
 }
