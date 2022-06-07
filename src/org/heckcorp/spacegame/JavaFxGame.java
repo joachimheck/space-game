@@ -36,7 +36,9 @@ public class JavaFxGame extends Application {
         JavaFxModel model = new JavaFxModel();
         MapUtils mapUtils = new MapUtils();
         GameViewPane gameViewPane = new GameViewPane(mapUtils);
-        ControllerPane controllerPane = new ControllerPane(model, gameViewPane, mapUtils);
+        Controller controller = new Controller(model, gameViewPane);
+        controller.listenForPropertyChanges();
+        ControllerPane controllerPane = new ControllerPane(model, mapUtils);
         controllerPane.setOnMouseClicked(controllerPane::onMouseClicked);
         Player humanPlayer = new Player(.25, .45, .85);
         model.addPlayer(humanPlayer);

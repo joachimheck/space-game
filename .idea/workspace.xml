@@ -4,9 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3bc8c235-c2bd-4343-a6d7-4a6d6d4b49b0" name="Changes" comment="Undoing revert commit.">
+    <list default="true" id="3bc8c235-c2bd-4343-a6d7-4a6d6d4b49b0" name="Changes" comment="Reverting image stream change, which caused a mysterious bug.">
+      <change afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/Controller.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/JavaFxGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/JavaFxGame.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/javafx/ControllerPane.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/javafx/ControllerPane.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/javafx/Counter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/javafx/Counter.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -115,13 +116,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1653411560064</updated>
-    </task>
-    <task id="LOCAL-00033" summary="Removed references to GamePiece from SwingView.">
-      <created>1653924615479</created>
-      <option name="number" value="00033" />
-      <option name="presentableId" value="LOCAL-00033" />
-      <option name="project" value="LOCAL" />
-      <updated>1653924615479</updated>
     </task>
     <task id="LOCAL-00034" summary="Renamed class and package to SpaceGame.">
       <created>1653924757795</created>
@@ -459,7 +453,14 @@
       <option name="project" value="LOCAL" />
       <updated>1654605673039</updated>
     </task>
-    <option name="localTasksCounter" value="82" />
+    <task id="LOCAL-00082" summary="Reverting image stream change, which caused a mysterious bug.">
+      <created>1654609120561</created>
+      <option name="number" value="00082" />
+      <option name="presentableId" value="LOCAL-00082" />
+      <option name="project" value="LOCAL" />
+      <updated>1654609120561</updated>
+    </task>
+    <option name="localTasksCounter" value="83" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -513,7 +514,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
-    <MESSAGE value="Made Player.view non-nullable." />
     <MESSAGE value="Removed View from Player. It was used by ComputerPlayer to get information about enemy units that came into view, but that information should come from the model and in SpaceGame, all units are always visible anyway." />
     <MESSAGE value="Added a new layer on which counters can be rendered, as well as some preliminary code to render a counter." />
     <MESSAGE value="Refactored Counter to take an Image instead of an ImageView." />
@@ -538,7 +538,8 @@
     <MESSAGE value="Removed SpaceGame, since I'm putting the code into JavaFxGame now." />
     <MESSAGE value="Removed most of the classes used by the old swing SpaceGame. If I need to re-add stuff I'll dig it out of Domination or the git history." />
     <MESSAGE value="Added a second spaceship to the game initialization, as well as players and colors to distinguish it from the first one." />
-    <option name="LAST_COMMIT_MESSAGE" value="Added a second spaceship to the game initialization, as well as players and colors to distinguish it from the first one." />
+    <MESSAGE value="Reverting image stream change, which caused a mysterious bug." />
+    <option name="LAST_COMMIT_MESSAGE" value="Reverting image stream change, which caused a mysterious bug." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
