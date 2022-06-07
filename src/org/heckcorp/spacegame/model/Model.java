@@ -7,30 +7,33 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import org.heckcorp.spacegame.map.MouseButton;
 import org.heckcorp.spacegame.map.Point;
-import org.heckcorp.spacegame.model.Player;
-import org.heckcorp.spacegame.model.Unit;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 public class Model {
     public void hexClicked(Point hexCoordinates, MouseButton mouseButton) {
         if (mouseButton == MouseButton.PRIMARY) {
-            selectedHexPosition.setValue(Optional.empty());
-            selectedHexPosition.setValue(Optional.of(hexCoordinates));
+            selectedHexPosition.setValue(hexCoordinates);
+            if (!getUnitsAt(hexCoordinates).isEmpty()) {
+                selectedUnit.setValue(getUnitsAt(hexCoordinates).get(0));
+            }
         } else if (mouseButton == MouseButton.SECONDARY) {
             moveSelectedUnit(hexCoordinates);
-            selectedHexPosition.setValue(Optional.empty());
+            // TODO: Fix this warning.
+            selectedHexPosition.setValue(null);
         }
     }
 
     private void moveSelectedUnit(Point hexCoordinates) {
-        if (selectedHexPosition.get().isPresent()) {
-            List<Unit> units = getUnitsAt(selectedHexPosition.get().get());
+        @Nullable Point selectedCoordinates = selectedHexPosition.get();
+        // TODO: Fix this warning.
+        if (selectedCoordinates != null) {
+            List<Unit> units = getUnitsAt(selectedCoordinates);
             if (!units.isEmpty()) {
                 Unit selectedUnit = units.get(0);
                 Map<Unit, Point> updated = new HashMap<>(unitPositions.get());
@@ -41,7 +44,7 @@ public class Model {
     }
 
     private List<Unit> getUnitsAt(Point point) {
-        return unitPositions.get().entrySet().stream()
+        return unitPositions.getValue().entrySet().stream()
                 .filter(e -> e.getValue().equals(point))
                 .map(Map.Entry::getKey)
                 .collect(Collectors.toList());
@@ -61,8 +64,12 @@ public class Model {
         unitsProperty().setValue(Sets.difference(getUnits(), ImmutableSet.of(unit)));
     }
 
-    public final ObjectProperty<Optional<Point>> selectedHexPositionProperty() {
+    public final ObjectProperty<Point> selectedHexPositionProperty() {
         return selectedHexPosition;
+    }
+
+    public final ObjectProperty<Unit> selectedUnit() {
+        return selectedUnit;
     }
 
     public final ObjectProperty<Map<Unit, Point>> unitPositionsProperty() {
@@ -82,7 +89,8 @@ public class Model {
     }
 
     private final ObjectProperty<Set<Player>> players = new SimpleObjectProperty<>(Sets.newHashSet());
-    private final ObjectProperty<Optional<Point>> selectedHexPosition = new SimpleObjectProperty<>(Optional.empty());
+    private final ObjectProperty<Point> selectedHexPosition = new SimpleObjectProperty<>();
+    private final ObjectProperty<Unit> selectedUnit = new SimpleObjectProperty<>();
     private final ObjectProperty<Set<Unit>> units = new SimpleObjectProperty<>(Sets.newHashSet());
     private final ObjectProperty<Map<Unit, Point>> unitPositions = new SimpleObjectProperty<>(Maps.newHashMap());
 }

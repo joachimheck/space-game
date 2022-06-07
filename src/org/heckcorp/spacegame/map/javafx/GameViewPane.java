@@ -14,6 +14,8 @@ import javafx.scene.shape.Path;
 import javafx.scene.shape.Polygon;
 import javafx.util.Duration;
 import org.heckcorp.spacegame.map.Point;
+import org.heckcorp.spacegame.model.Unit;
+import org.jetbrains.annotations.Nullable;
 
 public class GameViewPane extends Pane {
     public void addCounter(Counter counter, Point position) {
@@ -22,8 +24,10 @@ public class GameViewPane extends Pane {
         setCounterLocation(counter, pixelPos);
     }
 
-    public void removeCounter(Counter counter) {
-        getChildren().remove(counter);
+    public void removeCounter(@Nullable Counter counter) {
+        if (counter != null) {
+            getChildren().remove(counter);
+        }
     }
 
     public void moveCounter(Counter counter, Point startHexPos, Point endHexPos) {
@@ -78,6 +82,10 @@ public class GameViewPane extends Pane {
         getChildren().remove(selectionHexagon);
     }
 
+    public void selectUnit(@SuppressWarnings("unused") @Nullable Unit unit) {
+        // TODO: update the hexDescriptionPane, once that is incorporated into this class.
+    }
+
     private void setCounterLocation(Counter counter, Point2D location) {
         counter.setTranslateX(0);
         counter.setTranslateY(0);
@@ -89,9 +97,9 @@ public class GameViewPane extends Pane {
     public GameViewPane(MapUtils mapUtils) {
         this.mapUtils = mapUtils;
     }
-
     private final MapUtils mapUtils;
     private Polygon selectionHexagon = new Polygon(0d, 0d);
+
     private Point selectedHex = NO_SELECTED_HEX;
 
     private static final Point NO_SELECTED_HEX = new Point(-1, -1);

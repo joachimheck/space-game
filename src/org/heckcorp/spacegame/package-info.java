@@ -1,5 +1,5 @@
-@DefaultQualifier(value = NotNull.class)
+@DefaultQualifier(value = NonNull.class)
 package org.heckcorp.spacegame;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.framework.qual.DefaultQualifier;
-import org.jetbrains.annotations.NotNull;

@@ -1,0 +1,7 @@
+package javafx.beans.property;
+
+import org.checkerframework.checker.nullness.qual.Nullable;
+
+public class ObjectProperty<T> {
+    public void setValue(@Nullable T v);
+}

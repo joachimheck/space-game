@@ -52,7 +52,7 @@ public class SpaceGame extends Application {
         model.addPlayer(computerPlayer);
         model.addUnit(new Unit(humanPlayer, spaceshipId), new Point(1, 1));
         model.addUnit(new Unit(computerPlayer, spaceshipId), new Point(5, 5));
-        BorderPane mapPane = new BorderPane(new MapCanvas(mapUtils, MAP_WIDTH, MAP_HEIGHT));
+        BorderPane mapPane = new BorderPane(MapCanvas.build(mapUtils, MAP_WIDTH, MAP_HEIGHT));
         StackPane gameViewStackPane = new StackPane(mapPane, gameViewPane, controllerPane);
         gameViewStackPane.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(10))));
         ScrollPane mapScrollPane = new ScrollPane(gameViewStackPane);

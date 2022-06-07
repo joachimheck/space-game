@@ -1,6 +1,6 @@
 package org.heckcorp.spacegame;
 
-import org.jetbrains.annotations.Nullable;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -9,7 +9,7 @@ import java.io.InputStream;
 
 public class Loader {
     public static InputStream getResource(String filename) throws FileNotFoundException {
-        @Nullable InputStream result;
+        @Nullable InputStream result = null;
         File file = new File(filename);
 
         if (file.exists()) {
@@ -17,11 +17,13 @@ public class Loader {
             result = new FileInputStream(file);
         } else {
             System.out.println("Loading resource from jar: " + filename);
-            ClassLoader loader = Thread.currentThread().getContextClassLoader();
-            result = loader.getResourceAsStream(filename);
+            @Nullable ClassLoader loader = Thread.currentThread().getContextClassLoader();
+            if (loader != null) {
+                result = loader.getResourceAsStream(filename);
+            }
         }
 
-        assert result != null;
+        assert result != null : "@AssumeAssertion(nullness)";
         return result;
     }
 

@@ -7,20 +7,27 @@ import javafx.scene.paint.Color;
 import org.heckcorp.spacegame.map.Point;
 
 public class MapCanvas extends Canvas {
-    public MapCanvas(MapUtils mapUtils, int width, int height) {
+    private MapCanvas(MapUtils mapUtils) {
         this.mapUtils = mapUtils;
-        setWidth(mapUtils.getTileWidth() * (width + 1.0 / 3));
-        setHeight(mapUtils.getTileHeight() * (height + 1.0 / 2) + 1);
+    }
 
-        GraphicsContext gc = this.getGraphicsContext2D();
+    public static MapCanvas build(MapUtils mapUtils, int width, int height) {
+        MapCanvas mapCanvas = new MapCanvas(mapUtils);
+
+        mapCanvas.setWidth(mapUtils.getTileWidth() * (width + 1.0 / 3));
+        mapCanvas.setHeight(mapUtils.getTileHeight() * (height + 1.0 / 2) + 1);
+
+        GraphicsContext gc = mapCanvas.getGraphicsContext2D();
         gc.setStroke(Color.BLACK);
-        gc.fillRect(0, 0, getWidth(), getHeight());
+        gc.fillRect(0, 0, mapCanvas.getWidth(), mapCanvas.getHeight());
 
         for (int i=0; i<width; i++) {
             for (int j=0; j<height; j++) {
-                drawHex(new Point(i, j), gc);
+                mapCanvas.drawHex(new Point(i, j), gc);
             }
         }
+
+        return mapCanvas;
     }
 
     /**
