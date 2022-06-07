@@ -3,7 +3,6 @@ package org.heckcorp.spacegame;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import javafx.scene.image.Image;
-import javafx.scene.paint.Color;
 import org.heckcorp.spacegame.map.javafx.Counter;
 import org.heckcorp.spacegame.map.javafx.GameViewPane;
 
@@ -30,7 +29,7 @@ public class Controller {
             Sets.difference(oldValue, newValue).forEach(u -> view.removeCounter(unitCounters.get(u)));
             Sets.difference(newValue, oldValue).forEach(u -> {
                 Player.Color color = u.getOwner().getColor();
-                unitCounters.put(u, new Counter(SPACESHIP_IMAGE, new Color(color.r(), color.g(), color.b(), 1.0)));
+                unitCounters.put(u, new Counter(SPACESHIP_IMAGE, color.r(), color.g(), color.b()));
                 view.addCounter(unitCounters.get(u), model.unitPositionsProperty().get().get(u));
             });
         });

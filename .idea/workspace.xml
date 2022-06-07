@@ -4,10 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3bc8c235-c2bd-4343-a6d7-4a6d6d4b49b0" name="Changes" comment="Reverting image stream change, which caused a mysterious bug.">
-      <change afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/Controller.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/JavaFxGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/JavaFxGame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/javafx/ControllerPane.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/javafx/ControllerPane.java" afterDir="false" />
+    <list default="true" id="3bc8c235-c2bd-4343-a6d7-4a6d6d4b49b0" name="Changes" comment="Split a new Controller class out from ControllerPane.">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/Controller.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/javafx/Counter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/heckcorp/spacegame/map/javafx/Counter.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -116,13 +116,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1653411560064</updated>
-    </task>
-    <task id="LOCAL-00034" summary="Renamed class and package to SpaceGame.">
-      <created>1653924757795</created>
-      <option name="number" value="00034" />
-      <option name="presentableId" value="LOCAL-00034" />
-      <option name="project" value="LOCAL" />
-      <updated>1653924757795</updated>
     </task>
     <task id="LOCAL-00035" summary="Removed the display of the damaged status.">
       <created>1653925469170</created>
@@ -460,7 +453,14 @@
       <option name="project" value="LOCAL" />
       <updated>1654609120561</updated>
     </task>
-    <option name="localTasksCounter" value="83" />
+    <task id="LOCAL-00083" summary="Split a new Controller class out from ControllerPane.">
+      <created>1654609727956</created>
+      <option name="number" value="00083" />
+      <option name="presentableId" value="LOCAL-00083" />
+      <option name="project" value="LOCAL" />
+      <updated>1654609727956</updated>
+    </task>
+    <option name="localTasksCounter" value="84" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -514,7 +514,6 @@
     <ignored-roots>
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
-    <MESSAGE value="Removed View from Player. It was used by ComputerPlayer to get information about enemy units that came into view, but that information should come from the model and in SpaceGame, all units are always visible anyway." />
     <MESSAGE value="Added a new layer on which counters can be rendered, as well as some preliminary code to render a counter." />
     <MESSAGE value="Refactored Counter to take an Image instead of an ImageView." />
     <MESSAGE value="Added mouse click handling, printing the clicked-on hex in a log message." />
@@ -539,7 +538,8 @@
     <MESSAGE value="Removed most of the classes used by the old swing SpaceGame. If I need to re-add stuff I'll dig it out of Domination or the git history." />
     <MESSAGE value="Added a second spaceship to the game initialization, as well as players and colors to distinguish it from the first one." />
     <MESSAGE value="Reverting image stream change, which caused a mysterious bug." />
-    <option name="LAST_COMMIT_MESSAGE" value="Reverting image stream change, which caused a mysterious bug." />
+    <MESSAGE value="Split a new Controller class out from ControllerPane." />
+    <option name="LAST_COMMIT_MESSAGE" value="Split a new Controller class out from ControllerPane." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
