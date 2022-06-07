@@ -1,4 +1,4 @@
-package org.heckcorp.spacegame;
+package org.heckcorp.spacegame.model;
 
 import org.heckcorp.spacegame.map.javafx.ViewResources;
 

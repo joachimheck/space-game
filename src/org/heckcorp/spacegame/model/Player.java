@@ -1,4 +1,4 @@
-package org.heckcorp.spacegame;
+package org.heckcorp.spacegame.model;
 
 import java.io.Serializable;
 

@@ -5,6 +5,9 @@ import com.google.common.collect.Sets;
 import org.heckcorp.spacegame.map.javafx.Counter;
 import org.heckcorp.spacegame.map.javafx.GameViewPane;
 import org.heckcorp.spacegame.map.javafx.ViewResources;
+import org.heckcorp.spacegame.model.Model;
+import org.heckcorp.spacegame.model.Player;
+import org.heckcorp.spacegame.model.Unit;
 
 import java.util.HashMap;
 import java.util.Map;

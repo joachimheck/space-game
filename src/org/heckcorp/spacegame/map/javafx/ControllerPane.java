@@ -3,7 +3,7 @@ package org.heckcorp.spacegame.map.javafx;
 import javafx.geometry.Point2D;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import org.heckcorp.spacegame.Model;
+import org.heckcorp.spacegame.model.Model;
 import org.heckcorp.spacegame.map.MouseButton;
 import org.heckcorp.spacegame.map.Point;
 

@@ -25,6 +25,9 @@ import org.heckcorp.spacegame.map.javafx.GameViewPane;
 import org.heckcorp.spacegame.map.javafx.MapCanvas;
 import org.heckcorp.spacegame.map.javafx.MapUtils;
 import org.heckcorp.spacegame.map.javafx.ViewResources;
+import org.heckcorp.spacegame.model.Model;
+import org.heckcorp.spacegame.model.Player;
+import org.heckcorp.spacegame.model.Unit;
 
 import java.io.FileNotFoundException;
 

@@ -1,4 +1,4 @@
-package org.heckcorp.spacegame;
+package org.heckcorp.spacegame.model;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
@@ -7,6 +7,8 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import org.heckcorp.spacegame.map.MouseButton;
 import org.heckcorp.spacegame.map.Point;
+import org.heckcorp.spacegame.model.Player;
+import org.heckcorp.spacegame.model.Unit;
 
 import java.util.HashMap;
 import java.util.List;
