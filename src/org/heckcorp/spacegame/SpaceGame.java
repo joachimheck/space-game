@@ -30,14 +30,14 @@ import java.io.FileNotFoundException;
 
 import static org.heckcorp.spacegame.Constants.*;
 
-public class JavaFxGame extends Application {
+public class SpaceGame extends Application {
 
     @Override
     public void start(Stage stage) throws FileNotFoundException {
-        JavaFxModel model = new JavaFxModel();
+        Model model = new Model();
         MapUtils mapUtils = new MapUtils();
         ViewResources viewResources = new ViewResources();
-        ViewResources.Identifier spaceshipId = viewResources.addImageResource(Util.getResource("resource/spaceship.png"));
+        ViewResources.Identifier spaceshipId = viewResources.addImageResource(Loader.getResource("resource/spaceship.png"));
         GameViewPane gameViewPane = new GameViewPane(mapUtils);
         Controller controller = new Controller(model, gameViewPane, viewResources);
         controller.listenForPropertyChanges();

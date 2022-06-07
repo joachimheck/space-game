@@ -11,7 +11,7 @@ import java.util.Map;
 
 public class Controller {
 
-    public Controller(JavaFxModel model, GameViewPane view, ViewResources viewResources) {
+    public Controller(Model model, GameViewPane view, ViewResources viewResources) {
         this.model = model;
         this.view = view;
         this.viewResources = viewResources;
@@ -38,7 +38,7 @@ public class Controller {
                         view.moveCounter(unitCounters.get(u), d.leftValue(), d.rightValue())));
     }
 
-    private final JavaFxModel model;
+    private final Model model;
     private final Map<Unit, Counter> unitCounters = new HashMap<>();
     private final GameViewPane view;
     private final ViewResources viewResources;

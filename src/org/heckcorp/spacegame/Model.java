@@ -15,7 +15,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class JavaFxModel {
+public class Model {
     public void hexClicked(Point hexCoordinates, MouseButton mouseButton) {
         if (mouseButton == MouseButton.PRIMARY) {
             selectedHexPosition.setValue(Optional.empty());

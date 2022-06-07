@@ -7,7 +7,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
-public class Util {
+public class Loader {
     public static InputStream getResource(String filename) throws FileNotFoundException {
         @Nullable InputStream result;
         File file = new File(filename);
