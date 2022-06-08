@@ -1,106 +1,77 @@
 package org.heckcorp.spacegame.map.javafx;
 
-import javafx.animation.Interpolator;
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
-import javafx.animation.PathTransition;
-import javafx.animation.Timeline;
-import javafx.geometry.Point2D;
-import javafx.scene.layout.Pane;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderStrokeStyle;
+import javafx.scene.layout.BorderWidths;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.LineTo;
-import javafx.scene.shape.MoveTo;
-import javafx.scene.shape.Path;
-import javafx.scene.shape.Polygon;
-import javafx.util.Duration;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 import org.heckcorp.spacegame.map.Point;
+import org.heckcorp.spacegame.model.Model;
 import org.heckcorp.spacegame.model.Unit;
 import org.jetbrains.annotations.Nullable;
 
-public class GameViewPane extends Pane {
+import static org.heckcorp.spacegame.Constants.*;
+
+public class GameViewPane extends VBox {
     public void addCounter(Counter counter, Point position) {
-        getChildren().add(counter);
-        Point2D pixelPos = mapUtils.getHexCenter(new Point(position.x(), position.y()));
-        setCounterLocation(counter, pixelPos);
+        mapPane.addCounter(counter, position);
     }
 
     public void removeCounter(@Nullable Counter counter) {
-        if (counter != null) {
-            getChildren().remove(counter);
-        }
+        mapPane.removeCounter(counter);
     }
 
     public void moveCounter(Counter counter, Point startHexPos, Point endHexPos) {
-        Path path = new Path();
-        Point2D endPos = mapUtils.getHexCenter(endHexPos);
-        Point2D startPos = mapUtils.getHexCenter(startHexPos);
-        path.getElements().add(new MoveTo(counter.getLayoutBounds().getCenterX(), counter.getLayoutBounds().getCenterY()));
-        path.getElements().add(new LineTo(
-                endPos.getX() - startPos.getX() + counter.getLayoutBounds().getCenterX(),
-                endPos.getY() - startPos.getY() + counter.getLayoutBounds().getCenterY()));
-        PathTransition pathTransition = new PathTransition(Duration.seconds(2), path, counter);
-        pathTransition.setOrientation(PathTransition.OrientationType.NONE);
-        pathTransition.setOnFinished(event -> setCounterLocation(counter, endPos));
-        pathTransition.play();
+        mapPane.moveCounter(counter, startHexPos, endHexPos);
     }
-    //        Rotate rotate = new Rotate(90);
-    //        imageView.getTransforms().add(rotate);
 
     public void selectHex(Point hexCoordinates) {
-        selectedHex = hexCoordinates;
-        selectionHexagon = mapUtils.getHexagon(selectedHex);
-        selectionHexagon.getStrokeDashArray().setAll(10d, 10d);
-        selectionHexagon.setStrokeWidth(2);
-        selectionHexagon.setStroke(Color.YELLOW);
-        selectionHexagon.setFill(Color.TRANSPARENT);
-        getChildren().add(selectionHexagon);
-
-        Timeline timeline = new Timeline(
-                new KeyFrame(
-                        Duration.ZERO,
-                        new KeyValue(
-                                selectionHexagon.strokeDashOffsetProperty(),
-                                20,
-                                Interpolator.LINEAR
-                        )
-                ),
-                new KeyFrame(
-                        Duration.seconds(2),
-                        new KeyValue(
-                                selectionHexagon.strokeDashOffsetProperty(),
-                                0,
-                                Interpolator.LINEAR
-                        )
-                )
-        );
-        timeline.setCycleCount(Timeline.INDEFINITE);
-        timeline.play();
+        mapPane.selectHex(hexCoordinates);
     }
 
     public void unselectHex() {
-        selectedHex = NO_SELECTED_HEX;
-        getChildren().remove(selectionHexagon);
+        mapPane.unselectHex();
     }
 
     public void selectUnit(@SuppressWarnings("unused") @Nullable Unit unit) {
+        mapPane.selectUnit(unit);
         // TODO: update the hexDescriptionPane, once that is incorporated into this class.
     }
 
-    private void setCounterLocation(Counter counter, Point2D location) {
-        counter.setTranslateX(0);
-        counter.setTranslateY(0);
-        counter.relocate(
-                location.getX() - counter.getLayoutBounds().getCenterX(),
-                location.getY() - counter.getLayoutBounds().getCenterY());
+    private GameViewPane(MapPane mapPane) {
+        this.mapPane = mapPane;
     }
 
-    public GameViewPane(MapUtils mapUtils) {
-        this.mapUtils = mapUtils;
+    public static GameViewPane create(Model model, MapUtils mapUtils) {
+        MapPane mapPane = MapPane.create(mapUtils, model);
+        GameViewPane gameViewPane = new GameViewPane(mapPane);
+        mapPane.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(10))));
+        ScrollPane mapScrollPane = new ScrollPane(mapPane);
+        mapScrollPane.setPrefSize(UI_COMPONENT_LARGE_WIDTH, UI_COMPONENT_LARGE_HEIGHT);
+        Rectangle hexDescriptionPane = new Rectangle(UI_COMPONENT_SMALL_WIDTH, UI_COMPONENT_LARGE_HEIGHT);
+        hexDescriptionPane.setFill(Color.gray(.75));
+        ScrollPane textScrollPane = new ScrollPane(new Text("Text pane!"));
+        textScrollPane.setPrefSize(UI_COMPONENT_LARGE_WIDTH, UI_COMPONENT_SMALL_HEIGHT);
+        Canvas miniMapPane = new Canvas(UI_COMPONENT_SMALL_WIDTH, UI_COMPONENT_SMALL_HEIGHT);
+        GridPane gridPane = new GridPane();
+        GridPane.setConstraints(mapScrollPane, 0, 1);
+        GridPane.setConstraints(hexDescriptionPane, 1, 1);
+        GridPane.setConstraints(textScrollPane, 0, 2);
+        GridPane.setConstraints(miniMapPane, 1, 2);
+        gridPane.getChildren().addAll(mapScrollPane, hexDescriptionPane, textScrollPane);
+        MenuBar menuBar = new MenuBar(new Menu("File"), new Menu("Game"), new Menu("Unit"));
+        gameViewPane.getChildren().addAll(menuBar, gridPane);
+        return gameViewPane;
     }
-    private final MapUtils mapUtils;
-    private Polygon selectionHexagon = new Polygon(0d, 0d);
 
-    private Point selectedHex = NO_SELECTED_HEX;
-
-    private static final Point NO_SELECTED_HEX = new Point(-1, -1);
+    private final MapPane mapPane;
 }

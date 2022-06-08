@@ -18,12 +18,6 @@ import java.util.Map;
 
 public class Controller {
 
-    public Controller(Model model, GameViewPane view, ViewResources viewResources) {
-        this.model = model;
-        this.view = view;
-        this.viewResources = viewResources;
-    }
-
     public void listenForPropertyChanges() {
         model.selectedHexPositionProperty().addListener(new ChangeListener<>() {
             // TODO: Figure out how to push @Nullable into this lambda.
@@ -32,6 +26,7 @@ public class Controller {
                 if (newValue == null) {
                     view.unselectHex();
                 } else {
+                    view.unselectHex();
                     view.selectHex(newValue);
                 }
             }
@@ -54,6 +49,19 @@ public class Controller {
                         view.moveCounter(unitCounters.get(u), d.leftValue(), d.rightValue());
                     }
                 }));
+    }
+
+    private Controller(Model model, GameViewPane view, ViewResources viewResources) {
+        this.model = model;
+        this.view = view;
+        this.viewResources = viewResources;
+    }
+
+    @SuppressWarnings("UnusedReturnValue")
+    public static Controller create(Model model, GameViewPane view, ViewResources viewResources) {
+        Controller controller = new Controller(model, view, viewResources);
+        controller.listenForPropertyChanges();
+        return controller;
     }
 
     private final Model model;
