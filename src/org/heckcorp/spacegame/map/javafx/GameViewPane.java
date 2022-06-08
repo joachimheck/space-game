@@ -42,7 +42,7 @@ public class GameViewPane extends VBox {
         mapPane.unselectHex();
     }
 
-    public void selectUnit(@SuppressWarnings("unused") @Nullable Unit unit) {
+    public void selectUnit(@Nullable Unit unit) {
         if (unit == null) {
             hexDescriptionPane.setText("");
         } else {

@@ -1,4 +1,4 @@
-@DefaultQualifier(value = NotNull.class)
+//@DefaultQualifier(value = NotNull.class)
 package org.heckcorp.spacegame.model;
 
 import org.checkerframework.framework.qual.DefaultQualifier;

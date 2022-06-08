@@ -2,8 +2,6 @@ package org.heckcorp.spacegame;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.heckcorp.spacegame.map.Point;
 import org.heckcorp.spacegame.map.javafx.Counter;
@@ -19,16 +17,12 @@ import java.util.Map;
 public class Controller {
 
     public void listenForPropertyChanges() {
-        model.selectedHexPositionProperty().addListener(new ChangeListener<>() {
-            // TODO: Figure out how to push @Nullable into this lambda.
-            @Override
-            public void changed(ObservableValue<? extends Point> observable, Point oldValue, @Nullable Point newValue) {
-                if (newValue == null) {
-                    view.unselectHex();
-                } else {
-                    view.unselectHex();
-                    view.selectHex(newValue);
-                }
+        model.selectedHexPositionProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue == null) {
+                view.unselectHex();
+            } else {
+                view.unselectHex();
+                view.selectHex(newValue);
             }
         });
         model.selectedUnit().addListener((observable, oldValue, newValue) -> view.selectUnit(newValue));

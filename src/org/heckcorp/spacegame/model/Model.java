@@ -19,19 +19,19 @@ public class Model {
     public void hexClicked(Point hexCoordinates, MouseButton mouseButton) {
         if (mouseButton == MouseButton.PRIMARY) {
             selectedHexPosition.setValue(hexCoordinates);
-            if (!getUnitsAt(hexCoordinates).isEmpty()) {
+            if (getUnitsAt(hexCoordinates).isEmpty()) {
+                selectedUnit.setValue(null);
+            } else {
                 selectedUnit.setValue(getUnitsAt(hexCoordinates).get(0));
             }
         } else if (mouseButton == MouseButton.SECONDARY) {
             moveSelectedUnit(hexCoordinates);
-            // TODO: Fix this warning.
             selectedHexPosition.setValue(null);
         }
     }
 
     private void moveSelectedUnit(Point hexCoordinates) {
         @Nullable Point selectedCoordinates = selectedHexPosition.get();
-        // TODO: Fix this warning.
         if (selectedCoordinates != null) {
             List<Unit> units = getUnitsAt(selectedCoordinates);
             if (!units.isEmpty()) {
