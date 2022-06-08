@@ -12,7 +12,6 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import org.heckcorp.spacegame.map.Point;
 import org.heckcorp.spacegame.model.Model;
@@ -22,6 +21,7 @@ import org.jetbrains.annotations.Nullable;
 import static org.heckcorp.spacegame.Constants.*;
 
 public class GameViewPane extends VBox {
+
     public void addCounter(Counter counter, Point position) {
         mapPane.addCounter(counter, position);
     }
@@ -43,22 +43,20 @@ public class GameViewPane extends VBox {
     }
 
     public void selectUnit(@SuppressWarnings("unused") @Nullable Unit unit) {
-        mapPane.selectUnit(unit);
-        // TODO: update the hexDescriptionPane, once that is incorporated into this class.
-    }
-
-    private GameViewPane(MapPane mapPane) {
-        this.mapPane = mapPane;
+        if (unit == null) {
+            hexDescriptionPane.setText("");
+        } else {
+            hexDescriptionPane.setText("Unit: %x" + unit.hashCode());
+        }
     }
 
     public static GameViewPane create(Model model, MapUtils mapUtils) {
         MapPane mapPane = MapPane.create(mapUtils, model);
-        GameViewPane gameViewPane = new GameViewPane(mapPane);
         mapPane.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(10))));
         ScrollPane mapScrollPane = new ScrollPane(mapPane);
         mapScrollPane.setPrefSize(UI_COMPONENT_LARGE_WIDTH, UI_COMPONENT_LARGE_HEIGHT);
-        Rectangle hexDescriptionPane = new Rectangle(UI_COMPONENT_SMALL_WIDTH, UI_COMPONENT_LARGE_HEIGHT);
-        hexDescriptionPane.setFill(Color.gray(.75));
+        HexDescriptionPane hexDescriptionPane = HexDescriptionPane.create();
+        hexDescriptionPane.setPrefSize(UI_COMPONENT_SMALL_WIDTH, UI_COMPONENT_LARGE_HEIGHT);
         ScrollPane textScrollPane = new ScrollPane(new Text("Text pane!"));
         textScrollPane.setPrefSize(UI_COMPONENT_LARGE_WIDTH, UI_COMPONENT_SMALL_HEIGHT);
         Canvas miniMapPane = new Canvas(UI_COMPONENT_SMALL_WIDTH, UI_COMPONENT_SMALL_HEIGHT);
@@ -69,9 +67,16 @@ public class GameViewPane extends VBox {
         GridPane.setConstraints(miniMapPane, 1, 2);
         gridPane.getChildren().addAll(mapScrollPane, hexDescriptionPane, textScrollPane);
         MenuBar menuBar = new MenuBar(new Menu("File"), new Menu("Game"), new Menu("Unit"));
+        GameViewPane gameViewPane = new GameViewPane(mapPane, hexDescriptionPane);
         gameViewPane.getChildren().addAll(menuBar, gridPane);
         return gameViewPane;
     }
 
+    private GameViewPane(MapPane mapPane, HexDescriptionPane hexDescriptionPane) {
+        this.mapPane = mapPane;
+        this.hexDescriptionPane = hexDescriptionPane;
+    }
+
     private final MapPane mapPane;
+    private final HexDescriptionPane hexDescriptionPane;
 }

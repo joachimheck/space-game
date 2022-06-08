@@ -17,7 +17,6 @@ import javafx.scene.shape.Polygon;
 import javafx.util.Duration;
 import org.heckcorp.spacegame.map.Point;
 import org.heckcorp.spacegame.model.Model;
-import org.heckcorp.spacegame.model.Unit;
 import org.jetbrains.annotations.Nullable;
 
 import static org.heckcorp.spacegame.Constants.MAP_HEIGHT;
@@ -86,10 +85,6 @@ public class MapPane extends StackPane {
     public void unselectHex() {
         selectedHex = NO_SELECTED_HEX;
         countersPane.getChildren().remove(selectionHexagon);
-    }
-
-    public void selectUnit(@SuppressWarnings("unused") @Nullable Unit unit) {
-        // TODO: update the hexDescriptionPane, once that is incorporated into this class.
     }
 
     private void setCounterLocation(Counter counter, Point2D location) {
