@@ -4,7 +4,7 @@ import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
 import javafx.scene.shape.Polygon;
 import org.heckcorp.spacegame.map.Point;
-import org.heckcorp.spacegame.Loader;
+import org.heckcorp.spacegame.ResourceLoader;
 
 import java.io.FileNotFoundException;
 
@@ -95,7 +95,7 @@ public class MapUtils {
   }
 
   public MapUtils() throws FileNotFoundException {
-    tilePic = new Image(Loader.getResource("resource/hex-large-light.png"));
+    tilePic = new Image(ResourceLoader.getResource("resource/hex-large-light.png"));
     tileWidth = (int) Math.floor(3.0 * tilePic.getWidth() / 4.0);
     tileHeight = (int) tilePic.getHeight();
     assert tileWidth % 4 == 0;
