@@ -7,17 +7,17 @@ import java.io.InputStream;
 import java.util.Map;
 
 public class ViewResources {
-    public record Identifier() {}
+  public record Identifier() {}
 
-    public Identifier addImageResource(InputStream inputStream) {
-        Identifier identifier = new Identifier();
-        images.put(identifier, new Image(inputStream));
-        return identifier;
-    }
+  public Identifier addImageResource(InputStream inputStream) {
+    Identifier identifier = new Identifier();
+    images.put(identifier, new Image(inputStream));
+    return identifier;
+  }
 
-    public Map<Identifier, Image> getImages() {
-        return images;
-    }
+  public Map<Identifier, Image> getImages() {
+    return images;
+  }
 
-    private final Map<Identifier, Image> images = Maps.newHashMap();
+  private final Map<Identifier, Image> images = Maps.newHashMap();
 }

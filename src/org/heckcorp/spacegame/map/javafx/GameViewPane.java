@@ -22,61 +22,64 @@ import static org.heckcorp.spacegame.Constants.*;
 
 public class GameViewPane extends VBox {
 
-    public void addCounter(Counter counter, Point position) {
-        mapPane.addCounter(counter, position);
-    }
+  public void addCounter(Counter counter, Point position) {
+    mapPane.addCounter(counter, position);
+  }
 
-    public void removeCounter(@Nullable Counter counter) {
-        mapPane.removeCounter(counter);
-    }
+  public void removeCounter(@Nullable Counter counter) {
+    mapPane.removeCounter(counter);
+  }
 
-    public void moveCounter(Counter counter, Point startHexPos, Point endHexPos) {
-        mapPane.moveCounter(counter, startHexPos, endHexPos);
-    }
+  public void moveCounter(Counter counter, Point startHexPos, Point endHexPos) {
+    mapPane.moveCounter(counter, startHexPos, endHexPos);
+  }
 
-    public void selectHex(Point hexCoordinates) {
-        mapPane.selectHex(hexCoordinates);
-    }
+  public void selectHex(Point hexCoordinates) {
+    mapPane.selectHex(hexCoordinates);
+  }
 
-    public void unselectHex() {
-        mapPane.unselectHex();
-    }
+  public void unselectHex() {
+    mapPane.unselectHex();
+  }
 
-    public void selectUnit(@Nullable Unit unit) {
-        if (unit == null) {
-            hexDescriptionPane.setText("");
-        } else {
-            hexDescriptionPane.setText("Unit: %x" + unit.hashCode());
-        }
+  public void selectUnit(@Nullable Unit unit) {
+    if (unit == null) {
+      hexDescriptionPane.setText("");
+    } else {
+      hexDescriptionPane.setText("Unit: %x" + unit.hashCode());
     }
+  }
 
-    public static GameViewPane create(Model model, MapUtils mapUtils) {
-        MapPane mapPane = MapPane.create(mapUtils, model);
-        mapPane.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(10))));
-        ScrollPane mapScrollPane = new ScrollPane(mapPane);
-        mapScrollPane.setPrefSize(UI_COMPONENT_LARGE_WIDTH, UI_COMPONENT_LARGE_HEIGHT);
-        HexDescriptionPane hexDescriptionPane = HexDescriptionPane.create();
-        hexDescriptionPane.setPrefSize(UI_COMPONENT_SMALL_WIDTH, UI_COMPONENT_LARGE_HEIGHT);
-        ScrollPane textScrollPane = new ScrollPane(new Text("Text pane!"));
-        textScrollPane.setPrefSize(UI_COMPONENT_LARGE_WIDTH, UI_COMPONENT_SMALL_HEIGHT);
-        Canvas miniMapPane = new Canvas(UI_COMPONENT_SMALL_WIDTH, UI_COMPONENT_SMALL_HEIGHT);
-        GridPane gridPane = new GridPane();
-        GridPane.setConstraints(mapScrollPane, 0, 1);
-        GridPane.setConstraints(hexDescriptionPane, 1, 1);
-        GridPane.setConstraints(textScrollPane, 0, 2);
-        GridPane.setConstraints(miniMapPane, 1, 2);
-        gridPane.getChildren().addAll(mapScrollPane, hexDescriptionPane, textScrollPane);
-        MenuBar menuBar = new MenuBar(new Menu("File"), new Menu("Game"), new Menu("Unit"));
-        GameViewPane gameViewPane = new GameViewPane(mapPane, hexDescriptionPane);
-        gameViewPane.getChildren().addAll(menuBar, gridPane);
-        return gameViewPane;
-    }
+  public static GameViewPane create(Model model, MapUtils mapUtils) {
+    MapPane mapPane = MapPane.create(mapUtils, model);
+    mapPane.setBorder(
+        new Border(
+            new BorderStroke(
+                Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(10))));
+    ScrollPane mapScrollPane = new ScrollPane(mapPane);
+    mapScrollPane.setPrefSize(UI_COMPONENT_LARGE_WIDTH, UI_COMPONENT_LARGE_HEIGHT);
+    HexDescriptionPane hexDescriptionPane = HexDescriptionPane.create();
+    hexDescriptionPane.setPrefSize(UI_COMPONENT_SMALL_WIDTH, UI_COMPONENT_LARGE_HEIGHT);
+    ScrollPane textScrollPane = new ScrollPane(new Text("Text pane!"));
+    textScrollPane.setPrefSize(UI_COMPONENT_LARGE_WIDTH, UI_COMPONENT_SMALL_HEIGHT);
+    Canvas miniMapPane = new Canvas(UI_COMPONENT_SMALL_WIDTH, UI_COMPONENT_SMALL_HEIGHT);
+    GridPane gridPane = new GridPane();
+    GridPane.setConstraints(mapScrollPane, 0, 1);
+    GridPane.setConstraints(hexDescriptionPane, 1, 1);
+    GridPane.setConstraints(textScrollPane, 0, 2);
+    GridPane.setConstraints(miniMapPane, 1, 2);
+    gridPane.getChildren().addAll(mapScrollPane, hexDescriptionPane, textScrollPane);
+    MenuBar menuBar = new MenuBar(new Menu("File"), new Menu("Game"), new Menu("Unit"));
+    GameViewPane gameViewPane = new GameViewPane(mapPane, hexDescriptionPane);
+    gameViewPane.getChildren().addAll(menuBar, gridPane);
+    return gameViewPane;
+  }
 
-    private GameViewPane(MapPane mapPane, HexDescriptionPane hexDescriptionPane) {
-        this.mapPane = mapPane;
-        this.hexDescriptionPane = hexDescriptionPane;
-    }
+  private GameViewPane(MapPane mapPane, HexDescriptionPane hexDescriptionPane) {
+    this.mapPane = mapPane;
+    this.hexDescriptionPane = hexDescriptionPane;
+  }
 
-    private final MapPane mapPane;
-    private final HexDescriptionPane hexDescriptionPane;
+  private final MapPane mapPane;
+  private final HexDescriptionPane hexDescriptionPane;
 }

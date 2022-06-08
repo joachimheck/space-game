@@ -16,81 +16,83 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class Model {
-    public void hexClicked(Point hexCoordinates, MouseButton mouseButton) {
-        if (mouseButton == MouseButton.PRIMARY) {
-            selectedHexPosition.setValue(hexCoordinates);
-            if (getUnitsAt(hexCoordinates).isEmpty()) {
-                selectedUnit.setValue(null);
-            } else {
-                selectedUnit.setValue(getUnitsAt(hexCoordinates).get(0));
-            }
-        } else if (mouseButton == MouseButton.SECONDARY) {
-            moveSelectedUnit(hexCoordinates);
-            selectedHexPosition.setValue(null);
-        }
+  public void hexClicked(Point hexCoordinates, MouseButton mouseButton) {
+    if (mouseButton == MouseButton.PRIMARY) {
+      selectedHexPosition.setValue(hexCoordinates);
+      if (getUnitsAt(hexCoordinates).isEmpty()) {
+        selectedUnit.setValue(null);
+      } else {
+        selectedUnit.setValue(getUnitsAt(hexCoordinates).get(0));
+      }
+    } else if (mouseButton == MouseButton.SECONDARY) {
+      moveSelectedUnit(hexCoordinates);
+      selectedHexPosition.setValue(null);
     }
+  }
 
-    private void moveSelectedUnit(Point hexCoordinates) {
-        @Nullable Point selectedCoordinates = selectedHexPosition.get();
-        if (selectedCoordinates != null) {
-            List<Unit> units = getUnitsAt(selectedCoordinates);
-            if (!units.isEmpty()) {
-                Unit selectedUnit = units.get(0);
-                Map<Unit, Point> updated = new HashMap<>(unitPositions.get());
-                updated.put(selectedUnit, hexCoordinates);
-                unitPositions.setValue(updated);
-            }
-        }
+  private void moveSelectedUnit(Point hexCoordinates) {
+    @Nullable Point selectedCoordinates = selectedHexPosition.get();
+    if (selectedCoordinates != null) {
+      List<Unit> units = getUnitsAt(selectedCoordinates);
+      if (!units.isEmpty()) {
+        Unit selectedUnit = units.get(0);
+        Map<Unit, Point> updated = new HashMap<>(unitPositions.get());
+        updated.put(selectedUnit, hexCoordinates);
+        unitPositions.setValue(updated);
+      }
     }
+  }
 
-    private List<Unit> getUnitsAt(Point point) {
-        return unitPositions.getValue().entrySet().stream()
-                .filter(e -> e.getValue().equals(point))
-                .map(Map.Entry::getKey)
-                .collect(Collectors.toList());
-    }
+  private List<Unit> getUnitsAt(Point point) {
+    return unitPositions.getValue().entrySet().stream()
+        .filter(e -> e.getValue().equals(point))
+        .map(Map.Entry::getKey)
+        .collect(Collectors.toList());
+  }
 
-    public void addPlayer(Player player) {
-        players.setValue(new ImmutableSet.Builder<Player>().addAll(getPlayers()).add(player).build());
-    }
-    public void addUnit(Unit unit, Point hexPosition) {
-        unitPositions.get().put(unit, hexPosition);
-        unitsProperty().setValue(new ImmutableSet.Builder<Unit>().addAll(getUnits()).add(unit).build());
-    }
+  public void addPlayer(Player player) {
+    players.setValue(new ImmutableSet.Builder<Player>().addAll(getPlayers()).add(player).build());
+  }
 
-    @SuppressWarnings("unused")
-    private void removeUnit(Unit unit) {
-        unitPositions.get().remove(unit);
-        unitsProperty().setValue(Sets.difference(getUnits(), ImmutableSet.of(unit)));
-    }
+  public void addUnit(Unit unit, Point hexPosition) {
+    unitPositions.get().put(unit, hexPosition);
+    unitsProperty().setValue(new ImmutableSet.Builder<Unit>().addAll(getUnits()).add(unit).build());
+  }
 
-    public final ObjectProperty<Point> selectedHexPositionProperty() {
-        return selectedHexPosition;
-    }
+  @SuppressWarnings("unused")
+  private void removeUnit(Unit unit) {
+    unitPositions.get().remove(unit);
+    unitsProperty().setValue(Sets.difference(getUnits(), ImmutableSet.of(unit)));
+  }
 
-    public final ObjectProperty<Unit> selectedUnit() {
-        return selectedUnit;
-    }
+  public final ObjectProperty<Point> selectedHexPositionProperty() {
+    return selectedHexPosition;
+  }
 
-    public final ObjectProperty<Map<Unit, Point>> unitPositionsProperty() {
-        return unitPositions;
-    }
+  public final ObjectProperty<Unit> selectedUnit() {
+    return selectedUnit;
+  }
 
-    public final ObjectProperty<Set<Unit>> unitsProperty() {
-        return units;
-    }
+  public final ObjectProperty<Map<Unit, Point>> unitPositionsProperty() {
+    return unitPositions;
+  }
 
-    public final Set<Player> getPlayers() {
-        return players.get();
-    }
+  public final ObjectProperty<Set<Unit>> unitsProperty() {
+    return units;
+  }
 
-    public final Set<Unit> getUnits() {
-        return units.get();
-    }
+  public final Set<Player> getPlayers() {
+    return players.get();
+  }
 
-    private final ObjectProperty<Set<Player>> players = new SimpleObjectProperty<>(Sets.newHashSet());
-    private final ObjectProperty<Point> selectedHexPosition = new SimpleObjectProperty<>();
-    private final ObjectProperty<Unit> selectedUnit = new SimpleObjectProperty<>();
-    private final ObjectProperty<Set<Unit>> units = new SimpleObjectProperty<>(Sets.newHashSet());
-    private final ObjectProperty<Map<Unit, Point>> unitPositions = new SimpleObjectProperty<>(Maps.newHashMap());
+  public final Set<Unit> getUnits() {
+    return units.get();
+  }
+
+  private final ObjectProperty<Set<Player>> players = new SimpleObjectProperty<>(Sets.newHashSet());
+  private final ObjectProperty<Point> selectedHexPosition = new SimpleObjectProperty<>();
+  private final ObjectProperty<Unit> selectedUnit = new SimpleObjectProperty<>();
+  private final ObjectProperty<Set<Unit>> units = new SimpleObjectProperty<>(Sets.newHashSet());
+  private final ObjectProperty<Map<Unit, Point>> unitPositions =
+      new SimpleObjectProperty<>(Maps.newHashMap());
 }

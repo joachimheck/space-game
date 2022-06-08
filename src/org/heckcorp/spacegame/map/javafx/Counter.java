@@ -11,21 +11,27 @@ import javafx.scene.paint.Color;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 public class Counter extends Pane {
-    private Counter() { }
+  private Counter() {}
 
-    public static Counter build(ViewResources viewResources, ViewResources.Identifier identifier, double r, double g, double b) {
-        Counter counter = new Counter();
-        Color backgroundColor = new Color(r, g, b, 1.0);
-        counter.setBackground(new Background(new BackgroundFill(backgroundColor, CornerRadii.EMPTY, Insets.EMPTY)));
-        @Nullable Image image = viewResources.getImages().get(identifier);
-        assert image != null : "@AssumeAssertion(nullness)";
-        counter.getChildren().add(new ImageView(image));
-        counter.setMinWidth(image.getWidth());
-        counter.setMinHeight(image.getHeight());
-        counter.setMaxWidth(image.getWidth());
-        counter.setMaxHeight(image.getHeight());
-        counter.setWidth(image.getWidth());
-        counter.setHeight(image.getHeight());
-        return counter;
-    }
+  public static Counter build(
+      ViewResources viewResources,
+      ViewResources.Identifier identifier,
+      double r,
+      double g,
+      double b) {
+    Counter counter = new Counter();
+    Color backgroundColor = new Color(r, g, b, 1.0);
+    counter.setBackground(
+        new Background(new BackgroundFill(backgroundColor, CornerRadii.EMPTY, Insets.EMPTY)));
+    @Nullable Image image = viewResources.getImages().get(identifier);
+    assert image != null : "@AssumeAssertion(nullness)";
+    counter.getChildren().add(new ImageView(image));
+    counter.setMinWidth(image.getWidth());
+    counter.setMinHeight(image.getHeight());
+    counter.setMaxWidth(image.getWidth());
+    counter.setMaxHeight(image.getHeight());
+    counter.setWidth(image.getWidth());
+    counter.setHeight(image.getHeight());
+    return counter;
+  }
 }
