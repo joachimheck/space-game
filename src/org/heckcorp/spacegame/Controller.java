@@ -28,7 +28,12 @@ public class Controller {
                 view.selectHex(newValue);
               }
             });
-    model.selectedUnit().addListener((observable, oldValue, newValue) -> view.selectUnit(newValue));
+    model
+        .selectedUnitProperty()
+        .addListener((observable, oldValue, newValue) -> view.selectUnit(newValue));
+    model
+        .targetUnitProperty()
+        .addListener((observable, oldValue, newValue) -> view.targetUnit(newValue));
     model
         .unitsProperty()
         .addListener(

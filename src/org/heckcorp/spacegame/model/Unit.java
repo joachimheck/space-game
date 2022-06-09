@@ -22,14 +22,15 @@ public class Unit implements Serializable {
     return owner;
   }
 
-  public Unit(Player owner, ViewResources.Identifier imageId, int health, int maxHealth) {
+  public Unit(Player owner, ViewResources.Identifier imageId) {
     this.owner = owner;
     this.imageId = imageId;
-    this.health = health;
-    this.maxHealth = maxHealth;
   }
-  private final Player owner;
+
+  private final int attackStrength = 3;
+  private int health = 5;
+  private int maxHealth = 5;
+
   private final ViewResources.Identifier imageId;
-  private int health;
-  private int maxHealth;
+  private final Player owner;
 }

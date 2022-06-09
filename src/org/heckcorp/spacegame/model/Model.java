@@ -18,11 +18,19 @@ import java.util.stream.Collectors;
 public class Model {
   public void hexClicked(Point hexCoordinates, MouseButton mouseButton) {
     if (mouseButton == MouseButton.PRIMARY) {
-      selectedHexPosition.setValue(hexCoordinates);
-      if (getUnitsAt(hexCoordinates).isEmpty()) {
-        selectedUnit.setValue(null);
-      } else {
-        selectedUnit.setValue(getUnitsAt(hexCoordinates).get(0));
+      List<Unit> units = getUnitsAt(hexCoordinates);
+      if (selectionMode.equals(SelectionMode.SELECT)) {
+        selectedHexPosition.setValue(hexCoordinates);
+        if (units.isEmpty()) {
+          selectedUnit.setValue(null);
+        } else {
+          selectedUnit.setValue(units.get(0));
+        }
+      } else if (selectionMode.equals(SelectionMode.TARGET) && selectedUnit.getValue() != null) {
+        if (!units.isEmpty()) {
+          targetUnit.setValue(units.get(0));
+        }
+        selectionMode = SelectionMode.SELECT;
       }
     } else if (mouseButton == MouseButton.SECONDARY) {
       moveSelectedUnit(hexCoordinates);
@@ -69,8 +77,12 @@ public class Model {
     return selectedHexPosition;
   }
 
-  public final ObjectProperty<Unit> selectedUnit() {
+  public final ObjectProperty<Unit> selectedUnitProperty() {
     return selectedUnit;
+  }
+
+  public final ObjectProperty<Unit> targetUnitProperty() {
+    return targetUnit;
   }
 
   public final ObjectProperty<Map<Unit, Point>> unitPositionsProperty() {
@@ -89,9 +101,20 @@ public class Model {
     return units.get();
   }
 
+  public void setSelectionMode(SelectionMode mode) {
+    this.selectionMode = mode;
+  }
+
+  public enum SelectionMode {
+    SELECT,
+    TARGET
+  }
+
   private final ObjectProperty<Set<Player>> players = new SimpleObjectProperty<>(Sets.newHashSet());
   private final ObjectProperty<Point> selectedHexPosition = new SimpleObjectProperty<>();
   private final ObjectProperty<Unit> selectedUnit = new SimpleObjectProperty<>();
+  private SelectionMode selectionMode = SelectionMode.SELECT;
+  private final ObjectProperty<Unit> targetUnit = new SimpleObjectProperty<>();
   private final ObjectProperty<Set<Unit>> units = new SimpleObjectProperty<>(Sets.newHashSet());
   private final ObjectProperty<Map<Unit, Point>> unitPositions =
       new SimpleObjectProperty<>(Maps.newHashMap());

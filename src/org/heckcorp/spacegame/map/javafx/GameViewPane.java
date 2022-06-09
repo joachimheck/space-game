@@ -40,19 +40,29 @@ public class GameViewPane extends VBox {
 
   public void unselectHex() {
     mapPane.unselectHex();
+    hexDescriptionPane.clear();
   }
 
   public void selectUnit(@Nullable Unit unit) {
     if (unit == null) {
-      hexDescriptionPane.setText("");
+      hexDescriptionPane.clear();
     } else {
-      hexDescriptionPane.setText(
+      hexDescriptionPane.setSelectedUnitData(
           String.format(
               "%s's unit: health %d/%d",
               unit.getOwner().getName(), unit.getHealth(), unit.getMaxHealth()));
+      hexDescriptionPane.setTargetUnitData("");
     }
   }
 
+  public void targetUnit(Unit unit) {
+    hexDescriptionPane.setTargetUnitData(
+        String.format(
+            "%s's unit: health %d/%d",
+            unit.getOwner().getName(), unit.getHealth(), unit.getMaxHealth()));
+  }
+
+  // TODO: should the view classes be directly calling methods on the model?
   public static GameViewPane create(Model model, MapUtils mapUtils) {
     MapPane mapPane = MapPane.create(mapUtils, model);
     mapPane.setBorder(
@@ -61,7 +71,7 @@ public class GameViewPane extends VBox {
                 Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(10))));
     ScrollPane mapScrollPane = new ScrollPane(mapPane);
     mapScrollPane.setPrefSize(UI_COMPONENT_LARGE_WIDTH, UI_COMPONENT_LARGE_HEIGHT);
-    HexDescriptionPane hexDescriptionPane = HexDescriptionPane.create();
+    HexDescriptionPane hexDescriptionPane = HexDescriptionPane.create(model);
     hexDescriptionPane.setPrefSize(UI_COMPONENT_SMALL_WIDTH, UI_COMPONENT_LARGE_HEIGHT);
     ScrollPane textScrollPane = new ScrollPane(new Text("Text pane!"));
     textScrollPane.setPrefSize(UI_COMPONENT_LARGE_WIDTH, UI_COMPONENT_SMALL_HEIGHT);
