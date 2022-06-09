@@ -105,6 +105,16 @@ public class Model {
     this.selectionMode = mode;
   }
 
+  public void processAttack() {
+    Unit attacker = selectedUnit.getValue();
+    Unit defender = targetUnit.getValue();
+    assert attacker != null;
+    assert defender != null;
+    defender.setHealth(defender.getHealth() - attacker.getAttackStrength());
+    targetUnit.setValue(null);
+    targetUnit.setValue(defender);
+  }
+
   public enum SelectionMode {
     SELECT,
     TARGET

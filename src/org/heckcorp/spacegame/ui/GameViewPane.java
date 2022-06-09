@@ -13,16 +13,19 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
+import org.checkerframework.framework.qual.DefaultQualifier;
 import org.heckcorp.spacegame.ui.map.Point;
 import org.heckcorp.spacegame.ui.map.Counter;
 import org.heckcorp.spacegame.ui.map.MapPane;
 import org.heckcorp.spacegame.ui.map.MapUtils;
 import org.heckcorp.spacegame.model.Model;
 import org.heckcorp.spacegame.model.Unit;
-import org.jetbrains.annotations.Nullable;
 
 import static org.heckcorp.spacegame.Constants.*;
 
+@DefaultQualifier(NonNull.class)
 public class GameViewPane extends VBox {
 
   public void addCounter(Counter counter, Point position) {
@@ -57,11 +60,13 @@ public class GameViewPane extends VBox {
     }
   }
 
-  public void targetUnit(Unit unit) {
-    hexDescriptionPane.setTargetUnitData(
-        String.format(
-            "%s's unit: health %d/%d",
-            unit.getOwner().getName(), unit.getHealth(), unit.getMaxHealth()));
+  public void targetUnit(@Nullable Unit unit) {
+    if (unit != null) {
+      hexDescriptionPane.setTargetUnitData(
+          String.format(
+              "%s's unit: health %d/%d",
+              unit.getOwner().getName(), unit.getHealth(), unit.getMaxHealth()));
+    }
   }
 
   // TODO: should the view classes be directly calling methods on the model?

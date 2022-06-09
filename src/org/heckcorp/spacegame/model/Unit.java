@@ -6,6 +6,10 @@ import java.io.Serializable;
 
 /** Stores all the game-level information about a unit. */
 public class Unit implements Serializable {
+  public int getAttackStrength() {
+    return attackStrength;
+  }
+
   public int getHealth() {
     return health;
   }
@@ -22,15 +26,21 @@ public class Unit implements Serializable {
     return owner;
   }
 
+  public void setHealth(int health) {
+    this.health = health;
+  }
+
   public Unit(Player owner, ViewResources.Identifier imageId) {
     this.owner = owner;
     this.imageId = imageId;
+    this.attackStrength = 3;
+    this.health = 5;
+    this.maxHealth = 5;
   }
 
-  private final int attackStrength = 3;
-  private int health = 5;
-  private int maxHealth = 5;
-
+  private final int attackStrength;
+  private int health;
+  private final int maxHealth;
   private final ViewResources.Identifier imageId;
   private final Player owner;
 }

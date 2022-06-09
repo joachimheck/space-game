@@ -35,7 +35,10 @@ public class HexDescriptionPane extends FlowPane {
     Text selectedUnitData = new Text();
     Text targetUnitData = new Text();
     Button targetButton = new Button("Target");
+    targetButton.setOnAction(event -> model.setSelectionMode(Model.SelectionMode.TARGET));
     Button attackButton = new Button("Attack!");
+    attackButton.setOnAction(event -> model.processAttack());
+
     targetButton.setVisible(false);
     attackButton.setVisible(false);
     HexDescriptionPane hexDescriptionPane =
@@ -44,8 +47,6 @@ public class HexDescriptionPane extends FlowPane {
         new Background(new BackgroundFill(Color.gray(.75), CornerRadii.EMPTY, Insets.EMPTY)));
     hexDescriptionPane.getChildren().add(selectedUnitData);
     hexDescriptionPane.getChildren().add(targetUnitData);
-
-    targetButton.setOnAction(event -> model.setSelectionMode(Model.SelectionMode.TARGET));
     hexDescriptionPane.getChildren().add(targetButton);
     hexDescriptionPane.getChildren().add(attackButton);
 
