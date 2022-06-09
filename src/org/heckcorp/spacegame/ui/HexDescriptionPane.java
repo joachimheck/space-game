@@ -15,29 +15,31 @@ public class HexDescriptionPane extends FlowPane {
   public void setSelectedUnitData(String selectedUnitData) {
     this.selectedUnitData.setText(selectedUnitData);
     targetButton.setVisible(true);
+    attackButton.setVisible(false);
   }
 
   public void setTargetUnitData(String targetUnitData) {
     this.targetUnitData.setText(targetUnitData);
-  }
-
-  public void showTargetButton(boolean visible) {
-    targetButton.setVisible(visible);
+    targetButton.setVisible(false);
+    attackButton.setVisible(true);
   }
 
   public void clear() {
-    setSelectedUnitData("");
-    setTargetUnitData("");
-    showTargetButton(false);
+    selectedUnitData.setText("");
+    targetUnitData.setText("");
+    targetButton.setVisible(false);
+    attackButton.setVisible(false);
   }
 
   public static HexDescriptionPane create(Model model) {
     Text selectedUnitData = new Text();
     Text targetUnitData = new Text();
     Button targetButton = new Button("Target");
+    Button attackButton = new Button("Attack!");
     targetButton.setVisible(false);
+    attackButton.setVisible(false);
     HexDescriptionPane hexDescriptionPane =
-        new HexDescriptionPane(targetButton, selectedUnitData, targetUnitData);
+        new HexDescriptionPane(attackButton, targetButton, selectedUnitData, targetUnitData);
     hexDescriptionPane.setBackground(
         new Background(new BackgroundFill(Color.gray(.75), CornerRadii.EMPTY, Insets.EMPTY)));
     hexDescriptionPane.getChildren().add(selectedUnitData);
@@ -45,17 +47,20 @@ public class HexDescriptionPane extends FlowPane {
 
     targetButton.setOnAction(event -> model.setSelectionMode(Model.SelectionMode.TARGET));
     hexDescriptionPane.getChildren().add(targetButton);
+    hexDescriptionPane.getChildren().add(attackButton);
 
     return hexDescriptionPane;
   }
 
-  public HexDescriptionPane(Button targetButton, Text selectedUnitData, Text targetUnitData) {
+  public HexDescriptionPane(Button attackButton, Button targetButton, Text selectedUnitData, Text targetUnitData) {
+    this.attackButton = attackButton;
     this.targetButton = targetButton;
     this.selectedUnitData = selectedUnitData;
     this.targetUnitData = targetUnitData;
   }
 
-  private final Button targetButton;
+  private final Button attackButton;
   private final Text selectedUnitData;
+  private final Button targetButton;
   private final Text targetUnitData;
 }

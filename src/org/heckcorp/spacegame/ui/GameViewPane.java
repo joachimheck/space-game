@@ -54,7 +54,6 @@ public class GameViewPane extends VBox {
           String.format(
               "%s's unit: health %d/%d",
               unit.getOwner().getName(), unit.getHealth(), unit.getMaxHealth()));
-      hexDescriptionPane.setTargetUnitData("");
     }
   }
 
