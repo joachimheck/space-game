@@ -1,4 +1,4 @@
-package org.heckcorp.spacegame.map.javafx;
+package org.heckcorp.spacegame.ui.map;
 
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
@@ -15,8 +15,8 @@ import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 import javafx.scene.shape.Polygon;
 import javafx.util.Duration;
-import org.heckcorp.spacegame.map.Point;
 import org.heckcorp.spacegame.model.Model;
+import org.heckcorp.spacegame.ui.ControllerPane;
 import org.jetbrains.annotations.Nullable;
 
 import static org.heckcorp.spacegame.Constants.MAP_HEIGHT;

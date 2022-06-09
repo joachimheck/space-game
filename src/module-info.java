@@ -8,7 +8,7 @@ module space.game.main {
   requires org.jetbrains.annotations;
 
   exports org.heckcorp.spacegame;
-  exports org.heckcorp.spacegame.map;
-  exports org.heckcorp.spacegame.map.javafx;
+  exports org.heckcorp.spacegame.ui.map;
   exports org.heckcorp.spacegame.model;
+  exports org.heckcorp.spacegame.ui;
 }

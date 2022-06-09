@@ -1,4 +1,4 @@
-package org.heckcorp.spacegame.map.javafx;
+package org.heckcorp.spacegame.ui;
 
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;

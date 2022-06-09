@@ -1,11 +1,12 @@
-package org.heckcorp.spacegame.map.javafx;
+package org.heckcorp.spacegame.ui;
 
 import javafx.geometry.Point2D;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import org.heckcorp.spacegame.ui.map.MapUtils;
 import org.heckcorp.spacegame.model.Model;
-import org.heckcorp.spacegame.map.MouseButton;
-import org.heckcorp.spacegame.map.Point;
+import org.heckcorp.spacegame.ui.map.MouseButton;
+import org.heckcorp.spacegame.ui.map.Point;
 
 public class ControllerPane extends Pane {
     public void onMouseClicked(MouseEvent mouseEvent) {

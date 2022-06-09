@@ -1,4 +1,4 @@
-package org.heckcorp.spacegame.map.javafx;
+package org.heckcorp.spacegame.ui.map;
 
 import javafx.geometry.Insets;
 import javafx.scene.image.Image;

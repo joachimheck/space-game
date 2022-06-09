@@ -1,4 +1,4 @@
-package org.heckcorp.spacegame.map.javafx;
+package org.heckcorp.spacegame.ui.map;
 
 import com.google.common.collect.Maps;
 import javafx.scene.image.Image;

@@ -1,9 +1,9 @@
-package org.heckcorp.spacegame.map.javafx;
+package org.heckcorp.spacegame.ui.map;
 
 import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
 import javafx.scene.shape.Polygon;
-import org.heckcorp.spacegame.map.Point;
+import org.heckcorp.spacegame.ui.map.Point;
 import org.heckcorp.spacegame.ResourceLoader;
 
 import java.io.FileNotFoundException;

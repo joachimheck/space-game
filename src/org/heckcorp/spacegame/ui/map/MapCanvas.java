@@ -1,10 +1,9 @@
-package org.heckcorp.spacegame.map.javafx;
+package org.heckcorp.spacegame.ui.map;
 
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
-import org.heckcorp.spacegame.map.Point;
 
 public class MapCanvas extends Canvas {
   private MapCanvas(MapUtils mapUtils) {

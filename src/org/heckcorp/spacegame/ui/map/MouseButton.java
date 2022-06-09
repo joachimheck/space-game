@@ -1,4 +1,4 @@
-package org.heckcorp.spacegame.map;
+package org.heckcorp.spacegame.ui.map;
 
 public enum MouseButton {
   PRIMARY,

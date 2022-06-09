@@ -1,4 +1,4 @@
-package org.heckcorp.spacegame.map.javafx;
+package org.heckcorp.spacegame.ui;
 
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Menu;
@@ -13,7 +13,10 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
-import org.heckcorp.spacegame.map.Point;
+import org.heckcorp.spacegame.ui.map.Point;
+import org.heckcorp.spacegame.ui.map.Counter;
+import org.heckcorp.spacegame.ui.map.MapPane;
+import org.heckcorp.spacegame.ui.map.MapUtils;
 import org.heckcorp.spacegame.model.Model;
 import org.heckcorp.spacegame.model.Unit;
 import org.jetbrains.annotations.Nullable;

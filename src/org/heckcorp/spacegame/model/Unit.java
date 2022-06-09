@@ -1,6 +1,6 @@
 package org.heckcorp.spacegame.model;
 
-import org.heckcorp.spacegame.map.javafx.ViewResources;
+import org.heckcorp.spacegame.ui.map.ViewResources;
 
 import java.io.Serializable;
 

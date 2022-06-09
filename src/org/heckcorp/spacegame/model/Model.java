@@ -5,8 +5,8 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
-import org.heckcorp.spacegame.map.MouseButton;
-import org.heckcorp.spacegame.map.Point;
+import org.heckcorp.spacegame.ui.map.MouseButton;
+import org.heckcorp.spacegame.ui.map.Point;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
