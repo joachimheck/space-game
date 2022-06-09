@@ -23,14 +23,14 @@ public class SpaceGame extends Application {
     GameViewPane gameViewPane = GameViewPane.create(model, mapUtils);
     Controller.create(model, gameViewPane, viewResources);
 
-    Player humanPlayer = new Player(.25, .45, .85);
-    Player computerPlayer = new Player(.75, .25, .25);
+    Player humanPlayer = new Player("Human Player", .25, .45, .85);
+    Player computerPlayer = new Player("Computer Player", .75, .25, .25);
     model.addPlayer(humanPlayer);
     model.addPlayer(computerPlayer);
     ViewResources.Identifier spaceshipId =
         viewResources.addImageResource(ResourceLoader.getResource("resource/spaceship.png"));
-    model.addUnit(new Unit(humanPlayer, spaceshipId), new Point(1, 1));
-    model.addUnit(new Unit(computerPlayer, spaceshipId), new Point(5, 5));
+    model.addUnit(new Unit(humanPlayer, spaceshipId, 5, 5), new Point(1, 1));
+    model.addUnit(new Unit(computerPlayer, spaceshipId, 5, 5), new Point(5, 5));
 
     Scene scene = new Scene(gameViewPane);
     stage.setScene(scene);

@@ -46,7 +46,10 @@ public class GameViewPane extends VBox {
     if (unit == null) {
       hexDescriptionPane.setText("");
     } else {
-      hexDescriptionPane.setText("Unit: %x" + unit.hashCode());
+      hexDescriptionPane.setText(
+          String.format(
+              "%s's unit: health %d/%d",
+              unit.getOwner().getName(), unit.getHealth(), unit.getMaxHealth()));
     }
   }
 

@@ -9,9 +9,15 @@ public class Player implements Serializable {
     return color;
   }
 
-  public Player(double r, double g, double b) {
+  public String getName() {
+    return name;
+  }
+
+  public Player(String name, double r, double g, double b) {
+    this.name = name;
     this.color = new Color(r, g, b);
   }
 
   private final Color color;
+  private final String name;
 }
