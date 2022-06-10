@@ -64,7 +64,24 @@ public class Model implements MapModel {
     units.add(unit);
   }
 
-  @SuppressWarnings("unused")
+  public void setSelectionMode(SelectionMode mode) {
+    this.selectionMode = mode;
+  }
+
+  public void processAttack() {
+    Unit attacker = selectedUnit.getValue();
+    Unit defender = targetUnit.getValue();
+    assert attacker != null;
+    assert defender != null;
+    defender.setHealth(defender.getHealth() - attacker.getAttackStrength());
+    targetUnit.setValue(null);
+    if (defender.getHealth() > 0) {
+      targetUnit.setValue(defender);
+    } else {
+      removeUnit(defender);
+    }
+  }
+
   private void removeUnit(Unit unit) {
     unitPositions.get().remove(unit);
     units.remove(unit);
@@ -88,20 +105,6 @@ public class Model implements MapModel {
 
   public final SetProperty<Unit> unitsProperty() {
     return units;
-  }
-
-  public void setSelectionMode(SelectionMode mode) {
-    this.selectionMode = mode;
-  }
-
-  public void processAttack() {
-    Unit attacker = selectedUnit.getValue();
-    Unit defender = targetUnit.getValue();
-    assert attacker != null;
-    assert defender != null;
-    defender.setHealth(defender.getHealth() - attacker.getAttackStrength());
-    targetUnit.setValue(null);
-    targetUnit.setValue(defender);
   }
 
   public enum SelectionMode {

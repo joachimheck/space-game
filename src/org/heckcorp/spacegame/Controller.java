@@ -51,6 +51,11 @@ public class Controller {
                       view.addCounter(unitCounters.get(unit), unitPosition);
                     }
                   }
+                  if (change.wasRemoved()) {
+                    Unit unit = change.getElementRemoved();
+                    view.removeCounter(unitCounters.get(unit));
+                    unitCounters.remove(unit);
+                  }
                 });
     model
         .unitPositionsProperty()
