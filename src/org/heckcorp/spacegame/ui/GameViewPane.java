@@ -1,6 +1,7 @@
 package org.heckcorp.spacegame.ui;
 
 import javafx.scene.canvas.Canvas;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.ScrollPane;
@@ -101,4 +102,11 @@ public class GameViewPane extends VBox {
 
   private final MapPane mapPane;
   private final HexDescriptionPane hexDescriptionPane;
+
+  public void setWinner(String winner) {
+    Alert winAlert = new Alert(Alert.AlertType.INFORMATION);
+    winAlert.setTitle("Game Over");
+    winAlert.setContentText("Game over. " + winner + " wins.");
+    winAlert.show();
+  }
 }

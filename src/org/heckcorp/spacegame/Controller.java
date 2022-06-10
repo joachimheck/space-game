@@ -70,6 +70,7 @@ public class Controller {
                     }
                   }
                 });
+    model.winnerProperty().addListener((observable, oldValue, newValue) -> view.setWinner(newValue));
   }
 
   private Controller(Model model, GameViewPane view, ViewResources viewResources) {

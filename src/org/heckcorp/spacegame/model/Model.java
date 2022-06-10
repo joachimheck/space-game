@@ -15,6 +15,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class Model implements MapModel {
@@ -85,6 +86,11 @@ public class Model implements MapModel {
   private void removeUnit(Unit unit) {
     unitPositions.get().remove(unit);
     units.remove(unit);
+
+    Set<Player> remainingPlayers = units.stream().map(Unit::getOwner).collect(Collectors.toSet());
+    if (remainingPlayers.size() == 1) {
+      winner.setValue(remainingPlayers.iterator().next().getName());
+    }
   }
 
   public final ObjectProperty<Point> selectedHexPositionProperty() {
@@ -107,6 +113,8 @@ public class Model implements MapModel {
     return units;
   }
 
+  public final ObjectProperty<String> winnerProperty() { return winner; }
+
   public enum SelectionMode {
     SELECT,
     TARGET
@@ -119,4 +127,5 @@ public class Model implements MapModel {
   private final SetProperty<Unit> units = new SimpleSetProperty<>(FXCollections.observableSet());
   private final MapProperty<Unit, Point> unitPositions =
       new SimpleMapProperty<>(FXCollections.observableMap(Maps.newHashMap()));
+  private final ObjectProperty<String> winner = new SimpleObjectProperty<>();
 }
