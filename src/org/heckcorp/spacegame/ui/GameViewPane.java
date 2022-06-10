@@ -69,7 +69,6 @@ public class GameViewPane extends VBox {
     }
   }
 
-  // TODO: should the view classes be directly calling methods on the model?
   public static GameViewPane create(Model model, MapUtils mapUtils) {
     MapPane mapPane = MapPane.create(mapUtils, model);
     mapPane.setBorder(
