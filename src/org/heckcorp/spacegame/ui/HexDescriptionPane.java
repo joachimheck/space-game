@@ -14,21 +14,21 @@ public class HexDescriptionPane extends FlowPane {
 
   public void setSelectedUnitData(String selectedUnitData) {
     this.selectedUnitData.setText(selectedUnitData);
-    targetButton.setVisible(true);
-    attackButton.setVisible(false);
+    targetButton.setDisable(false);
+    attackButton.setDisable(true);
   }
 
   public void setTargetUnitData(String targetUnitData) {
     this.targetUnitData.setText(targetUnitData);
-    targetButton.setVisible(false);
-    attackButton.setVisible(true);
+    targetButton.setDisable(true);
+    attackButton.setDisable(false);
   }
 
   public void clear() {
     selectedUnitData.setText("");
     targetUnitData.setText("");
-    targetButton.setVisible(false);
-    attackButton.setVisible(false);
+    targetButton.setDisable(true);
+    attackButton.setDisable(true);
   }
 
   public static HexDescriptionPane create(Model model) {
@@ -39,8 +39,8 @@ public class HexDescriptionPane extends FlowPane {
     Button attackButton = new Button("Attack!");
     attackButton.setOnAction(event -> model.processAttack());
 
-    targetButton.setVisible(false);
-    attackButton.setVisible(false);
+    targetButton.setDisable(true);
+    attackButton.setDisable(true);
     HexDescriptionPane hexDescriptionPane =
         new HexDescriptionPane(attackButton, targetButton, selectedUnitData, targetUnitData);
     hexDescriptionPane.setBackground(
