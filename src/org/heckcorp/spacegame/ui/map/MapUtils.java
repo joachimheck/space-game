@@ -1,27 +1,13 @@
 package org.heckcorp.spacegame.ui.map;
 
 import javafx.geometry.Point2D;
-import javafx.scene.image.Image;
 import javafx.scene.shape.Polygon;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
 public class MapUtils {
 
-  public int getTileHeight() {
-    return tileHeight;
-  }
-
-  public int getTileWidth() {
-    return tileWidth;
-  }
-
-  public Image getTilePic() {
-    return tilePic;
-  }
-
   Point2D getHexCorner(Point position) {
-    int pixelX = position.x() * tileWidth;
-    int pixelY = position.y() * tileHeight;
+    double pixelX = position.x() * tileWidth;
+    double pixelY = position.y() * tileHeight;
     if (position.x() % 2 != 0) {
       pixelY += tileHeight / 2;
     }
@@ -30,12 +16,12 @@ public class MapUtils {
 
   /** Returns the pixel coordinates of the center of the hex with the specified map coordinates. */
   public Point2D getHexCenter(Point position) {
-    int pixelX = position.x() * tileWidth;
-    int pixelY = position.y() * tileHeight;
+    double pixelX = position.x() * tileWidth;
+    double pixelY = position.y() * tileHeight;
     if (position.x() % 2 != 0) {
       pixelY += tileHeight / 2;
     }
-    return new Point2D(pixelX + tilePic.getWidth() / 2.0, pixelY + tileHeight / 2.0);
+    return new Point2D(pixelX + (tileWidth * 4.0 / 3.0) / 2.0, pixelY + tileHeight / 2.0);
   }
 
   public Polygon getHexagon(Point hexCoordinates) {
@@ -77,11 +63,13 @@ public class MapUtils {
     return new Point(closest.x(), closest.y());
   }
 
-  /** Returns three sets of viewport coordinates, one of which corresponds to the clicked-on hex. */
+  /**
+   * Returns three sets of viewport coordinates, one of which corresponds to the clicked-on hex.
+   */
   private Point[] guessHex(Point2D screenPoint) {
     int columnGuess = (int) (screenPoint.getX() / tileWidth);
     int rowShift = columnGuess % 2 != 0 ? 1 : 0;
-    int rowGuess = (int) (screenPoint.getY() - (rowShift * tileHeight / 2)) / tileHeight;
+    int rowGuess = (int) ((screenPoint.getY() - (rowShift * tileHeight / 2.0)) / tileHeight);
 
     Point[] guesses = new Point[3];
     guesses[0] = new Point(columnGuess, rowGuess);
@@ -91,20 +79,11 @@ public class MapUtils {
     return guesses;
   }
 
-  public MapUtils(ViewResources viewResources, ViewResources.Identifier identifier) throws IllegalArgumentException {
-    @Nullable Image image = viewResources.getImages().get(identifier);
-    if (image != null) {
-      tilePic = image;
-      tileWidth = (int) Math.floor(3.0 * tilePic.getWidth() / 4.0);
-      tileHeight = (int) tilePic.getHeight();
-      assert tileWidth % 4 == 0;
-      assert tileHeight % 2 == 0;
-    } else {
-      throw new IllegalArgumentException("Unknown identifier: " + identifier);
-    }
+  public MapUtils(double tileWidth, double tileHeight) {
+    this.tileWidth = tileWidth;
+    this.tileHeight = tileHeight;
   }
 
-  private final int tileHeight;
-  private final int tileWidth;
-  private final Image tilePic;
+  private final double tileHeight;
+  private final double tileWidth;
 }

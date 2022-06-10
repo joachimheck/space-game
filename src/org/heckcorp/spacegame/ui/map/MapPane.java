@@ -5,8 +5,15 @@ import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.PathTransition;
 import javafx.animation.Timeline;
+import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
+import javafx.scene.Node;
+import javafx.scene.SnapshotParameters;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -14,6 +21,7 @@ import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 import javafx.scene.shape.Polygon;
+import javafx.scene.text.Text;
 import javafx.util.Duration;
 import org.jetbrains.annotations.Nullable;
 
@@ -95,7 +103,7 @@ public class MapPane extends StackPane {
 
   public static MapPane create(MapUtils mapUtils, MapModel model) {
     MapPane mapPane = new MapPane(mapUtils);
-    BorderPane theMapPane = new BorderPane(MapCanvas.build(mapUtils, MAP_WIDTH, MAP_HEIGHT));
+    BorderPane theMapPane = new BorderPane(buildMapCanvas(mapUtils, MAP_WIDTH, MAP_HEIGHT));
     Pane countersPane = mapPane.countersPane;
     ControllerPane controllerPane = new ControllerPane(model, mapUtils);
     controllerPane.setOnMouseClicked(controllerPane::onMouseClicked);
@@ -103,10 +111,35 @@ public class MapPane extends StackPane {
     return mapPane;
   }
 
+  public static Node buildMapCanvas(MapUtils mapUtils, int width, int height) {
+    Pane mapCanvas = new Pane();
+
+    mapCanvas.setBackground(
+        new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
+
+    for (int i = 0; i < width; i++) {
+      for (int j = 0; j < height; j++) {
+        Point position = new Point(i, j);
+        Polygon hexagon = mapUtils.getHexagon(position);
+        hexagon.setStroke(Color.WHITE);
+        mapCanvas.getChildren().add(hexagon);
+        Point2D pixelPos = mapUtils.getHexCorner(position);
+        Text text =
+            new Text(pixelPos.getX() + 32, pixelPos.getY() + 16, position.x() + "," + position.y());
+        text.setStroke(Color.WHITE);
+        mapCanvas.getChildren().add(text);
+      }
+    }
+
+    SnapshotParameters params = new SnapshotParameters();
+    params.setFill(Color.BLACK);
+    return new ImageView(mapCanvas.snapshot(params, null));
+  }
+
   private final MapUtils mapUtils;
   private Polygon selectionHexagon = new Polygon(0d, 0d);
   private final Pane countersPane;
-
   private Point selectedHex = NO_SELECTED_HEX;
+
   private static final Point NO_SELECTED_HEX = new Point(-1, -1);
 }
