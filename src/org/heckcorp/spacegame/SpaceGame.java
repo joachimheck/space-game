@@ -17,7 +17,7 @@ public class SpaceGame extends Application {
 
   @Override
   public void start(Stage stage) throws FileNotFoundException {
-    MapUtils mapUtils = new MapUtils(Constants.HEX_WIDTH, Constants.HEX_HEIGHT);
+    MapUtils mapUtils = new MapUtils(Constants.HEX_RADIUS);
     Model model = new Model();
     GameViewPane gameViewPane = GameViewPane.create(model, mapUtils);
     ViewResources viewResources = new ViewResources();
@@ -27,7 +27,7 @@ public class SpaceGame extends Application {
     Player computerPlayer = new Player("Computer Player", .75, .25, .25);
     ViewResources.Identifier spaceshipId =
         viewResources.addImageResource(ResourceLoader.getResource("resource/spaceship.png"));
-    model.addUnit(new Unit(humanPlayer, spaceshipId), new Point(0, 1));
+    model.addUnit(new Unit(humanPlayer, spaceshipId), new Point(1, 1));
     model.addUnit(new Unit(computerPlayer, spaceshipId), new Point(5, 5));
 
     Scene scene = new Scene(gameViewPane);

@@ -6,22 +6,22 @@ import javafx.scene.shape.Polygon;
 public class MapUtils {
 
   Point2D getHexCorner(Point position) {
-    double pixelX = position.x() * tileWidth;
-    double pixelY = position.y() * tileHeight;
+    double pixelX = position.x() * columnWidth;
+    double pixelY = position.y() * hexHeight;
     if (position.x() % 2 != 0) {
-      pixelY += tileHeight / 2;
+      pixelY += hexHeight / 2;
     }
     return new Point2D(pixelX, pixelY);
   }
 
   /** Returns the pixel coordinates of the center of the hex with the specified map coordinates. */
   public Point2D getHexCenter(Point position) {
-    double pixelX = position.x() * tileWidth;
-    double pixelY = position.y() * tileHeight;
+    double pixelX = position.x() * columnWidth;
+    double pixelY = position.y() * hexHeight;
     if (position.x() % 2 != 0) {
-      pixelY += tileHeight / 2;
+      pixelY += hexHeight / 2;
     }
-    return new Point2D(pixelX + (tileWidth * 4.0 / 3.0) / 2.0, pixelY + tileHeight / 2.0);
+    return new Point2D(pixelX + hexWidth / 2.0, pixelY + hexHeight / 2.0);
   }
 
   public Polygon getHexagon(Point hexCoordinates) {
@@ -67,9 +67,9 @@ public class MapUtils {
    * Returns three sets of viewport coordinates, one of which corresponds to the clicked-on hex.
    */
   private Point[] guessHex(Point2D screenPoint) {
-    int columnGuess = (int) (screenPoint.getX() / tileWidth);
+    int columnGuess = (int) (screenPoint.getX() / columnWidth);
     int rowShift = columnGuess % 2 != 0 ? 1 : 0;
-    int rowGuess = (int) ((screenPoint.getY() - (rowShift * tileHeight / 2.0)) / tileHeight);
+    int rowGuess = (int) ((screenPoint.getY() - (rowShift * hexHeight / 2.0)) / hexHeight);
 
     Point[] guesses = new Point[3];
     guesses[0] = new Point(columnGuess, rowGuess);
@@ -79,11 +79,13 @@ public class MapUtils {
     return guesses;
   }
 
-  public MapUtils(double tileWidth, double tileHeight) {
-    this.tileWidth = tileWidth;
-    this.tileHeight = tileHeight;
+  public MapUtils(double hexRadius) {
+    this.hexHeight = hexRadius * Math.sqrt(3);
+    this.columnWidth = hexRadius * 3.0 / 2.0;
+    this.hexWidth = 2.0 * hexRadius;
   }
 
-  private final double tileHeight;
-  private final double tileWidth;
+  private final double hexHeight;
+  private final double hexWidth;
+  private final double columnWidth;
 }
