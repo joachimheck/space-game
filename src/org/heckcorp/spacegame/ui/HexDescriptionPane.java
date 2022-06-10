@@ -53,7 +53,8 @@ public class HexDescriptionPane extends FlowPane {
     return hexDescriptionPane;
   }
 
-  public HexDescriptionPane(Button attackButton, Button targetButton, Text selectedUnitData, Text targetUnitData) {
+  public HexDescriptionPane(
+      Button attackButton, Button targetButton, Text selectedUnitData, Text targetUnitData) {
     this.attackButton = attackButton;
     this.targetButton = targetButton;
     this.selectedUnitData = selectedUnitData;

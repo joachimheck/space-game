@@ -3,13 +3,13 @@ package org.heckcorp.spacegame;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.heckcorp.spacegame.ui.map.Point;
-import org.heckcorp.spacegame.ui.GameViewPane;
-import org.heckcorp.spacegame.ui.map.MapUtils;
-import org.heckcorp.spacegame.ui.map.ViewResources;
 import org.heckcorp.spacegame.model.Model;
 import org.heckcorp.spacegame.model.Player;
 import org.heckcorp.spacegame.model.Unit;
+import org.heckcorp.spacegame.ui.GameViewPane;
+import org.heckcorp.spacegame.ui.map.MapUtils;
+import org.heckcorp.spacegame.ui.map.Point;
+import org.heckcorp.spacegame.ui.map.ViewResources;
 
 import java.io.FileNotFoundException;
 
@@ -17,8 +17,10 @@ public class SpaceGame extends Application {
 
   @Override
   public void start(Stage stage) throws FileNotFoundException {
-    MapUtils mapUtils = new MapUtils();
     ViewResources viewResources = new ViewResources();
+    ViewResources.Identifier hexImageId =
+        viewResources.addImageResource(ResourceLoader.getResource("resource/hex-large-light.png"));
+    MapUtils mapUtils = new MapUtils(viewResources, hexImageId);
     Model model = new Model();
     GameViewPane gameViewPane = GameViewPane.create(model, mapUtils);
     Controller.create(model, gameViewPane, viewResources);

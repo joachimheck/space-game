@@ -3,10 +3,6 @@ package org.heckcorp.spacegame.ui.map;
 import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
 import javafx.scene.shape.Polygon;
-import org.heckcorp.spacegame.ui.map.Point;
-import org.heckcorp.spacegame.ResourceLoader;
-
-import java.io.FileNotFoundException;
 
 public class MapUtils {
 
@@ -94,8 +90,8 @@ public class MapUtils {
     return guesses;
   }
 
-  public MapUtils() throws FileNotFoundException {
-    tilePic = new Image(ResourceLoader.getResource("resource/hex-large-light.png"));
+  public MapUtils(ViewResources viewResources, ViewResources.Identifier identifier) {
+    tilePic = viewResources.getImages().get(identifier);
     tileWidth = (int) Math.floor(3.0 * tilePic.getWidth() / 4.0);
     tileHeight = (int) tilePic.getHeight();
     assert tileWidth % 4 == 0;
