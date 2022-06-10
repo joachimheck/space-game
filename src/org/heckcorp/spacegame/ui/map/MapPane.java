@@ -15,8 +15,6 @@ import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 import javafx.scene.shape.Polygon;
 import javafx.util.Duration;
-import org.heckcorp.spacegame.model.Model;
-import org.heckcorp.spacegame.ui.ControllerPane;
 import org.jetbrains.annotations.Nullable;
 
 import static org.heckcorp.spacegame.Constants.MAP_HEIGHT;
@@ -95,7 +93,7 @@ public class MapPane extends StackPane {
     this.countersPane = new Pane();
   }
 
-  public static MapPane create(MapUtils mapUtils, Model model) {
+  public static MapPane create(MapUtils mapUtils, MapModel model) {
     MapPane mapPane = new MapPane(mapUtils);
     BorderPane theMapPane = new BorderPane(MapCanvas.build(mapUtils, MAP_WIDTH, MAP_HEIGHT));
     Pane countersPane = mapPane.countersPane;
