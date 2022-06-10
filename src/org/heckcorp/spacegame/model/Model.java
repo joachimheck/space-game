@@ -1,5 +1,6 @@
 package org.heckcorp.spacegame.model;
 
+import com.google.common.collect.Maps;
 import javafx.beans.property.MapProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SetProperty;
@@ -12,7 +13,6 @@ import org.heckcorp.spacegame.ui.map.MouseButton;
 import org.heckcorp.spacegame.ui.map.Point;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -57,10 +57,6 @@ public class Model implements MapModel {
         .filter(e -> e.getValue().equals(point))
         .map(Map.Entry::getKey)
         .collect(Collectors.toList());
-  }
-
-  public void addPlayer(Player player) {
-    players.add(player);
   }
 
   public void addUnit(Unit unit, Point hexPosition) {
@@ -113,12 +109,11 @@ public class Model implements MapModel {
     TARGET
   }
 
-  private final SetProperty<Player> players = new SimpleSetProperty<>(FXCollections.observableSet());
   private final ObjectProperty<Point> selectedHexPosition = new SimpleObjectProperty<>();
   private final ObjectProperty<Unit> selectedUnit = new SimpleObjectProperty<>();
   private SelectionMode selectionMode = SelectionMode.SELECT;
   private final ObjectProperty<Unit> targetUnit = new SimpleObjectProperty<>();
   private final SetProperty<Unit> units = new SimpleSetProperty<>(FXCollections.observableSet());
   private final MapProperty<Unit, Point> unitPositions =
-      new SimpleMapProperty<>(FXCollections.observableMap(new HashMap<>()));
+      new SimpleMapProperty<>(FXCollections.observableMap(Maps.newHashMap()));
 }
