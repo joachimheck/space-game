@@ -1,10 +1,9 @@
 package org.heckcorp.spacegame.model;
 
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
+import javafx.beans.property.MapProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SetProperty;
+import javafx.beans.property.SimpleMapProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleSetProperty;
 import javafx.collections.FXCollections;
@@ -16,7 +15,6 @@ import org.jetbrains.annotations.Nullable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 public class Model implements MapModel {
@@ -49,9 +47,7 @@ public class Model implements MapModel {
       List<Unit> units = getUnitsAt(selectedCoordinates);
       if (!units.isEmpty()) {
         Unit selectedUnit = units.get(0);
-        Map<Unit, Point> updated = new HashMap<>(unitPositions.get());
-        updated.put(selectedUnit, hexCoordinates);
-        unitPositions.setValue(updated);
+        unitPositions.put(selectedUnit, hexCoordinates);
       }
     }
   }
@@ -64,7 +60,7 @@ public class Model implements MapModel {
   }
 
   public void addPlayer(Player player) {
-    players.setValue(new ImmutableSet.Builder<Player>().addAll(getPlayers()).add(player).build());
+    players.add(player);
   }
 
   public void addUnit(Unit unit, Point hexPosition) {
@@ -90,16 +86,12 @@ public class Model implements MapModel {
     return targetUnit;
   }
 
-  public final ObjectProperty<Map<Unit, Point>> unitPositionsProperty() {
+  public final MapProperty<Unit, Point> unitPositionsProperty() {
     return unitPositions;
   }
 
   public final SetProperty<Unit> unitsProperty() {
     return units;
-  }
-
-  public final Set<Player> getPlayers() {
-    return players.get();
   }
 
   public void setSelectionMode(SelectionMode mode) {
@@ -121,12 +113,12 @@ public class Model implements MapModel {
     TARGET
   }
 
-  private final ObjectProperty<Set<Player>> players = new SimpleObjectProperty<>(Sets.newHashSet());
+  private final SetProperty<Player> players = new SimpleSetProperty<>(FXCollections.observableSet());
   private final ObjectProperty<Point> selectedHexPosition = new SimpleObjectProperty<>();
   private final ObjectProperty<Unit> selectedUnit = new SimpleObjectProperty<>();
   private SelectionMode selectionMode = SelectionMode.SELECT;
   private final ObjectProperty<Unit> targetUnit = new SimpleObjectProperty<>();
   private final SetProperty<Unit> units = new SimpleSetProperty<>(FXCollections.observableSet());
-  private final ObjectProperty<Map<Unit, Point>> unitPositions =
-      new SimpleObjectProperty<>(Maps.newHashMap());
+  private final MapProperty<Unit, Point> unitPositions =
+      new SimpleMapProperty<>(FXCollections.observableMap(new HashMap<>()));
 }

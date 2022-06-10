@@ -1,6 +1,6 @@
 package org.heckcorp.spacegame;
 
-import com.google.common.collect.Maps;
+import javafx.collections.MapChangeListener;
 import javafx.collections.SetChangeListener;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.heckcorp.spacegame.model.Model;
@@ -55,15 +55,16 @@ public class Controller {
     model
         .unitPositionsProperty()
         .addListener(
-            (observable, oldValue, newValue) ->
-                Maps.difference(oldValue, newValue)
-                    .entriesDiffering()
-                    .forEach(
-                        (u, d) -> {
-                          if (unitCounters.containsKey(u)) {
-                            view.moveCounter(unitCounters.get(u), d.leftValue(), d.rightValue());
-                          }
-                        }));
+            (MapChangeListener<Unit, Point>)
+                change -> {
+                  Unit u = change.getKey();
+                  if (change.wasRemoved() && change.wasAdded()) {
+                    if (unitCounters.containsKey(u)) {
+                      view.moveCounter(
+                          unitCounters.get(u), change.getValueRemoved(), change.getValueAdded());
+                    }
+                  }
+                });
   }
 
   private Controller(Model model, GameViewPane view, ViewResources viewResources) {
