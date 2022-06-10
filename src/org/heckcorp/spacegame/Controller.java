@@ -1,15 +1,15 @@
 package org.heckcorp.spacegame;
 
 import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
+import javafx.collections.SetChangeListener;
 import org.checkerframework.checker.nullness.qual.Nullable;
-import org.heckcorp.spacegame.ui.map.Point;
-import org.heckcorp.spacegame.ui.map.Counter;
-import org.heckcorp.spacegame.ui.GameViewPane;
-import org.heckcorp.spacegame.ui.map.ViewResources;
 import org.heckcorp.spacegame.model.Model;
 import org.heckcorp.spacegame.model.Player;
 import org.heckcorp.spacegame.model.Unit;
+import org.heckcorp.spacegame.ui.GameViewPane;
+import org.heckcorp.spacegame.ui.map.Counter;
+import org.heckcorp.spacegame.ui.map.Point;
+import org.heckcorp.spacegame.ui.map.ViewResources;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -37,23 +37,21 @@ public class Controller {
     model
         .unitsProperty()
         .addListener(
-            (observable, oldValue, newValue) -> {
-              Sets.difference(oldValue, newValue)
-                  .forEach(u -> view.removeCounter(unitCounters.get(u)));
-              Sets.difference(newValue, oldValue)
-                  .forEach(
-                      u -> {
-                        Player.Color color = u.getOwner().getColor();
-                        unitCounters.put(
-                            u,
-                            Counter.build(
-                                viewResources, u.getImageId(), color.r(), color.g(), color.b()));
-                        @Nullable Point unitPosition = model.unitPositionsProperty().get().get(u);
-                        if (unitPosition != null) {
-                          view.addCounter(unitCounters.get(u), unitPosition);
-                        }
-                      });
-            });
+            (SetChangeListener<Unit>)
+                change -> {
+                  if (change.wasAdded()) {
+                    Unit unit = change.getElementAdded();
+                    Player.Color color = unit.getOwner().getColor();
+                    unitCounters.put(
+                        unit,
+                        Counter.build(
+                            viewResources, unit.getImageId(), color.r(), color.g(), color.b()));
+                    @Nullable Point unitPosition = model.unitPositionsProperty().get().get(unit);
+                    if (unitPosition != null) {
+                      view.addCounter(unitCounters.get(unit), unitPosition);
+                    }
+                  }
+                });
     model
         .unitPositionsProperty()
         .addListener(

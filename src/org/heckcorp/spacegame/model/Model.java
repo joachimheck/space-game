@@ -4,7 +4,10 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SetProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleSetProperty;
+import javafx.collections.FXCollections;
 import org.heckcorp.spacegame.ui.map.MapModel;
 import org.heckcorp.spacegame.ui.map.MouseButton;
 import org.heckcorp.spacegame.ui.map.Point;
@@ -66,13 +69,13 @@ public class Model implements MapModel {
 
   public void addUnit(Unit unit, Point hexPosition) {
     unitPositions.get().put(unit, hexPosition);
-    unitsProperty().setValue(new ImmutableSet.Builder<Unit>().addAll(getUnits()).add(unit).build());
+    units.add(unit);
   }
 
   @SuppressWarnings("unused")
   private void removeUnit(Unit unit) {
     unitPositions.get().remove(unit);
-    unitsProperty().setValue(Sets.difference(getUnits(), ImmutableSet.of(unit)));
+    units.remove(unit);
   }
 
   public final ObjectProperty<Point> selectedHexPositionProperty() {
@@ -91,16 +94,12 @@ public class Model implements MapModel {
     return unitPositions;
   }
 
-  public final ObjectProperty<Set<Unit>> unitsProperty() {
+  public final SetProperty<Unit> unitsProperty() {
     return units;
   }
 
   public final Set<Player> getPlayers() {
     return players.get();
-  }
-
-  public final Set<Unit> getUnits() {
-    return units.get();
   }
 
   public void setSelectionMode(SelectionMode mode) {
@@ -127,7 +126,7 @@ public class Model implements MapModel {
   private final ObjectProperty<Unit> selectedUnit = new SimpleObjectProperty<>();
   private SelectionMode selectionMode = SelectionMode.SELECT;
   private final ObjectProperty<Unit> targetUnit = new SimpleObjectProperty<>();
-  private final ObjectProperty<Set<Unit>> units = new SimpleObjectProperty<>(Sets.newHashSet());
+  private final SetProperty<Unit> units = new SimpleSetProperty<>(FXCollections.observableSet());
   private final ObjectProperty<Map<Unit, Point>> unitPositions =
       new SimpleObjectProperty<>(Maps.newHashMap());
 }
