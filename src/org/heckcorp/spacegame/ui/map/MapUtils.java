@@ -3,6 +3,7 @@ package org.heckcorp.spacegame.ui.map;
 import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
 import javafx.scene.shape.Polygon;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 public class MapUtils {
 
@@ -90,12 +91,17 @@ public class MapUtils {
     return guesses;
   }
 
-  public MapUtils(ViewResources viewResources, ViewResources.Identifier identifier) {
-    tilePic = viewResources.getImages().get(identifier);
-    tileWidth = (int) Math.floor(3.0 * tilePic.getWidth() / 4.0);
-    tileHeight = (int) tilePic.getHeight();
-    assert tileWidth % 4 == 0;
-    assert tileHeight % 2 == 0;
+  public MapUtils(ViewResources viewResources, ViewResources.Identifier identifier) throws IllegalArgumentException {
+    @Nullable Image image = viewResources.getImages().get(identifier);
+    if (image != null) {
+      tilePic = image;
+      tileWidth = (int) Math.floor(3.0 * tilePic.getWidth() / 4.0);
+      tileHeight = (int) tilePic.getHeight();
+      assert tileWidth % 4 == 0;
+      assert tileHeight % 2 == 0;
+    } else {
+      throw new IllegalArgumentException("Unknown identifier: " + identifier);
+    }
   }
 
   private final int tileHeight;
