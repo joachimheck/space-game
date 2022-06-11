@@ -4,24 +4,18 @@ import javafx.geometry.Point2D;
 import javafx.scene.shape.Polygon;
 
 public class MapUtils {
-
-  Point2D getHexCorner(Point position) {
-    double pixelX = position.x() * getColumnWidth();
-    double pixelY = position.y() * getHexHeight();
-    if (position.x() % 2 != 0) {
-      pixelY += getHexHeight() / 2;
-    }
-    return new Point2D(pixelX, pixelY);
-  }
-
-  /** Returns the pixel coordinates of the center of the hex with the specified map coordinates. */
   public Point2D getHexCenter(Point position) {
-    double pixelX = position.x() * getColumnWidth();
+    double pixelX = position.x() * getMinorRadius();
     double pixelY = position.y() * getHexHeight();
     if (position.x() % 2 != 0) {
       pixelY += getHexHeight() / 2;
     }
     return new Point2D(pixelX + getHexWidth() / 2.0, pixelY + getHexHeight() / 2.0);
+  }
+
+  public Point2D getHexLabelPosition(Point position) {
+    Point2D center = getHexCenter(position);
+    return new Point2D(center.getX() - hexRadius / 2.0, center.getY() - hexRadius * Math.sqrt(3) / 2.0);
   }
 
   public Polygon getHexagon(Point hexCoordinates) {
@@ -62,7 +56,7 @@ public class MapUtils {
 
   /** Returns three sets of canvas coordinates, one of which corresponds to the clicked-on hex. */
   private Point[] guessHex(Point2D canvasPoint) {
-    int columnGuess = (int) (canvasPoint.getX() / getColumnWidth());
+    int columnGuess = (int) (canvasPoint.getX() / getMinorRadius());
     int rowShift = columnGuess % 2 != 0 ? 1 : 0;
     int rowGuess =
         (int) ((canvasPoint.getY() - (rowShift * getHexHeight() / 2.0)) / getHexHeight());
@@ -75,7 +69,7 @@ public class MapUtils {
     return guesses;
   }
 
-  public double getColumnWidth() {
+  public double getMinorRadius() {
     return hexRadius * 3.0 / 2.0;
   }
 

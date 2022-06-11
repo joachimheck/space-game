@@ -7,6 +7,7 @@ import javafx.animation.PathTransition;
 import javafx.animation.Timeline;
 import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
+import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.image.ImageView;
@@ -123,9 +124,9 @@ public class MapPane extends StackPane {
         Polygon hexagon = mapUtils.getHexagon(position);
         hexagon.setStroke(Color.WHITE);
         mapCanvas.getChildren().add(hexagon);
-        Point2D pixelPos = mapUtils.getHexCorner(position);
-        Text text =
-            new Text(pixelPos.getX() + 32, pixelPos.getY() + 16, position.x() + "," + position.y());
+        Point2D labelPos = mapUtils.getHexLabelPosition(position);
+        Text text = new Text(labelPos.getX(), labelPos.getY(), position.x() + "," + position.y());
+        text.setTextOrigin(VPos.TOP);
         text.setStroke(Color.WHITE);
         mapCanvas.getChildren().add(text);
       }
