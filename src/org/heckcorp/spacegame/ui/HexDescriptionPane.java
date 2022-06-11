@@ -21,6 +21,8 @@ public class HexDescriptionPane extends FlowPane {
     this.selectedUnitData.setText(selectedUnitData);
     targetButton.setDisable(false);
     attackButton.setDisable(true);
+    turnLeftButton.setDisable(false);
+    turnRightButton.setDisable(false);
   }
 
   public void setTargetUnitData(String targetUnitData) {
@@ -34,6 +36,8 @@ public class HexDescriptionPane extends FlowPane {
     targetUnitData.setText("");
     targetButton.setDisable(true);
     attackButton.setDisable(true);
+    turnLeftButton.setDisable(true);
+    turnRightButton.setDisable(true);
   }
 
   public static HexDescriptionPane create(Model model) {
@@ -64,6 +68,8 @@ public class HexDescriptionPane extends FlowPane {
 
     targetButton.setDisable(true);
     attackButton.setDisable(true);
+    turnLeftButton.setDisable(true);
+    turnRightButton.setDisable(true);
     HexDescriptionPane hexDescriptionPane =
         new HexDescriptionPane(attackButton, targetButton, selectedUnitData, targetUnitData, turnLeftButton, turnRightButton);
     hexDescriptionPane.setBackground(
@@ -92,8 +98,6 @@ public class HexDescriptionPane extends FlowPane {
   private final Text selectedUnitData;
   private final Button targetButton;
   private final Text targetUnitData;
-  @SuppressWarnings({"FieldCanBeLocal", "unused"})
   private final Button turnLeftButton;
-  @SuppressWarnings({"FieldCanBeLocal", "unused"})
   private final Button turnRightButton;
 }
