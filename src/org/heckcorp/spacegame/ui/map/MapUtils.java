@@ -5,17 +5,18 @@ import javafx.scene.shape.Polygon;
 
 public class MapUtils {
   public Point2D getHexCenter(Point position) {
-    double pixelX = position.x() * getMinorRadius();
-    double pixelY = position.y() * getHexHeight();
+    double pixelX = position.x() * getColumnWidth();
+    double pixelY = position.y() * getMinorRadius() * 2.0;
     if (position.x() % 2 != 0) {
-      pixelY += getHexHeight() / 2;
+      pixelY += getMinorRadius();
     }
-    return new Point2D(pixelX + getHexWidth() / 2.0, pixelY + getHexHeight() / 2.0);
+    return new Point2D(pixelX + hexRadius, pixelY + getMinorRadius());
   }
 
   public Point2D getHexLabelPosition(Point position) {
     Point2D center = getHexCenter(position);
-    return new Point2D(center.getX() - hexRadius / 2.0, center.getY() - hexRadius * Math.sqrt(3) / 2.0);
+    return new Point2D(
+        center.getX() - hexRadius / 2.0, center.getY() - hexRadius * Math.sqrt(3) / 2.0);
   }
 
   public Polygon getHexagon(Point hexCoordinates) {
@@ -56,10 +57,10 @@ public class MapUtils {
 
   /** Returns three sets of canvas coordinates, one of which corresponds to the clicked-on hex. */
   private Point[] guessHex(Point2D canvasPoint) {
-    int columnGuess = (int) (canvasPoint.getX() / getMinorRadius());
+    int columnGuess = (int) (canvasPoint.getX() / getColumnWidth());
     int rowShift = columnGuess % 2 != 0 ? 1 : 0;
     int rowGuess =
-        (int) ((canvasPoint.getY() - (rowShift * getHexHeight() / 2.0)) / getHexHeight());
+        (int) ((canvasPoint.getY() - (rowShift * getMinorRadius())) / (getMinorRadius() * 2.0));
 
     Point[] guesses = new Point[3];
     guesses[0] = new Point(columnGuess, rowGuess);
@@ -69,16 +70,12 @@ public class MapUtils {
     return guesses;
   }
 
-  public double getMinorRadius() {
+  private double getColumnWidth() {
     return hexRadius * 3.0 / 2.0;
   }
 
-  public double getHexHeight() {
-    return hexRadius * Math.sqrt(3);
-  }
-
-  public double getHexWidth() {
-    return 2.0 * hexRadius;
+  public double getMinorRadius() {
+    return hexRadius * Math.sqrt(3.0) / 2.0;
   }
 
   public MapUtils(double hexRadius) {
