@@ -10,6 +10,7 @@ import javafx.animation.RotateTransition;
 import javafx.animation.Timeline;
 import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
+import javafx.geometry.Rectangle2D;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.SnapshotParameters;
@@ -36,13 +37,13 @@ import java.util.Arrays;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static org.heckcorp.spacegame.Constants.MAP_HEIGHT;
-import static org.heckcorp.spacegame.Constants.MAP_WIDTH;
+import static org.heckcorp.spacegame.Constants.*;
 
 public class MapPane extends StackPane {
   public void addCounter(Counter counter, MapPosition position) {
     countersPane.getChildren().add(counter);
-    Point2D pixelPos = mapUtils.getHexCenter(new Point(position.position().x(), position.position().y()));
+    Point2D pixelPos =
+        mapUtils.getHexCenter(new Point(position.position().x(), position.position().y()));
     setCounterLocation(counter, pixelPos);
     counter.setRotate(60 * position.direction().getDirection());
   }
@@ -118,30 +119,34 @@ public class MapPane extends StackPane {
   }
 
   private Set<Shape> selectHexes(Color color, Point... hexCoordinates) {
-    Set<Shape> hexagons = Arrays.stream(hexCoordinates).map(point -> {
-          Shape hexagon = mapUtils.getHexagon(point);
-          hexagon.getStrokeDashArray().setAll(10d, 10d);
-          hexagon.setStrokeWidth(2);
-          hexagon.setStroke(color);
-          hexagon.setFill(Color.TRANSPARENT);
-          return hexagon;
-        })
-        .collect(Collectors.toSet());
+    Set<Shape> hexagons =
+        Arrays.stream(hexCoordinates)
+            .map(
+                point -> {
+                  Shape hexagon = mapUtils.getHexagon(point);
+                  hexagon.getStrokeDashArray().setAll(10d, 10d);
+                  hexagon.setStrokeWidth(2);
+                  hexagon.setStroke(color);
+                  hexagon.setFill(Color.TRANSPARENT);
+                  return hexagon;
+                })
+            .collect(Collectors.toSet());
 
     countersPane.getChildren().addAll(hexagons);
 
-    hexagons.forEach(hexagon -> {
-      Timeline timeline =
-          new Timeline(
-              new KeyFrame(
-                  Duration.ZERO,
-                  new KeyValue(hexagon.strokeDashOffsetProperty(), 20, Interpolator.LINEAR)),
-              new KeyFrame(
-                  Duration.seconds(2),
-                  new KeyValue(hexagon.strokeDashOffsetProperty(), 0, Interpolator.LINEAR)));
-      timeline.setCycleCount(Timeline.INDEFINITE);
-      timeline.play();
-    });
+    hexagons.forEach(
+        hexagon -> {
+          Timeline timeline =
+              new Timeline(
+                  new KeyFrame(
+                      Duration.ZERO,
+                      new KeyValue(hexagon.strokeDashOffsetProperty(), 20, Interpolator.LINEAR)),
+                  new KeyFrame(
+                      Duration.seconds(2),
+                      new KeyValue(hexagon.strokeDashOffsetProperty(), 0, Interpolator.LINEAR)));
+          timeline.setCycleCount(Timeline.INDEFINITE);
+          timeline.play();
+        });
 
     return hexagons;
   }
@@ -188,9 +193,16 @@ public class MapPane extends StackPane {
         mapCanvas.getChildren().add(text);
       }
     }
+    mapCanvas.layout();
 
     SnapshotParameters params = new SnapshotParameters();
     params.setFill(Color.BLACK);
+    params.setViewport(
+        new Rectangle2D(
+            0,
+            0,
+            MAP_WIDTH * mapUtils.getColumnWidth() + (2.0 * HEX_RADIUS - mapUtils.getColumnWidth()),
+            (MAP_HEIGHT + .5) * 2.0 * mapUtils.getMinorRadius()));
     return new ImageView(mapCanvas.snapshot(params, null));
   }
 
@@ -198,5 +210,4 @@ public class MapPane extends StackPane {
   private final Set<Shape> selectedHexes = Sets.newHashSet();
   private final Set<Shape> targetHexes = Sets.newHashSet();
   private final Pane countersPane;
-
 }

@@ -85,7 +85,7 @@ public class MapUtils {
     };
   }
 
-  private double getColumnWidth() {
+  public double getColumnWidth() {
     return hexRadius * 3.0 / 2.0;
   }
 
