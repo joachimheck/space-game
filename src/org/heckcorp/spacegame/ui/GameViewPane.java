@@ -20,12 +20,12 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.checkerframework.framework.qual.DefaultQualifier;
 import org.heckcorp.spacegame.model.MapPosition;
-import org.heckcorp.spacegame.ui.map.Point;
+import org.heckcorp.spacegame.model.Model;
+import org.heckcorp.spacegame.model.Unit;
 import org.heckcorp.spacegame.ui.map.Counter;
 import org.heckcorp.spacegame.ui.map.MapPane;
 import org.heckcorp.spacegame.ui.map.MapUtils;
-import org.heckcorp.spacegame.model.Model;
-import org.heckcorp.spacegame.model.Unit;
+import org.heckcorp.spacegame.ui.map.Point;
 
 import java.io.FileNotFoundException;
 

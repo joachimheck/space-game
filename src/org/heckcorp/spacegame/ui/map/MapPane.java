@@ -17,7 +17,6 @@ import javafx.scene.SnapshotParameters;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -166,11 +165,16 @@ public class MapPane extends StackPane {
 
   public static MapPane create(MapUtils mapUtils, MapModel model) {
     MapPane mapPane = new MapPane(mapUtils);
-    BorderPane theMapPane = new BorderPane(buildMapCanvas(mapUtils, MAP_WIDTH, MAP_HEIGHT));
+    // Not sure why I need this but without it, one line of background shows through at the bottom.
+    mapPane.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
+
+    Node mapCanvas = buildMapCanvas(mapUtils, MAP_WIDTH, MAP_HEIGHT);
     Pane countersPane = mapPane.countersPane;
     ControllerPane controllerPane = new ControllerPane(model, mapUtils);
+    mapPane.getChildren().addAll(mapCanvas, countersPane, controllerPane);
+
     controllerPane.setOnMouseClicked(controllerPane::onMouseClicked);
-    mapPane.getChildren().addAll(theMapPane, countersPane, controllerPane);
+
     return mapPane;
   }
 
