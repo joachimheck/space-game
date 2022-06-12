@@ -20,7 +20,7 @@ public class SpaceGame extends Application {
   @Override
   public void start(Stage stage) throws FileNotFoundException {
     MapUtils mapUtils = new MapUtils(Constants.HEX_RADIUS);
-    Model model = new Model();
+    Model model = new Model(mapUtils);
     GameViewPane gameViewPane = GameViewPane.create(model, mapUtils);
     ViewResources viewResources = new ViewResources();
     Controller.create(model, gameViewPane, viewResources);

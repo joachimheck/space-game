@@ -1,5 +1,7 @@
 package org.heckcorp.spacegame.ui;
 
+import com.google.common.collect.Sets;
+import javafx.collections.ObservableSet;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Menu;
@@ -45,11 +47,12 @@ public class GameViewPane extends VBox {
   }
 
   public void selectHex(Point hexCoordinates) {
-    mapPane.selectHex(hexCoordinates);
+    mapPane.selectHexes(hexCoordinates);
   }
 
   public void unselectHex() {
     mapPane.unselectHex();
+    mapPane.setTargetHexes(Sets.newHashSet());
     hexDescriptionPane.clear();
   }
 
@@ -71,6 +74,10 @@ public class GameViewPane extends VBox {
               "%s's unit: health %d/%d",
               unit.getOwner().getName(), unit.getHealth(), unit.getMaxHealth()));
     }
+  }
+
+  public void setTargetHexes(ObservableSet<? extends Point> hexes) {
+    mapPane.setTargetHexes(hexes);
   }
 
   public static GameViewPane create(Model model, MapUtils mapUtils) throws FileNotFoundException {
@@ -102,8 +109,8 @@ public class GameViewPane extends VBox {
     this.mapPane = mapPane;
     this.hexDescriptionPane = hexDescriptionPane;
   }
-
   private final MapPane mapPane;
+
   private final HexDescriptionPane hexDescriptionPane;
 
   public void setWinner(String winner) {

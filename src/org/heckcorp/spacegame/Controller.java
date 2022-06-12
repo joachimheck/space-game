@@ -71,6 +71,7 @@ public class Controller {
                     }
                   }
                 });
+    model.targetHexesProperty().addListener((SetChangeListener<Point>) change -> view.setTargetHexes(change.getSet()));
     model.winnerProperty().addListener((observable, oldValue, newValue) -> view.setWinner(newValue));
   }
 

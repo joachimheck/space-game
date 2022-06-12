@@ -2,6 +2,8 @@ package org.heckcorp.spacegame.ui.map;
 
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Polygon;
+import org.heckcorp.spacegame.model.Direction;
+import org.heckcorp.spacegame.model.MapPosition;
 
 public class MapUtils {
   public Point2D getHexCenter(Point position) {
@@ -68,6 +70,19 @@ public class MapUtils {
     guesses[2] = new Point(columnGuess - 1, rowGuess + rowShift);
 
     return guesses;
+  }
+
+  public Point getAdjacentHex(MapPosition mapPosition) {
+    Point pos = mapPosition.position();
+    Direction direction = mapPosition.direction();
+    return switch(direction) {
+      case NORTH -> new Point(pos.x(), pos.y() - 1);
+      case NORTHEAST -> new Point(pos.x() + 1, pos.x() % 2 != 0 ? pos.y() : pos.y() - 1);
+      case SOUTHEAST -> new Point(pos.x() + 1, pos.x() % 2 != 0 ? pos.y() + 1 : pos.y());
+      case SOUTH -> new Point(pos.x(), pos.y() + 1);
+      case SOUTHWEST -> new Point(pos.x() - 1, pos.x() % 2 != 0 ? pos.y() + 1 : pos.y());
+      case NORTHWEST -> new Point(pos.x() - 1, pos.x() % 2 != 0 ? pos.y() : pos.y() - 1);
+    };
   }
 
   private double getColumnWidth() {

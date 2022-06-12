@@ -1,5 +1,6 @@
 package org.heckcorp.spacegame.ui.map;
 
+import com.google.common.collect.Sets;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -24,11 +25,16 @@ import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 import javafx.scene.shape.Polygon;
+import javafx.scene.shape.Shape;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import org.heckcorp.spacegame.model.Direction;
 import org.heckcorp.spacegame.model.MapPosition;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Arrays;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import static org.heckcorp.spacegame.Constants.MAP_HEIGHT;
 import static org.heckcorp.spacegame.Constants.MAP_WIDTH;
@@ -95,30 +101,49 @@ public class MapPane extends StackPane {
     }
   }
 
-  public void selectHex(Point hexCoordinates) {
-    selectedHex = hexCoordinates;
-    selectionHexagon = mapUtils.getHexagon(selectedHex);
-    selectionHexagon.getStrokeDashArray().setAll(10d, 10d);
-    selectionHexagon.setStrokeWidth(2);
-    selectionHexagon.setStroke(Color.YELLOW);
-    selectionHexagon.setFill(Color.TRANSPARENT);
-    countersPane.getChildren().add(selectionHexagon);
-
-    Timeline timeline =
-        new Timeline(
-            new KeyFrame(
-                Duration.ZERO,
-                new KeyValue(selectionHexagon.strokeDashOffsetProperty(), 20, Interpolator.LINEAR)),
-            new KeyFrame(
-                Duration.seconds(2),
-                new KeyValue(selectionHexagon.strokeDashOffsetProperty(), 0, Interpolator.LINEAR)));
-    timeline.setCycleCount(Timeline.INDEFINITE);
-    timeline.play();
+  public void selectHexes(Point hexCoordinates) {
+    selectedHexes.clear();
+    selectedHexes.addAll(selectHexes(Color.YELLOW, hexCoordinates));
   }
 
   public void unselectHex() {
-    selectedHex = NO_SELECTED_HEX;
-    countersPane.getChildren().remove(selectionHexagon);
+    countersPane.getChildren().removeAll(selectedHexes);
+    selectedHexes.clear();
+  }
+
+  public void setTargetHexes(Set<? extends Point> hexes) {
+    countersPane.getChildren().removeAll(targetHexes);
+    targetHexes.clear();
+    targetHexes.addAll(selectHexes(Color.RED, hexes.toArray(new Point[0])));
+  }
+
+  private Set<Shape> selectHexes(Color color, Point... hexCoordinates) {
+    Set<Shape> hexagons = Arrays.stream(hexCoordinates).map(point -> {
+          Shape hexagon = mapUtils.getHexagon(point);
+          hexagon.getStrokeDashArray().setAll(10d, 10d);
+          hexagon.setStrokeWidth(2);
+          hexagon.setStroke(color);
+          hexagon.setFill(Color.TRANSPARENT);
+          return hexagon;
+        })
+        .collect(Collectors.toSet());
+
+    countersPane.getChildren().addAll(hexagons);
+
+    hexagons.forEach(hexagon -> {
+      Timeline timeline =
+          new Timeline(
+              new KeyFrame(
+                  Duration.ZERO,
+                  new KeyValue(hexagon.strokeDashOffsetProperty(), 20, Interpolator.LINEAR)),
+              new KeyFrame(
+                  Duration.seconds(2),
+                  new KeyValue(hexagon.strokeDashOffsetProperty(), 0, Interpolator.LINEAR)));
+      timeline.setCycleCount(Timeline.INDEFINITE);
+      timeline.play();
+    });
+
+    return hexagons;
   }
 
   private void setCounterLocation(Counter counter, Point2D location) {
@@ -170,9 +195,8 @@ public class MapPane extends StackPane {
   }
 
   private final MapUtils mapUtils;
-  private Polygon selectionHexagon = new Polygon(0d, 0d);
+  private final Set<Shape> selectedHexes = Sets.newHashSet();
+  private final Set<Shape> targetHexes = Sets.newHashSet();
   private final Pane countersPane;
-  private Point selectedHex = NO_SELECTED_HEX;
 
-  private static final Point NO_SELECTED_HEX = new Point(-1, -1);
 }

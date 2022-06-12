@@ -1,5 +1,6 @@
 package org.heckcorp.spacegame.model;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
 import javafx.beans.property.MapProperty;
 import javafx.beans.property.ObjectProperty;
@@ -9,6 +10,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleSetProperty;
 import javafx.collections.FXCollections;
 import org.heckcorp.spacegame.ui.map.MapModel;
+import org.heckcorp.spacegame.ui.map.MapUtils;
 import org.heckcorp.spacegame.ui.map.MouseButton;
 import org.heckcorp.spacegame.ui.map.Point;
 import org.jetbrains.annotations.Nullable;
@@ -48,7 +50,8 @@ public class Model implements MapModel {
       List<Unit> units = getUnitsAt(selectedCoordinates);
       if (!units.isEmpty()) {
         Unit selectedUnit = units.get(0);
-        MapPosition newPosition = new MapPosition(hexCoordinates, unitPositions.get(selectedUnit).direction());
+        MapPosition newPosition =
+            new MapPosition(hexCoordinates, unitPositions.get(selectedUnit).direction());
         unitPositions.put(selectedUnit, newPosition);
       }
     }
@@ -68,16 +71,28 @@ public class Model implements MapModel {
 
   public void setSelectionMode(SelectionMode mode) {
     this.selectionMode = mode;
+    targetHexes.clear();
+    if (selectionMode.equals(SelectionMode.TARGET)) {
+      if (selectedUnit.get() != null) {
+        MapPosition selectUnitPosition = unitPositions.get(selectedUnit.get());
+        Point hexInFront = mapUtils.getAdjacentHex(selectUnitPosition);
+        targetHexes.addAll(ImmutableSet.of(hexInFront));
+      }
+    }
   }
 
   public void rotateLeft() {
     MapPosition currentPosition = unitPositions.get(selectedUnit.get());
-    unitPositions.put(selectedUnit.get(), new MapPosition(currentPosition.position(), currentPosition.direction().left()));
+    unitPositions.put(
+        selectedUnit.get(),
+        new MapPosition(currentPosition.position(), currentPosition.direction().left()));
   }
 
   public void rotateRight() {
     MapPosition currentPosition = unitPositions.get(selectedUnit.get());
-    unitPositions.put(selectedUnit.get(), new MapPosition(currentPosition.position(), currentPosition.direction().right()));
+    unitPositions.put(
+        selectedUnit.get(),
+        new MapPosition(currentPosition.position(), currentPosition.direction().right()));
   }
 
   public void processAttack() {
@@ -112,6 +127,10 @@ public class Model implements MapModel {
     return selectedUnit;
   }
 
+  public final SetProperty<Point> targetHexesProperty() {
+    return targetHexes;
+  }
+
   public final ObjectProperty<Unit> targetUnitProperty() {
     return targetUnit;
   }
@@ -124,16 +143,25 @@ public class Model implements MapModel {
     return units;
   }
 
-  public final ObjectProperty<String> winnerProperty() { return winner; }
+  public final ObjectProperty<String> winnerProperty() {
+    return winner;
+  }
 
   public enum SelectionMode {
     SELECT,
     TARGET
   }
 
+  public Model(MapUtils mapUtils) {
+    this.mapUtils = mapUtils;
+  }
+
+  private final MapUtils mapUtils;
   private final ObjectProperty<Point> selectedHexPosition = new SimpleObjectProperty<>();
   private final ObjectProperty<Unit> selectedUnit = new SimpleObjectProperty<>();
   private SelectionMode selectionMode = SelectionMode.SELECT;
+  private final SetProperty<Point> targetHexes =
+      new SimpleSetProperty<>(FXCollections.observableSet());
   private final ObjectProperty<Unit> targetUnit = new SimpleObjectProperty<>();
   private final SetProperty<Unit> units = new SimpleSetProperty<>(FXCollections.observableSet());
   private final MapProperty<Unit, MapPosition> unitPositions =
