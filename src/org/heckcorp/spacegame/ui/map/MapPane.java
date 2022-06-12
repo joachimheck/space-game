@@ -26,6 +26,7 @@ import javafx.scene.shape.Path;
 import javafx.scene.shape.Polygon;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
+import org.heckcorp.spacegame.model.Direction;
 import org.heckcorp.spacegame.model.MapPosition;
 import org.jetbrains.annotations.Nullable;
 
@@ -72,7 +73,7 @@ public class MapPane extends StackPane {
     if (!startMapPos.direction().equals(endMapPos.direction())) {
       RotateTransition rotateTransition = new RotateTransition(Duration.seconds(1));
       rotateTransition.setFromAngle(60.0 * startMapPos.direction().getDirection());
-      rotateTransition.setToAngle(60.0 * endMapPos.direction().getDirection());
+      rotateTransition.setToAngle(getClosestAngle(startMapPos.direction(), endMapPos.direction()));
       rotateTransition.setByAngle(5);
       rotateTransition.setOnFinished(
           event -> counter.setRotate(60 * endMapPos.direction().getDirection()));
@@ -82,8 +83,18 @@ public class MapPane extends StackPane {
     parallelTransition.play();
   }
 
-  //        Rotate rotate = new Rotate(90);
-  //        imageView.getTransforms().add(rotate);
+  private double getClosestAngle(Direction startDirection, Direction endDirection) {
+    double startAngle = 60.0 * startDirection.getDirection();
+    double endAngle = 60.0 * endDirection.getDirection();
+    if (endAngle - startAngle > 180.0) {
+      return endAngle - 360.0;
+    } else if (endAngle - startAngle < -180.0) {
+      return endAngle + 360.0;
+    } else {
+      return endAngle;
+    }
+  }
+
   public void selectHex(Point hexCoordinates) {
     selectedHex = hexCoordinates;
     selectionHexagon = mapUtils.getHexagon(selectedHex);
