@@ -24,6 +24,8 @@ import org.heckcorp.spacegame.ui.map.MapUtils;
 import org.heckcorp.spacegame.model.Model;
 import org.heckcorp.spacegame.model.Unit;
 
+import java.io.FileNotFoundException;
+
 import static org.heckcorp.spacegame.Constants.*;
 
 @DefaultQualifier(NonNull.class)
@@ -70,7 +72,7 @@ public class GameViewPane extends VBox {
     }
   }
 
-  public static GameViewPane create(Model model, MapUtils mapUtils) {
+  public static GameViewPane create(Model model, MapUtils mapUtils) throws FileNotFoundException {
     MapPane mapPane = MapPane.create(mapUtils, model);
     mapPane.setBorder(
         new Border(
