@@ -3,7 +3,9 @@ package org.heckcorp.spacegame.ui.map;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
+import javafx.animation.ParallelTransition;
 import javafx.animation.PathTransition;
+import javafx.animation.RotateTransition;
 import javafx.animation.Timeline;
 import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
@@ -24,16 +26,18 @@ import javafx.scene.shape.Path;
 import javafx.scene.shape.Polygon;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
+import org.heckcorp.spacegame.model.MapPosition;
 import org.jetbrains.annotations.Nullable;
 
 import static org.heckcorp.spacegame.Constants.MAP_HEIGHT;
 import static org.heckcorp.spacegame.Constants.MAP_WIDTH;
 
 public class MapPane extends StackPane {
-  public void addCounter(Counter counter, Point position) {
+  public void addCounter(Counter counter, MapPosition position) {
     countersPane.getChildren().add(counter);
-    Point2D pixelPos = mapUtils.getHexCenter(new Point(position.x(), position.y()));
+    Point2D pixelPos = mapUtils.getHexCenter(new Point(position.position().x(), position.position().y()));
     setCounterLocation(counter, pixelPos);
+    counter.setRotate(60 * position.direction().getDirection());
   }
 
   public void removeCounter(@Nullable Counter counter) {
@@ -42,23 +46,40 @@ public class MapPane extends StackPane {
     }
   }
 
-  public void moveCounter(Counter counter, Point startHexPos, Point endHexPos) {
-    Path path = new Path();
-    Point2D endPos = mapUtils.getHexCenter(endHexPos);
-    Point2D startPos = mapUtils.getHexCenter(startHexPos);
-    path.getElements()
-        .add(
-            new MoveTo(
-                counter.getLayoutBounds().getCenterX(), counter.getLayoutBounds().getCenterY()));
-    path.getElements()
-        .add(
-            new LineTo(
-                endPos.getX() - startPos.getX() + counter.getLayoutBounds().getCenterX(),
-                endPos.getY() - startPos.getY() + counter.getLayoutBounds().getCenterY()));
-    PathTransition pathTransition = new PathTransition(Duration.seconds(2), path, counter);
-    pathTransition.setOrientation(PathTransition.OrientationType.NONE);
-    pathTransition.setOnFinished(event -> setCounterLocation(counter, endPos));
-    pathTransition.play();
+  public void moveCounter(Counter counter, MapPosition startMapPos, MapPosition endMapPos) {
+    ParallelTransition parallelTransition = new ParallelTransition(counter);
+    Duration duration = Duration.seconds(2);
+
+    Point2D startPos = mapUtils.getHexCenter(startMapPos.position());
+    Point2D endPos = mapUtils.getHexCenter(endMapPos.position());
+    if (!startPos.equals(endPos)) {
+      Path path = new Path();
+      path.getElements()
+          .add(
+              new MoveTo(
+                  counter.getLayoutBounds().getCenterX(), counter.getLayoutBounds().getCenterY()));
+      path.getElements()
+          .add(
+              new LineTo(
+                  endPos.getX() - startPos.getX() + counter.getLayoutBounds().getCenterX(),
+                  endPos.getY() - startPos.getY() + counter.getLayoutBounds().getCenterY()));
+      PathTransition pathTransition = new PathTransition(duration, path);
+      pathTransition.setOrientation(PathTransition.OrientationType.NONE);
+      pathTransition.setOnFinished(event -> setCounterLocation(counter, endPos));
+      parallelTransition.getChildren().add(pathTransition);
+    }
+
+    if (!startMapPos.direction().equals(endMapPos.direction())) {
+      RotateTransition rotateTransition = new RotateTransition(Duration.seconds(1));
+      rotateTransition.setFromAngle(60.0 * startMapPos.direction().getDirection());
+      rotateTransition.setToAngle(60.0 * endMapPos.direction().getDirection());
+      rotateTransition.setByAngle(5);
+      rotateTransition.setOnFinished(
+          event -> counter.setRotate(60 * endMapPos.direction().getDirection()));
+      parallelTransition.getChildren().add(rotateTransition);
+    }
+
+    parallelTransition.play();
   }
 
   //        Rotate rotate = new Rotate(90);

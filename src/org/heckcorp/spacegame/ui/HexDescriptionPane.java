@@ -43,6 +43,8 @@ public class HexDescriptionPane extends FlowPane {
   private HexDescriptionPane initialize(Model model) {
     targetButton.setOnAction(event -> model.setSelectionMode(Model.SelectionMode.TARGET));
     attackButton.setOnAction(event -> model.processAttack());
+    turnLeftButton.setOnAction(event -> model.rotateLeft());
+    turnRightButton.setOnAction(event -> model.rotateRight());
     targetButton.setDisable(true);
     attackButton.setDisable(true);
     turnLeftButton.setDisable(true);

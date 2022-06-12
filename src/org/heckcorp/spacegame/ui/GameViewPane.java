@@ -17,6 +17,7 @@ import javafx.scene.text.Text;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.checkerframework.framework.qual.DefaultQualifier;
+import org.heckcorp.spacegame.model.MapPosition;
 import org.heckcorp.spacegame.ui.map.Point;
 import org.heckcorp.spacegame.ui.map.Counter;
 import org.heckcorp.spacegame.ui.map.MapPane;
@@ -31,7 +32,7 @@ import static org.heckcorp.spacegame.Constants.*;
 @DefaultQualifier(NonNull.class)
 public class GameViewPane extends VBox {
 
-  public void addCounter(Counter counter, Point position) {
+  public void addCounter(Counter counter, MapPosition position) {
     mapPane.addCounter(counter, position);
   }
 
@@ -39,8 +40,8 @@ public class GameViewPane extends VBox {
     mapPane.removeCounter(counter);
   }
 
-  public void moveCounter(Counter counter, Point startHexPos, Point endHexPos) {
-    mapPane.moveCounter(counter, startHexPos, endHexPos);
+  public void moveCounter(Counter counter, MapPosition startPos, MapPosition endHexPos) {
+    mapPane.moveCounter(counter, startPos, endHexPos);
   }
 
   public void selectHex(Point hexCoordinates) {

@@ -3,6 +3,7 @@ package org.heckcorp.spacegame;
 import javafx.collections.MapChangeListener;
 import javafx.collections.SetChangeListener;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.heckcorp.spacegame.model.MapPosition;
 import org.heckcorp.spacegame.model.Model;
 import org.heckcorp.spacegame.model.Player;
 import org.heckcorp.spacegame.model.Unit;
@@ -46,7 +47,7 @@ public class Controller {
                         unit,
                         Counter.build(
                             viewResources, unit.getImageId(), color.r(), color.g(), color.b()));
-                    @Nullable Point unitPosition = model.unitPositionsProperty().get().get(unit);
+                    @Nullable MapPosition unitPosition = model.unitPositionsProperty().get().get(unit);
                     if (unitPosition != null) {
                       view.addCounter(unitCounters.get(unit), unitPosition);
                     }
@@ -60,7 +61,7 @@ public class Controller {
     model
         .unitPositionsProperty()
         .addListener(
-            (MapChangeListener<Unit, Point>)
+            (MapChangeListener<Unit, MapPosition>)
                 change -> {
                   Unit u = change.getKey();
                   if (change.wasRemoved() && change.wasAdded()) {

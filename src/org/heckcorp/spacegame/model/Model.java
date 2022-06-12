@@ -48,25 +48,36 @@ public class Model implements MapModel {
       List<Unit> units = getUnitsAt(selectedCoordinates);
       if (!units.isEmpty()) {
         Unit selectedUnit = units.get(0);
-        unitPositions.put(selectedUnit, hexCoordinates);
+        MapPosition newPosition = new MapPosition(hexCoordinates, unitPositions.get(selectedUnit).direction());
+        unitPositions.put(selectedUnit, newPosition);
       }
     }
   }
 
   private List<Unit> getUnitsAt(Point point) {
     return unitPositions.getValue().entrySet().stream()
-        .filter(e -> e.getValue().equals(point))
+        .filter(e -> e.getValue().position().equals(point))
         .map(Map.Entry::getKey)
         .collect(Collectors.toList());
   }
 
-  public void addUnit(Unit unit, Point hexPosition) {
-    unitPositions.get().put(unit, hexPosition);
+  public void addUnit(Unit unit, MapPosition mapPosition) {
+    unitPositions.get().put(unit, mapPosition);
     units.add(unit);
   }
 
   public void setSelectionMode(SelectionMode mode) {
     this.selectionMode = mode;
+  }
+
+  public void rotateLeft() {
+    MapPosition currentPosition = unitPositions.get(selectedUnit.get());
+    unitPositions.put(selectedUnit.get(), new MapPosition(currentPosition.position(), currentPosition.direction().left()));
+  }
+
+  public void rotateRight() {
+    MapPosition currentPosition = unitPositions.get(selectedUnit.get());
+    unitPositions.put(selectedUnit.get(), new MapPosition(currentPosition.position(), currentPosition.direction().right()));
   }
 
   public void processAttack() {
@@ -105,7 +116,7 @@ public class Model implements MapModel {
     return targetUnit;
   }
 
-  public final MapProperty<Unit, Point> unitPositionsProperty() {
+  public final MapProperty<Unit, MapPosition> unitPositionsProperty() {
     return unitPositions;
   }
 
@@ -125,7 +136,7 @@ public class Model implements MapModel {
   private SelectionMode selectionMode = SelectionMode.SELECT;
   private final ObjectProperty<Unit> targetUnit = new SimpleObjectProperty<>();
   private final SetProperty<Unit> units = new SimpleSetProperty<>(FXCollections.observableSet());
-  private final MapProperty<Unit, Point> unitPositions =
+  private final MapProperty<Unit, MapPosition> unitPositions =
       new SimpleMapProperty<>(FXCollections.observableMap(Maps.newHashMap()));
   private final ObjectProperty<String> winner = new SimpleObjectProperty<>();
 }
