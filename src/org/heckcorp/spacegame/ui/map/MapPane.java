@@ -166,7 +166,8 @@ public class MapPane extends StackPane {
   public static MapPane create(MapUtils mapUtils, MapModel model) {
     MapPane mapPane = new MapPane(mapUtils);
     // Not sure why I need this but without it, one line of background shows through at the bottom.
-    mapPane.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
+    mapPane.setBackground(
+        new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
 
     Node mapCanvas = buildMapCanvas(mapUtils, MAP_WIDTH, MAP_HEIGHT);
     Pane countersPane = mapPane.countersPane;

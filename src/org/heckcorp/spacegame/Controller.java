@@ -47,7 +47,8 @@ public class Controller {
                         unit,
                         Counter.build(
                             viewResources, unit.getImageId(), color.r(), color.g(), color.b()));
-                    @Nullable MapPosition unitPosition = model.unitPositionsProperty().get().get(unit);
+                    @Nullable MapPosition unitPosition =
+                        model.unitPositionsProperty().get().get(unit);
                     if (unitPosition != null) {
                       view.addCounter(unitCounters.get(unit), unitPosition);
                     }
@@ -71,8 +72,12 @@ public class Controller {
                     }
                   }
                 });
-    model.targetHexesProperty().addListener((SetChangeListener<Point>) change -> view.setTargetHexes(change.getSet()));
-    model.winnerProperty().addListener((observable, oldValue, newValue) -> view.setWinner(newValue));
+    model
+        .targetHexesProperty()
+        .addListener((SetChangeListener<Point>) change -> view.setTargetHexes(change.getSet()));
+    model
+        .winnerProperty()
+        .addListener((observable, oldValue, newValue) -> view.setWinner(newValue));
   }
 
   private Controller(Model model, GameViewPane view, ViewResources viewResources) {

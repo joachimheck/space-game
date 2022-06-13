@@ -1,7 +1,12 @@
 package org.heckcorp.spacegame.model;
 
 public enum Direction {
-  NORTH(0), NORTHEAST(1), SOUTHEAST(2), SOUTH(3), SOUTHWEST(4), NORTHWEST(5);
+  NORTH(0),
+  NORTHEAST(1),
+  SOUTHEAST(2),
+  SOUTH(3),
+  SOUTHWEST(4),
+  NORTHWEST(5);
 
   public int getDirection() {
     return direction;

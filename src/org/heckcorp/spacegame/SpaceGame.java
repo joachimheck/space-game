@@ -29,8 +29,10 @@ public class SpaceGame extends Application {
     Player computerPlayer = new Player("Computer Player", .75, .25, .25);
     ViewResources.Identifier spaceshipId =
         viewResources.addImageResource(ResourceLoader.getResource("resource/spaceship.png"));
-    model.addUnit(new Unit(humanPlayer, spaceshipId), new MapPosition(new Point(1, 1), Direction.NORTH));
-    model.addUnit(new Unit(computerPlayer, spaceshipId), new MapPosition(new Point(5, 5), Direction.NORTH));
+    model.addUnit(
+        new Unit(humanPlayer, spaceshipId), new MapPosition(new Point(1, 1), Direction.NORTH));
+    model.addUnit(
+        new Unit(computerPlayer, spaceshipId), new MapPosition(new Point(5, 5), Direction.NORTH));
 
     Scene scene = new Scene(gameViewPane);
     stage.setScene(scene);

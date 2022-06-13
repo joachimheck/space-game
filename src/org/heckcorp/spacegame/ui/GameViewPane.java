@@ -109,6 +109,7 @@ public class GameViewPane extends VBox {
     this.mapPane = mapPane;
     this.hexDescriptionPane = hexDescriptionPane;
   }
+
   private final MapPane mapPane;
 
   private final HexDescriptionPane hexDescriptionPane;

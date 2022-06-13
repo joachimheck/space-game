@@ -28,7 +28,9 @@ public class Model implements MapModel {
     if (mouseButton == MouseButton.PRIMARY) {
       if (selectionMode.equals(SelectionMode.SELECT)) {
         selectHex(hexCoordinates);
-      } else if (selectionMode.equals(SelectionMode.TARGET) && selectedUnit.getValue() != null && targetHexes.contains(hexCoordinates)) {
+      } else if (selectionMode.equals(SelectionMode.TARGET)
+          && selectedUnit.getValue() != null
+          && targetHexes.contains(hexCoordinates)) {
         List<Unit> units = getUnitsAt(hexCoordinates);
         if (!units.isEmpty()) {
           targetUnit.setValue(units.get(0));
@@ -94,13 +96,20 @@ public class Model implements MapModel {
 
   private Collection<Point> getTargetHexes(MapPosition unitPosition) {
     Point hexInFront = mapUtils.getAdjacentHex(unitPosition);
-    ImmutableSet<Direction> directions = ImmutableSet.of(unitPosition.direction().left(), unitPosition.direction(), unitPosition.direction().right());
+    ImmutableSet<Direction> directions =
+        ImmutableSet.of(
+            unitPosition.direction().left(),
+            unitPosition.direction(),
+            unitPosition.direction().right());
     Set<Point> targetHexes = Sets.newHashSet();
     Set<Point> hexes = Sets.newHashSet(hexInFront);
     int range = 4;
-    for (int i=0; i<range; i++) {
+    for (int i = 0; i < range; i++) {
       targetHexes.addAll(hexes);
-      Set<Point> newHexes = hexes.stream().flatMap(p -> directions.stream().map(d -> mapUtils.getAdjacentHex(p, d))).collect(Collectors.toSet());
+      Set<Point> newHexes =
+          hexes.stream()
+              .flatMap(p -> directions.stream().map(d -> mapUtils.getAdjacentHex(p, d)))
+              .collect(Collectors.toSet());
       hexes.clear();
       hexes = newHexes;
     }
