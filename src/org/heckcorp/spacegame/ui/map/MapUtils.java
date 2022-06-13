@@ -73,8 +73,10 @@ public class MapUtils {
   }
 
   public Point getAdjacentHex(MapPosition mapPosition) {
-    Point pos = mapPosition.position();
-    Direction direction = mapPosition.direction();
+    return getAdjacentHex(mapPosition.position(), mapPosition.direction());
+  }
+
+  public Point getAdjacentHex(Point pos, Direction direction) {
     return switch(direction) {
       case NORTH -> new Point(pos.x(), pos.y() - 1);
       case NORTHEAST -> new Point(pos.x() + 1, pos.x() % 2 != 0 ? pos.y() : pos.y() - 1);

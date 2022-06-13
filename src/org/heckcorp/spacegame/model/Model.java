@@ -2,6 +2,7 @@ package org.heckcorp.spacegame.model;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import javafx.beans.property.MapProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SetProperty;
@@ -15,6 +16,7 @@ import org.heckcorp.spacegame.ui.map.MouseButton;
 import org.heckcorp.spacegame.ui.map.Point;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -74,11 +76,25 @@ public class Model implements MapModel {
     targetHexes.clear();
     if (selectionMode.equals(SelectionMode.TARGET)) {
       if (selectedUnit.get() != null) {
-        MapPosition selectUnitPosition = unitPositions.get(selectedUnit.get());
-        Point hexInFront = mapUtils.getAdjacentHex(selectUnitPosition);
-        targetHexes.addAll(ImmutableSet.of(hexInFront));
+        MapPosition selectedUnitPosition = unitPositions.get(selectedUnit.get());
+        targetHexes.addAll(getTargetHexes(selectedUnitPosition));
       }
     }
+  }
+
+  private Collection<Point> getTargetHexes(MapPosition unitPosition) {
+    Point hexInFront = mapUtils.getAdjacentHex(unitPosition);
+    ImmutableSet<Direction> directions = ImmutableSet.of(unitPosition.direction().left(), unitPosition.direction(), unitPosition.direction().right());
+    Set<Point> targetHexes = Sets.newHashSet();
+    Set<Point> hexes = Sets.newHashSet(hexInFront);
+    int range = 4;
+    for (int i=0; i<range; i++) {
+      targetHexes.addAll(hexes);
+      Set<Point> newHexes = hexes.stream().flatMap(p -> directions.stream().map(d -> mapUtils.getAdjacentHex(p, d))).collect(Collectors.toSet());
+      hexes.clear();
+      hexes = newHexes;
+    }
+    return targetHexes;
   }
 
   public void rotateLeft() {
