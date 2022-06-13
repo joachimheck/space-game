@@ -26,15 +26,10 @@ public class Model implements MapModel {
   @Override
   public void hexClicked(Point hexCoordinates, MouseButton mouseButton) {
     if (mouseButton == MouseButton.PRIMARY) {
-      List<Unit> units = getUnitsAt(hexCoordinates);
       if (selectionMode.equals(SelectionMode.SELECT)) {
-        selectedHexPosition.setValue(hexCoordinates);
-        if (units.isEmpty()) {
-          selectedUnit.setValue(null);
-        } else {
-          selectedUnit.setValue(units.get(0));
-        }
+        selectHex(hexCoordinates);
       } else if (selectionMode.equals(SelectionMode.TARGET) && selectedUnit.getValue() != null) {
+        List<Unit> units = getUnitsAt(hexCoordinates);
         if (!units.isEmpty()) {
           targetUnit.setValue(units.get(0));
         }
@@ -43,11 +38,21 @@ public class Model implements MapModel {
     } else if (mouseButton == MouseButton.SECONDARY) {
       if (selectionMode.equals(SelectionMode.SELECT)) {
         moveSelectedUnit(hexCoordinates);
-        selectedHexPosition.setValue(null);
+
+        selectHex(hexCoordinates);
       } else if (selectionMode.equals(SelectionMode.TARGET)) {
         selectionMode = SelectionMode.SELECT;
         targetHexes.clear();
       }
+    }
+  }
+
+  private void selectHex(Point hexCoordinates) {
+    selectedHexPosition.setValue(hexCoordinates);
+    selectedUnit.setValue(null);
+    List<Unit> units = getUnitsAt(hexCoordinates);
+    if (!units.isEmpty()) {
+      selectedUnit.setValue(units.get(0));
     }
   }
 
