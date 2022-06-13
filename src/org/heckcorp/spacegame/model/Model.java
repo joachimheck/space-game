@@ -41,8 +41,13 @@ public class Model implements MapModel {
         selectionMode = SelectionMode.SELECT;
       }
     } else if (mouseButton == MouseButton.SECONDARY) {
-      moveSelectedUnit(hexCoordinates);
-      selectedHexPosition.setValue(null);
+      if (selectionMode.equals(SelectionMode.SELECT)) {
+        moveSelectedUnit(hexCoordinates);
+        selectedHexPosition.setValue(null);
+      } else if (selectionMode.equals(SelectionMode.TARGET)) {
+        selectionMode = SelectionMode.SELECT;
+        targetHexes.clear();
+      }
     }
   }
 
