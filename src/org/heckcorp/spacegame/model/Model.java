@@ -28,7 +28,7 @@ public class Model implements MapModel {
     if (mouseButton == MouseButton.PRIMARY) {
       if (selectionMode.equals(SelectionMode.SELECT)) {
         selectHex(hexCoordinates);
-      } else if (selectionMode.equals(SelectionMode.TARGET) && selectedUnit.getValue() != null) {
+      } else if (selectionMode.equals(SelectionMode.TARGET) && selectedUnit.getValue() != null && targetHexes.contains(hexCoordinates)) {
         List<Unit> units = getUnitsAt(hexCoordinates);
         if (!units.isEmpty()) {
           targetUnit.setValue(units.get(0));
