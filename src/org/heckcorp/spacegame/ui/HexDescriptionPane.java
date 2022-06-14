@@ -73,7 +73,9 @@ public class HexDescriptionPane extends FlowPane {
     Button turnLeftButton =
         new Button(
             "", new ImageView(new Image(ResourceLoader.getResource("resource/left-arrow.png"))));
-    Button forwardButton = new Button("", new ImageView(new Image(ResourceLoader.getResource("resource/up-arrow.png"))));
+    Button forwardButton =
+        new Button(
+            "", new ImageView(new Image(ResourceLoader.getResource("resource/up-arrow.png"))));
     Button turnRightButton =
         new Button(
             "", new ImageView(new Image(ResourceLoader.getResource("resource/right-arrow.png"))));
@@ -105,7 +107,6 @@ public class HexDescriptionPane extends FlowPane {
     this.forwardButton = forwardButton;
     this.turnRightButton = turnRightButton;
   }
-
 
   private final Button attackButton;
   private final Button forwardButton;
