@@ -116,6 +116,13 @@ public class Model implements MapModel {
     return targetHexes;
   }
 
+  public void moveForward() {
+    MapPosition currentPosition = unitPositions.get(selectedUnit.get());
+    unitPositions.put(
+        selectedUnit.get(),
+        new MapPosition(mapUtils.getAdjacentHex(currentPosition), currentPosition.direction()));
+  }
+
   public void rotateLeft() {
     MapPosition currentPosition = unitPositions.get(selectedUnit.get());
     unitPositions.put(

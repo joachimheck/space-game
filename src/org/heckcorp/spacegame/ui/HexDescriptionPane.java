@@ -22,6 +22,7 @@ public class HexDescriptionPane extends FlowPane {
     targetButton.setDisable(false);
     attackButton.setDisable(true);
     turnLeftButton.setDisable(false);
+    forwardButton.setDisable(false);
     turnRightButton.setDisable(false);
   }
 
@@ -37,6 +38,7 @@ public class HexDescriptionPane extends FlowPane {
     targetButton.setDisable(true);
     attackButton.setDisable(true);
     turnLeftButton.setDisable(true);
+    forwardButton.setDisable(true);
     turnRightButton.setDisable(true);
   }
 
@@ -44,10 +46,12 @@ public class HexDescriptionPane extends FlowPane {
     targetButton.setOnAction(event -> model.setSelectionMode(Model.SelectionMode.TARGET));
     attackButton.setOnAction(event -> model.processAttack());
     turnLeftButton.setOnAction(event -> model.rotateLeft());
+    forwardButton.setOnAction(event -> model.moveForward());
     turnRightButton.setOnAction(event -> model.rotateRight());
     targetButton.setDisable(true);
     attackButton.setDisable(true);
     turnLeftButton.setDisable(true);
+    forwardButton.setDisable(true);
     turnRightButton.setDisable(true);
     setBackground(
         new Background(new BackgroundFill(Color.gray(.75), CornerRadii.EMPTY, Insets.EMPTY)));
@@ -56,6 +60,7 @@ public class HexDescriptionPane extends FlowPane {
     getChildren().add(targetButton);
     getChildren().add(attackButton);
     getChildren().add(turnLeftButton);
+    getChildren().add(forwardButton);
     getChildren().add(turnRightButton);
     return this;
   }
@@ -68,6 +73,7 @@ public class HexDescriptionPane extends FlowPane {
     Button turnLeftButton =
         new Button(
             "", new ImageView(new Image(ResourceLoader.getResource("resource/left-arrow.png"))));
+    Button forwardButton = new Button("", new ImageView(new Image(ResourceLoader.getResource("resource/up-arrow.png"))));
     Button turnRightButton =
         new Button(
             "", new ImageView(new Image(ResourceLoader.getResource("resource/right-arrow.png"))));
@@ -78,6 +84,7 @@ public class HexDescriptionPane extends FlowPane {
             selectedUnitData,
             targetUnitData,
             turnLeftButton,
+            forwardButton,
             turnRightButton)
         .initialize(model);
   }
@@ -88,16 +95,20 @@ public class HexDescriptionPane extends FlowPane {
       Text selectedUnitData,
       Text targetUnitData,
       Button turnLeftButton,
+      Button forwardButton,
       Button turnRightButton) {
     this.attackButton = attackButton;
     this.targetButton = targetButton;
     this.selectedUnitData = selectedUnitData;
     this.targetUnitData = targetUnitData;
     this.turnLeftButton = turnLeftButton;
+    this.forwardButton = forwardButton;
     this.turnRightButton = turnRightButton;
   }
 
+
   private final Button attackButton;
+  private final Button forwardButton;
   private final Text selectedUnitData;
   private final Button targetButton;
   private final Text targetUnitData;
