@@ -61,20 +61,24 @@ public class GameViewPane extends VBox {
     if (unit == null) {
       hexDescriptionPane.clear();
     } else {
-      hexDescriptionPane.setSelectedUnitData(
-          String.format(
-              "%s's unit: health %d/%d",
-              unit.getOwner().getName(), unit.getHealth(), unit.getMaxHealth()));
+      hexDescriptionPane.setSelectedUnitData(getUnitDescription(unit));
     }
   }
 
   public void targetUnit(@Nullable Unit unit) {
     if (unit != null) {
-      hexDescriptionPane.setTargetUnitData(
-          String.format(
-              "%s's unit: health %d/%d",
-              unit.getOwner().getName(), unit.getHealth(), unit.getMaxHealth()));
+      hexDescriptionPane.setTargetUnitData(getUnitDescription(unit));
     }
+  }
+
+  private String getUnitDescription(@NonNull Unit unit) {
+    return String.format(
+        "%s's unit: health %d/%d energy %d/%d",
+        unit.getOwner().getName(),
+        unit.getHealth(),
+        unit.getMaxHealth(),
+        unit.getEnergy(),
+        unit.getMaxEnergy());
   }
 
   public void setTargetHexes(ObservableSet<? extends Point> hexes) {

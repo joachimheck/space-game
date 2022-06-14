@@ -10,12 +10,28 @@ public class Unit implements Serializable {
     return attackStrength;
   }
 
+  public int getEnergy() {
+    return energy;
+  }
+
+  public void setEnergy(int energy) {
+    this.energy = energy;
+  }
+
   public int getHealth() {
     return health;
   }
 
+  public void setHealth(int health) {
+    this.health = health;
+  }
+
   public ViewResources.Identifier getImageId() {
     return imageId;
+  }
+
+  public int getMaxEnergy() {
+    return maxEnergy;
   }
 
   public int getMaxHealth() {
@@ -26,11 +42,8 @@ public class Unit implements Serializable {
     return owner;
   }
 
-  public void setHealth(int health) {
-    this.health = health;
-  }
-
   public void resetForTurn() {
+    energy = maxEnergy;
   }
 
   public Unit(Player owner, ViewResources.Identifier imageId) {
@@ -39,10 +52,14 @@ public class Unit implements Serializable {
     this.attackStrength = 3;
     this.health = 5;
     this.maxHealth = 5;
+    this.energy = 5;
+    this.maxEnergy = 5;
   }
 
   private final int attackStrength;
+  private int energy;
   private int health;
+  private final int maxEnergy;
   private final int maxHealth;
   private final ViewResources.Identifier imageId;
   private final Player owner;
