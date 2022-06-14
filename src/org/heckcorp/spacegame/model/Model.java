@@ -14,7 +14,6 @@ import org.heckcorp.spacegame.ui.map.MapModel;
 import org.heckcorp.spacegame.ui.map.MapUtils;
 import org.heckcorp.spacegame.ui.map.MouseButton;
 import org.heckcorp.spacegame.ui.map.Point;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 import java.util.List;
@@ -40,14 +39,10 @@ public class Model implements MapModel {
         selectionMode = SelectionMode.SELECT;
       }
     } else if (mouseButton == MouseButton.SECONDARY) {
-      if (selectionMode.equals(SelectionMode.SELECT)) {
-        moveSelectedUnit(hexCoordinates);
-
-        selectHex(hexCoordinates);
-      } else if (selectionMode.equals(SelectionMode.TARGET)) {
-        selectionMode = SelectionMode.SELECT;
-        targetHexes.clear();
-      }
+      selectionMode = SelectionMode.SELECT;
+      selectedUnit.setValue(null);
+      selectedHexPosition.setValue(null);
+      targetHexes.clear();
     }
   }
 
@@ -63,19 +58,6 @@ public class Model implements MapModel {
   private void selectUnit(Unit unit) {
     selectedUnit.setValue(null);
     selectedUnit.setValue(unit);
-  }
-
-  private void moveSelectedUnit(Point hexCoordinates) {
-    @Nullable Point selectedCoordinates = selectedHexPosition.get();
-    if (selectedCoordinates != null) {
-      List<Unit> units = getUnitsAt(selectedCoordinates);
-      if (!units.isEmpty()) {
-        Unit selectedUnit = units.get(0);
-        MapPosition newPosition =
-            new MapPosition(hexCoordinates, unitPositions.get(selectedUnit).direction());
-        unitPositions.put(selectedUnit, newPosition);
-      }
-    }
   }
 
   private List<Unit> getUnitsAt(Point point) {
