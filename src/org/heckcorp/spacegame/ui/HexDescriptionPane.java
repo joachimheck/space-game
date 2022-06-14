@@ -8,6 +8,7 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import org.heckcorp.spacegame.ResourceLoader;
@@ -57,11 +58,10 @@ public class HexDescriptionPane extends FlowPane {
         new Background(new BackgroundFill(Color.gray(.75), CornerRadii.EMPTY, Insets.EMPTY)));
     getChildren().add(selectedUnitData);
     getChildren().add(targetUnitData);
-    getChildren().add(targetButton);
-    getChildren().add(attackButton);
-    getChildren().add(turnLeftButton);
-    getChildren().add(forwardButton);
-    getChildren().add(turnRightButton);
+    HBox attackRow = new HBox(targetButton, attackButton);
+    getChildren().add(attackRow);
+    HBox controlsRow = new HBox(turnLeftButton, forwardButton, turnRightButton);
+    getChildren().add(controlsRow);
     return this;
   }
 
