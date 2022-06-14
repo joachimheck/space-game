@@ -33,6 +33,7 @@ public class Model implements MapModel {
           && targetHexes.contains(hexCoordinates)) {
         List<Unit> units = getUnitsAt(hexCoordinates);
         if (!units.isEmpty()) {
+          targetHexes.clear();
           targetUnit.setValue(units.get(0));
         }
         selectionMode = SelectionMode.SELECT;
@@ -119,6 +120,7 @@ public class Model implements MapModel {
   public void moveForward() {
     Unit selectedUnit = this.selectedUnit.get();
     if (selectedUnit.getEnergy() > 0) {
+      targetHexes.clear();
       selectedUnit.setEnergy(selectedUnit.getEnergy() - 1);
       this.selectedUnit.setValue(null);
       this.selectedUnit.setValue(selectedUnit);
@@ -132,6 +134,7 @@ public class Model implements MapModel {
   public void rotateLeft() {
     Unit selectedUnit = this.selectedUnit.get();
     if (selectedUnit.getEnergy() > 0) {
+      targetHexes.clear();
       selectedUnit.setEnergy(selectedUnit.getEnergy() - 1);
       this.selectedUnit.setValue(null);
       this.selectedUnit.setValue(selectedUnit);
@@ -145,6 +148,7 @@ public class Model implements MapModel {
   public void rotateRight() {
     Unit selectedUnit = this.selectedUnit.get();
     if (selectedUnit.getEnergy() > 0) {
+      targetHexes.clear();
       selectedUnit.setEnergy(selectedUnit.getEnergy() - 1);
       this.selectedUnit.setValue(null);
       this.selectedUnit.setValue(selectedUnit);
@@ -159,6 +163,7 @@ public class Model implements MapModel {
     Unit attacker = selectedUnit.getValue();
     Unit defender = targetUnit.getValue();
     if (attacker != null && defender != null && attacker.getEnergy() > 0) {
+      targetHexes.clear();
       attacker.setEnergy(attacker.getEnergy() - 1);
       selectedUnit.setValue(null);
       selectedUnit.setValue(attacker);
