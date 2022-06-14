@@ -14,6 +14,10 @@ public class Unit implements Serializable {
     return energy;
   }
 
+  public void setEnergy(int energy) {
+    this.energy = energy;
+  }
+
   public int getHealth() {
     return health;
   }

@@ -117,37 +117,58 @@ public class Model implements MapModel {
   }
 
   public void moveForward() {
-    MapPosition currentPosition = unitPositions.get(selectedUnit.get());
-    unitPositions.put(
-        selectedUnit.get(),
-        new MapPosition(mapUtils.getAdjacentHex(currentPosition), currentPosition.direction()));
+    Unit selectedUnit = this.selectedUnit.get();
+    if (selectedUnit.getEnergy() > 0) {
+      selectedUnit.setEnergy(selectedUnit.getEnergy() - 1);
+      this.selectedUnit.setValue(null);
+      this.selectedUnit.setValue(selectedUnit);
+      MapPosition currentPosition = unitPositions.get(selectedUnit);
+      unitPositions.put(
+          selectedUnit,
+          new MapPosition(mapUtils.getAdjacentHex(currentPosition), currentPosition.direction()));
+    }
   }
 
   public void rotateLeft() {
-    MapPosition currentPosition = unitPositions.get(selectedUnit.get());
-    unitPositions.put(
-        selectedUnit.get(),
-        new MapPosition(currentPosition.position(), currentPosition.direction().left()));
+    Unit selectedUnit = this.selectedUnit.get();
+    if (selectedUnit.getEnergy() > 0) {
+      selectedUnit.setEnergy(selectedUnit.getEnergy() - 1);
+      this.selectedUnit.setValue(null);
+      this.selectedUnit.setValue(selectedUnit);
+      MapPosition currentPosition = unitPositions.get(selectedUnit);
+      unitPositions.put(
+          selectedUnit,
+          new MapPosition(currentPosition.position(), currentPosition.direction().left()));
+    }
   }
 
   public void rotateRight() {
-    MapPosition currentPosition = unitPositions.get(selectedUnit.get());
-    unitPositions.put(
-        selectedUnit.get(),
-        new MapPosition(currentPosition.position(), currentPosition.direction().right()));
+    Unit selectedUnit = this.selectedUnit.get();
+    if (selectedUnit.getEnergy() > 0) {
+      selectedUnit.setEnergy(selectedUnit.getEnergy() - 1);
+      this.selectedUnit.setValue(null);
+      this.selectedUnit.setValue(selectedUnit);
+      MapPosition currentPosition = unitPositions.get(selectedUnit);
+      unitPositions.put(
+          selectedUnit,
+          new MapPosition(currentPosition.position(), currentPosition.direction().right()));
+    }
   }
 
   public void processAttack() {
     Unit attacker = selectedUnit.getValue();
     Unit defender = targetUnit.getValue();
-    assert attacker != null;
-    assert defender != null;
-    defender.setHealth(defender.getHealth() - attacker.getAttackStrength());
-    targetUnit.setValue(null);
-    if (defender.getHealth() > 0) {
-      targetUnit.setValue(defender);
-    } else {
-      removeUnit(defender);
+    if (attacker != null && defender != null && attacker.getEnergy() > 0) {
+      attacker.setEnergy(attacker.getEnergy() - 1);
+      selectedUnit.setValue(null);
+      selectedUnit.setValue(attacker);
+      defender.setHealth(defender.getHealth() - attacker.getAttackStrength());
+      targetUnit.setValue(null);
+      if (defender.getHealth() > 0) {
+        targetUnit.setValue(defender);
+      } else {
+        removeUnit(defender);
+      }
     }
   }
 

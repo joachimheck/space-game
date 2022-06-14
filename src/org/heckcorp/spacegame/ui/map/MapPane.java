@@ -55,7 +55,6 @@ public class MapPane extends StackPane {
 
   public void moveCounter(Counter counter, MapPosition startMapPos, MapPosition endMapPos) {
     ParallelTransition parallelTransition = new ParallelTransition(counter);
-    Duration duration = Duration.seconds(2);
 
     Point2D startPos = mapUtils.getHexCenter(startMapPos.position());
     Point2D endPos = mapUtils.getHexCenter(endMapPos.position());
@@ -70,14 +69,14 @@ public class MapPane extends StackPane {
               new LineTo(
                   endPos.getX() - startPos.getX() + counter.getLayoutBounds().getCenterX(),
                   endPos.getY() - startPos.getY() + counter.getLayoutBounds().getCenterY()));
-      PathTransition pathTransition = new PathTransition(duration, path);
+      PathTransition pathTransition = new PathTransition(ANIMATION_DURATION, path);
       pathTransition.setOrientation(PathTransition.OrientationType.NONE);
       pathTransition.setOnFinished(event -> setCounterLocation(counter, endPos));
       parallelTransition.getChildren().add(pathTransition);
     }
 
     if (!startMapPos.direction().equals(endMapPos.direction())) {
-      RotateTransition rotateTransition = new RotateTransition(Duration.seconds(1));
+      RotateTransition rotateTransition = new RotateTransition(ANIMATION_DURATION);
       rotateTransition.setFromAngle(60.0 * startMapPos.direction().getDirection());
       rotateTransition.setToAngle(getClosestAngle(startMapPos.direction(), endMapPos.direction()));
       rotateTransition.setByAngle(5);
