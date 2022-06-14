@@ -6,6 +6,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
@@ -99,10 +100,16 @@ public class GameViewPane extends VBox {
     GridPane.setConstraints(textScrollPane, 0, 2);
     GridPane.setConstraints(miniMapPane, 1, 2);
     gridPane.getChildren().addAll(mapScrollPane, hexDescriptionPane, textScrollPane);
-    MenuBar menuBar = new MenuBar(new Menu("File"), new Menu("Game"), new Menu("Unit"));
+    MenuBar menuBar = createMenuBar(model);
     GameViewPane gameViewPane = new GameViewPane(mapPane, hexDescriptionPane);
     gameViewPane.getChildren().addAll(menuBar, gridPane);
     return gameViewPane;
+  }
+
+  private static @NonNull MenuBar createMenuBar(Model model) {
+    MenuItem endTurn = new MenuItem("End Turn");
+    endTurn.setOnAction(event -> model.endTurn());
+    return new MenuBar(new Menu("File"), new Menu("Game", null, endTurn), new Menu("Unit"));
   }
 
   private GameViewPane(MapPane mapPane, HexDescriptionPane hexDescriptionPane) {

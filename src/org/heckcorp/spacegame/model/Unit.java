@@ -30,6 +30,9 @@ public class Unit implements Serializable {
     this.health = health;
   }
 
+  public void resetForTurn() {
+  }
+
   public Unit(Player owner, ViewResources.Identifier imageId) {
     this.owner = owner;
     this.imageId = imageId;

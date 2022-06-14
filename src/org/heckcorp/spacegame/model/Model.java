@@ -161,6 +161,10 @@ public class Model implements MapModel {
     }
   }
 
+  public void endTurn() {
+    units.forEach(Unit::resetForTurn);
+  }
+
   public final ObjectProperty<Point> selectedHexPositionProperty() {
     return selectedHexPosition;
   }
