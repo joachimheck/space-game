@@ -20,6 +20,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 
 public class Model implements MapModel {
@@ -57,6 +58,11 @@ public class Model implements MapModel {
     if (!units.isEmpty()) {
       selectedUnit.setValue(units.get(0));
     }
+  }
+
+  private void selectUnit(Unit unit) {
+    selectedUnit.setValue(null);
+    selectedUnit.setValue(unit);
   }
 
   private void moveSelectedUnit(Point hexCoordinates) {
@@ -118,44 +124,26 @@ public class Model implements MapModel {
   }
 
   public void moveForward() {
-    Unit selectedUnit = this.selectedUnit.get();
-    if (selectedUnit.getEnergy() > 0) {
-      targetHexes.clear();
-      selectedUnit.setEnergy(selectedUnit.getEnergy() - 1);
-      this.selectedUnit.setValue(null);
-      this.selectedUnit.setValue(selectedUnit);
-      MapPosition currentPosition = unitPositions.get(selectedUnit);
-      unitPositions.put(
-          selectedUnit,
-          new MapPosition(mapUtils.getAdjacentHex(currentPosition), currentPosition.direction()));
-    }
+    doMove(p -> new MapPosition(mapUtils.getAdjacentHex(p), p.direction()));
   }
 
   public void rotateLeft() {
-    Unit selectedUnit = this.selectedUnit.get();
-    if (selectedUnit.getEnergy() > 0) {
-      targetHexes.clear();
-      selectedUnit.setEnergy(selectedUnit.getEnergy() - 1);
-      this.selectedUnit.setValue(null);
-      this.selectedUnit.setValue(selectedUnit);
-      MapPosition currentPosition = unitPositions.get(selectedUnit);
-      unitPositions.put(
-          selectedUnit,
-          new MapPosition(currentPosition.position(), currentPosition.direction().left()));
-    }
+    doMove(p -> new MapPosition(p.position(), p.direction().left()));
   }
 
   public void rotateRight() {
+    doMove(p -> new MapPosition(p.position(), p.direction().right()));
+  }
+
+  private void doMove(UnaryOperator<MapPosition> moveOp) {
     Unit selectedUnit = this.selectedUnit.get();
     if (selectedUnit.getEnergy() > 0) {
       targetHexes.clear();
       selectedUnit.setEnergy(selectedUnit.getEnergy() - 1);
-      this.selectedUnit.setValue(null);
-      this.selectedUnit.setValue(selectedUnit);
+      selectUnit(selectedUnit);
       MapPosition currentPosition = unitPositions.get(selectedUnit);
-      unitPositions.put(
-          selectedUnit,
-          new MapPosition(currentPosition.position(), currentPosition.direction().right()));
+      unitPositions.put(selectedUnit, moveOp.apply(currentPosition));
+      selectHex(unitPositions.get(selectedUnit).position());
     }
   }
 
@@ -165,8 +153,7 @@ public class Model implements MapModel {
     if (attacker != null && defender != null && attacker.getEnergy() > 0) {
       targetHexes.clear();
       attacker.setEnergy(attacker.getEnergy() - 1);
-      selectedUnit.setValue(null);
-      selectedUnit.setValue(attacker);
+      selectUnit(attacker);
       defender.setHealth(defender.getHealth() - attacker.getAttackStrength());
       targetUnit.setValue(null);
       if (defender.getHealth() > 0) {
@@ -189,6 +176,7 @@ public class Model implements MapModel {
 
   public void endTurn() {
     units.forEach(Unit::resetForTurn);
+    selectUnit(selectedUnit.get());
   }
 
   public final ObjectProperty<Point> selectedHexPositionProperty() {
