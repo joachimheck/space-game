@@ -11,4 +11,5 @@ public class Constants {
   public static final int UI_COMPONENT_SMALL_HEIGHT = 200;
   public static final int UI_COMPONENT_LARGE_WIDTH = 1200;
   public static final int UI_COMPONENT_LARGE_HEIGHT = 800;
+  public static final int WEAPON_RANGE = 4;
 }

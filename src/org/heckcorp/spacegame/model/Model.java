@@ -5,6 +5,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
+import org.heckcorp.spacegame.Constants;
 import org.heckcorp.spacegame.ui.map.MapModel;
 import org.heckcorp.spacegame.ui.map.MapUtils;
 import org.heckcorp.spacegame.ui.map.MouseButton;
@@ -17,6 +18,7 @@ import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 
 public class Model implements MapModel {
+
   public void addUnit(Unit unit, MapPosition mapPosition) {
     unitPositions.get().put(unit, mapPosition);
     units.add(unit);
@@ -111,8 +113,7 @@ public class Model implements MapModel {
             unitPosition.direction().right());
     Set<Point> targetHexes = Sets.newHashSet();
     Set<Point> hexes = Sets.newHashSet(hexInFront);
-    int range = 4;
-    for (int i = 0; i < range; i++) {
+    for (int i = 0; i < Constants.WEAPON_RANGE; i++) {
       targetHexes.addAll(hexes);
       Set<Point> newHexes =
           hexes.stream()
