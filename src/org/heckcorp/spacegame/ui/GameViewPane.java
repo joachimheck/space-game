@@ -92,7 +92,7 @@ public class GameViewPane extends VBox {
                 Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(10))));
     ScrollPane mapScrollPane = new ScrollPane(mapPane);
     mapScrollPane.setPrefSize(UI_COMPONENT_LARGE_WIDTH, UI_COMPONENT_LARGE_HEIGHT);
-    HexDescriptionPane hexDescriptionPane = HexDescriptionPane.create(model);
+    HexDescriptionPane hexDescriptionPane = HexDescriptionPane.create(model, viewResources);
     hexDescriptionPane.setPrefSize(UI_COMPONENT_SMALL_WIDTH, UI_COMPONENT_LARGE_HEIGHT);
     ScrollPane textScrollPane = new ScrollPane(new Text("Text pane!"));
     textScrollPane.setPrefSize(UI_COMPONENT_LARGE_WIDTH, UI_COMPONENT_SMALL_HEIGHT);
