@@ -10,12 +10,14 @@ import org.heckcorp.spacegame.ui.map.MapUtils;
 import org.heckcorp.spacegame.ui.map.MouseButton;
 import org.heckcorp.spacegame.ui.map.Point;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
+
+import static org.heckcorp.spacegame.Constants.MAP_HEIGHT;
+import static org.heckcorp.spacegame.Constants.MAP_WIDTH;
 
 public class Model implements MapModel {
   public void addUnit(Unit unit, MapPosition mapPosition) {
@@ -103,7 +105,7 @@ public class Model implements MapModel {
     }
   }
 
-  private Collection<Point> getTargetHexes(MapPosition unitPosition) {
+  private Set<Point> getTargetHexes(MapPosition unitPosition) {
     Point hexInFront = mapUtils.getAdjacentHex(unitPosition);
     ImmutableSet<Direction> directions =
         ImmutableSet.of(
@@ -122,7 +124,7 @@ public class Model implements MapModel {
       hexes.clear();
       hexes = newHexes;
     }
-    return targetHexes;
+    return targetHexes.stream().filter(this::isInsideMap).collect(Collectors.toSet());
   }
 
   private List<Unit> getUnitsAt(Point point) {
@@ -130,6 +132,10 @@ public class Model implements MapModel {
         .filter(e -> e.getValue().position().equals(point))
         .map(Map.Entry::getKey)
         .collect(Collectors.toList());
+  }
+
+  private boolean isInsideMap(Point point) {
+    return point.x() >= 0 && point.x() < MAP_WIDTH && point.y() >= 0 && point.y() < MAP_HEIGHT;
   }
 
   private void removeUnit(Unit unit) {
