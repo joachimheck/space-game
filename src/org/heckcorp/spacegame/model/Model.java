@@ -145,6 +145,7 @@ public class Model implements MapModel {
   private void selectHex(Point hexCoordinates) {
     selectedHexPosition.setValue(hexCoordinates);
     selectedUnit.setValue(null);
+    targetUnit.setValue(null);
     List<Unit> units = getUnitsAt(hexCoordinates);
     if (!units.isEmpty()) {
       selectedUnit.setValue(units.get(0));
