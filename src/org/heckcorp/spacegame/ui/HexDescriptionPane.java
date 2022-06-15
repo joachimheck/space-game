@@ -11,26 +11,31 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.heckcorp.spacegame.ResourceLoader;
 import org.heckcorp.spacegame.model.Model;
+import org.heckcorp.spacegame.model.Unit;
 
 import java.io.FileNotFoundException;
 
 public class HexDescriptionPane extends FlowPane {
 
-  public void setSelectedUnitData(String selectedUnitData) {
-    this.selectedUnitData.setText(selectedUnitData);
-    targetButton.setDisable(false);
+  public void setSelectedUnitData(Unit unit) {
+    String unitDescription = getUnitDescription(unit);
+    this.selectedUnitData.setText(unitDescription);
+    boolean zeroEnergy = unit.getEnergy() == 0;
+    targetButton.setDisable(zeroEnergy);
     attackButton.setDisable(true);
-    turnLeftButton.setDisable(false);
-    forwardButton.setDisable(false);
-    turnRightButton.setDisable(false);
+    turnLeftButton.setDisable(zeroEnergy);
+    forwardButton.setDisable(zeroEnergy);
+    turnRightButton.setDisable(zeroEnergy);
   }
 
-  public void setTargetUnitData(String targetUnitData) {
-    this.targetUnitData.setText(targetUnitData);
+  public void setTargetUnitData(Unit selectedUnit, Unit unit) {
+    String unitDescription = getUnitDescription(unit);
+    this.targetUnitData.setText(unitDescription);
     targetButton.setDisable(true);
-    attackButton.setDisable(false);
+    attackButton.setDisable(selectedUnit.getEnergy() == 0);
   }
 
   public void clear() {
@@ -41,6 +46,16 @@ public class HexDescriptionPane extends FlowPane {
     turnLeftButton.setDisable(true);
     forwardButton.setDisable(true);
     turnRightButton.setDisable(true);
+  }
+
+  String getUnitDescription(@NonNull Unit unit) {
+    return String.format(
+            "%s's unit: health %d/%d energy %d/%d",
+            unit.getOwner().getName(),
+            unit.getHealth(),
+            unit.getMaxHealth(),
+            unit.getEnergy(),
+            unit.getMaxEnergy());
   }
 
   private HexDescriptionPane initialize(Model model) {

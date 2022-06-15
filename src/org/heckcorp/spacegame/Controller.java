@@ -34,7 +34,7 @@ public class Controller {
         .addListener((observable, oldValue, newValue) -> view.selectUnit(newValue));
     model
         .targetUnitProperty()
-        .addListener((observable, oldValue, newValue) -> view.targetUnit(newValue));
+        .addListener((observable, oldValue, newValue) -> view.targetUnit(model.selectedUnitProperty().get(), newValue));
     model
         .unitsProperty()
         .addListener(
