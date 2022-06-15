@@ -5,73 +5,10 @@ import javafx.scene.shape.Polygon;
 import org.heckcorp.spacegame.model.Direction;
 import org.heckcorp.spacegame.model.MapPosition;
 
+import static org.heckcorp.spacegame.Constants.MAP_HEIGHT;
+import static org.heckcorp.spacegame.Constants.MAP_WIDTH;
+
 public class MapUtils {
-  public Point2D getHexCenter(Point position) {
-    double pixelX = position.x() * getColumnWidth();
-    double pixelY = position.y() * getMinorRadius() * 2.0;
-    if (position.x() % 2 != 0) {
-      pixelY += getMinorRadius();
-    }
-    return new Point2D(pixelX + hexRadius, pixelY + getMinorRadius());
-  }
-
-  public Point2D getHexLabelPosition(Point position) {
-    Point2D center = getHexCenter(position);
-    return new Point2D(
-        center.getX() - hexRadius / 2.0, center.getY() - hexRadius * Math.sqrt(3) / 2.0);
-  }
-
-  public Polygon getHexagon(Point hexCoordinates) {
-    Point2D center = getHexCenter(hexCoordinates);
-    double minorRadius = hexRadius * Math.sqrt(3) / 2.0;
-    double halfRadius = hexRadius / 2.0;
-    return new Polygon(
-        center.getX() - halfRadius,
-        center.getY() - minorRadius,
-        center.getX() + halfRadius,
-        center.getY() - minorRadius,
-        center.getX() + hexRadius,
-        center.getY(),
-        center.getX() + halfRadius,
-        center.getY() + minorRadius,
-        center.getX() - halfRadius,
-        center.getY() + minorRadius,
-        center.getX() - hexRadius,
-        center.getY());
-  }
-
-  public Point getHexCoordinates(Point2D canvasPoint) {
-    Point[] guesses = guessHex(canvasPoint);
-
-    double minDistance = canvasPoint.distance(new Point2D(guesses[0].x(), guesses[0].y()));
-    Point closest = guesses[0];
-    for (Point guess : guesses) {
-      Point2D guessCenter = getHexCenter(guess);
-      double distance = canvasPoint.distance(guessCenter);
-      if (distance < minDistance) {
-        minDistance = distance;
-        closest = guess;
-      }
-    }
-
-    return new Point(closest.x(), closest.y());
-  }
-
-  /** Returns three sets of canvas coordinates, one of which corresponds to the clicked-on hex. */
-  private Point[] guessHex(Point2D canvasPoint) {
-    int columnGuess = (int) (canvasPoint.getX() / getColumnWidth());
-    int rowShift = columnGuess % 2 != 0 ? 1 : 0;
-    int rowGuess =
-        (int) ((canvasPoint.getY() - (rowShift * getMinorRadius())) / (getMinorRadius() * 2.0));
-
-    Point[] guesses = new Point[3];
-    guesses[0] = new Point(columnGuess, rowGuess);
-    guesses[1] = new Point(columnGuess - 1, rowGuess - 1 + rowShift);
-    guesses[2] = new Point(columnGuess - 1, rowGuess + rowShift);
-
-    return guesses;
-  }
-
   public Point getAdjacentHex(MapPosition mapPosition) {
     return getAdjacentHex(mapPosition.position(), mapPosition.direction());
   }
@@ -91,8 +28,78 @@ public class MapUtils {
     return hexRadius * 3.0 / 2.0;
   }
 
+  public Point2D getHexCenter(Point position) {
+    double pixelX = position.x() * getColumnWidth();
+    double pixelY = position.y() * getMinorRadius() * 2.0;
+    if (position.x() % 2 != 0) {
+      pixelY += getMinorRadius();
+    }
+    return new Point2D(pixelX + hexRadius, pixelY + getMinorRadius());
+  }
+
+  public Point2D getHexLabelPosition(Point position) {
+    Point2D center = getHexCenter(position);
+    return new Point2D(
+        center.getX() - hexRadius / 2.0, center.getY() - hexRadius * Math.sqrt(3) / 2.0);
+  }
+
+  public Point getHexCoordinates(Point2D canvasPoint) {
+    Point[] guesses = guessHex(canvasPoint);
+
+    double minDistance = canvasPoint.distance(new Point2D(guesses[0].x(), guesses[0].y()));
+    Point closest = guesses[0];
+    for (Point guess : guesses) {
+      Point2D guessCenter = getHexCenter(guess);
+      double distance = canvasPoint.distance(guessCenter);
+      if (distance < minDistance) {
+        minDistance = distance;
+        closest = guess;
+      }
+    }
+
+    return new Point(closest.x(), closest.y());
+  }
+
+  public Polygon getHexagon(Point hexCoordinates) {
+    Point2D center = getHexCenter(hexCoordinates);
+    double minorRadius = hexRadius * Math.sqrt(3) / 2.0;
+    double halfRadius = hexRadius / 2.0;
+    return new Polygon(
+            center.getX() - halfRadius,
+            center.getY() - minorRadius,
+            center.getX() + halfRadius,
+            center.getY() - minorRadius,
+            center.getX() + hexRadius,
+            center.getY(),
+            center.getX() + halfRadius,
+            center.getY() + minorRadius,
+            center.getX() - halfRadius,
+            center.getY() + minorRadius,
+            center.getX() - hexRadius,
+            center.getY());
+  }
+
   public double getMinorRadius() {
     return hexRadius * Math.sqrt(3.0) / 2.0;
+  }
+
+  public boolean isInsideMap(Point point) {
+    return point.x() >= 0 && point.x() < MAP_WIDTH && point.y() >= 0 && point.y() < MAP_HEIGHT;
+  }
+
+  /** Returns three sets of canvas coordinates, one of which corresponds to the clicked-on hex. */
+  private Point[] guessHex(Point2D canvasPoint) {
+    int columnGuess = (int) (canvasPoint.getX() / getColumnWidth());
+    int rowShift = columnGuess % 2 != 0 ? 1 : 0;
+    int rowGuess =
+            (int) ((canvasPoint.getY() - (rowShift * getMinorRadius())) / (getMinorRadius() * 2.0));
+
+    Point[] guesses = new Point[3];
+    guesses[0] = new Point(columnGuess, rowGuess);
+    guesses[1] = new Point(columnGuess - 1, rowGuess - 1 + rowShift);
+    guesses[2] = new Point(columnGuess - 1, rowGuess + rowShift);
+
+    return guesses;
   }
 
   public MapUtils(double hexRadius) {

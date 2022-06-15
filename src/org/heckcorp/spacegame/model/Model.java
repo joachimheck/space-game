@@ -16,9 +16,6 @@ import java.util.Set;
 import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 
-import static org.heckcorp.spacegame.Constants.MAP_HEIGHT;
-import static org.heckcorp.spacegame.Constants.MAP_WIDTH;
-
 public class Model implements MapModel {
   public void addUnit(Unit unit, MapPosition mapPosition) {
     unitPositions.get().put(unit, mapPosition);
@@ -124,7 +121,7 @@ public class Model implements MapModel {
       hexes.clear();
       hexes = newHexes;
     }
-    return targetHexes.stream().filter(this::isInsideMap).collect(Collectors.toSet());
+    return targetHexes.stream().filter(mapUtils::isInsideMap).collect(Collectors.toSet());
   }
 
   private List<Unit> getUnitsAt(Point point) {
@@ -132,10 +129,6 @@ public class Model implements MapModel {
         .filter(e -> e.getValue().position().equals(point))
         .map(Map.Entry::getKey)
         .collect(Collectors.toList());
-  }
-
-  private boolean isInsideMap(Point point) {
-    return point.x() >= 0 && point.x() < MAP_WIDTH && point.y() >= 0 && point.y() < MAP_HEIGHT;
   }
 
   private void removeUnit(Unit unit) {
