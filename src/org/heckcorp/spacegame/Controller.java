@@ -8,12 +8,7 @@ import org.heckcorp.spacegame.model.Model;
 import org.heckcorp.spacegame.model.Player;
 import org.heckcorp.spacegame.model.Unit;
 import org.heckcorp.spacegame.ui.GameViewPane;
-import org.heckcorp.spacegame.ui.map.Counter;
 import org.heckcorp.spacegame.ui.map.Point;
-import org.heckcorp.spacegame.ui.map.ViewResources;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class Controller {
 
@@ -43,20 +38,15 @@ public class Controller {
                   if (change.wasAdded()) {
                     Unit unit = change.getElementAdded();
                     Player.Color color = unit.getOwner().getColor();
-                    unitCounters.put(
-                        unit,
-                        Counter.build(
-                            viewResources, unit.getImageId(), color.r(), color.g(), color.b()));
                     @Nullable MapPosition unitPosition =
                         model.unitPositionsProperty().get().get(unit);
                     if (unitPosition != null) {
-                      view.addCounter(unitCounters.get(unit), unitPosition);
+                      view.addUnit(unit, unitPosition, color);
                     }
                   }
                   if (change.wasRemoved()) {
                     Unit unit = change.getElementRemoved();
-                    view.removeCounter(unitCounters.get(unit));
-                    unitCounters.remove(unit);
+                    view.removeUnit(unit);
                   }
                 });
     model
@@ -64,12 +54,9 @@ public class Controller {
         .addListener(
             (MapChangeListener<Unit, MapPosition>)
                 change -> {
-                  Unit u = change.getKey();
                   if (change.wasRemoved() && change.wasAdded()) {
-                    if (unitCounters.containsKey(u)) {
-                      view.moveCounter(
-                          unitCounters.get(u), change.getValueRemoved(), change.getValueAdded());
-                    }
+                    view.moveUnit(
+                        change.getKey(), change.getValueRemoved(), change.getValueAdded());
                   }
                 });
     model
@@ -80,21 +67,18 @@ public class Controller {
         .addListener((observable, oldValue, newValue) -> view.setWinner(newValue));
   }
 
-  private Controller(Model model, GameViewPane view, ViewResources viewResources) {
+  private Controller(Model model, GameViewPane view) {
     this.model = model;
     this.view = view;
-    this.viewResources = viewResources;
   }
 
   @SuppressWarnings("UnusedReturnValue")
-  public static Controller create(Model model, GameViewPane view, ViewResources viewResources) {
-    Controller controller = new Controller(model, view, viewResources);
+  public static Controller create(Model model, GameViewPane view) {
+    Controller controller = new Controller(model, view);
     controller.listenForPropertyChanges();
     return controller;
   }
 
   private final Model model;
-  private final Map<Unit, Counter> unitCounters = new HashMap<>();
   private final GameViewPane view;
-  private final ViewResources viewResources;
 }

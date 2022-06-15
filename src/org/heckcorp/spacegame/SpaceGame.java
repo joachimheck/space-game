@@ -3,11 +3,7 @@ package org.heckcorp.spacegame;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.heckcorp.spacegame.model.Direction;
-import org.heckcorp.spacegame.model.MapPosition;
-import org.heckcorp.spacegame.model.Model;
-import org.heckcorp.spacegame.model.Player;
-import org.heckcorp.spacegame.model.Unit;
+import org.heckcorp.spacegame.model.*;
 import org.heckcorp.spacegame.ui.GameViewPane;
 import org.heckcorp.spacegame.ui.map.MapUtils;
 import org.heckcorp.spacegame.ui.map.Point;
@@ -21,9 +17,9 @@ public class SpaceGame extends Application {
   public void start(Stage stage) throws FileNotFoundException {
     MapUtils mapUtils = new MapUtils(Constants.HEX_RADIUS);
     Model model = new Model(mapUtils);
-    GameViewPane gameViewPane = GameViewPane.create(model, mapUtils);
     ViewResources viewResources = new ViewResources();
-    Controller.create(model, gameViewPane, viewResources);
+    GameViewPane gameViewPane = GameViewPane.create(model, mapUtils, viewResources);
+    Controller.create(model, gameViewPane);
 
     Player humanPlayer = new Player("Human Player", .25, .45, .85);
     Player computerPlayer = new Player("Computer Player", .75, .25, .25);
