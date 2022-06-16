@@ -65,15 +65,9 @@ public class HexDescriptionPane extends GridPane {
       throws FileNotFoundException {
     Button targetButton = new Button("Target");
     Button attackButton = new Button("Attack!");
-    Button turnLeftButton =
-        new Button(
-            "", new ImageView(new Image(ResourceLoader.getResource("resource/left-arrow.png"))));
-    Button forwardButton =
-        new Button(
-            "", new ImageView(new Image(ResourceLoader.getResource("resource/up-arrow.png"))));
-    Button turnRightButton =
-        new Button(
-            "", new ImageView(new Image(ResourceLoader.getResource("resource/right-arrow.png"))));
+    Button turnLeftButton = createButton("resource/left-arrow.png");
+    Button forwardButton = createButton("resource/up-arrow.png");
+    Button turnRightButton = createButton("resource/right-arrow.png");
     UnitDescriptionPane selectedUnitDescriptionPane = new UnitDescriptionPane(viewResources);
     UnitDescriptionPane targetUnitDescriptionPane = new UnitDescriptionPane(viewResources);
     return new HexDescriptionPane(
@@ -85,6 +79,10 @@ public class HexDescriptionPane extends GridPane {
             forwardButton,
             turnRightButton)
         .initialize(model);
+  }
+
+  private static Button createButton(String filename) throws FileNotFoundException {
+    return new Button("", new ImageView(new Image(ResourceLoader.getResource(filename))));
   }
 
   public HexDescriptionPane(
