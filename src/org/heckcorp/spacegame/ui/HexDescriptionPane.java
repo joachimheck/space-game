@@ -6,6 +6,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.heckcorp.spacegame.ResourceLoader;
@@ -20,8 +21,22 @@ import java.io.FileNotFoundException;
 public class HexDescriptionPane extends GridPane {
 
   public void setSelectedUnitHealth(Unit unit) {
-    selectedUnitEnergy.setText("Energy: " + unit.getEnergy() + "/" + unit.getMaxEnergy());
-    selectedUnitHealth.setText("Health: " + unit.getHealth() + "/" + unit.getMaxHealth());
+    selectedUnitEnergy.getChildren().add(new Text("Energy: "));
+    for (int i = 0; i < unit.getMaxEnergy(); i++) {
+      Rectangle rectangle = new Rectangle(20, 20);
+      if (i < unit.getEnergy()) {
+        rectangle.setFill(Color.GREEN);
+      }
+      selectedUnitEnergy.getChildren().add(rectangle);
+    }
+    selectedUnitHealth.getChildren().add(new Text("Health: "));
+    for (int i = 0; i < unit.getMaxHealth(); i++) {
+      Rectangle rectangle = new Rectangle(20, 20);
+      if (i < unit.getHealth()) {
+        rectangle.setFill(Color.GREEN);
+      }
+      selectedUnitHealth.getChildren().add(rectangle);
+    }
     selectedUnitCounterHolder.getChildren().clear();
     selectedUnitCounterHolder.getChildren().add(getCounter(unit));
     boolean zeroEnergy = unit.getEnergy() == 0;
@@ -42,8 +57,8 @@ public class HexDescriptionPane extends GridPane {
   }
 
   public void clear() {
-    selectedUnitEnergy.setText("");
-    selectedUnitHealth.setText("");
+    selectedUnitEnergy.getChildren().clear();
+    selectedUnitHealth.getChildren().clear();
     selectedUnitCounterHolder.getChildren().clear();
     targetUnitData.setText("");
     targetUnitCounterHolder.getChildren().clear();
@@ -94,8 +109,8 @@ public class HexDescriptionPane extends GridPane {
 
   public static HexDescriptionPane create(Model model, ViewResources viewResources)
       throws FileNotFoundException {
-    Text selectedUnitEnergy = new Text();
-    Text selectedUnitHealth = new Text();
+    HBox selectedUnitEnergy = new HBox();
+    HBox selectedUnitHealth = new HBox();
     Text targetUnitData = new Text();
     Button targetButton = new Button("Target");
     Button attackButton = new Button("Attack!");
@@ -126,8 +141,8 @@ public class HexDescriptionPane extends GridPane {
       ViewResources viewResources,
       Button attackButton,
       Button targetButton,
-      Text selectedUnitEnergy,
-      Text selectedUnitHealth,
+      HBox selectedUnitEnergy,
+      HBox selectedUnitHealth,
       Text targetUnitData,
       Button turnLeftButton,
       Button forwardButton,
@@ -147,8 +162,8 @@ public class HexDescriptionPane extends GridPane {
 
   private final Button attackButton;
   private final Button forwardButton;
-  private final Text selectedUnitEnergy;
-  private final Text selectedUnitHealth;
+  private final HBox selectedUnitEnergy;
+  private final HBox selectedUnitHealth;
   private final Button targetButton;
   private final FlowPane targetUnitCounterHolder;
   private final Text targetUnitData;
