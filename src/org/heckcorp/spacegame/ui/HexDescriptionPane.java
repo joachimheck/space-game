@@ -6,39 +6,17 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Text;
-import org.checkerframework.checker.nullness.qual.NonNull;
 import org.heckcorp.spacegame.ResourceLoader;
 import org.heckcorp.spacegame.model.Model;
-import org.heckcorp.spacegame.model.Player;
 import org.heckcorp.spacegame.model.Unit;
-import org.heckcorp.spacegame.ui.map.Counter;
 import org.heckcorp.spacegame.ui.map.ViewResources;
 
 import java.io.FileNotFoundException;
 
 public class HexDescriptionPane extends GridPane {
 
-  public void setSelectedUnitHealth(Unit unit) {
-    selectedUnitEnergy.getChildren().add(new Text("Energy: "));
-    for (int i = 0; i < unit.getMaxEnergy(); i++) {
-      Rectangle rectangle = new Rectangle(20, 20);
-      if (i < unit.getEnergy()) {
-        rectangle.setFill(Color.GREEN);
-      }
-      selectedUnitEnergy.getChildren().add(rectangle);
-    }
-    selectedUnitHealth.getChildren().add(new Text("Health: "));
-    for (int i = 0; i < unit.getMaxHealth(); i++) {
-      Rectangle rectangle = new Rectangle(20, 20);
-      if (i < unit.getHealth()) {
-        rectangle.setFill(Color.GREEN);
-      }
-      selectedUnitHealth.getChildren().add(rectangle);
-    }
-    selectedUnitCounterHolder.getChildren().clear();
-    selectedUnitCounterHolder.getChildren().add(getCounter(unit));
+  public void setSelectedUnitData(Unit unit) {
+    selectedUnitDescriptionPane.setUnitData(unit);
     boolean zeroEnergy = unit.getEnergy() == 0;
     targetButton.setDisable(zeroEnergy);
     attackButton.setDisable(true);
@@ -48,40 +26,19 @@ public class HexDescriptionPane extends GridPane {
   }
 
   public void setTargetUnitData(Unit selectedUnit, Unit unit) {
-    String unitDescription = getUnitDescription(unit);
-    this.targetUnitData.setText(unitDescription);
-    targetUnitCounterHolder.getChildren().clear();
-    targetUnitCounterHolder.getChildren().add(getCounter(unit));
+    targetUnitDescriptionPane.setUnitData(unit);
     targetButton.setDisable(true);
     attackButton.setDisable(selectedUnit.getEnergy() == 0);
   }
 
   public void clear() {
-    selectedUnitEnergy.getChildren().clear();
-    selectedUnitHealth.getChildren().clear();
-    selectedUnitCounterHolder.getChildren().clear();
-    targetUnitData.setText("");
-    targetUnitCounterHolder.getChildren().clear();
+    selectedUnitDescriptionPane.clear();
+    targetUnitDescriptionPane.clear();
     targetButton.setDisable(true);
     attackButton.setDisable(true);
     turnLeftButton.setDisable(true);
     forwardButton.setDisable(true);
     turnRightButton.setDisable(true);
-  }
-
-  private Counter getCounter(Unit unit) {
-    Player.Color color = unit.getOwner().getColor();
-    return Counter.build(viewResources, unit.getImageId(), color.r(), color.g(), color.b());
-  }
-
-  private String getUnitDescription(@NonNull Unit unit) {
-    return String.format(
-        "%s's unit: health %d/%d energy %d/%d",
-        unit.getOwner().getName(),
-        unit.getHealth(),
-        unit.getMaxHealth(),
-        unit.getEnergy(),
-        unit.getMaxEnergy());
   }
 
   private HexDescriptionPane initialize(Model model) {
@@ -97,21 +54,15 @@ public class HexDescriptionPane extends GridPane {
     turnRightButton.setDisable(true);
     setBackground(
         new Background(new BackgroundFill(Color.gray(.75), CornerRadii.EMPTY, Insets.EMPTY)));
-    add(new HBox(selectedUnitCounterHolder), 0, 0);
-    add(new HBox(selectedUnitHealth), 0, 1);
-    add(new HBox(selectedUnitEnergy), 0, 2);
-    add(new HBox(targetButton, attackButton), 0, 3);
-    add(new HBox(turnLeftButton, forwardButton, turnRightButton), 0, 4);
-    add(new HBox(targetUnitCounterHolder), 0, 5);
-    add(new HBox(targetUnitData), 0, 6);
+    add(selectedUnitDescriptionPane, 0, 0);
+    add(new HBox(targetButton, attackButton), 0, 1);
+    add(new HBox(turnLeftButton, forwardButton, turnRightButton), 0, 2);
+    add(targetUnitDescriptionPane, 0, 3);
     return this;
   }
 
   public static HexDescriptionPane create(Model model, ViewResources viewResources)
       throws FileNotFoundException {
-    HBox selectedUnitEnergy = new HBox();
-    HBox selectedUnitHealth = new HBox();
-    Text targetUnitData = new Text();
     Button targetButton = new Button("Target");
     Button attackButton = new Button("Attack!");
     Button turnLeftButton =
@@ -123,14 +74,13 @@ public class HexDescriptionPane extends GridPane {
     Button turnRightButton =
         new Button(
             "", new ImageView(new Image(ResourceLoader.getResource("resource/right-arrow.png"))));
-
+    UnitDescriptionPane selectedUnitDescriptionPane = new UnitDescriptionPane(viewResources);
+    UnitDescriptionPane targetUnitDescriptionPane = new UnitDescriptionPane(viewResources);
     return new HexDescriptionPane(
-            viewResources,
+            selectedUnitDescriptionPane,
+            targetUnitDescriptionPane,
             attackButton,
             targetButton,
-            selectedUnitEnergy,
-            selectedUnitHealth,
-            targetUnitData,
             turnLeftButton,
             forwardButton,
             turnRightButton)
@@ -138,37 +88,27 @@ public class HexDescriptionPane extends GridPane {
   }
 
   public HexDescriptionPane(
-      ViewResources viewResources,
+      UnitDescriptionPane selectedUnitDescriptionPane,
+      UnitDescriptionPane targetUnitDescriptionPane,
       Button attackButton,
       Button targetButton,
-      HBox selectedUnitEnergy,
-      HBox selectedUnitHealth,
-      Text targetUnitData,
       Button turnLeftButton,
       Button forwardButton,
       Button turnRightButton) {
-    this.viewResources = viewResources;
+    this.selectedUnitDescriptionPane = selectedUnitDescriptionPane;
+    this.targetUnitDescriptionPane = targetUnitDescriptionPane;
     this.attackButton = attackButton;
     this.targetButton = targetButton;
-    this.selectedUnitEnergy = selectedUnitEnergy;
-    this.selectedUnitHealth = selectedUnitHealth;
-    this.targetUnitData = targetUnitData;
     this.turnLeftButton = turnLeftButton;
     this.forwardButton = forwardButton;
     this.turnRightButton = turnRightButton;
-    selectedUnitCounterHolder = new FlowPane();
-    targetUnitCounterHolder = new FlowPane();
   }
 
-  private final Button attackButton;
-  private final Button forwardButton;
-  private final HBox selectedUnitEnergy;
-  private final HBox selectedUnitHealth;
+  private final UnitDescriptionPane selectedUnitDescriptionPane;
+  private final UnitDescriptionPane targetUnitDescriptionPane;
+  final Button attackButton;
+  final Button forwardButton;
   private final Button targetButton;
-  private final FlowPane targetUnitCounterHolder;
-  private final Text targetUnitData;
-  private final Button turnLeftButton;
-  private final Button turnRightButton;
-  private final FlowPane selectedUnitCounterHolder;
-  private final ViewResources viewResources;
+  final Button turnLeftButton;
+  final Button turnRightButton;
 }
