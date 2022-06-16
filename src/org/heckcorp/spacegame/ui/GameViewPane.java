@@ -50,7 +50,7 @@ public class GameViewPane extends VBox {
     if (unit == null) {
       hexDescriptionPane.clear();
     } else {
-      hexDescriptionPane.setSelectedUnitData(unit);
+      hexDescriptionPane.setSelectedUnitHealth(unit);
     }
   }
 
