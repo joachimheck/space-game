@@ -27,6 +27,7 @@ public class Model implements MapModel {
   public void endTurn() {
     units.forEach(Unit::resetForTurn);
     selectUnit(selectedUnit.get());
+    targetUnit.setValue(null);
   }
 
   @Override
