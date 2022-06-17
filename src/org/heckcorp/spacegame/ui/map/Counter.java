@@ -9,6 +9,8 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
+import static org.heckcorp.spacegame.Constants.COUNTER_SIZE;
+
 public class Counter extends Pane {
   private Counter() {}
 
@@ -24,13 +26,12 @@ public class Counter extends Pane {
         new Background(new BackgroundFill(backgroundColor, CornerRadii.EMPTY, Insets.EMPTY)));
     Image image = viewResources.getImages().get(identifier);
     assert image != null : "@AssumeAssertion(nullness)";
-    counter.getChildren().add(new ImageView(image));
-    counter.setMinWidth(image.getWidth());
-    counter.setMinHeight(image.getHeight());
-    counter.setMaxWidth(image.getWidth());
-    counter.setMaxHeight(image.getHeight());
-    counter.setWidth(image.getWidth());
-    counter.setHeight(image.getHeight());
+    ImageView imageView = new ImageView(image);
+    imageView.setFitHeight(COUNTER_SIZE);
+    imageView.setFitWidth(COUNTER_SIZE);
+    counter.getChildren().add(imageView);
+    counter.setWidth(COUNTER_SIZE);
+    counter.setHeight(COUNTER_SIZE);
     return counter;
   }
 }
