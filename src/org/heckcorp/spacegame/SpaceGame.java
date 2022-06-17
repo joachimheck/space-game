@@ -17,12 +17,13 @@ public class SpaceGame extends Application {
   @Override
   public void start(Stage stage) throws FileNotFoundException {
     MapUtils mapUtils = new MapUtils(Constants.HEX_RADIUS);
-    Player humanPlayer = new Player("Human Player", .25, .45, .85);
-    Player computerPlayer = new Player("Computer Player", .75, .25, .25);
+    Player humanPlayer = new Player("Human Player", Player.Type.HUMAN, .25, .45, .85);
+    Player computerPlayer = new Player("Computer Player", Player.Type.COMPUTER, .75, .25, .25);
     Model model = new Model(mapUtils, ImmutableList.of(humanPlayer, computerPlayer));
     ViewResources viewResources = new ViewResources();
     GameViewPane gameViewPane = GameViewPane.create(model, mapUtils, viewResources);
-    Controller.create(model, gameViewPane);
+    AIView aiView = new AIView(model);
+    Controller.create(model, gameViewPane, aiView);
 
     ViewResources.Identifier spaceshipId =
         viewResources.addImageResource(ResourceLoader.getResource("resource/spaceship.png"));

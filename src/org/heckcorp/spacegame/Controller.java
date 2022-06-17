@@ -11,11 +11,14 @@ import org.heckcorp.spacegame.ui.GameViewPane;
 import org.heckcorp.spacegame.ui.map.Point;
 
 public class Controller {
-
   public void listenForPropertyChanges() {
     model
         .currentPlayerProperty()
-        .addListener((u1, u2, newValue) -> view.setCurrentPlayer(newValue));
+        .addListener(
+            (u1, u2, newValue) -> {
+              view.setCurrentPlayer(newValue);
+              aiView.setCurrentPlayer(newValue);
+            });
     model
         .selectedHexPositionProperty()
         .addListener(
@@ -70,18 +73,20 @@ public class Controller {
         .addListener((observable, oldValue, newValue) -> view.setWinner(newValue));
   }
 
-  private Controller(Model model, GameViewPane view) {
-    this.model = model;
-    this.view = view;
-  }
-
   @SuppressWarnings("UnusedReturnValue")
-  public static Controller create(Model model, GameViewPane view) {
-    Controller controller = new Controller(model, view);
+  public static Controller create(Model model, GameViewPane view, AIView aiView) {
+    Controller controller = new Controller(model, view, aiView);
     controller.listenForPropertyChanges();
     return controller;
   }
 
+  private Controller(Model model, GameViewPane view, AIView aiView) {
+    this.model = model;
+    this.view = view;
+    this.aiView = aiView;
+  }
+
+  private final AIView aiView;
   private final Model model;
   private final GameViewPane view;
 }
