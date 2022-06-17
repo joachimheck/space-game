@@ -14,9 +14,12 @@ public class Controller {
 
   public void listenForPropertyChanges() {
     model
+        .currentPlayerProperty()
+        .addListener((u1, u2, newValue) -> view.setCurrentPlayer(newValue));
+    model
         .selectedHexPositionProperty()
         .addListener(
-            (observable, oldValue, newValue) -> {
+            (u1, u2, newValue) -> {
               if (newValue == null) {
                 view.unselectHex();
               } else {

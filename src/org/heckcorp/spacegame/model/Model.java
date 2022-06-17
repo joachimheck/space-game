@@ -159,6 +159,7 @@ public final class Model implements MapModel {
     Optional<Player> nextPlayer =
         Streams.stream(Iterables.cycle(players))
             .dropWhile(p -> !p.equals(currentPlayer.get()))
+            .skip(1)
             .findFirst();
     assert nextPlayer.isPresent() : "@AssumeAssertion(nullness)";
     currentPlayerProperty().set(nextPlayer.get());

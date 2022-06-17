@@ -32,14 +32,14 @@ public class GameViewPane extends VBox {
     mapPane.addCounter(counter, position);
   }
 
-  public void removeUnit(Unit unit) {
-    mapPane.removeCounter(unitCounters.remove(unit));
-  }
-
   public void moveUnit(Unit unit, MapPosition startPos, MapPosition endHexPos) {
     @Nullable Counter counter = unitCounters.get(unit);
     assert counter != null : "@AssumeAssertion(nullness)";
     mapPane.moveCounter(counter, startPos, endHexPos);
+  }
+
+  public void removeUnit(Unit unit) {
+    mapPane.removeCounter(unitCounters.remove(unit));
   }
 
   public void selectHex(Point hexCoordinates) {
@@ -52,6 +52,10 @@ public class GameViewPane extends VBox {
     } else {
       hexDescriptionPane.setSelectedUnitData(unit);
     }
+  }
+
+  public void setCurrentPlayer(Player player) {
+    hexDescriptionPane.setCurrentPlayer(player);
   }
 
   public void setTargetHexes(ObservableSet<? extends Point> hexes) {
