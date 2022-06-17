@@ -15,7 +15,7 @@ import org.heckcorp.spacegame.ui.map.ViewResources;
 
 import java.io.FileNotFoundException;
 
-public class HexDescriptionPane extends GridPane {
+public class DescriptionPane extends GridPane {
   final Text currentPlayerText;
 
   public void setSelectedUnitData(Unit unit) {
@@ -46,7 +46,7 @@ public class HexDescriptionPane extends GridPane {
   private final UnitDescriptionPane selectedUnitDescriptionPane;
   private final UnitDescriptionPane targetUnitDescriptionPane;
 
-  public HexDescriptionPane(
+  public DescriptionPane(
       Text currentPlayerText,
       UnitDescriptionPane selectedUnitDescriptionPane,
       UnitDescriptionPane targetUnitDescriptionPane,
@@ -75,7 +75,7 @@ public class HexDescriptionPane extends GridPane {
 
   final Button attackButton;
 
-  public static HexDescriptionPane create(Model model, ViewResources viewResources)
+  public static DescriptionPane create(Model model, ViewResources viewResources)
       throws FileNotFoundException {
     Button targetButton = new Button("Target");
     Button attackButton = new Button("Attack!");
@@ -84,7 +84,7 @@ public class HexDescriptionPane extends GridPane {
     Button turnRightButton = createButton("resource/right-arrow.png");
     UnitDescriptionPane selectedUnitDescriptionPane = new UnitDescriptionPane(viewResources);
     UnitDescriptionPane targetUnitDescriptionPane = new UnitDescriptionPane(viewResources);
-    return new HexDescriptionPane(
+    return new DescriptionPane(
             new Text(getCurrentPlayerText(model.currentPlayerProperty().get())),
             selectedUnitDescriptionPane,
             targetUnitDescriptionPane,
@@ -102,7 +102,7 @@ public class HexDescriptionPane extends GridPane {
   }
   private final Button targetButton;
 
-  private HexDescriptionPane initialize(Model model) {
+  private DescriptionPane initialize(Model model) {
     targetButton.setOnAction(event -> model.setSelectionMode(Model.SelectionMode.TARGET));
     attackButton.setOnAction(event -> model.processAttack());
     turnLeftButton.setOnAction(event -> model.rotateLeft());
