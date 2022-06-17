@@ -1,8 +1,6 @@
 package org.heckcorp.spacegame.model;
 
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
+import com.google.common.collect.*;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import org.heckcorp.spacegame.Constants;
@@ -13,22 +11,19 @@ import org.heckcorp.spacegame.ui.map.Point;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 
-public class Model implements MapModel {
+public final class Model implements MapModel {
 
   public void addUnit(Unit unit, MapPosition mapPosition) {
     unitPositions.get().put(unit, mapPosition);
     units.add(unit);
   }
 
-  public void endTurn() {
-    units.forEach(Unit::resetForTurn);
-    selectUnit(selectedUnit.get());
-    targetUnit.setValue(null);
-  }
+  private final ObjectProperty<Player> currentPlayer = new SimpleObjectProperty<>();
 
   @Override
   public void hexClicked(Point hexCoordinates, MouseButton mouseButton) {
@@ -132,6 +127,7 @@ public class Model implements MapModel {
         .map(Map.Entry::getKey)
         .collect(Collectors.toList());
   }
+  private final MapUtils mapUtils;
 
   private void removeUnit(Unit unit) {
     unitPositions.get().remove(unit);
@@ -142,55 +138,71 @@ public class Model implements MapModel {
       winner.setValue(remainingPlayers.iterator().next().getName());
     }
   }
-
-  private void selectHex(Point hexCoordinates) {
-    selectedHexPosition.setValue(hexCoordinates);
-    selectedUnit.setValue(null);
-    targetUnit.setValue(null);
-    List<Unit> units = getUnitsAt(hexCoordinates);
-    if (!units.isEmpty()) {
-      selectedUnit.setValue(units.get(0));
-    }
-  }
+  private final ImmutableList<Player> players;
 
   private void selectUnit(Unit unit) {
     selectedUnit.setValue(null);
     selectedUnit.setValue(unit);
   }
 
-  public final ObjectProperty<Point> selectedHexPositionProperty() {
+  public Model(MapUtils mapUtils, ImmutableList<Player> players) {
+    this.mapUtils = mapUtils;
+    this.players = players;
+    assert players.size() >= 2;
+    currentPlayer.set(players.get(0));
+  }
+
+  public void endTurn() {
+    units.forEach(Unit::resetForTurn);
+    selectUnit(selectedUnit.get());
+    targetUnit.setValue(null);
+    Optional<Player> nextPlayer =
+        Streams.stream(Iterables.cycle(players))
+            .dropWhile(p -> !p.equals(currentPlayer.get()))
+            .findFirst();
+    assert nextPlayer.isPresent() : "@AssumeAssertion(nullness)";
+    currentPlayerProperty().set(nextPlayer.get());
+  }
+
+  private List<Unit> getUnitsAt(Point hexCoordinates, Player player) {
+    return getUnitsAt(hexCoordinates).stream()
+        .filter(u -> u.getOwner().equals(player))
+        .collect(Collectors.toList());
+  }
+
+  private void selectHex(Point hexCoordinates) {
+    selectedHexPosition.setValue(hexCoordinates);
+    selectedUnit.setValue(null);
+    targetUnit.setValue(null);
+    List<Unit> units = getUnitsAt(hexCoordinates, currentPlayer.get());
+    if (!units.isEmpty()) {
+      selectedUnit.setValue(units.get(0));
+    }
+  }
+
+  public ObjectProperty<Player> currentPlayerProperty() {
+    return currentPlayer;
+  }
+
+  public ObjectProperty<Point> selectedHexPositionProperty() {
     return selectedHexPosition;
   }
 
-  public final ObjectProperty<Unit> selectedUnitProperty() {
+  public ObjectProperty<Unit> selectedUnitProperty() {
     return selectedUnit;
   }
 
-  public final SetProperty<Point> targetHexesProperty() {
+  public SetProperty<Point> targetHexesProperty() {
     return targetHexes;
   }
 
-  public final ObjectProperty<Unit> targetUnitProperty() {
+  public ObjectProperty<Unit> targetUnitProperty() {
     return targetUnit;
   }
 
-  public final MapProperty<Unit, MapPosition> unitPositionsProperty() {
+  public MapProperty<Unit, MapPosition> unitPositionsProperty() {
     return unitPositions;
   }
-
-  public final SetProperty<Unit> unitsProperty() {
-    return units;
-  }
-
-  public final ObjectProperty<String> winnerProperty() {
-    return winner;
-  }
-
-  public Model(MapUtils mapUtils) {
-    this.mapUtils = mapUtils;
-  }
-
-  private final MapUtils mapUtils;
   private final ObjectProperty<Point> selectedHexPosition = new SimpleObjectProperty<>();
   private final ObjectProperty<Unit> selectedUnit = new SimpleObjectProperty<>();
   private final SetProperty<Point> targetHexes =
@@ -200,6 +212,14 @@ public class Model implements MapModel {
   private final MapProperty<Unit, MapPosition> unitPositions =
       new SimpleMapProperty<>(FXCollections.observableMap(Maps.newHashMap()));
   private final ObjectProperty<String> winner = new SimpleObjectProperty<>();
+
+  public SetProperty<Unit> unitsProperty() {
+    return units;
+  }
+
+  public ObjectProperty<String> winnerProperty() {
+    return winner;
+  }
   private SelectionMode selectionMode = SelectionMode.SELECT;
 
   public enum SelectionMode {

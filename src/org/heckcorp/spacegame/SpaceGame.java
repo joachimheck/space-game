@@ -1,5 +1,6 @@
 package org.heckcorp.spacegame;
 
+import com.google.common.collect.ImmutableList;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -16,13 +17,13 @@ public class SpaceGame extends Application {
   @Override
   public void start(Stage stage) throws FileNotFoundException {
     MapUtils mapUtils = new MapUtils(Constants.HEX_RADIUS);
-    Model model = new Model(mapUtils);
+    Player humanPlayer = new Player("Human Player", .25, .45, .85);
+    Player computerPlayer = new Player("Computer Player", .75, .25, .25);
+    Model model = new Model(mapUtils, ImmutableList.of(humanPlayer, computerPlayer));
     ViewResources viewResources = new ViewResources();
     GameViewPane gameViewPane = GameViewPane.create(model, mapUtils, viewResources);
     Controller.create(model, gameViewPane);
 
-    Player humanPlayer = new Player("Human Player", .25, .45, .85);
-    Player computerPlayer = new Player("Computer Player", .75, .25, .25);
     ViewResources.Identifier spaceshipId =
         viewResources.addImageResource(ResourceLoader.getResource("resource/spaceship.png"));
     model.addUnit(
