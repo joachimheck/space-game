@@ -22,7 +22,7 @@ public class SpaceGame extends Application {
     Model model = new Model(mapUtils, ImmutableList.of(humanPlayer, computerPlayer));
     ViewResources viewResources = new ViewResources();
     GameViewPane gameViewPane = GameViewPane.create(model, mapUtils, viewResources);
-    AIPlayer aiPlayer = new AIPlayer(model);
+    AIPlayer aiPlayer = new AIPlayer(model, mapUtils);
     Controller.create(model, gameViewPane, aiPlayer);
 
     ViewResources.Identifier spaceshipId =
