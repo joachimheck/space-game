@@ -22,26 +22,57 @@ public class AIPlayer {
         Unit target = optionalTarget.get();
         MapPosition unitPosition = model.unitPositionsProperty().get(unit);
         model.hexClicked(unitPosition.position(), MouseButton.PRIMARY);
-        if (unit.getEnergy() > 0) {
-          faceTarget(unit, target);
-        }
+        moveAndAttack(unit, target);
       }
       model.endTurn();
     }
   }
 
-  private void faceTarget(Unit unit, Unit target) {
+  private void moveAndAttack(Unit unit, Unit target) {
     MapPosition targetPosition = model.unitPositionsProperty().get(target);
-    boolean rotated;
-    if (unit.getEnergy() > 0) {
-      do {
-        MapPosition unitPosition = model.unitPositionsProperty().get(unit);
-        rotated = rotateOnceTowardTarget(unitPosition, targetPosition);
-      } while (unit.getEnergy() > 0 && rotated);
+    while (unit.getEnergy() > 0 && model.winnerProperty().get() == null) {
+      MapPosition unitPosition = model.unitPositionsProperty().get(unit);
+      if (canAttack(unitPosition, targetPosition)) {
+        model.setSelectionMode(Model.SelectionMode.TARGET);
+        model.hexClicked(targetPosition.position(), MouseButton.PRIMARY);
+        model.processAttack();
+      } else if (!isFacing(unitPosition, targetPosition)) {
+        rotateOnceTowardTarget(model.unitPositionsProperty().get(unit), targetPosition);
+      } else if (mapUtils.distance(unitPosition.position(), targetPosition.position()) > 1) {
+        model.moveForward();
+      }
     }
   }
 
-  private boolean rotateOnceTowardTarget(MapPosition unitPosition, MapPosition targetPosition) {
+  private boolean canAttack(MapPosition unitPosition, MapPosition targetPosition) {
+    return mapUtils.getTargetHexes(unitPosition).contains(targetPosition.position());
+  }
+
+  private boolean isFacing(MapPosition unitPosition, MapPosition targetPosition) {
+    return getHeadingDifference(unitPosition, targetPosition) == 0;
+  }
+
+  private void rotateOnceTowardTarget(MapPosition unitPosition, MapPosition targetPosition) {
+    int headingDifference = getHeadingDifference(unitPosition, targetPosition);
+    if (headingDifference == 0) {
+      return;
+    }
+    if (Math.abs(headingDifference) <= 3) {
+      if (headingDifference > 0) {
+        model.rotateRight();
+      } else {
+        model.rotateLeft();
+      }
+    } else {
+      if (headingDifference > 0) {
+        model.rotateLeft();
+      } else {
+        model.rotateRight();
+      }
+    }
+  }
+
+  private int getHeadingDifference(MapPosition unitPosition, MapPosition targetPosition) {
     Point2D unitHexCenter = mapUtils.getHexCenter(unitPosition.position());
     Point2D targetHexCenter = mapUtils.getHexCenter(targetPosition.position());
     double x = targetHexCenter.getX() - unitHexCenter.getX();
@@ -49,24 +80,7 @@ public class AIPlayer {
     double angle = 90 + 30 - Math.toDegrees(Math.atan2(y, x));
     int hexDirection = (int) angle / 60;
     int currentDirection = unitPosition.direction().getDirection();
-    int difference = (hexDirection - currentDirection) % 6;
-    if (difference == 0) {
-      return false;
-    }
-    if (Math.abs(difference) <= 3) {
-      if (difference > 0) {
-        model.rotateRight();
-      } else {
-        model.rotateLeft();
-      }
-    } else {
-      if (difference > 0) {
-        model.rotateLeft();
-      } else {
-        model.rotateRight();
-      }
-    }
-    return true;
+    return (hexDirection - currentDirection) % 6;
   }
 
   public AIPlayer(Model model, MapUtils mapUtils) {

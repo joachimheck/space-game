@@ -1,9 +1,11 @@
 package org.heckcorp.spacegame.model;
 
-import com.google.common.collect.*;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Streams;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
-import org.heckcorp.spacegame.Constants;
 import org.heckcorp.spacegame.ui.map.MapModel;
 import org.heckcorp.spacegame.ui.map.MapUtils;
 import org.heckcorp.spacegame.ui.map.MouseButton;
@@ -95,7 +97,7 @@ public final class Model implements MapModel {
     if (selectionMode.equals(SelectionMode.TARGET)) {
       if (selectedUnit.get() != null) {
         MapPosition selectedUnitPosition = unitPositions.get(selectedUnit.get());
-        targetHexes.addAll(getTargetHexes(selectedUnitPosition));
+        targetHexes.addAll(mapUtils.getTargetHexes(selectedUnitPosition));
       }
     }
   }
@@ -110,27 +112,6 @@ public final class Model implements MapModel {
       unitPositions.put(selectedUnit, moveOp.apply(currentPosition));
       selectHex(unitPositions.get(selectedUnit).position());
     }
-  }
-
-  private Set<Point> getTargetHexes(MapPosition unitPosition) {
-    Point hexInFront = mapUtils.getAdjacentHex(unitPosition);
-    ImmutableSet<Direction> directions =
-        ImmutableSet.of(
-            unitPosition.direction().left(),
-            unitPosition.direction(),
-            unitPosition.direction().right());
-    Set<Point> targetHexes = Sets.newHashSet();
-    Set<Point> hexes = Sets.newHashSet(hexInFront);
-    for (int i = 0; i < Constants.WEAPON_RANGE; i++) {
-      targetHexes.addAll(hexes);
-      Set<Point> newHexes =
-          hexes.stream()
-              .flatMap(p -> directions.stream().map(d -> mapUtils.getAdjacentHex(p, d)))
-              .collect(Collectors.toSet());
-      hexes.clear();
-      hexes = newHexes;
-    }
-    return targetHexes.stream().filter(mapUtils::isInsideMap).collect(Collectors.toSet());
   }
 
   private List<Unit> getUnitsAt(Point point) {

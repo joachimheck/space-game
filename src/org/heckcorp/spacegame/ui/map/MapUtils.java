@@ -1,14 +1,63 @@
 package org.heckcorp.spacegame.ui.map;
 
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Sets;
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Polygon;
+import org.heckcorp.spacegame.Constants;
 import org.heckcorp.spacegame.model.Direction;
 import org.heckcorp.spacegame.model.MapPosition;
+
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import static org.heckcorp.spacegame.Constants.MAP_HEIGHT;
 import static org.heckcorp.spacegame.Constants.MAP_WIDTH;
 
 public class MapUtils {
+
+  public int distance(Point p1, Point p2) {
+    int distance;
+
+    if (p1 == p2) {
+      distance = 0;
+    } else if (p1.x() == p2.x()) {
+      distance = p1.y() - p2.y();
+    } else {
+      // even->odd 0/+1
+      // odd-even -1/0
+
+      int xDiff = Math.abs(p1.x() - p2.x());
+
+      int minMod = xDiff-1;
+      int maxMod = xDiff-1;
+
+      if (p1.x() % 2 == 0 && p2.x() % 2 != 0) {
+        minMod = minMod - 1;
+      } else if (p1.x() % 2 != 0 && p2.x() % 2 == 0) {
+        maxMod = maxMod - 1;
+      }
+
+      // By moving diagonally, we can move from p1.y() to between
+      // p1.y()-minMod and p1.y()+maxMod.
+      int minY = p1.y() - minMod;
+      int maxY = p1.y() + maxMod;
+      int yDiff = 0;
+
+      if (p2.y() < minY || p2.y() > maxY) {
+        yDiff = Math.min(Math.abs(minY - p2.y()), Math.abs(maxY - p2.y()));
+      }
+
+      distance = xDiff + yDiff;
+    }
+
+    if (distance < 0) {
+      distance = distance * -1;
+    }
+
+    return distance;
+  }
+
   public Point getAdjacentHex(MapPosition mapPosition) {
     return getAdjacentHex(mapPosition.position(), mapPosition.direction());
   }
@@ -83,6 +132,27 @@ public class MapUtils {
     return hexRadius * Math.sqrt(3.0) / 2.0;
   }
 
+  public Set<Point> getTargetHexes(MapPosition unitPosition) {
+    Point hexInFront = getAdjacentHex(unitPosition);
+    ImmutableSet<Direction> directions =
+        ImmutableSet.of(
+            unitPosition.direction().left(),
+            unitPosition.direction(),
+            unitPosition.direction().right());
+    Set<Point> targetHexes = Sets.newHashSet();
+    Set<Point> hexes = Sets.newHashSet(hexInFront);
+    for (int i = 0; i < Constants.WEAPON_RANGE; i++) {
+      targetHexes.addAll(hexes);
+      Set<Point> newHexes =
+          hexes.stream()
+              .flatMap(p -> directions.stream().map(d -> getAdjacentHex(p, d)))
+              .collect(Collectors.toSet());
+      hexes.clear();
+      hexes = newHexes;
+    }
+    return targetHexes.stream().filter(this::isInsideMap).collect(Collectors.toSet());
+  }
+
   public boolean isInsideMap(Point point) {
     return point.x() >= 0 && point.x() < MAP_WIDTH && point.y() >= 0 && point.y() < MAP_HEIGHT;
   }
@@ -92,7 +162,7 @@ public class MapUtils {
     int columnGuess = (int) (canvasPoint.getX() / getColumnWidth());
     int rowShift = columnGuess % 2 != 0 ? 1 : 0;
     int rowGuess =
-            (int) ((canvasPoint.getY() - (rowShift * getMinorRadius())) / (getMinorRadius() * 2.0));
+        (int) ((canvasPoint.getY() - (rowShift * getMinorRadius())) / (getMinorRadius() * 2.0));
 
     Point[] guesses = new Point[3];
     guesses[0] = new Point(columnGuess, rowGuess);
