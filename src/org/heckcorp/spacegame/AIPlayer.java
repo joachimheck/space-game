@@ -8,7 +8,7 @@ import org.heckcorp.spacegame.ui.map.MouseButton;
 
 import java.util.Optional;
 
-public class AIView {
+public class AIPlayer {
   public void setCurrentPlayer(Player player) {
     if (player.getType().equals(Player.Type.COMPUTER)) {
       Optional<Unit> optionalUnit =
@@ -23,7 +23,7 @@ public class AIView {
     }
   }
 
-  public AIView(Model model) {
+  public AIPlayer(Model model) {
     this.model = model;
   }
 

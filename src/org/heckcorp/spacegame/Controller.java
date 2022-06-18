@@ -17,7 +17,7 @@ public class Controller {
         .addListener(
             (u1, u2, newValue) -> {
               view.setCurrentPlayer(newValue);
-              aiView.setCurrentPlayer(newValue);
+              aiPlayer.setCurrentPlayer(newValue);
             });
     model
         .selectedHexPositionProperty()
@@ -74,19 +74,19 @@ public class Controller {
   }
 
   @SuppressWarnings("UnusedReturnValue")
-  public static Controller create(Model model, GameViewPane view, AIView aiView) {
-    Controller controller = new Controller(model, view, aiView);
+  public static Controller create(Model model, GameViewPane view, AIPlayer aiPlayer) {
+    Controller controller = new Controller(model, view, aiPlayer);
     controller.listenForPropertyChanges();
     return controller;
   }
 
-  private Controller(Model model, GameViewPane view, AIView aiView) {
+  private Controller(Model model, GameViewPane view, AIPlayer aiPlayer) {
     this.model = model;
     this.view = view;
-    this.aiView = aiView;
+    this.aiPlayer = aiPlayer;
   }
 
-  private final AIView aiView;
+  private final AIPlayer aiPlayer;
   private final Model model;
   private final GameViewPane view;
 }

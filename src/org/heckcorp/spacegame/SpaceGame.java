@@ -22,8 +22,8 @@ public class SpaceGame extends Application {
     Model model = new Model(mapUtils, ImmutableList.of(humanPlayer, computerPlayer));
     ViewResources viewResources = new ViewResources();
     GameViewPane gameViewPane = GameViewPane.create(model, mapUtils, viewResources);
-    AIView aiView = new AIView(model);
-    Controller.create(model, gameViewPane, aiView);
+    AIPlayer aiPlayer = new AIPlayer(model);
+    Controller.create(model, gameViewPane, aiPlayer);
 
     ViewResources.Identifier spaceshipId =
         viewResources.addImageResource(ResourceLoader.getResource("resource/spaceship.png"));
