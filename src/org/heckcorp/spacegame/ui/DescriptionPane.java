@@ -11,6 +11,7 @@ import org.heckcorp.spacegame.ResourceLoader;
 import org.heckcorp.spacegame.model.Model;
 import org.heckcorp.spacegame.model.Player;
 import org.heckcorp.spacegame.model.Unit;
+import org.heckcorp.spacegame.ui.map.MapUtils;
 import org.heckcorp.spacegame.ui.map.ViewResources;
 
 import java.io.FileNotFoundException;
@@ -75,15 +76,17 @@ public class DescriptionPane extends GridPane {
 
   final Button attackButton;
 
-  public static DescriptionPane create(Model model, ViewResources viewResources)
+  public static DescriptionPane create(Model model, MapUtils mapUtils, ViewResources viewResources)
       throws FileNotFoundException {
     Button targetButton = new Button("Target");
     Button attackButton = new Button("Attack!");
     Button turnLeftButton = createButton("resource/left-arrow.png");
     Button forwardButton = createButton("resource/up-arrow.png");
     Button turnRightButton = createButton("resource/right-arrow.png");
-    UnitDescriptionPane selectedUnitDescriptionPane = new UnitDescriptionPane(viewResources);
-    UnitDescriptionPane targetUnitDescriptionPane = new UnitDescriptionPane(viewResources);
+    UnitDescriptionPane selectedUnitDescriptionPane =
+        new UnitDescriptionPane(mapUtils, viewResources);
+    UnitDescriptionPane targetUnitDescriptionPane =
+        new UnitDescriptionPane(mapUtils, viewResources);
     return new DescriptionPane(
             new Text(getCurrentPlayerText(model.currentPlayerProperty().get())),
             selectedUnitDescriptionPane,

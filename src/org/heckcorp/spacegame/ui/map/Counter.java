@@ -32,6 +32,8 @@ public class Counter extends Pane {
     counter.getChildren().add(imageView);
     counter.setWidth(COUNTER_SIZE);
     counter.setHeight(COUNTER_SIZE);
+    counter.setMaxWidth(COUNTER_SIZE);
+    counter.setMaxHeight(COUNTER_SIZE);
     return counter;
   }
 }
