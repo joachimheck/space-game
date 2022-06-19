@@ -44,7 +44,7 @@ public class UnitDescriptionPane extends GridPane {
         IntStream.range(0, 6)
             .mapToObj(n -> unit.getArmor()[n] + "/" + unit.getMaxArmor()[n])
             .collect(Collectors.joining(" "));
-    add(new Text(armorDescription), 0, 3);
+    add(new Text(armorDescription), 0, 3, 2, 1);
   }
 
   private Counter getCounter(Unit unit) {
