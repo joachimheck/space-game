@@ -1,13 +1,7 @@
 package org.heckcorp.spacegame.ui.map;
 
 import com.google.common.collect.Sets;
-import javafx.animation.Interpolator;
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
-import javafx.animation.ParallelTransition;
-import javafx.animation.PathTransition;
-import javafx.animation.RotateTransition;
-import javafx.animation.Timeline;
+import javafx.animation.*;
 import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
@@ -15,17 +9,9 @@ import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.LineTo;
-import javafx.scene.shape.MoveTo;
-import javafx.scene.shape.Path;
-import javafx.scene.shape.Polygon;
-import javafx.scene.shape.Shape;
+import javafx.scene.shape.*;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import org.heckcorp.spacegame.model.Direction;
@@ -34,6 +20,10 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 import java.util.Set;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
 import static org.heckcorp.spacegame.Constants.*;
@@ -85,7 +75,7 @@ public class MapPane extends StackPane {
       parallelTransition.getChildren().add(rotateTransition);
     }
 
-    parallelTransition.play();
+    playSequentially(parallelTransition);
   }
 
   private double getClosestAngle(Direction startDirection, Direction endDirection) {
@@ -114,6 +104,21 @@ public class MapPane extends StackPane {
     countersPane.getChildren().removeAll(targetHexes);
     targetHexes.clear();
     targetHexes.addAll(selectHexes(Color.RED, hexes.toArray(new Point[0])));
+  }
+
+  private void playSequentially(Animation animation) {
+    sequentialAnimationExecutor.submit(
+        () -> {
+          CompletableFuture<Void> future = new CompletableFuture<>();
+          animation.setOnFinished(e -> future.completeAsync(() -> null));
+          animation.play();
+          try {
+            future.get();
+          } catch (InterruptedException | ExecutionException e) {
+            // TODO: handle.
+            throw new RuntimeException(e);
+          }
+        });
   }
 
   private Set<Shape> selectHexes(Color color, Point... hexCoordinates) {
@@ -210,8 +215,9 @@ public class MapPane extends StackPane {
     return new ImageView(mapCanvas.snapshot(params, null));
   }
 
+  private final Pane countersPane;
   private final MapUtils mapUtils;
   private final Set<Shape> selectedHexes = Sets.newHashSet();
+  private final ExecutorService sequentialAnimationExecutor = Executors.newSingleThreadExecutor();
   private final Set<Shape> targetHexes = Sets.newHashSet();
-  private final Pane countersPane;
 }
