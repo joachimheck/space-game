@@ -109,6 +109,15 @@ public class MapUtils {
     return new Point(closest.x(), closest.y());
   }
 
+  public int getHexDirection(Point source, Point destination) {
+    Point2D sourceCenter = getHexCenter(source);
+    Point2D destinationCenter = getHexCenter(destination);
+    double x = destinationCenter.getX() - sourceCenter.getX();
+    double y = sourceCenter.getY() - destinationCenter.getY();
+    double angle = 90 + 30 - Math.toDegrees(Math.atan2(y, x));
+    return (int) angle / 60;
+  }
+
   public Polygon getHexagon(Point hexCoordinates) {
     Point2D center = getHexCenter(hexCoordinates);
     double minorRadius = hexRadius * Math.sqrt(3) / 2.0;

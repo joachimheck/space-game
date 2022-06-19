@@ -1,6 +1,5 @@
 package org.heckcorp.spacegame;
 
-import javafx.geometry.Point2D;
 import org.heckcorp.spacegame.model.MapPosition;
 import org.heckcorp.spacegame.model.Model;
 import org.heckcorp.spacegame.model.Player;
@@ -73,12 +72,7 @@ public class AIPlayer {
   }
 
   private int getHeadingDifference(MapPosition unitPosition, MapPosition targetPosition) {
-    Point2D unitHexCenter = mapUtils.getHexCenter(unitPosition.position());
-    Point2D targetHexCenter = mapUtils.getHexCenter(targetPosition.position());
-    double x = targetHexCenter.getX() - unitHexCenter.getX();
-    double y = unitHexCenter.getY() - targetHexCenter.getY();
-    double angle = 90 + 30 - Math.toDegrees(Math.atan2(y, x));
-    int hexDirection = (int) angle / 60;
+    int hexDirection = mapUtils.getHexDirection(unitPosition.position(), targetPosition.position());
     int currentDirection = unitPosition.direction().getDirection();
     return (hexDirection - currentDirection) % 6;
   }

@@ -10,6 +10,9 @@ import org.heckcorp.spacegame.model.Unit;
 import org.heckcorp.spacegame.ui.map.Counter;
 import org.heckcorp.spacegame.ui.map.ViewResources;
 
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
 public class UnitDescriptionPane extends GridPane {
   public void clear() {
     getChildren().clear();
@@ -37,6 +40,11 @@ public class UnitDescriptionPane extends GridPane {
       unitEnergy.getChildren().add(rectangle);
     }
     add(unitEnergy, 1, 2);
+    String armorDescription =
+        IntStream.range(0, 6)
+            .mapToObj(n -> unit.getArmor()[n] + "/" + unit.getMaxArmor()[n])
+            .collect(Collectors.joining(" "));
+    add(new Text(armorDescription), 0, 3);
   }
 
   private Counter getCounter(Unit unit) {

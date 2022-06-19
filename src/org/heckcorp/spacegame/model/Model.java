@@ -73,7 +73,16 @@ public final class Model implements MapModel {
       targetHexes.clear();
       attacker.setEnergy(attacker.getEnergy() - 1);
       selectUnit(attacker);
-      defender.setHealth(defender.getHealth() - attacker.getAttackStrength());
+
+      int damage = attacker.getAttackStrength();
+      int attackedSide =
+          mapUtils.getHexDirection(
+              unitPositions.get(defender).position(), unitPositions.get(attacker).position());
+      int armor = defender.getArmor()[attackedSide];
+      defender.getArmor()[attackedSide] = armor - damage;
+      damage = Math.max(damage - armor, 0);
+      defender.setHealth(defender.getHealth() - damage);
+
       targetUnit.setValue(null);
       if (defender.getHealth() > 0) {
         targetUnit.setValue(defender);
