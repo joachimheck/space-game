@@ -61,8 +61,8 @@ public class UnitDescriptionPane extends GridPane {
     hexagon.getStrokeDashArray().clear();
     for (int i = 0; i < 6; i++) {
       double armorFraction = (double) unit.getArmor()[i] / (double) unit.getMaxArmor()[i];
-      hexagon.getStrokeDashArray().add(Constants.HEX_RADIUS * armorFraction);
-      hexagon.getStrokeDashArray().add(Constants.HEX_RADIUS * (1 - armorFraction));
+      hexagon.getStrokeDashArray().add(Math.max(Constants.HEX_RADIUS * armorFraction, 0.0));
+      hexagon.getStrokeDashArray().add(Math.max(Constants.HEX_RADIUS * (1 - armorFraction), 0.0));
     }
     return new StackPane(hexagon, counter);
   }

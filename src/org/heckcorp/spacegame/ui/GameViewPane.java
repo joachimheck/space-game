@@ -19,6 +19,8 @@ import org.heckcorp.spacegame.ui.map.*;
 
 import java.io.FileNotFoundException;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import static org.heckcorp.spacegame.Constants.*;
 
@@ -66,7 +68,7 @@ public class GameViewPane extends VBox {
     Alert winAlert = new Alert(Alert.AlertType.INFORMATION);
     winAlert.setTitle("Game Over");
     winAlert.setContentText("Game over. " + winner + " wins.");
-    winAlert.show();
+    sequentialAnimationExecutor.submit(winAlert::show);
   }
 
   public void targetUnit(Unit selectedUnit, @Nullable Unit unit) {
@@ -89,7 +91,8 @@ public class GameViewPane extends VBox {
 
   public static GameViewPane create(Model model, MapUtils mapUtils, ViewResources viewResources)
       throws FileNotFoundException {
-    MapPane mapPane = MapPane.create(mapUtils, model);
+    ExecutorService sequentialAnimationExecutor = Executors.newSingleThreadExecutor();
+    MapPane mapPane = MapPane.create(mapUtils, model, sequentialAnimationExecutor);
     mapPane.setBorder(
         new Border(
             new BorderStroke(
@@ -108,20 +111,23 @@ public class GameViewPane extends VBox {
     GridPane.setConstraints(miniMapPane, 1, 2);
     gridPane.getChildren().addAll(mapScrollPane, descriptionPane, textScrollPane);
     MenuBar menuBar = createMenuBar(model);
-    GameViewPane gameViewPane = new GameViewPane(mapPane, descriptionPane, viewResources);
+    GameViewPane gameViewPane = new GameViewPane(mapPane, descriptionPane, sequentialAnimationExecutor, viewResources);
     gameViewPane.getChildren().addAll(menuBar, gridPane);
     return gameViewPane;
   }
 
   private GameViewPane(
-      MapPane mapPane, DescriptionPane descriptionPane, ViewResources viewResources) {
+      MapPane mapPane, DescriptionPane descriptionPane, ExecutorService sequentialAnimationExecutor, ViewResources viewResources) {
     this.mapPane = mapPane;
     this.descriptionPane = descriptionPane;
+    this.sequentialAnimationExecutor = sequentialAnimationExecutor;
     this.viewResources = viewResources;
   }
 
+
   private final MapPane mapPane;
   private final DescriptionPane descriptionPane;
+  private final ExecutorService sequentialAnimationExecutor;
   private final Map<Unit, Counter> unitCounters = Maps.newHashMap();
   private final ViewResources viewResources;
 }

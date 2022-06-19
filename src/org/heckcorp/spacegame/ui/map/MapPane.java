@@ -23,7 +23,6 @@ import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
 import static org.heckcorp.spacegame.Constants.*;
@@ -35,12 +34,6 @@ public class MapPane extends StackPane {
         mapUtils.getHexCenter(new Point(position.position().x(), position.position().y()));
     setCounterLocation(counter, pixelPos);
     counter.setRotate(60 * position.direction().getDirection());
-  }
-
-  public void removeCounter(@Nullable Counter counter) {
-    if (counter != null) {
-      countersPane.getChildren().remove(counter);
-    }
   }
 
   public void moveCounter(Counter counter, MapPosition startMapPos, MapPosition endMapPos) {
@@ -78,15 +71,9 @@ public class MapPane extends StackPane {
     playSequentially(parallelTransition);
   }
 
-  private double getClosestAngle(Direction startDirection, Direction endDirection) {
-    double startAngle = 60.0 * startDirection.getDirection();
-    double endAngle = 60.0 * endDirection.getDirection();
-    if (endAngle - startAngle > 180.0) {
-      return endAngle - 360.0;
-    } else if (endAngle - startAngle < -180.0) {
-      return endAngle + 360.0;
-    } else {
-      return endAngle;
+  public void removeCounter(@Nullable Counter counter) {
+    if (counter != null) {
+      sequentialAnimationExecutor.submit(() -> countersPane.getChildren().remove(counter));
     }
   }
 
@@ -104,6 +91,18 @@ public class MapPane extends StackPane {
     countersPane.getChildren().removeAll(targetHexes);
     targetHexes.clear();
     targetHexes.addAll(selectHexes(Color.RED, hexes.toArray(new Point[0])));
+  }
+
+  private double getClosestAngle(Direction startDirection, Direction endDirection) {
+    double startAngle = 60.0 * startDirection.getDirection();
+    double endAngle = 60.0 * endDirection.getDirection();
+    if (endAngle - startAngle > 180.0) {
+      return endAngle - 360.0;
+    } else if (endAngle - startAngle < -180.0) {
+      return endAngle + 360.0;
+    } else {
+      return endAngle;
+    }
   }
 
   private void playSequentially(Animation animation) {
@@ -162,13 +161,8 @@ public class MapPane extends StackPane {
         location.getY() - counter.getLayoutBounds().getCenterY());
   }
 
-  private MapPane(MapUtils mapUtils) {
-    this.mapUtils = mapUtils;
-    this.countersPane = new Pane();
-  }
-
-  public static MapPane create(MapUtils mapUtils, MapModel model) {
-    MapPane mapPane = new MapPane(mapUtils);
+  public static MapPane create(MapUtils mapUtils, MapModel model, ExecutorService sequentialAnimationExecutor) {
+    MapPane mapPane = new MapPane(mapUtils, sequentialAnimationExecutor);
     // Not sure why I need this but without it, one line of background shows through at the bottom.
     mapPane.setBackground(
         new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
@@ -215,9 +209,15 @@ public class MapPane extends StackPane {
     return new ImageView(mapCanvas.snapshot(params, null));
   }
 
+  private MapPane(MapUtils mapUtils, ExecutorService sequentialAnimationExecutor) {
+    this.mapUtils = mapUtils;
+    this.countersPane = new Pane();
+    this.sequentialAnimationExecutor = sequentialAnimationExecutor;
+  }
+
   private final Pane countersPane;
   private final MapUtils mapUtils;
   private final Set<Shape> selectedHexes = Sets.newHashSet();
-  private final ExecutorService sequentialAnimationExecutor = Executors.newSingleThreadExecutor();
+  private final ExecutorService sequentialAnimationExecutor;
   private final Set<Shape> targetHexes = Sets.newHashSet();
 }
