@@ -1,8 +1,7 @@
 package org.heckcorp.spacegame.ui;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
-import javafx.collections.ObservableSet;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
@@ -20,7 +19,6 @@ import org.heckcorp.spacegame.ui.map.*;
 import java.io.FileNotFoundException;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import static org.heckcorp.spacegame.Constants.*;
 
@@ -60,7 +58,7 @@ public class GameViewPane extends VBox {
     descriptionPane.setCurrentPlayer(player);
   }
 
-  public void setTargetHexes(ObservableSet<? extends Point> hexes) {
+  public void setTargetHexes(ImmutableSet<? extends Point> hexes) {
     mapPane.setTargetHexes(hexes);
   }
 
@@ -79,7 +77,7 @@ public class GameViewPane extends VBox {
 
   public void unselectHex() {
     mapPane.unselectHex();
-    mapPane.setTargetHexes(Sets.newHashSet());
+    mapPane.setTargetHexes(ImmutableSet.of());
     descriptionPane.clear();
   }
 
@@ -89,9 +87,12 @@ public class GameViewPane extends VBox {
     return new MenuBar(new Menu("File"), new Menu("Game", null, endTurn), new Menu("Unit"));
   }
 
-  public static GameViewPane create(Model model, MapUtils mapUtils, ViewResources viewResources)
+  public static GameViewPane create(
+      Model model,
+      MapUtils mapUtils,
+      ViewResources viewResources,
+      ExecutorService sequentialAnimationExecutor)
       throws FileNotFoundException {
-    ExecutorService sequentialAnimationExecutor = Executors.newSingleThreadExecutor();
     MapPane mapPane = MapPane.create(mapUtils, model, sequentialAnimationExecutor);
     mapPane.setBorder(
         new Border(

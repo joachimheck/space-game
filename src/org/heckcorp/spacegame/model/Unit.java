@@ -58,8 +58,8 @@ public class Unit implements Serializable {
     this.owner = owner;
     this.imageId = imageId;
     attackStrength = 3;
-    health = 5;
-    maxHealth = 5;
+    health = 10;
+    maxHealth = 10;
     energy = 5;
     maxEnergy = 5;
     armor = new int[] {10, 10, 10, 10, 10, 10};

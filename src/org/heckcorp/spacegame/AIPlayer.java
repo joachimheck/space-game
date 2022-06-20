@@ -1,5 +1,7 @@
 package org.heckcorp.spacegame;
 
+import javafx.concurrent.Service;
+import javafx.concurrent.Task;
 import org.heckcorp.spacegame.model.MapPosition;
 import org.heckcorp.spacegame.model.Model;
 import org.heckcorp.spacegame.model.Player;
@@ -12,18 +14,33 @@ import java.util.Optional;
 public class AIPlayer {
   public void setCurrentPlayer(Player player) {
     if (player.getType().equals(Player.Type.COMPUTER)) {
-      Optional<Unit> optionalUnit =
-          model.unitsProperty().stream().filter(u -> u.getOwner().equals(player)).findFirst();
-      Optional<Unit> optionalTarget =
-          model.unitsProperty().stream().filter(u -> !u.getOwner().equals(player)).findFirst();
-      if (optionalUnit.isPresent() && optionalTarget.isPresent()) {
-        Unit unit = optionalUnit.get();
-        Unit target = optionalTarget.get();
-        MapPosition unitPosition = model.unitPositionsProperty().get(unit);
-        model.hexClicked(unitPosition.position(), MouseButton.PRIMARY);
-        moveAndAttack(unit, target);
-      }
-      model.endTurn();
+      new Service<Void>() {
+        @Override
+        protected Task<Void> createTask() {
+          return new Task<>() {
+            @Override
+            protected Void call() {
+              Optional<Unit> optionalUnit =
+                  model.unitsProperty().stream()
+                      .filter(u -> u.getOwner().equals(player))
+                      .findFirst();
+              Optional<Unit> optionalTarget =
+                  model.unitsProperty().stream()
+                      .filter(u -> !u.getOwner().equals(player))
+                      .findFirst();
+              if (optionalUnit.isPresent() && optionalTarget.isPresent()) {
+                Unit unit = optionalUnit.get();
+                Unit target = optionalTarget.get();
+                MapPosition unitPosition = model.unitPositionsProperty().get(unit);
+                model.hexClicked(unitPosition.position(), MouseButton.PRIMARY);
+                moveAndAttack(unit, target);
+              }
+              model.endTurn();
+              return null;
+            }
+          };
+        }
+      }.start();
     }
   }
 

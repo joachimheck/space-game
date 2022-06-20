@@ -1,5 +1,6 @@
 package org.heckcorp.spacegame.ui.map;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import javafx.animation.*;
 import javafx.geometry.Insets;
@@ -18,7 +19,6 @@ import org.heckcorp.spacegame.model.Direction;
 import org.heckcorp.spacegame.model.MapPosition;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Arrays;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -79,7 +79,7 @@ public class MapPane extends StackPane {
 
   public void selectHexes(Point hexCoordinates) {
     selectedHexes.clear();
-    selectedHexes.addAll(selectHexes(Color.YELLOW, hexCoordinates));
+    selectedHexes.addAll(selectHexes(Color.YELLOW, ImmutableSet.of(hexCoordinates)));
   }
 
   public void unselectHex() {
@@ -87,10 +87,10 @@ public class MapPane extends StackPane {
     selectedHexes.clear();
   }
 
-  public void setTargetHexes(Set<? extends Point> hexes) {
+  public void setTargetHexes(ImmutableSet<? extends Point> hexes) {
     countersPane.getChildren().removeAll(targetHexes);
     targetHexes.clear();
-    targetHexes.addAll(selectHexes(Color.RED, hexes.toArray(new Point[0])));
+    targetHexes.addAll(selectHexes(Color.RED, hexes));
   }
 
   private double getClosestAngle(Direction startDirection, Direction endDirection) {
@@ -120,9 +120,9 @@ public class MapPane extends StackPane {
         });
   }
 
-  private Set<Shape> selectHexes(Color color, Point... hexCoordinates) {
+  private Set<Shape> selectHexes(Color color, Set<? extends Point> hexCoordinates) {
     Set<Shape> hexagons =
-        Arrays.stream(hexCoordinates)
+        hexCoordinates.stream()
             .map(
                 point -> {
                   Shape hexagon = mapUtils.getHexagon(point);

@@ -129,6 +129,7 @@ public final class Model implements MapModel {
         .map(Map.Entry::getKey)
         .collect(Collectors.toList());
   }
+
   private void removeUnit(Unit unit) {
     unitPositions.get().remove(unit);
     units.remove(unit);
