@@ -30,11 +30,14 @@ import static org.heckcorp.spacegame.Constants.*;
 
 public class MapPane extends StackPane {
   public void addCounter(Counter counter, MapPosition position) {
-    countersPane.getChildren().add(counter);
-    Point2D pixelPos =
-        mapUtils.getHexCenter(new Point(position.position().x(), position.position().y()));
-    setCounterLocation(counter, pixelPos);
-    counter.setRotate(60 * position.direction().getDirection());
+    runLaterSequentially(
+        () -> {
+          countersPane.getChildren().add(counter);
+          Point2D pixelPos =
+              mapUtils.getHexCenter(new Point(position.position().x(), position.position().y()));
+          setCounterLocation(counter, pixelPos);
+          counter.setRotate(60 * position.direction().getDirection());
+        });
   }
 
   public void moveCounter(Counter counter, MapPosition startMapPos, MapPosition endMapPos) {
@@ -74,7 +77,7 @@ public class MapPane extends StackPane {
 
   public void removeCounter(@Nullable Counter counter) {
     if (counter != null) {
-      Platform.runLater(() -> countersPane.getChildren().remove(counter));
+      runLaterSequentially(() -> countersPane.getChildren().remove(counter));
     }
   }
 
@@ -95,9 +98,12 @@ public class MapPane extends StackPane {
   }
 
   public void setTargetHexes(ImmutableSet<? extends Point> hexes) {
-    countersPane.getChildren().removeAll(targetHexes);
-    targetHexes.clear();
-    targetHexes.addAll(selectHexes(Color.RED, hexes));
+    runLaterSequentially(
+        () -> {
+          countersPane.getChildren().removeAll(targetHexes);
+          targetHexes.clear();
+          targetHexes.addAll(selectHexes(Color.RED, hexes));
+        });
   }
 
   private double getClosestAngle(Direction startDirection, Direction endDirection) {
