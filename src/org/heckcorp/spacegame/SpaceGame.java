@@ -11,8 +11,6 @@ import org.heckcorp.spacegame.ui.map.Point;
 import org.heckcorp.spacegame.ui.map.ViewResources;
 
 import java.io.FileNotFoundException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class SpaceGame extends Application {
 
@@ -23,11 +21,11 @@ public class SpaceGame extends Application {
     Player computerPlayer = new Player("Computer Player", Player.Type.COMPUTER, .75, .25, .25);
     Model model = new Model(mapUtils, ImmutableList.of(humanPlayer, computerPlayer));
     ViewResources viewResources = new ViewResources();
-    ExecutorService sequentialAnimationExecutor = Executors.newSingleThreadExecutor();
+    SequentialExecutor sequentialExecutor = new SequentialExecutor();
     GameViewPane gameViewPane =
-        GameViewPane.create(model, mapUtils, viewResources, sequentialAnimationExecutor);
+        GameViewPane.create(model, mapUtils, viewResources, sequentialExecutor);
     AIPlayer aiPlayer = new AIPlayer(model, mapUtils);
-    Controller.create(model, gameViewPane, aiPlayer, sequentialAnimationExecutor);
+    Controller.create(model, gameViewPane, aiPlayer, sequentialExecutor);
 
     ViewResources.Identifier spaceshipId =
         viewResources.addImageResource(ResourceLoader.getResource("resource/spaceship.png"));

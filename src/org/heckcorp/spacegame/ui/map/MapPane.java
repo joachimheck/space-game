@@ -3,7 +3,6 @@ package org.heckcorp.spacegame.ui.map;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import javafx.animation.*;
-import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
@@ -16,21 +15,19 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
+import org.heckcorp.spacegame.SequentialExecutor;
 import org.heckcorp.spacegame.model.Direction;
 import org.heckcorp.spacegame.model.MapPosition;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Set;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
 import java.util.stream.Collectors;
 
 import static org.heckcorp.spacegame.Constants.*;
 
 public class MapPane extends StackPane {
   public void addCounter(Counter counter, MapPosition position) {
-    runLaterSequentially(
+    sequentialExecutor.runLaterSequentially(
         () -> {
           countersPane.getChildren().add(counter);
           Point2D pixelPos =
@@ -72,17 +69,17 @@ public class MapPane extends StackPane {
       parallelTransition.getChildren().add(rotateTransition);
     }
 
-    playSequentially(parallelTransition);
+    sequentialExecutor.playSequentially(parallelTransition);
   }
 
   public void removeCounter(@Nullable Counter counter) {
     if (counter != null) {
-      runLaterSequentially(() -> countersPane.getChildren().remove(counter));
+      sequentialExecutor.runLaterSequentially(() -> countersPane.getChildren().remove(counter));
     }
   }
 
   public void selectHexes(Point hexCoordinates) {
-    runLaterSequentially(
+    sequentialExecutor.runLaterSequentially(
         () -> {
           selectedHexes.clear();
           selectedHexes.addAll(selectHexes(Color.YELLOW, ImmutableSet.of(hexCoordinates)));
@@ -90,7 +87,7 @@ public class MapPane extends StackPane {
   }
 
   public void unselectHex() {
-    runLaterSequentially(
+    sequentialExecutor.runLaterSequentially(
         () -> {
           countersPane.getChildren().removeAll(selectedHexes);
           selectedHexes.clear();
@@ -98,7 +95,7 @@ public class MapPane extends StackPane {
   }
 
   public void setTargetHexes(ImmutableSet<? extends Point> hexes) {
-    runLaterSequentially(
+    sequentialExecutor.runLaterSequentially(
         () -> {
           countersPane.getChildren().removeAll(targetHexes);
           targetHexes.clear();
@@ -116,25 +113,6 @@ public class MapPane extends StackPane {
     } else {
       return endAngle;
     }
-  }
-
-  private void playSequentially(Animation animation) {
-    sequentialAnimationExecutor.submit(
-        () -> {
-          CompletableFuture<Void> future = new CompletableFuture<>();
-          animation.setOnFinished(e -> future.completeAsync(() -> null));
-          animation.play();
-          try {
-            future.get();
-          } catch (InterruptedException | ExecutionException e) {
-            // TODO: handle.
-            throw new RuntimeException(e);
-          }
-        });
-  }
-
-  private void runLaterSequentially(Runnable r) {
-    sequentialAnimationExecutor.submit(() -> Platform.runLater(r));
   }
 
   private Set<Shape> selectHexes(Color color, Set<? extends Point> hexCoordinates) {
@@ -178,7 +156,8 @@ public class MapPane extends StackPane {
         location.getY() - counter.getLayoutBounds().getCenterY());
   }
 
-  public static MapPane create(MapUtils mapUtils, MapModel model, ExecutorService sequentialAnimationExecutor) {
+  public static MapPane create(
+      MapUtils mapUtils, MapModel model, SequentialExecutor sequentialAnimationExecutor) {
     MapPane mapPane = new MapPane(mapUtils, sequentialAnimationExecutor);
     // Not sure why I need this but without it, one line of background shows through at the bottom.
     mapPane.setBackground(
@@ -226,15 +205,15 @@ public class MapPane extends StackPane {
     return new ImageView(mapCanvas.snapshot(params, null));
   }
 
-  private MapPane(MapUtils mapUtils, ExecutorService sequentialAnimationExecutor) {
+  private MapPane(MapUtils mapUtils, SequentialExecutor sequentialExecutor) {
     this.mapUtils = mapUtils;
     this.countersPane = new Pane();
-    this.sequentialAnimationExecutor = sequentialAnimationExecutor;
+    this.sequentialExecutor = sequentialExecutor;
   }
 
   private final Pane countersPane;
   private final MapUtils mapUtils;
   private final Set<Shape> selectedHexes = Sets.newHashSet();
-  private final ExecutorService sequentialAnimationExecutor;
+  private final SequentialExecutor sequentialExecutor;
   private final Set<Shape> targetHexes = Sets.newHashSet();
 }

@@ -12,15 +12,13 @@ import org.heckcorp.spacegame.model.Unit;
 import org.heckcorp.spacegame.ui.GameViewPane;
 import org.heckcorp.spacegame.ui.map.Point;
 
-import java.util.concurrent.ExecutorService;
-
 public class Controller {
   public void listenForPropertyChanges() {
     model
         .currentPlayerProperty()
         .addListener(
             (u1, u2, newValue) ->
-                sequentialAnimationExecutor.submit(
+                sequentialExecutor.submit(
                     () ->
                         Platform.runLater(
                             () -> {
@@ -31,7 +29,7 @@ public class Controller {
         .selectedHexPositionProperty()
         .addListener(
             (u1, u2, newValue) ->
-                sequentialAnimationExecutor.submit(
+                sequentialExecutor.submit(
                     () ->
                         Platform.runLater(
                             () -> {
@@ -44,14 +42,14 @@ public class Controller {
         .selectedUnitProperty()
         .addListener(
             (observable, oldValue, newValue) ->
-                sequentialAnimationExecutor.submit(
+                sequentialExecutor.submit(
                     () -> Platform.runLater(() -> view.selectUnit(newValue))));
     model
         .targetHexesProperty()
         .addListener(
             (SetChangeListener<Point>)
                 change ->
-                    sequentialAnimationExecutor.submit(
+                    sequentialExecutor.submit(
                         () ->
                             Platform.runLater(
                                 () -> view.setTargetHexes(ImmutableSet.copyOf(change.getSet())))));
@@ -62,7 +60,7 @@ public class Controller {
               final Unit selectedUnit = model.selectedUnitProperty().get();
               final Unit targetUnit = newValue;
               if (selectedUnit != null && targetUnit != null) {
-                sequentialAnimationExecutor.submit(
+                sequentialExecutor.submit(
                     () -> Platform.runLater(() -> view.targetUnit(selectedUnit, targetUnit)));
               }
             });
@@ -71,7 +69,7 @@ public class Controller {
         .addListener(
             (SetChangeListener<Unit>)
                 change ->
-                    sequentialAnimationExecutor.submit(
+                    sequentialExecutor.submit(
                         () ->
                             Platform.runLater(
                                 () -> {
@@ -95,7 +93,7 @@ public class Controller {
             (MapChangeListener<Unit, MapPosition>)
                 change -> {
                   if (change.wasRemoved() && change.wasAdded()) {
-                    sequentialAnimationExecutor.submit(
+                    sequentialExecutor.submit(
                         () ->
                             Platform.runLater(
                                 () ->
@@ -109,8 +107,7 @@ public class Controller {
         .winnerProperty()
         .addListener(
             (observable, oldValue, newValue) ->
-                sequentialAnimationExecutor.submit(
-                    () -> Platform.runLater(() -> view.setWinner(newValue))));
+                sequentialExecutor.submit(() -> Platform.runLater(() -> view.setWinner(newValue))));
   }
 
   @SuppressWarnings("UnusedReturnValue")
@@ -118,7 +115,7 @@ public class Controller {
       Model model,
       GameViewPane view,
       AIPlayer aiPlayer,
-      ExecutorService sequentialAnimationExecutor) {
+      SequentialExecutor sequentialAnimationExecutor) {
     Controller controller = new Controller(model, view, sequentialAnimationExecutor, aiPlayer);
     controller.listenForPropertyChanges();
     return controller;
@@ -127,16 +124,17 @@ public class Controller {
   private Controller(
       Model model,
       GameViewPane view,
-      ExecutorService sequentialAnimationExecutor,
+      SequentialExecutor sequentialAnimationExecutor,
       AIPlayer aiPlayer) {
     this.model = model;
     this.view = view;
-    this.sequentialAnimationExecutor = sequentialAnimationExecutor;
+    this.sequentialExecutor = sequentialAnimationExecutor;
     this.aiPlayer = aiPlayer;
   }
 
+
   private final AIPlayer aiPlayer;
   private final Model model;
-  private final ExecutorService sequentialAnimationExecutor;
+  private final SequentialExecutor sequentialExecutor;
   private final GameViewPane view;
 }
