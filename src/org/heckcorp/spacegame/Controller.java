@@ -50,13 +50,11 @@ public class Controller {
         .targetHexesProperty()
         .addListener(
             (SetChangeListener<Point>)
-                change -> {
-                  ImmutableSet<? extends Point> changeSet = ImmutableSet.copyOf(change.getSet());
-                  if (changeSet.size() > 0) {
+                change ->
                     sequentialAnimationExecutor.submit(
-                        () -> Platform.runLater(() -> view.setTargetHexes(changeSet)));
-                  }
-                });
+                        () ->
+                            Platform.runLater(
+                                () -> view.setTargetHexes(ImmutableSet.copyOf(change.getSet())))));
     model
         .targetUnitProperty()
         .addListener(

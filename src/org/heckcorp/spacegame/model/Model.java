@@ -51,6 +51,7 @@ public final class Model implements MapModel {
         if (!units.isEmpty()) {
           targetHexes.clear();
           targetUnit.setValue(units.get(0));
+          targetHexes.add(hexCoordinates);
         }
         selectionMode = SelectionMode.SELECT;
       }
