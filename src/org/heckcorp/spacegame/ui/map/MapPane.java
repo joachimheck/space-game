@@ -3,6 +3,7 @@ package org.heckcorp.spacegame.ui.map;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import javafx.animation.*;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
@@ -73,18 +74,24 @@ public class MapPane extends StackPane {
 
   public void removeCounter(@Nullable Counter counter) {
     if (counter != null) {
-      sequentialAnimationExecutor.submit(() -> countersPane.getChildren().remove(counter));
+      Platform.runLater(() -> countersPane.getChildren().remove(counter));
     }
   }
 
   public void selectHexes(Point hexCoordinates) {
-    selectedHexes.clear();
-    selectedHexes.addAll(selectHexes(Color.YELLOW, ImmutableSet.of(hexCoordinates)));
+    runLaterSequentially(
+        () -> {
+          selectedHexes.clear();
+          selectedHexes.addAll(selectHexes(Color.YELLOW, ImmutableSet.of(hexCoordinates)));
+        });
   }
 
   public void unselectHex() {
-    countersPane.getChildren().removeAll(selectedHexes);
-    selectedHexes.clear();
+    runLaterSequentially(
+        () -> {
+          countersPane.getChildren().removeAll(selectedHexes);
+          selectedHexes.clear();
+        });
   }
 
   public void setTargetHexes(ImmutableSet<? extends Point> hexes) {
@@ -118,6 +125,10 @@ public class MapPane extends StackPane {
             throw new RuntimeException(e);
           }
         });
+  }
+
+  private void runLaterSequentially(Runnable r) {
+    sequentialAnimationExecutor.submit(() -> Platform.runLater(r));
   }
 
   private Set<Shape> selectHexes(Color color, Set<? extends Point> hexCoordinates) {
